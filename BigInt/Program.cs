@@ -11,16 +11,14 @@ namespace BigInt
         {
 
             long start = DateTime.Now.Ticks;
-            BigInteger a = new BigInteger(20000);
-            BigInteger b = new BigInteger(100000);
-            a = a;
-            //a.Factorial();
+            BigInteger a = new BigInteger(200000);
+            BigInteger b = new BigInteger(3);
+            a = -a % b;
             Console.WriteLine(a.ToString());
             Console.WriteLine((DateTime.Now.Ticks - start) / 10000000d + " sec.");
         }
     }
 
-    //No division yet.
     public class BigInteger
     {
         private int length = 0;             //Left after the array implementation.
@@ -232,6 +230,28 @@ namespace BigInt
             {
                 return this * this.Power(n - 1);
             }
+        }
+
+        public static BigInteger operator /(BigInteger a, BigInteger b)
+        {
+            if (b.sign == 0)
+            {
+                throw new DivideByZeroException();
+            }
+            BigInteger t = DivUnsigned(a, b);
+            t.sign = a.sign * b.sign;
+            return t;
+        }
+
+        public static BigInteger operator %(BigInteger a, BigInteger b)
+        {
+            if (b.sign == 0)
+            {
+                throw new DivideByZeroException();
+            }
+            BigInteger t = ModUnsigned(a, b);
+            t.sign = a.sign;
+            return t;
         }
 
         public BigInteger Factorial()
@@ -478,6 +498,73 @@ namespace BigInt
                     return;
                 }
             }
+        }
+
+        private static BigInteger DivUnsigned(BigInteger a, BigInteger b)
+        {
+            BigInteger ans = new BigInteger(0);
+            BigInteger cur = new BigInteger(0);
+            BigInteger _base = new BigInteger(BASE);
+            for (int i = a.length - 1; i >= 0; --i)
+            {
+                cur.num.Insert(0, a.num[i]);
+                ++cur.length;
+                if (LessUnsigned(cur, b))
+                {
+                    if (ans.num.Count > 0)
+                    {
+                        ans.num.Insert(0, 0);
+                    }
+                    continue;
+                }
+                int l = 0, r = BASE;
+                while (r - l > 1)
+                {
+                    int m = (l + r) / 2;
+                    BigInteger t = MulUnsigned(b, m);
+                    if (LessOrEqualUnsigned(t, cur))
+                    {
+                        l = m;
+                    }
+                    else
+                    {
+                        r = m;
+                    }
+                }
+                cur = SubUnsigned(cur, MulUnsigned(b, l));
+                ans.num.Insert(0, l);
+            }
+            ans.sign = 1;
+            ans.length = ans.num.Count;
+            return ans;
+        }
+
+        private static BigInteger ModUnsigned(BigInteger a, BigInteger b)
+        {
+            BigInteger cur = new BigInteger(0);
+            BigInteger _base = new BigInteger(BASE);
+            for (int i = a.length - 1; i >= 0; --i)
+            {
+                cur.num.Insert(0, a.num[i]);
+                ++cur.length;
+                cur.sign = 1;
+                int l = 0, r = BASE;
+                while (r - l > 1)
+                {
+                    int m = (l + r) / 2;
+                    BigInteger t = MulUnsigned(b, m);
+                    if (LessOrEqualUnsigned(t, cur))
+                    {
+                        l = m;
+                    }
+                    else
+                    {
+                        r = m;
+                    }
+                }
+                cur = SubUnsigned(cur, MulUnsigned(b, l));
+            }
+            return cur;
         }
     }
 }
