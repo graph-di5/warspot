@@ -9,10 +9,13 @@ namespace BigInt
     {
         static void Main(string[] args)
         {
-            
+
             long start = DateTime.Now.Ticks;
             BigInteger a = new BigInteger(20000);
-            a.Factorial();
+            BigInteger b = new BigInteger(100000);
+            a = a;
+            //a.Factorial();
+            Console.WriteLine(a.ToString());
             Console.WriteLine((DateTime.Now.Ticks - start) / 10000000d + " sec.");
         }
     }
@@ -340,18 +343,20 @@ namespace BigInt
         private static BigInteger AddUnsigned(BigInteger a, BigInteger b)
         {
             BigInteger ans = new BigInteger(0);
+            ans.sign = 1;
             int next = 0;
             int l = Math.Max(a.length, b.length);
             for (int i = 0; i < l; ++i)
             {
-                ans.num[i] = a.num[i] + b.num[i] + next;
-                next = ans.num[i] / BASE;
-                ans.num[i] %= BASE;
+                int t = a.num[i] + b.num[i] + next;
+                next = t / BASE;
+                t %= BASE;
+                ans.num.Add(t);
             }
             ans.length = l;
             if (next > 0)
             {
-                ans.num[l] = next;
+                ans.num.Add(next);
                 ans.length++;
             }
             return ans;
@@ -360,6 +365,10 @@ namespace BigInt
         private static BigInteger SubUnsigned(BigInteger a, BigInteger b)
         {
             BigInteger ans = new BigInteger(0);
+            if (a == b)
+            {
+                return ans;
+            }
             if (LessUnsigned(a, b))
             {
                 BigInteger t = a;
@@ -375,21 +384,23 @@ namespace BigInt
             int back = 0;
             for (int i = 0; i < l; ++i)
             {
-                ans.num[i] = a.num[i] - b.num[i] - back;
-                if (ans.num[i] < 0)
+                int t = a.num[i] - b.num[i] - back;
+                if (t < 0)
                 {
-                    ans.num[i] += BASE;
+                    t += BASE;
                     back = 1;
                 }
                 else
                 {
                     back = 0;
                 }
-                if (ans.num[i] != 0)
-                {
-                    ans.length = i + 1;
-                }
+                ans.num.Add(t);
             }
+            while (ans.num.Count > 0 && ans.num[ans.num.Count - 1] == 0)
+            {
+                ans.num.RemoveAt(ans.num.Count - 1);
+            }
+            ans.length = ans.num.Count;
             return ans;
         }
 
