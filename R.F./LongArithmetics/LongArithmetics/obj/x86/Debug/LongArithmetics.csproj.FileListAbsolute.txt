@@ -1,0 +1,5 @@
+C:\Users\User\documents\visual studio 2010\Projects\LongArithmetics\LongArithmetics\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\User\documents\visual studio 2010\Projects\LongArithmetics\LongArithmetics\bin\Debug\LongArithmetics.exe
+C:\Users\User\documents\visual studio 2010\Projects\LongArithmetics\LongArithmetics\bin\Debug\LongArithmetics.pdb
+C:\Users\User\documents\visual studio 2010\Projects\LongArithmetics\LongArithmetics\obj\x86\Debug\LongArithmetics.exe
+C:\Users\User\documents\visual studio 2010\Projects\LongArithmetics\LongArithmetics\obj\x86\Debug\LongArithmetics.pdb
