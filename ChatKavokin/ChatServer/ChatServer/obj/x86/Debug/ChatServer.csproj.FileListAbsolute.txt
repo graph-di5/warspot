@@ -1,0 +1,10 @@
+C:\Users\Alexander\AppData\Local\Temporary Projects\ChatServer\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Alexander\AppData\Local\Temporary Projects\ChatServer\bin\Debug\ChatServer.exe
+C:\Users\Alexander\AppData\Local\Temporary Projects\ChatServer\bin\Debug\ChatServer.pdb
+C:\Users\Alexander\AppData\Local\Temporary Projects\ChatServer\obj\x86\Debug\ChatServer.exe
+C:\Users\Alexander\AppData\Local\Temporary Projects\ChatServer\obj\x86\Debug\ChatServer.pdb
+C:\Users\Alexander\Desktop\Мои приложения\ChatServer\ChatServer\obj\x86\Debug\ChatServer.exe
+C:\Users\Alexander\Desktop\Мои приложения\ChatServer\ChatServer\obj\x86\Debug\ChatServer.pdb
+C:\Users\Alexander\Desktop\Мои приложения\ChatServer\ChatServer\bin\Debug\ChatServer.exe
+C:\Users\Alexander\Desktop\Мои приложения\ChatServer\ChatServer\bin\Debug\ChatServer.pdb
+C:\Users\Alexander\Desktop\Мои приложения\ChatServer\ChatServer\obj\x86\Debug\ResolveAssemblyReference.cache
