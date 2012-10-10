@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatUserClient", "ChatUserClient\ChatUserClient.csproj", "{078BD9EC-A796-49A4-A1F2-FC077D4AF762}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0A3CD1DA-8266-421A-9C5F-D487B02A8FA7} = {0A3CD1DA-8266-421A-9C5F-D487B02A8FA7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerClient", "..\ServerClient\ServerClient\ServerClient.csproj", "{0A3CD1DA-8266-421A-9C5F-D487B02A8FA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{078BD9EC-A796-49A4-A1F2-FC077D4AF762}.Debug|x86.ActiveCfg = Debug|x86
+		{078BD9EC-A796-49A4-A1F2-FC077D4AF762}.Debug|x86.Build.0 = Debug|x86
+		{078BD9EC-A796-49A4-A1F2-FC077D4AF762}.Release|x86.ActiveCfg = Release|x86
+		{078BD9EC-A796-49A4-A1F2-FC077D4AF762}.Release|x86.Build.0 = Release|x86
+		{0A3CD1DA-8266-421A-9C5F-D487B02A8FA7}.Debug|x86.ActiveCfg = Debug|x86
+		{0A3CD1DA-8266-421A-9C5F-D487B02A8FA7}.Debug|x86.Build.0 = Debug|x86
+		{0A3CD1DA-8266-421A-9C5F-D487B02A8FA7}.Release|x86.ActiveCfg = Release|x86
+		{0A3CD1DA-8266-421A-9C5F-D487B02A8FA7}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
