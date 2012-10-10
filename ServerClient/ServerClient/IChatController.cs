@@ -6,8 +6,8 @@ using System.ServiceModel;
 using System.Text;
 
 namespace ServerClient
-{   
-    [ServiceContract(CallbackContract = typeof(IChatCallback))]
+{
+     [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(IChatCallback))]
     public interface IChatController
     {
         [OperationContract]
