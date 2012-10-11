@@ -31,12 +31,13 @@
             this.ChatTB = new System.Windows.Forms.RichTextBox();
             this.SendButton = new System.Windows.Forms.Button();
             this.messageTB = new System.Windows.Forms.RichTextBox();
-            this.userList = new System.Windows.Forms.ListBox();
             this.TO = new System.Windows.Forms.Label();
             this.leaveButton = new System.Windows.Forms.Button();
             this.joinButton = new System.Windows.Forms.Button();
             this.nameTB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.privateCheckBox = new System.Windows.Forms.CheckBox();
+            this.userComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // ChatTB
@@ -52,9 +53,9 @@
             // SendButton
             // 
             this.SendButton.Enabled = false;
-            this.SendButton.Location = new System.Drawing.Point(352, 256);
+            this.SendButton.Location = new System.Drawing.Point(410, 246);
             this.SendButton.Name = "SendButton";
-            this.SendButton.Size = new System.Drawing.Size(111, 31);
+            this.SendButton.Size = new System.Drawing.Size(124, 31);
             this.SendButton.TabIndex = 1;
             this.SendButton.Text = "Send";
             this.SendButton.UseVisualStyleBackColor = true;
@@ -63,31 +64,21 @@
             // messageTB
             // 
             this.messageTB.Enabled = false;
-            this.messageTB.Location = new System.Drawing.Point(105, 235);
+            this.messageTB.Location = new System.Drawing.Point(177, 235);
             this.messageTB.Name = "messageTB";
             this.messageTB.Size = new System.Drawing.Size(218, 52);
             this.messageTB.TabIndex = 2;
             this.messageTB.Text = "";
             // 
-            // userList
-            // 
-            this.userList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.userList.FormattingEnabled = true;
-            this.userList.Items.AddRange(new object[] {
-            "everybody"});
-            this.userList.Location = new System.Drawing.Point(0, 256);
-            this.userList.Name = "userList";
-            this.userList.Size = new System.Drawing.Size(95, 17);
-            this.userList.TabIndex = 3;
-            // 
             // TO
             // 
             this.TO.AutoSize = true;
-            this.TO.Location = new System.Drawing.Point(15, 235);
+            this.TO.Location = new System.Drawing.Point(42, 235);
             this.TO.Name = "TO";
             this.TO.Size = new System.Drawing.Size(42, 13);
             this.TO.TabIndex = 4;
             this.TO.Text = "send to";
+            this.TO.Click += new System.EventHandler(this.TO_Click);
             // 
             // leaveButton
             // 
@@ -126,17 +117,36 @@
             this.label1.TabIndex = 8;
             this.label1.Text = "My name is:";
             // 
+            // privateCheckBox
+            // 
+            this.privateCheckBox.AutoSize = true;
+            this.privateCheckBox.Location = new System.Drawing.Point(14, 280);
+            this.privateCheckBox.Name = "privateCheckBox";
+            this.privateCheckBox.Size = new System.Drawing.Size(58, 17);
+            this.privateCheckBox.TabIndex = 9;
+            this.privateCheckBox.Text = "private";
+            this.privateCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // userComboBox
+            // 
+            this.userComboBox.FormattingEnabled = true;
+            this.userComboBox.Location = new System.Drawing.Point(0, 256);
+            this.userComboBox.Name = "userComboBox";
+            this.userComboBox.Size = new System.Drawing.Size(127, 21);
+            this.userComboBox.TabIndex = 10;
+            // 
             // Chat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(549, 299);
+            this.Controls.Add(this.userComboBox);
+            this.Controls.Add(this.privateCheckBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nameTB);
             this.Controls.Add(this.joinButton);
             this.Controls.Add(this.leaveButton);
             this.Controls.Add(this.TO);
-            this.Controls.Add(this.userList);
             this.Controls.Add(this.messageTB);
             this.Controls.Add(this.SendButton);
             this.Controls.Add(this.ChatTB);
@@ -152,12 +162,13 @@
         public System.Windows.Forms.RichTextBox ChatTB;
         private System.Windows.Forms.Button SendButton;
         public System.Windows.Forms.RichTextBox messageTB;
-        public System.Windows.Forms.ListBox userList;
         private System.Windows.Forms.Label TO;
         public System.Windows.Forms.Button leaveButton;
         public System.Windows.Forms.Button joinButton;
         public System.Windows.Forms.TextBox nameTB;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox privateCheckBox;
+        public System.Windows.Forms.ComboBox userComboBox;
     }
 }
 

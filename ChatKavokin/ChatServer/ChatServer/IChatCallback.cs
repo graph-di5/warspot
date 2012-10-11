@@ -13,6 +13,12 @@ namespace ChatServer
         void Receive(string name, string msg);
 
         [OperationContract(IsOneWay = true)]
+        void ReceiveTo(string name, string nameTo, string msg);
+
+        [OperationContract(IsOneWay = true)]
+        void ReceiveToPrivate(string name, string nameTo, string msg);
+
+        [OperationContract(IsOneWay = true)]
         void UserEnter(string name);
 
         [OperationContract(IsOneWay = true)]

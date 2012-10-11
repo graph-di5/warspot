@@ -51,6 +51,29 @@ namespace ChatServer
             OperationContext.Current.Channel.Close();
         }
 
+        public void SendTo(string name, string msg)
+        {
+            foreach (ChatUser item in chatUsers)
+            {
+                item.Callback.ReceiveTo(_user.Name, name, msg);
+            }
+        }
+
+        public void SendToPrivate(string name, string msg)
+        {
+            ChatUser user = chatUsers[0];
+            foreach (ChatUser item in chatUsers)
+            {
+                if (item.Name == name)
+                {
+                    user = item;
+                    break;
+                }
+            }
+
+            user.Callback.ReceiveToPrivate(_user.Name, name, msg);
+        }
+
         public void Send(string msg)
         {
             //var usersSending = from u in chatUsers where u.Name != _user.Name select u;

@@ -20,18 +20,29 @@ namespace Chat
 
         private void SendButton_Click(object sender, EventArgs e)
         {
-            chat.Send(messageTB.Text);
+            if (userComboBox.Text != null && userComboBox.Text != "")
+            {
+                if (privateCheckBox.Checked)
+                {
+                    chat.SendToPrivate(userComboBox.Text, messageTB.Text);
+                }
+                else
+                {
+                    chat.SendTo(userComboBox.Text, messageTB.Text);
+                }
+            }
+            else
+            { chat.Send(messageTB.Text); }
             messageTB.Clear();
         }
 
         private void joinButton_Click(object sender, EventArgs e)
         {
-
             //Создаем объект который отвечает за обратную связь  
-            InstanceContext context = new InstanceContext(new ChatCallbackHandler(ChatTB));
+            InstanceContext context = new InstanceContext(new ChatCallbackHandler(ChatTB, userComboBox));
             NetTcpBinding binding = new NetTcpBinding(SecurityMode.None);
             DuplexChannelFactory<IChat> factory = new DuplexChannelFactory<IChat>(context, binding);
-            Uri adress = new Uri("net.tcp://192.168.0.195:20010/ChatService");
+            Uri adress = new Uri("net.tcp://localhost:20010/ChatService");
             EndpointAddress endpoint = new EndpointAddress(adress.ToString());
 
             try
@@ -43,9 +54,9 @@ namespace Chat
 
                 foreach (string user in userInChat)
                 {
+                    userComboBox.Items.Add(user);
                     ChatTB.AppendText("User in chat: " + user+"\n");
                 }
-                //dialog(chat);
             }
             catch (Exception s)
             {
@@ -72,6 +83,11 @@ namespace Chat
         {
             chat.Leave();
             Application.Exit();
+        }
+
+        private void TO_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

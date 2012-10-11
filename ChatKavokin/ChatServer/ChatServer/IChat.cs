@@ -16,6 +16,12 @@ namespace ChatServer
         [OperationContract(IsInitiating = false, IsOneWay = true, IsTerminating = false)]
         void Send(string msg);
 
+        [OperationContract(IsInitiating = false, IsOneWay = true, IsTerminating = false)]
+        void SendTo(string name,string msg);
+
+        [OperationContract(IsInitiating = false, IsOneWay = true, IsTerminating = false)]
+        void SendToPrivate(string name, string msg);
+
         [OperationContract(IsInitiating = false, IsOneWay = true, IsTerminating = true)]
         void Leave();
     }
