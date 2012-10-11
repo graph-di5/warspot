@@ -54,7 +54,7 @@ namespace BigInt
                 }
 
 
-                //System.Console.WriteLine(num[j]+" = num["+j+"]");
+                System.Console.WriteLine(num[j]+" = num["+j+"]");
 
             }
             return num;
@@ -62,7 +62,7 @@ namespace BigInt
 
         public char parseChar(string input)
         {
-            return input[input.Length - 1];
+            return input[0];
         }
 
         public List<int> sum(List<int> x, List<int> y)
@@ -152,6 +152,66 @@ namespace BigInt
             return res;
         }
 
+        public List<int> sub(List<int> x, List<int> y)
+        {
+            // Let x > y.
+            List<int> res = new List<int>();
+
+            int i = x.Count;
+            int j = 0;
+            int flag = 0;
+
+            for (; j < y.Count; j++)
+            {
+                int temp = x[j] - y[j];
+
+                if (temp >= 0)
+                {
+                    if (flag == 0)
+                    {
+                        res.Add(temp);
+                    }
+                    else
+                    {
+                        res.Add(temp - 1);
+                        flag = 0;
+                    }
+                }
+                else
+                {
+                    if (flag == 0)
+                    {
+                        res.Add(temp + 10000);
+                        flag = 1;
+                    }
+                    else
+                    {
+                        res.Add(temp - 1 + 10000);
+                    }
+                }
+
+            }
+
+            while (j < x.Count)
+            {
+                if (flag == 0)
+                {
+                    res.Add(x[j]);
+                }
+                else
+                {
+                    res.Add(x[j] - 1);
+                    flag = 1;
+                }
+                j++;
+            }
+
+
+            return res;
+
+
+        }
+
         public string printInt(List<int> input)
         {
             string res = "";
@@ -215,6 +275,8 @@ namespace BigInt
             string fileName = "input.txt";
             List<int> op1 = new List<int>();
             List<int> op2 = new List<int>();
+            char op = new char();
+            List<int> result = new List<int>();
 
             using (System.IO.StreamReader sr = System.IO.File.OpenText(fileName))
             {
@@ -230,21 +292,38 @@ namespace BigInt
                     }
                     else
                     {
-                        op2 = (new TestFileIO()).parseInt(s);
-                        i++;
+                        if (i == 1)
+                        {
+
+                            op2 = (new TestFileIO()).parseInt(s);
+                            i++;
+                        }
+                        else
+                        {
+                            op = (new TestFileIO()).parseChar(s);
+                            i++;
+                        }
                     }
 
                 }
 
             }
 
-            List<int> op3 = (new TestFileIO()).sum(op1, op2);
 
-
+            if (op == '+')
+            {
+                System.Console.WriteLine("!!!!!!!!!!!");
+                result = (new TestFileIO()).sum(op1, op2);
+            }
+            if (op == '-')
+            {
+                System.Console.WriteLine("????????????");
+               result = (new TestFileIO()).sub(op1, op2);
+            }
 
             using (System.IO.FileStream fs = System.IO.File.Create("output.txt", 1024))
             {
-                byte[] info = new System.Text.UTF8Encoding(true).GetBytes((new TestFileIO()).printInt(op3));
+                byte[] info = new System.Text.UTF8Encoding(true).GetBytes((new TestFileIO()).printInt(result));
                 fs.Write(info, 0, info.Length);
             }
 
