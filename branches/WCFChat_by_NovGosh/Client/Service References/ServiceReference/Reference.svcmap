@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="7b19f705-32c3-448e-9acb-f4c3159a96d7" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8732/Chat/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="b4693052-a009-4221-92af-c73774489203" SourceId="1" SourceUrl="http://localhost:8732/Chat/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="78e3a9d3-b157-4ef7-992f-0819faf7b2a9" SourceId="1" SourceUrl="http://localhost:8732/Chat/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="a1476ca9-93c3-42de-a41e-8800a0b75bdb" SourceId="1" SourceUrl="http://localhost:8732/Chat/mex" />
+    <MetadataFile FileName="Chat.xsd" MetadataType="Schema" ID="5120abdc-d947-41ca-8c11-27cb2f6aa5fd" SourceId="1" SourceUrl="http://localhost:8732/Chat/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
