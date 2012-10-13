@@ -36,6 +36,24 @@
     <ServiceConfiguration Include="ServiceConfiguration.Local.cscfg" />
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Cloud.MatchComputer\WarSpot.Cloud.MatchComputer.csproj">
+      <Name>WarSpot.Cloud.MatchComputer</Name>
+      <Project>{06d57bae-127c-45d7-9d6d-f65b0d71abed}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>WarSpot.Cloud.MatchComputer</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Cloud.UserService\WarSpot.Cloud.UserService.csproj">
+      <Name>WarSpot.Cloud.UserService</Name>
+      <Project>{9a5360eb-4fd7-45a7-97fc-93d322bde6b9}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>WarSpot.Cloud.UserService</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
+  </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
