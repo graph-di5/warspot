@@ -1,1 +1,0 @@
-C:\Users\Всеволод\Desktop\WarSpot SVN\trunk\WarSpot.Client.XnaClient\WarSpot.Client.XnaClientContent\obj\x86\Debug\ResolveAssemblyReference.cache
