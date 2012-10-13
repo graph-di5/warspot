@@ -10,7 +10,7 @@ namespace WarSpot.Client.XnaClient
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (WarSpotGame game = new WarSpotGame())
             {
                 game.Run();
             }
