@@ -1,5 +1,0 @@
-C:\Users\Всеволод\Desktop\some code\LongAr\LongAr\bin\Debug\LongAr.exe
-C:\Users\Всеволод\Desktop\some code\LongAr\LongAr\bin\Debug\LongAr.pdb
-C:\Users\Всеволод\Desktop\some code\LongAr\LongAr\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Всеволод\Desktop\some code\LongAr\LongAr\obj\x86\Debug\LongAr.exe
-C:\Users\Всеволод\Desktop\some code\LongAr\LongAr\obj\x86\Debug\LongAr.pdb
