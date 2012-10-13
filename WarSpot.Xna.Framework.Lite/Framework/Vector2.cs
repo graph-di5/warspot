@@ -2,9 +2,9 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using SkyShoot.XNA.Framework.Design;
+using WarSpot.XNA.Framework.Design;
 
-namespace SkyShoot.XNA.Framework
+namespace WarSpot.XNA.Framework
 {
 	[Serializable, StructLayout(LayoutKind.Sequential), TypeConverter(typeof(Vector2Converter))]
     public struct Vector2 : IEquatable<Vector2>

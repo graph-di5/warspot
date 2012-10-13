@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace SkyShoot.XNA.Framework.Graphics.PackedVector
+namespace WarSpot.XNA.Framework.Graphics.PackedVector
 {
 	[StructLayout(LayoutKind.Sequential)]
     public struct HalfVector4 : IPackedVector<ulong>, IPackedVector, IEquatable<HalfVector4>

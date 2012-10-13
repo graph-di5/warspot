@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
-namespace SkyShoot.XNA.Framework
+namespace WarSpot.XNA.Framework
 {
 	[CompilerGenerated, GeneratedCode("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0"), DebuggerNonUserCode]
     internal class FrameworkResources

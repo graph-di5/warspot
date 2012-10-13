@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace SkyShoot.XNA.Framework.Graphics.PackedVector
+namespace WarSpot.XNA.Framework.Graphics.PackedVector
 {
 	[StructLayout(LayoutKind.Sequential)]
     public struct NormalizedShort2 : IPackedVector<uint>, IPackedVector, IEquatable<NormalizedShort2>

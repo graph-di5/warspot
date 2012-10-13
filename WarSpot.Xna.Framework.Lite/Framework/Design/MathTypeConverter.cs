@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
 using System.Globalization;
 
-namespace SkyShoot.XNA.Framework.Design
+namespace WarSpot.XNA.Framework.Design
 {
 	public class MathTypeConverter : ExpandableObjectConverter
     {

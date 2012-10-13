@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace SkyShoot.XNA.Framework
+namespace WarSpot.XNA.Framework
 {
 	[Serializable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class BoundingFrustum : IEquatable<BoundingFrustum>

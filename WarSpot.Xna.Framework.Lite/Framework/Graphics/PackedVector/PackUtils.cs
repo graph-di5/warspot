@@ -1,6 +1,6 @@
 using System;
 
-namespace SkyShoot.XNA.Framework.Graphics.PackedVector
+namespace WarSpot.XNA.Framework.Graphics.PackedVector
 {
 	internal static class PackUtils
     {

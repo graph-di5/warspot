@@ -2,12 +2,10 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using SkyShoot.XNA.Framework.Design;
-using SkyShoot.XNA.Framework.Design;
-using SkyShoot.XNA.Framework.Graphics.PackedVector;
-using SkyShoot.XNA.Framework.Graphics.PackedVector;
+using WarSpot.XNA.Framework.Design;
+using WarSpot.XNA.Framework.Graphics.PackedVector;
 
-namespace SkyShoot.XNA.Framework
+namespace WarSpot.XNA.Framework
 {
 	[Serializable, StructLayout(LayoutKind.Sequential), TypeConverter(typeof(ColorConverter))]
     public struct Color : IPackedVector<uint>, IPackedVector, IEquatable<Color>

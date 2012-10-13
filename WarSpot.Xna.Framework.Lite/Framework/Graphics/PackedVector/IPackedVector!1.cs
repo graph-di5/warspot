@@ -1,4 +1,4 @@
-namespace SkyShoot.XNA.Framework.Graphics.PackedVector
+namespace WarSpot.XNA.Framework.Graphics.PackedVector
 {
 	public interface IPackedVector<TPacked> : IPackedVector
     {
