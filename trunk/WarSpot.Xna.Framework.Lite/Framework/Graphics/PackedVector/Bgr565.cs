@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace SkyShoot.XNA.Framework.Graphics.PackedVector
+namespace WarSpot.XNA.Framework.Graphics.PackedVector
 {
 	[StructLayout(LayoutKind.Sequential)]
     public struct Bgr565 : IPackedVector<ushort>, IPackedVector, IEquatable<Bgr565>

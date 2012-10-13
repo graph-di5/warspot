@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace SkyShoot.XNA.Framework
+namespace WarSpot.XNA.Framework
 {
 	[Serializable, TypeConverter(typeof(ExpandableObjectConverter))]
     public class Curve

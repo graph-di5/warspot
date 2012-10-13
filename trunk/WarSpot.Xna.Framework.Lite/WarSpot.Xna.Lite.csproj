@@ -7,7 +7,7 @@
     <ProjectGuid>{B76FFCE6-2D2B-43F2-B71F-EDA7ED82FEB5}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <AssemblyName>SkyShoot.XNA.Lite</AssemblyName>
+    <AssemblyName>WarSpot.XNA.Lite</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -46,7 +46,7 @@
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\SkyShoot.XNA.Lite.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\WarSpot.XNA.Lite.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -60,11 +60,11 @@
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\SkyShoot.XNA.Lite.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\WarSpot.XNA.Lite.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
-    <RootNamespace>SkyShoot.XNA</RootNamespace>
+    <RootNamespace>WarSpot.XNA</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

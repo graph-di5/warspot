@@ -1,4 +1,4 @@
-namespace SkyShoot.XNA.Framework
+namespace WarSpot.XNA.Framework
 {
 	public enum ContainmentType
     {

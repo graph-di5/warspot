@@ -1,6 +1,6 @@
 using System;
 
-namespace SkyShoot.XNA.Framework
+namespace WarSpot.XNA.Framework
 {
 	public static class MathHelper
     {

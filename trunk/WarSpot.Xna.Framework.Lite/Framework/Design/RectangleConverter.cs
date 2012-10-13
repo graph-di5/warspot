@@ -5,7 +5,7 @@ using System.ComponentModel.Design.Serialization;
 using System.Globalization;
 using System.Reflection;
 
-namespace SkyShoot.XNA.Framework.Design
+namespace WarSpot.XNA.Framework.Design
 {
 	public class RectangleConverter : MathTypeConverter
     {
