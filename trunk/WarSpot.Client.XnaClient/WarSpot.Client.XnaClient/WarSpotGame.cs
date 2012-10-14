@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using WarSpot.Client.XnaClient.Screen;
 
 namespace WarSpot.Client.XnaClient
 {
@@ -33,9 +34,12 @@ namespace WarSpot.Client.XnaClient
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            ScreenManager.Init(this);
+            Components.Add(ScreenManager.Instance);
 
             base.Initialize();
+
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
         }
 
         /// <summary>
