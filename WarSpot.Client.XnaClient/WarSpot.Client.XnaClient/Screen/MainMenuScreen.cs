@@ -50,7 +50,7 @@ namespace WarSpot.Client.XnaClient.Screen
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0.30f, 0),
-                        new UniScalar(0.35f, 0),
+                        new UniScalar(0.5f, 0),
                         new UniScalar(0.4f, 0),
                         new UniScalar(0.1f, 0)),
             };
@@ -62,7 +62,7 @@ namespace WarSpot.Client.XnaClient.Screen
                         //x
                         new UniScalar(0.30f, 0),
                         // y
-                        new UniScalar(0.5f, 0),
+                        new UniScalar(0.35f, 0),
                         // width
                         new UniScalar(0.4f, 0),
                         // height
