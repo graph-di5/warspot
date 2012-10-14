@@ -52,13 +52,25 @@ namespace WarSpot.Client.XnaClient.Screen
         {
             _nameLabel = new LabelControl("Enter your name:")
             {
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.2f, -70), 100, 30)
+                Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.1f, -70), 100, 30)
+            };
+
+            _surNameLabel = new LabelControl("Enter your surname:")
+            {
+                Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.25f, -70), 100, 30)
             };
 
             _nameBox = new InputControl
             {
                 IsHidden = false,
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.2f, -35), 200, 30),
+                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.1f, -45), 200, 30),
+                Text = ""
+            };
+
+            _surNameBox = new InputControl
+            {
+                IsHidden = false,
+                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.25f, -45), 200, 30),
                 Text = ""
             };
         }
@@ -66,7 +78,10 @@ namespace WarSpot.Client.XnaClient.Screen
         private void InitializeControls()
         {
             Desktop.Children.Add(_nameLabel);
+            Desktop.Children.Add(_surNameLabel);
+
             Desktop.Children.Add(_nameBox);
+            Desktop.Children.Add(_surNameBox);
         }
     }
 }
