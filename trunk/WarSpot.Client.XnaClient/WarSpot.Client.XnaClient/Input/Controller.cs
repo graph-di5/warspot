@@ -56,7 +56,6 @@ namespace WarSpot.Client.XnaClient.Input
 
         private void OnButtonPressed(object sender, EventArgs args)
         {
-            //SoundManager.Instance.SoundPlay(SoundManager.SoundEnum.Click);
         }
 
         public virtual void AddListener(Control control, EventHandler eventHandler)

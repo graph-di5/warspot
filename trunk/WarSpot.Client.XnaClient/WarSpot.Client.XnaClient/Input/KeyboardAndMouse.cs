@@ -33,7 +33,6 @@ namespace WarSpot.Client.XnaClient.Input
         {
             base.AddListener(control, buttonPressed);
 
-            //Debug.Assert(control is ButtonControl);
             (control as ButtonControl).Pressed += buttonPressed;
         }
 

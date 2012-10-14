@@ -2,7 +2,7 @@
 {
     internal class InputControl : Nuclex.UserInterface.Controls.Desktop.InputControl
     {
-        private int _passwordLength = 0 /*Settings.Default.password.Length*/;
+        private int _passwordLength = 0;
 
         public bool IsHidden { get; set; }
 
