@@ -115,7 +115,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private void exitButtonPressed(object sender, EventArgs e)
         {
-            // Как-то вызвать Exit() у game, который локально создается в Program.cs
+            ScreenManager.Instance.Game.Exit();
         }
     }
 }

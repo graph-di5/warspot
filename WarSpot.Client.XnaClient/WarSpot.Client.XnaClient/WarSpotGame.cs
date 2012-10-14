@@ -41,7 +41,7 @@ namespace WarSpot.Client.XnaClient
 
             base.Initialize();
 
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private InputControl _loginBox;
 		private InputControl _passwordBox;
 
-		private ButtonControl _exitButton;
+		private ButtonControl _backButton;
 		private ButtonControl _loginButton;
 		private ButtonControl _newAccountButton;
 
@@ -46,7 +46,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void CreateControls()
 		{
 			// Login Input
-            // From SkyShoot:
             _loginBox = new InputControl
                             {
                                 IsHidden = false,
@@ -56,7 +55,6 @@ namespace WarSpot.Client.XnaClient.Screen
                             };
 
 			// Password Input
-            // From SkyShoot:
             _passwordBox = new InputControl
                             {
                                 IsHidden = true,
@@ -87,9 +85,9 @@ namespace WarSpot.Client.XnaClient.Screen
 							};
 
 			// Back Button
-			_exitButton = new ButtonControl
+			_backButton = new ButtonControl
 							{
-								Text = "Exit",
+								Text = "Back",
 								Bounds = new UniRectangle(new UniScalar(0.5f, -210f), new UniScalar(0.4f, 70), 100, 32),
 							};
 
@@ -107,73 +105,22 @@ namespace WarSpot.Client.XnaClient.Screen
             Desktop.Children.Add(_passwordBox);
 			Desktop.Children.Add(_loginLabel);
 			Desktop.Children.Add(_passwordLabel);
-			Desktop.Children.Add(_exitButton);
+			Desktop.Children.Add(_backButton);
 			Desktop.Children.Add(_newAccountButton);
 			Desktop.Children.Add(_loginButton);
 
 			ScreenManager.Instance.Controller.AddListener(_loginButton, LoginButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_exitButton, ExitButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_newAccountButton, NewAccountButtonPressed);
 		}
 
-		private void ExitButtonPressed(object sender, EventArgs args)
+		private void BackButtonPressed(object sender, EventArgs args)
 		{
-			ScreenManager.Instance.Game.Exit();
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
 		}
 
 		private void LoginButtonPressed(object sender, EventArgs args)
 		{
-			/*if (_loginBox.Text.Length < 3)
-			{
-				MessageBox.Message = "Username is too short!\nPress Ok to continue";
-				MessageBox.Next = ScreenManager.ScreenEnum.LoginScreen;
-				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBoxScreen);
-			}
-			else if (_passwordBox.Text.Length < 3)
-			{
-				MessageBox.Message = "Password is too short!\nPress Ok to continue";
-				MessageBox.Next = ScreenManager.ScreenEnum.LoginScreen;
-				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBoxScreen);
-			}
-			else
-			{
-				Settings.Default.login = _loginBox.Text;
-				Settings.Default.password = _passwordBox.RealText;
-				Settings.Default.Save();
-
-				AccountManagerErrorCode errorCode;
-
-				if (GameController.Instance.Login(_loginBox.Text, _passwordBox.RealText, out errorCode).HasValue &&
-					errorCode == AccountManagerErrorCode.Ok)
-				{
-					ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
-				}
-				else
-				{
-					string message;
-					switch (errorCode)
-					{
-						case AccountManagerErrorCode.UnknownExceptionOccured:
-							message = "Unknown exception occured";
-							break;
-						case AccountManagerErrorCode.InvalidUsernameOrPassword:
-							message = "Invalid username or password";
-							break;
-						case AccountManagerErrorCode.UserIsAlreadyOnline:
-							message = "You are already online";
-							break;
-						case AccountManagerErrorCode.UnknownError:
-							message = "Unknown error occured";
-							break;
-						default:
-							message = "Unexpected error code returned";
-							break;
-					}
-					MessageBox.Message = message;
-					MessageBox.Next = ScreenManager.ScreenEnum.LoginScreen;
-					ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBoxScreen);
-				}
-			}*/
 		}
 
 		private void NewAccountButtonPressed(object sender, EventArgs args)
