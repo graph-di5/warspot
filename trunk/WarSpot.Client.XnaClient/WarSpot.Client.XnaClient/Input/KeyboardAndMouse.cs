@@ -21,5 +21,9 @@ namespace WarSpot.Client.XnaClient.Input
             _currentKeyboardState = InputManager.GetKeyboard().GetState();
             _currentMouseState = InputManager.GetMouse().GetState();
         }
+        public override void Update()
+        {
+            
+        }
     }
 }

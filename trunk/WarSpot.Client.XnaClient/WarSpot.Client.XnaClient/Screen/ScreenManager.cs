@@ -127,7 +127,7 @@ namespace WarSpot.Client.XnaClient.Screen
         {
             ContentManager = Game.Content;
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-            Font = ContentManager.Load<SpriteFont>("menufont");
+            Font = ContentManager.Load<SpriteFont>("Textures/menufont");
             
             RegisterScreen(ScreenEnum.LoginScreen, new LoginScreen());
             RegisterScreen(ScreenEnum.MainMenuScreen, new MainMenuScreen());
