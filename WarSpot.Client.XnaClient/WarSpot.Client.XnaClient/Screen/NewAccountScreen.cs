@@ -18,11 +18,15 @@ namespace WarSpot.Client.XnaClient.Screen
         private ButtonControl _registerButton;
         private ButtonControl _backButton;
 
-        private LabelControl _name;
-        private LabelControl _sureName;
-        private LabelControl _email;
-        private LabelControl _nickname;
-        private LabelControl _password;
+        private LabelControl _nameLabel;
+        private LabelControl _surNameLabel;
+        private LabelControl _emailLabel;
+        private LabelControl _nicknameLabel;
+        private LabelControl _passwordLabel;
+
+        private InputControl _nameBox;
+        private InputControl _surNameBox;
+        private InputControl _emailBox;
 
     }
 }
