@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Nuclex.Input;
+using Nuclex.UserInterface.Controls;
+using Nuclex.UserInterface.Controls.Desktop;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using WarSpot.Client.XnaClient.Screen;
 
 namespace WarSpot.Client.XnaClient.Input
 {
@@ -23,7 +27,15 @@ namespace WarSpot.Client.XnaClient.Input
         }
         public override void Update()
         {
-            
         }
+
+        public override void AddListener(Control control, EventHandler buttonPressed)
+        {
+            base.AddListener(control, buttonPressed);
+
+            //Debug.Assert(control is ButtonControl);
+            (control as ButtonControl).Pressed += buttonPressed;
+        }
+
     }
 }
