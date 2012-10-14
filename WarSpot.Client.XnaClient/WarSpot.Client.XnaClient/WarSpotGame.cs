@@ -24,6 +24,8 @@ namespace WarSpot.Client.XnaClient
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            IsMouseVisible = true;
         }
 
         /// <summary>
