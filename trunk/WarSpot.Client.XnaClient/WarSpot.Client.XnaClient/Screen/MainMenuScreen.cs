@@ -15,8 +15,8 @@ namespace WarSpot.Client.XnaClient.Screen
 
         public MainMenuScreen()
         {
-            //CreateControls();
-          //  InitializeControls();
+            CreateControls();
+            InitializeControls();
         }
 
         public override void LoadContent()
