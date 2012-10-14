@@ -49,7 +49,6 @@ namespace WarSpot.Client.XnaClient.Screen
                             {
                                 IsHidden = false,
                                 Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -30), 200, 30),
-                                //Text = Settings.Default.login
                                 Text = ""
                             };
 
@@ -57,8 +56,6 @@ namespace WarSpot.Client.XnaClient.Screen
                             {
                                 IsHidden = true,
                                 Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, 30), 200, 30),
-                                //RealText = Settings.Default.password,
-                                //Text = InputControl.HiddenText(Settings.Default.password)
                                 RealText = "",
                                 Text = InputControl.HiddenText("")
                             };
@@ -114,6 +111,9 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoginButtonPressed(object sender, EventArgs args)
 		{
+            MessageBox.Message = "Not implemented yet.";
+            MessageBox.Next = ScreenManager.ScreenEnum.LoginScreen;
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBox);
 		}
 
 		private void NewAccountButtonPressed(object sender, EventArgs args)
