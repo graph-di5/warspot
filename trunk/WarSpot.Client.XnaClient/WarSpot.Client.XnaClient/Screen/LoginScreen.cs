@@ -111,9 +111,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoginButtonPressed(object sender, EventArgs args)
 		{
-            MessageBox.Message = "Not implemented yet.";
-            MessageBox.Next = ScreenManager.ScreenEnum.LoginScreen;
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBox);
+            MessageBox.Show("Not implemented yet", ScreenManager.ScreenEnum.LoginScreen);
 		}
 
 		private void NewAccountButtonPressed(object sender, EventArgs args)

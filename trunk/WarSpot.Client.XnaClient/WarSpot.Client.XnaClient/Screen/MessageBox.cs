@@ -62,5 +62,12 @@ namespace WarSpot.Client.XnaClient.Screen
 
             ScreenManager.Instance.Controller.AddListener(_okButton, OkButtonPressed);
         }
+
+        public static void Show(string message, ScreenManager.ScreenEnum next)
+        {
+            Message = message;
+            Next = next;
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBox);
+        }
     }
 }
