@@ -15,7 +15,7 @@
 
         protected override void OnCharacterEntered(char character)
         {
-            if (character == '\b')
+            if (character == '\b' && _passwordLength != 0)
             {
                 RealText = RealText.Substring(0, _passwordLength - 1);
                 _passwordLength--;
