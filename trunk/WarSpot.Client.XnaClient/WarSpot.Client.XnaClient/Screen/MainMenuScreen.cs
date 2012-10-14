@@ -21,7 +21,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
         public override void LoadContent()
         {
-            _texture = ContentManager.Load<Texture2D>("Textures/Screens/screen_05");
+            _texture = ContentManager.Load<Texture2D>("Textures/Screens/mainMenuScreen");
         }
 
         public override void Draw(GameTime gameTime)
