@@ -11,6 +11,7 @@ namespace WarSpot.Client.XnaClient.Screen
         private static Texture2D _texture;
         private ButtonControl _logInButton;
         private ButtonControl _optionsButton;
+        private ButtonControl _newAccountButton;
         private ButtonControl _exitButton;
 
         public MainMenuScreen()
@@ -53,15 +54,33 @@ namespace WarSpot.Client.XnaClient.Screen
                         new UniScalar(0.4f, 0),
                         new UniScalar(0.1f, 0)),
             };
-
+            _newAccountButton = new ButtonControl
+            {
+                Text = "Registration",
+                Bounds =
+                    new UniRectangle(
+                        //x
+                        new UniScalar(0.30f, 0),
+                        // y
+                        new UniScalar(0.5f, 0),
+                        // width
+                        new UniScalar(0.4f, 0),
+                        // height
+                        new UniScalar(0.1f, 0)),
+            };
+        
             _exitButton = new ButtonControl
             {
                 Text = "Exit",
                 Bounds =
                     new UniRectangle(
+                        //x
                         new UniScalar(0.30f, 0),
-                        new UniScalar(0.5f, 0),
+                        // y
+                        new UniScalar(0.65f, 0),
+                        // width
                         new UniScalar(0.4f, 0),
+                        // height
                         new UniScalar(0.1f, 0)),
             };
         }
@@ -70,10 +89,12 @@ namespace WarSpot.Client.XnaClient.Screen
         {
             Desktop.Children.Add(_logInButton);
             Desktop.Children.Add(_optionsButton);
+            Desktop.Children.Add(_newAccountButton);
             Desktop.Children.Add(_exitButton);
 
             ScreenManager.Instance.Controller.AddListener(_logInButton, logInButtonPressed);
             ScreenManager.Instance.Controller.AddListener(_optionsButton, optionsButtonPressed);
+            ScreenManager.Instance.Controller.AddListener(_newAccountButton, newAccountButtonPressed);
             ScreenManager.Instance.Controller.AddListener(_exitButton, exitButtonPressed);
         }
 
@@ -82,6 +103,10 @@ namespace WarSpot.Client.XnaClient.Screen
         }
 
         private void optionsButtonPressed(object sender, EventArgs e)
+        {
+        }
+
+        private void newAccountButtonPressed(object sender, EventArgs e)
         {
         }
 
