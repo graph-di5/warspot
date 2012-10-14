@@ -45,7 +45,6 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void CreateControls()
 		{
-			// Login Input
             _loginBox = new InputControl
                             {
                                 IsHidden = false,
@@ -54,7 +53,6 @@ namespace WarSpot.Client.XnaClient.Screen
                                 Text = ""
                             };
 
-			// Password Input
             _passwordBox = new InputControl
                             {
                                 IsHidden = true,
@@ -65,33 +63,28 @@ namespace WarSpot.Client.XnaClient.Screen
                                 Text = InputControl.HiddenText("")
                             };
 
-			// Login Label
 			_loginLabel = new LabelControl("Username")
 							{
 								Bounds = new UniRectangle(new UniScalar(0.5f, -32), new UniScalar(0.4f, -70), 100, 30)
 							};
 
-			// Password Label
 			_passwordLabel = new LabelControl("Password")
 								{
 									Bounds = new UniRectangle(new UniScalar(0.5f, -32), new UniScalar(0.4f, 0), 100, 30)
 								};
 
-			// Login Button
 			_loginButton = new ButtonControl
 							{
 								Text = "Login",
 								Bounds = new UniRectangle(new UniScalar(0.5f, 110), new UniScalar(0.4f, 70), 100, 32)
 							};
 
-			// Back Button
 			_backButton = new ButtonControl
 							{
 								Text = "Back",
 								Bounds = new UniRectangle(new UniScalar(0.5f, -210f), new UniScalar(0.4f, 70), 100, 32),
 							};
 
-			// New Account Button
 			_newAccountButton = new ButtonControl
 									{
 										Text = "Create new account",

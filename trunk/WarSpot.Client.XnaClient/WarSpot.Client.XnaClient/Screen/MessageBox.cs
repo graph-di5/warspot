@@ -24,12 +24,12 @@ namespace WarSpot.Client.XnaClient.Screen
 
         public override void LoadContent()
         {
-            _texture = ContentManager.Load<Texture2D>("Textures/screens/message_box");
+            _texture = ContentManager.Load<Texture2D>("Textures/Screens/message_box");
         }
 
         public void OkButtonPressed(object sender, EventArgs e)
         {
-            ScreenManager.Instance.SetActiveScreen(Next); // = Next;
+            ScreenManager.Instance.SetActiveScreen(Next);
         }
 
         public override void Draw(GameTime gameTime)
