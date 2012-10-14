@@ -100,18 +100,22 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private void logInButtonPressed(object sender, EventArgs e)
         {
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
         }
 
         private void optionsButtonPressed(object sender, EventArgs e)
         {
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.OptionsScreen);
         }
 
         private void newAccountButtonPressed(object sender, EventArgs e)
         {
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.NewAccountScreen);
         }
 
         private void exitButtonPressed(object sender, EventArgs e)
         {
+            // Как-то вызвать Exit() у game, который создается в Program.cs
         }
     }
 }
