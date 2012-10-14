@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Input\Controller.cs" />
+    <Compile Include="Input\InputControl.cs" />
     <Compile Include="Input\KeyboardAndMouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
