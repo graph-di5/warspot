@@ -18,7 +18,8 @@ namespace WarSpot.Client.XnaClient.Screen
         {
             MainMenuScreen,
             NewAccountScreen,
-            LoginScreen
+            LoginScreen,
+            OptionsScreen
         }
 
         private static ScreenManager _instance;
@@ -132,6 +133,7 @@ namespace WarSpot.Client.XnaClient.Screen
             RegisterScreen(ScreenEnum.LoginScreen, new LoginScreen());
             RegisterScreen(ScreenEnum.MainMenuScreen, new MainMenuScreen());
             RegisterScreen(ScreenEnum.NewAccountScreen, new NewAccountScreen());
+            RegisterScreen(ScreenEnum.OptionsScreen, new OptionsScreen());
             
             foreach (var gameScreen in _screens.Values)
             {
