@@ -24,6 +24,19 @@ namespace WarSpot.Client.XnaClient
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            bool fscreen = Settings.Default.FullScreenSelected;
+            switch (fscreen)
+            {
+                case false:
+                    {
+                        graphics.PreferredBackBufferWidth = 800;
+                        graphics.PreferredBackBufferHeight = 600;
+                    }
+                    break;
+                case true:
+                    graphics.IsFullScreen = true;
+                    break;
+            }
 
             IsMouseVisible = true;
         }
