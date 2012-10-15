@@ -35,7 +35,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
         public override void LoadContent()
         {
-            _texture = ContentManager.Load<Texture2D>("Textures/screens/screen_05_fix");
+            _texture = ContentManager.Load<Texture2D>("Textures/screens/mainMenuScreen");
         }
 
         private void CreateControls()
