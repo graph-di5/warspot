@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("WarSpot.Contracts.Service")]
+[assembly: AssemblyTitle("ThreadedFactorial")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("WarSpot.Contracts.Service")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2012")]
+[assembly: AssemblyCompany("Home")]
+[assembly: AssemblyProduct("ThreadedFactorial")]
+[assembly: AssemblyCopyright("Copyright © Home 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("7f64cbdd-782d-4739-aa6f-4d3ef53ad2a1")]
+[assembly: Guid("d84bccb7-406b-4b59-a02f-b55ca1fdb7ae")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //
