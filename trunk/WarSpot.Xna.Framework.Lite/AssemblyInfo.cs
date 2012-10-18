@@ -1,5 +1,5 @@
-﻿[assembly: System.Reflection.AssemblyVersion("1.0.0.0")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.311.0")]
+﻿[assembly: System.Reflection.AssemblyVersion("1.2.0.0")]
+[assembly: System.Reflection.AssemblyFileVersion("1.2.311.0")]
 [assembly: System.Reflection.AssemblyCopyright("(c) WarSpot team.")]
 [assembly: System.Reflection.AssemblyProduct("WarSpot")]
 [assembly: System.Reflection.AssemblyCompany("WarSpot team")]
