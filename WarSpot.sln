@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Contracts.Intellect", "WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj", "{218A447E-8808-4987-B665-A8B1FB107022}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Client.XnaClient", "WarSpot.Client.XnaClient\WarSpot.Client.XnaClient\WarSpot.Client.XnaClient.csproj", "{8E6F7189-150C-4E93-B98F-28A1CC200D79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Client.XnaClient", "WarSpot.Client.XnaClient\WarSpot.Client.XnaClient.csproj", "{8E6F7189-150C-4E93-B98F-28A1CC200D79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Client.XnaClientContent", "WarSpot.Client.XnaClient\WarSpot.Client.XnaClientContent\WarSpot.Client.XnaClientContent.contentproj", "{527DA210-44B9-4E24-BE23-C83BC8339C6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Client.XnaClientContent", "WarSpot.Client.XnaClientContent\WarSpot.Client.XnaClientContent.contentproj", "{527DA210-44B9-4E24-BE23-C83BC8339C6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.MatchComputer", "WarSpot.MatchComputer\WarSpot.MatchComputer.csproj", "{8B236A28-C004-4207-8F6E-2DE18D4739D5}"
 EndProject
