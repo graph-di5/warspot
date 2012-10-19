@@ -8,6 +8,7 @@ using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using InputControl = WarSpot.Client.XnaClient.Input.InputControl;
+using System.Windows.Forms;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -21,6 +22,8 @@ namespace WarSpot.Client.XnaClient.Screen
         private LabelControl _pathLabel;
 
         private InputControl _pathBox;
+
+        private OpenFileDialog _pathDialog = new OpenFileDialog();
 
         public AIManageScreen()
         {
@@ -52,9 +55,9 @@ namespace WarSpot.Client.XnaClient.Screen
             {
                 IsHidden = false,
                 Bounds = new UniRectangle(new UniScalar(0.05f, -100f), new UniScalar(0.05f, -45), 300, 30),
-                Text = ""
+                Text = "",
+                Enabled = false
             };
-
             _browseButton = new ButtonControl
             {
                 Text = "Browse",
@@ -76,6 +79,8 @@ namespace WarSpot.Client.XnaClient.Screen
                         new UniScalar(0.2f, 0),
                         new UniScalar(0.07f, -2)),
             };
+
+           _pathDialog.FileName = "";
         }
 
         private void InitializeControls()
@@ -94,13 +99,14 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private void browseButtonPressed(object sender, EventArgs e)
         {
-
+            DialogResult dialog = _pathDialog.ShowDialog();
+            _pathBox.Text = _pathDialog.FileName;
         }
 
 
         private void addAIButtonPressed(object sender, EventArgs e)
         {
-          
+
         }
                 
     }
