@@ -9,6 +9,10 @@ namespace WarSpot.Client.XnaClient.Screen
     internal class MainMenuScreen : GameScreen
     {
         private static Texture2D _texture;
+        
+        // tmp
+        private ButtonControl _AIButton;
+
         private ButtonControl _logInButton;
         private ButtonControl _optionsButton;
         private ButtonControl _newAccountButton;
@@ -33,6 +37,17 @@ namespace WarSpot.Client.XnaClient.Screen
         }
         private void CreateControls()
         {
+            _AIButton = new ButtonControl
+            {
+                Text = "AI Manage (tmp)",
+                Bounds =
+                    new UniRectangle(
+                        new UniScalar(0.30f, 0),
+                        new UniScalar(0.05f, 0),
+                        new UniScalar(0.4f, 0),
+                        new UniScalar(0.1f, 0)),
+            };
+
             _logInButton = new ButtonControl
             {
                 Text = "Log In",
@@ -87,6 +102,10 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private void InitializeControls()
         {
+            // tmp
+            Desktop.Children.Add(_AIButton);
+            ScreenManager.Instance.Controller.AddListener(_AIButton, AIButtonPressed);
+
             Desktop.Children.Add(_logInButton);
             Desktop.Children.Add(_optionsButton);
             Desktop.Children.Add(_newAccountButton);
@@ -96,6 +115,13 @@ namespace WarSpot.Client.XnaClient.Screen
             ScreenManager.Instance.Controller.AddListener(_optionsButton, optionsButtonPressed);
             ScreenManager.Instance.Controller.AddListener(_newAccountButton, newAccountButtonPressed);
             ScreenManager.Instance.Controller.AddListener(_exitButton, exitButtonPressed);
+        }
+
+        // tmp
+
+        private void AIButtonPressed(object sender, EventArgs e)
+        {
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.AIManageScreen);
         }
 
         private void logInButtonPressed(object sender, EventArgs e)
@@ -117,5 +143,6 @@ namespace WarSpot.Client.XnaClient.Screen
         {
             ScreenManager.Instance.Game.Exit();
         }
+
     }
 }
