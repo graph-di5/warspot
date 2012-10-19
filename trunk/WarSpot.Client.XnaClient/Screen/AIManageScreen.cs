@@ -133,7 +133,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private void addAIButtonPressed(object sender, EventArgs e)
         {
-
+            // Проверить, что это .dll, да еще и подходящая под условия, а потом добавить в список интеллектов (или вызвать апдейт?)
         }
                 
     }
