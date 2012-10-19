@@ -8,6 +8,7 @@ namespace WarSpot.Client.XnaClient
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        [STAThread]
         static void Main(string[] args)
         {
             using (WarSpotGame game = new WarSpotGame())
