@@ -23,6 +23,8 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private InputControl _pathBox;
 
+        private Nuclex.UserInterface.Controls.Desktop.ListControl _intellectsList;
+
         private OpenFileDialog _pathDialog = new OpenFileDialog();
 
         public AIManageScreen()
@@ -33,7 +35,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
         public override void LoadContent()
         {
-            _texture = ContentManager.Load<Texture2D>("Textures/Screens/mainMenuScreen");
+            _texture = ContentManager.Load<Texture2D>("Textures/Screens/screen_02");
         }
 
         public override void Draw(GameTime gameTime)
@@ -50,7 +52,6 @@ namespace WarSpot.Client.XnaClient.Screen
                 Bounds = new UniRectangle(new UniScalar(0.05f, -100), new UniScalar(0.05f, -70), 100, 30)
             };
 
-
             _pathBox = new InputControl
             {
                 IsHidden = false,
@@ -58,6 +59,7 @@ namespace WarSpot.Client.XnaClient.Screen
                 Text = "",
                 Enabled = false
             };
+
             _browseButton = new ButtonControl
             {
                 Text = "Browse",
@@ -66,10 +68,10 @@ namespace WarSpot.Client.XnaClient.Screen
                         new UniScalar(0.4f, 0),
                         new UniScalar(0.01f, -25),
                         new UniScalar(0.2f, 0),
-                        new UniScalar(0.07f, -2)),
+                        new UniScalar(0.07f, -2))
             };
 
-           _addAIButton = new ButtonControl
+            _addAIButton = new ButtonControl
             {
                 Text = "Add",
                 Bounds =
@@ -78,9 +80,32 @@ namespace WarSpot.Client.XnaClient.Screen
                         new UniScalar(0.05f, 0),
                         new UniScalar(0.2f, 0),
                         new UniScalar(0.07f, -2)),
-            };
+           };
 
-           _pathDialog.FileName = "";
+
+            _intellectsList = new Nuclex.UserInterface.Controls.Desktop.ListControl
+            {
+                Bounds = new UniRectangle(-70f, 70.0f, 250.0f, 300.0f),
+            };
+            // Странноватый у этой штуки конструктор, ничего не разрешает    
+
+            /* Правильный вариант:
+            List<string> tmp = new List<string>();
+            tmp.AddRange(WarSpot.Client.XnaClient.AIManager.IntellectStorageController.GetIntellectsNames());
+            foreach (var intellect in tmp)
+            {
+                _intellectsList.Items.Add(intellect);
+            }*/
+
+            _intellectsList.Items.Add("Zerling Rush");
+            _intellectsList.Items.Add("Photon them all");
+            _intellectsList.Items.Add("Fast reapers");
+
+            _intellectsList.Slider.Bounds.Location.X.Offset -= 1.0f;
+            _intellectsList.Slider.Bounds.Location.Y.Offset += 1.0f;
+            _intellectsList.Slider.Bounds.Size.Y.Offset -= 2.0f;
+            _intellectsList.SelectionMode = Nuclex.UserInterface.Controls.Desktop.ListSelectionMode.Single;
+            _intellectsList.SelectedItems.Add(0);
         }
 
         private void InitializeControls()
@@ -91,6 +116,8 @@ namespace WarSpot.Client.XnaClient.Screen
 
             Desktop.Children.Add(_browseButton);
             Desktop.Children.Add(_addAIButton);
+
+            Desktop.Children.Add(_intellectsList);
 
             ScreenManager.Instance.Controller.AddListener(_browseButton, browseButtonPressed);
             ScreenManager.Instance.Controller.AddListener(_addAIButton, addAIButtonPressed);
