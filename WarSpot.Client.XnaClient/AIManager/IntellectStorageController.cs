@@ -31,7 +31,7 @@ namespace WarSpot.Client.XnaClient.AIManager
         {
         }
 
-        public static List<string> GetIntellects()
+        public static List<string> GetIntellectsNames()
         {
             List<string> tmp = new List<string>();
 
