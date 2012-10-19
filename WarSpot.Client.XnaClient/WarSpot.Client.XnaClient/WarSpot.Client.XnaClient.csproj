@@ -125,11 +125,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIManager\Intellect.cs" />
     <Compile Include="Input\Controller.cs" />
     <Compile Include="Input\InputControl.cs" />
     <Compile Include="Input\KeyboardAndMouse.cs" />
+    <Compile Include="AIManager\IntellectStorageController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Screen\AIManageScreen.cs" />
     <Compile Include="Screen\MessageBox.cs" />
     <Compile Include="Screen\OptionsScreen.cs" />
     <Compile Include="Settings.Designer.cs">
