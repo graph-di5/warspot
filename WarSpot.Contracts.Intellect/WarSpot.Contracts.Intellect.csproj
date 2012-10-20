@@ -41,8 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeingCharacteristics.cs" />
+    <Compile Include="BeingInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="World.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Xna.Framework.Lite\WarSpot.Xna.Lite.csproj">
+      <Project>{B76FFCE6-2D2B-43F2-B71F-EDA7ED82FEB5}</Project>
+      <Name>WarSpot.Xna.Lite</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

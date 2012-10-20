@@ -1,7 +1,7 @@
 ﻿namespace WarSpot.Contracts.Intellect
 {
-	public class World
+	public interface IBeingInterface
 	{
-
+		void Think();
 	}
 }
