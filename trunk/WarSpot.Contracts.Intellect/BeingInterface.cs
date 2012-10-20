@@ -1,7 +1,9 @@
-﻿namespace WarSpot.Contracts.Intellect
+﻿using WarSpot.Contracts.Intellect.Actions;
+
+namespace WarSpot.Contracts.Intellect
 {
 	public interface IBeingInterface
 	{
-		Action Think();
+		GameAction Think();
 	}
 }
