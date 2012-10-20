@@ -132,7 +132,7 @@ namespace WarSpot.Client.XnaClient.Screen
             Settings.Default.FullScreenSelected = _fullscreenButton.Selected;
             Settings.Default.Save();
 
-			if (WarSpotGame.Instance.IsFullScreen() != _fullscreenButton.Selected)
+			if (WarSpotGame.Instance.IsFullScreen != _fullscreenButton.Selected)
 			{
 				WarSpotGame.Instance.ToggleFullScreen();
 			}

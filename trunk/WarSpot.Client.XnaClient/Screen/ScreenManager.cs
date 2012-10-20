@@ -149,6 +149,16 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				gameScreen.Destroy();
 			}
+			_screens.Clear();
+		}
+
+		public void RelodContent()
+		{
+			string current = GetActiveScreen().GetType().Name;
+			Console.WriteLine(current);
+			UnloadContent();
+			LoadContent();
+			SetActiveScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), current));
 		}
         
     }
