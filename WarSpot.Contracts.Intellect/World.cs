@@ -1,18 +1,35 @@
-﻿namespace WarSpot.Contracts.Intellect
+﻿using WarSpot.XNA.Framework;
+
+namespace WarSpot.Contracts.Intellect
 {
+
 	/// <summary>
 	/// One cell of the whole world
 	/// </summary>
-	public class WorldCell
+	public interface IWorldCell
 	{
-		public int X;
-		public int Y;
+		Vector2 Coordinates { get; }
 
-		public float Ci;
-		public Being Being;
+		float Ci { get; }
+		IBeingInterface Being { get; }
 	}
 
-	public class World
+	class WorldCell : IWorldCell
+	{
+		public Vector2 Coordinates { get; set; }
+
+		public float Ci { get; set; }
+
+		public Being BeingValue;
+		public IBeingInterface Being
+		{
+			get { return BeingValue.Me; }
+		}
+
+		// public Being Being;
+	}
+
+	class World
 	{
 		private WorldCell[,] _content;
 		/// <summary>

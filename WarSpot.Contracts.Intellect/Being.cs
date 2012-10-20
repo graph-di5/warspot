@@ -1,19 +1,19 @@
 ﻿namespace WarSpot.Contracts.Intellect
 {
-	public class Being : IBeingInterface
+	internal class Being : IBeingInterface
 	{
-		public BeingCharacteristics Characteristics { private set; get; }
+		public BeingCharacteristics Characteristics { get; set; }
+		public IBeingInterface Me { private set; get; }
 
-		public Being(BeingCharacteristics characteristics)
+		public Being(IBeingInterface me)
 		{
-			Characteristics = characteristics;
+			Me = me;
 		}
 
-		// todo return desired action
+		// todo set parameters
 		public Action Think()
 		{
-			// todo do something
-			return new Action(); 
+			return Me.Think(); 
 		}
 	}
 }
