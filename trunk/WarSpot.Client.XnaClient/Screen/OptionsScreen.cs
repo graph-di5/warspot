@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
-using System.Linq;
-using System.Text;
 using System.Globalization;
 
 namespace WarSpot.Client.XnaClient.Screen

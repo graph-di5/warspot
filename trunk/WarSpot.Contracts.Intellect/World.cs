@@ -2,9 +2,8 @@
 
 namespace WarSpot.Contracts.Intellect
 {
-
 	/// <summary>
-	/// One cell of the whole world
+	/// One cell of the whole world iface
 	/// </summary>
 	public interface IWorldCell
 	{
@@ -14,6 +13,9 @@ namespace WarSpot.Contracts.Intellect
 		IBeingInterface Being { get; }
 	}
 
+	/// <summary>
+	/// One cell of the whole world internal realisation
+	/// </summary>
 	class WorldCell : IWorldCell
 	{
 		public Vector2 Coordinates { get; set; }
@@ -25,10 +27,11 @@ namespace WarSpot.Contracts.Intellect
 		{
 			get { return BeingValue.Me; }
 		}
-
-		// public Being Being;
 	}
 
+	/// <summary>
+	/// main World class
+	/// </summary>
 	class World
 	{
 		private WorldCell[,] _content;
