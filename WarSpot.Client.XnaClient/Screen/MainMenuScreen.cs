@@ -43,7 +43,7 @@ namespace WarSpot.Client.XnaClient.Screen
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0.30f, 0),
-                        new UniScalar(0.05f, 0),
+                        new UniScalar(0.1f, 0),
                         new UniScalar(0.4f, 0),
                         new UniScalar(0.1f, 0)),
             };
@@ -54,10 +54,21 @@ namespace WarSpot.Client.XnaClient.Screen
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0.30f, 0),
-                        new UniScalar(0.2f, 0),
+                        new UniScalar(0.25f, 0),
                         new UniScalar(0.4f, 0),
                         new UniScalar(0.1f, 0)),
-            };
+			};
+
+			_newAccountButton = new ButtonControl
+			{
+				Text = "Registration",
+				Bounds =
+					new UniRectangle(
+						new UniScalar(0.30f, 0),
+						new UniScalar(0.4f, 0),
+						new UniScalar(0.4f, 0),
+						new UniScalar(0.1f, 0)),
+			};
 
             _optionsButton = new ButtonControl
             {
@@ -65,22 +76,8 @@ namespace WarSpot.Client.XnaClient.Screen
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0.30f, 0),
-                        new UniScalar(0.5f, 0),
+                        new UniScalar(0.55f, 0),
                         new UniScalar(0.4f, 0),
-                        new UniScalar(0.1f, 0)),
-            };
-            _newAccountButton = new ButtonControl
-            {
-                Text = "Registration",
-                Bounds =
-                    new UniRectangle(
-                        //x
-                        new UniScalar(0.30f, 0),
-                        // y
-                        new UniScalar(0.35f, 0),
-                        // width
-                        new UniScalar(0.4f, 0),
-                        // height
                         new UniScalar(0.1f, 0)),
             };
         
@@ -89,13 +86,9 @@ namespace WarSpot.Client.XnaClient.Screen
                 Text = "Exit",
                 Bounds =
                     new UniRectangle(
-                        //x
                         new UniScalar(0.30f, 0),
-                        // y
-                        new UniScalar(0.65f, 0),
-                        // width
+                        new UniScalar(0.7f, 0),
                         new UniScalar(0.4f, 0),
-                        // height
                         new UniScalar(0.1f, 0)),
             };
         }
