@@ -78,7 +78,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 			_backButton = new ButtonControl
 							{
-								Text = "Back",
+								Text = "MainMenu",
 								Bounds = new UniRectangle(new UniScalar(0.5f, -210f), new UniScalar(0.4f, 70), 100, 32),
 							};
 

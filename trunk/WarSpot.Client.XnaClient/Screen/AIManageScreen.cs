@@ -18,6 +18,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private ButtonControl _browseButton;
         private ButtonControl _addAIButton;
+		private ButtonControl _backButton;
 
         private LabelControl _pathLabel;
 
@@ -80,7 +81,17 @@ namespace WarSpot.Client.XnaClient.Screen
                         new UniScalar(0.05f, 0),
                         new UniScalar(0.2f, 0),
                         new UniScalar(0.07f, -2)),
-           };
+			};
+			_backButton = new ButtonControl
+			{
+				Text = "Main Menu",
+				Bounds = 
+					new UniRectangle(
+						new UniScalar(0.01f, -75),
+						new UniScalar(0.18f, 300),
+						new UniScalar(0.2f, 0),
+						new UniScalar(0.07f, 0)),
+			};
 
 
             _intellectsList = new Nuclex.UserInterface.Controls.Desktop.ListControl
@@ -114,13 +125,15 @@ namespace WarSpot.Client.XnaClient.Screen
 
             Desktop.Children.Add(_pathBox);
 
-            Desktop.Children.Add(_browseButton);
-            Desktop.Children.Add(_addAIButton);
+			Desktop.Children.Add(_browseButton);
+			Desktop.Children.Add(_addAIButton);
+			Desktop.Children.Add(_backButton);
 
             Desktop.Children.Add(_intellectsList);
 
             ScreenManager.Instance.Controller.AddListener(_browseButton, browseButtonPressed);
-            ScreenManager.Instance.Controller.AddListener(_addAIButton, addAIButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_addAIButton, addAIButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
         }
 
 
@@ -135,6 +148,11 @@ namespace WarSpot.Client.XnaClient.Screen
         {
             // Проверить, что это .dll, да еще и подходящая под условия, а потом добавить в список интеллектов (или вызвать апдейт?)
         }
+
+		private void BackButtonPressed(object sender, EventArgs args)
+		{
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+		}
                 
     }
 }

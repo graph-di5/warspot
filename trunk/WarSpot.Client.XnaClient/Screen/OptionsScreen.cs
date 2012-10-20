@@ -83,7 +83,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
             _volumeValueLabel = new LabelControl
             {
-                Text = Math.Round(Settings.Default.Volume, 1).ToString(CultureInfo.InvariantCulture),
+                Text = (100 * Math.Round(Settings.Default.Volume, 1)).ToString(CultureInfo.InvariantCulture) + "%",
                 Bounds =
                     new UniRectangle(new UniScalar(1.0f, -220), new UniScalar(0.94f, -70), 70, 30)
             };
