@@ -1,6 +1,8 @@
-﻿namespace WarSpot.Contracts.Intellect
+﻿using WarSpot.XNA.Framework;
+
+namespace WarSpot.Contracts.Intellect
 {
-	class BeingCharacteristics
+	public class BeingCharacteristics
 	{
 #region статические
 		//  определяет максимальное количество жизненной энергии
@@ -19,6 +21,16 @@
 
 		// 	"очки хода" ? = энергии
 		public float Ci { get; set; }
+
+		public Vector2 Coordinates { get; set; }
+
 #endregion
+
+		BeingCharacteristics(float maxHealth, float maxStep, float maxSeeDistance)
+		{
+			MaxHealth = maxHealth;
+			MaxStep = maxStep;
+			MaxSeeDistance = maxSeeDistance;
+		}
 	}
 }
