@@ -12,18 +12,19 @@ namespace WarSpot.Client.XnaClient
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
 		private static WarSpotGame _instance;
+		private bool _isFullScreen;
 
 		public static WarSpotGame Instance { get { return _instance; } }
+		public bool IsFullScreen { get { return _isFullScreen; } private set {} }
 
         public WarSpotGame()
         {
 			_instance = this;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            bool fscreen = Settings.Default.FullScreenSelected;
-            switch (fscreen)
+            _isFullScreen = Settings.Default.FullScreenSelected;
+			switch (IsFullScreen)
             {
                 case false:
                     {
@@ -112,24 +113,25 @@ namespace WarSpot.Client.XnaClient
 
 		public void ToggleFullScreen()
 		{
-			//_graphics.ToggleFullScreen();
-			//if (_graphics.IsFullScreen)
-			//{
-			//    System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
-			//    _graphics.PreferredBackBufferWidth = rect.Width;
-			//    _graphics.PreferredBackBufferHeight = rect.Height;
-			//}
-			//else
-			//{
-			//    _graphics.PreferredBackBufferWidth = 800;
-			//    _graphics.PreferredBackBufferHeight = 600;
-			//}
-			//_graphics.ApplyChanges();
-		}
-
-		public bool IsFullScreen()
-		{
-			return _graphics.IsFullScreen;
+			////_graphics.ToggleFullScreen();
+			_isFullScreen = !_isFullScreen;
+			if (IsFullScreen)
+			{
+				System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+				_graphics.PreferredBackBufferWidth = rect.Width;
+				_graphics.PreferredBackBufferHeight = rect.Height;
+				System.Windows.Forms.Form.FromHandle(Window.Handle).FindForm().FormBorderStyle =
+					System.Windows.Forms.FormBorderStyle.None;
+			}
+			else
+			{
+				_graphics.PreferredBackBufferWidth = 800;
+				_graphics.PreferredBackBufferHeight = 600;
+				System.Windows.Forms.Form.FromHandle(Window.Handle).FindForm().FormBorderStyle =
+					System.Windows.Forms.FormBorderStyle.FixedDialog;
+			}
+			_graphics.ApplyChanges();
+			ScreenManager.Instance.RelodContent();
 		}
 
 		public Rectangle GetScreenBounds()
