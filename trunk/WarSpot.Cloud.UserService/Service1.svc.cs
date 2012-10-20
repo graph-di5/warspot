@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.StorageClient;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -28,5 +30,16 @@ namespace WarSpot.Cloud.UserService
             }
             return composite;
         }
+
+		public void addMsg(CloudQueueMessage msg)
+		{
+			StorageCredentialsAccountAndKey accountAndKey = new StorageCredentialsAccountAndKey("account", "key");
+			CloudStorageAccount account = new CloudStorageAccount(accountAndKey, true);
+			CloudQueueClient client = account.CreateCloudQueueClient();
+			CloudQueue queue = client.GetQueueReference("events");
+			queue.CreateIfNotExist();
+
+			queue.AddMessage(msg);
+		}
     }
 }
