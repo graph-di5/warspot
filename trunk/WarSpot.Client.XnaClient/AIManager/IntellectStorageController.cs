@@ -9,7 +9,7 @@ namespace WarSpot.Client.XnaClient.AIManager
     {
         private static List<Intellect> _intellects = new List<Intellect>();
 
-        // Относительынй путь к папке на клиентском компрьютере, в которой будут хранится локально интеллекты пользователя
+        // Относительный путь к папке на клиентском компрьютере, в которой будут хранится локально интеллекты пользователя
         private static string _localPath;
 
         public static void UpdateIntellects()
