@@ -10,7 +10,6 @@ namespace WarSpot.Client.XnaClient.Screen
 {
     internal class OptionsScreen : GameScreen
     {
-        private static short _curs = 1;
         private static Texture2D _texture;
 
         private LabelControl _titleLabel;
@@ -39,50 +38,54 @@ namespace WarSpot.Client.XnaClient.Screen
         {
             _titleLabel = new LabelControl("Options")
             {
-                Bounds = new UniRectangle(new UniScalar(0.5f, -32), new UniScalar(0.1f, -70), 100, 30)
+                Bounds = new UniRectangle(new UniScalar(0.5f, -SpriteFont.MeasureString("Options").X / 4), 
+					0, 0, 0)
             };
 
             _fullscreenLabel = new LabelControl("FullScreen: ")
             {
                 Bounds =
-                    new UniRectangle(new UniScalar(0.5f, -50), new UniScalar(0.25f, -70), 80, 30)
+					new UniRectangle(new UniScalar(0.5f, -SpriteFont.MeasureString("FullScreen: ").X / 4 - 10), 
+						new UniScalar(0.1f, 0), 0, 20)
             };
 
             _fullscreenButton = new OptionControl
             {
                 Bounds =
-                    new UniRectangle(new UniScalar(0.5f, 30), new UniScalar(0.25f, -70), 100, 30)
+					new UniRectangle(new UniScalar(0.5f, SpriteFont.MeasureString("FullScreen: ").X / 4 - 10), 
+						new UniScalar(0.1f, 0), 20, 20)
             };
 
             _backButton = new ButtonControl
             {
                 Text = "Back",
-                Bounds = new UniRectangle(new UniScalar(0.5f, -50), new UniScalar(1.1f, -70), 100, 30)
+                Bounds = new UniRectangle(new UniScalar(0.5f, -50), new UniScalar(1f, -50), 100, 30)
             };
 
             _upVolume = new ButtonControl
             {
                 Text = "+",
-                Bounds = new UniRectangle(new UniScalar(0.5f, -50), new UniScalar(0.9f, -70), 100, 30)
+                Bounds = new UniRectangle(new UniScalar(0.5f, -25), new UniScalar(0.25f, 20), 50, 30)
             };
 
             _downVolume = new ButtonControl
             {
                 Text = "-",
-                Bounds = new UniRectangle(new UniScalar(0.5f, -50), new UniScalar(0.9f, -30), 100, 30)
+                Bounds = new UniRectangle(new UniScalar(0.5f, -25), new UniScalar(0.25f, -20), 50, 30)
             };
 
-            _volumeLabel = new LabelControl("Volume:")
+            _volumeLabel = new LabelControl("Volume: ")
             {
                 Bounds =
-                    new UniRectangle(new UniScalar(0.62f, -220), new UniScalar(0.94f, -70), 70, 30)
+					new UniRectangle(new UniScalar(0.5f, -SpriteFont.MeasureString("Volume:").X / 2 - 35),
+						new UniScalar(0.25f, 0), 0, 30)
             };
 
             _volumeValueLabel = new LabelControl
             {
                 Text = (100 * Math.Round(Settings.Default.Volume, 1)).ToString(CultureInfo.InvariantCulture) + "%",
-                Bounds =
-                    new UniRectangle(new UniScalar(1.0f, -220), new UniScalar(0.94f, -70), 70, 30)
+				Bounds = 
+				new UniRectangle(new UniScalar(0.5f, 35), new UniScalar(0.25f, 0), 0, 30)
             };
         }
 
