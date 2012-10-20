@@ -39,7 +39,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void Draw(GameTime gameTime)
 		{
 			SpriteBatch.Begin();
-			SpriteBatch.Draw(_texture, Vector2.Zero, Color.White);
+			SpriteBatch.Draw(_texture, WarSpotGame.Instance.GetScreenBounds(), Color.White);
 			SpriteBatch.End();
 		}
 

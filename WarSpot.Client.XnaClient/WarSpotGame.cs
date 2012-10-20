@@ -17,24 +17,32 @@ namespace WarSpot.Client.XnaClient
     /// </summary>
     public class WarSpotGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+
+		private static WarSpotGame _instance;
+
+		public static WarSpotGame Instance { get { return _instance; } }
 
         public WarSpotGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+			_instance = this;
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             bool fscreen = Settings.Default.FullScreenSelected;
             switch (fscreen)
             {
                 case false:
                     {
-                        graphics.PreferredBackBufferWidth = 800;
-                        graphics.PreferredBackBufferHeight = 600;
+                        _graphics.PreferredBackBufferWidth = 800;
+                        _graphics.PreferredBackBufferHeight = 600;
                     }
                     break;
                 case true:
-                    graphics.IsFullScreen = true;
+					System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+					_graphics.PreferredBackBufferWidth = rect.Width;
+					_graphics.PreferredBackBufferHeight = rect.Height;
+					_graphics.IsFullScreen = true;
                     break;
             }
 
@@ -64,7 +72,7 @@ namespace WarSpot.Client.XnaClient
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -106,5 +114,32 @@ namespace WarSpot.Client.XnaClient
 
             base.Draw(gameTime);
         }
+
+		public void ToggleFullScreen()
+		{
+			//_graphics.ToggleFullScreen();
+			//if (_graphics.IsFullScreen)
+			//{
+			//    System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+			//    _graphics.PreferredBackBufferWidth = rect.Width;
+			//    _graphics.PreferredBackBufferHeight = rect.Height;
+			//}
+			//else
+			//{
+			//    _graphics.PreferredBackBufferWidth = 800;
+			//    _graphics.PreferredBackBufferHeight = 600;
+			//}
+			//_graphics.ApplyChanges();
+		}
+
+		public bool IsFullScreen()
+		{
+			return _graphics.IsFullScreen;
+		}
+
+		public Rectangle GetScreenBounds()
+		{
+			return new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+		}
     }
 }
