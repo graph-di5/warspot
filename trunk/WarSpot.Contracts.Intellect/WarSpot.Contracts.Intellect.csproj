@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
+    <Compile Include="Being.cs" />
     <Compile Include="BeingCharacteristics.cs" />
     <Compile Include="BeingInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
