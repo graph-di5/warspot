@@ -141,6 +141,11 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
         }
 
+		public override void OnShow()
+		{
+			base.OnShow();
+			_fullscreenButton.Selected = WarSpotGame.Instance.IsFullScreen;
+		}
 
     }
 }
