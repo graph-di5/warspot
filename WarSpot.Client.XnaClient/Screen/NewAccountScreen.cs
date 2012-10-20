@@ -150,6 +150,13 @@ namespace WarSpot.Client.XnaClient.Screen
 
             Desktop.Children.Add(_backButton);
             Desktop.Children.Add(_registerButton);
+
+			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
         }
+
+		private void BackButtonPressed(object sender, EventArgs args)
+		{
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+		}
     }
 }
