@@ -47,13 +47,13 @@ namespace WarSpot.Client.XnaClient.Screen
         {
             _pathLabel = new LabelControl("Select path for your .dll file:")
             {
-                Bounds = new UniRectangle(new UniScalar(0.05f, -100), new UniScalar(0.05f, -70), 100, 30)
+                Bounds = new UniRectangle(new UniScalar(0f, 0), new UniScalar(0f, 0), 0, 0)
             };
 
             _pathBox = new InputControl
             {
                 IsHidden = false,
-                Bounds = new UniRectangle(new UniScalar(0.05f, -100f), new UniScalar(0.05f, -45), 300, 30),
+                Bounds = new UniRectangle(new UniScalar(0, 0), new UniScalar(0f, 20), 300, 30),
                 Text = "",
                 Enabled = false
             };
@@ -63,10 +63,10 @@ namespace WarSpot.Client.XnaClient.Screen
                 Text = "Browse",
                 Bounds =
                     new UniRectangle(
-                        new UniScalar(0.4f, 0),
-                        new UniScalar(0.01f, -25),
-                        new UniScalar(0.2f, 0),
-                        new UniScalar(0.07f, -2))
+                        new UniScalar(0f, 300 + 10),
+                        new UniScalar(0f, 20),
+                        new UniScalar(0f, 100),
+                        new UniScalar(0f, 30))
             };
 
             _addAIButton = new ButtonControl
@@ -74,26 +74,31 @@ namespace WarSpot.Client.XnaClient.Screen
                 Text = "Add",
                 Bounds =
                     new UniRectangle(
-                        new UniScalar(0.01f, -75),
-                        new UniScalar(0.05f, 0),
-                        new UniScalar(0.2f, 0),
-                        new UniScalar(0.07f, -2)),
+                        new UniScalar(0f, 0),
+						new UniScalar(0f, 60),
+						new UniScalar(0f, 100),
+						new UniScalar(0f, 30))
 			};
 			_backButton = new ButtonControl
 			{
 				Text = "Main Menu",
 				Bounds = 
 					new UniRectangle(
-						new UniScalar(0.01f, -75),
-						new UniScalar(0.18f, 300),
-						new UniScalar(0.2f, 0),
-						new UniScalar(0.07f, 0)),
+						new UniScalar(0f, 0),
+						new UniScalar(0f, 410),
+						new UniScalar(0f, 100),
+						new UniScalar(0f, 30))
 			};
 
 
             _intellectsList = new Nuclex.UserInterface.Controls.Desktop.ListControl
             {
-                Bounds = new UniRectangle(-70f, 70.0f, 250.0f, 300.0f),
+				Bounds =
+					new UniRectangle(
+						new UniScalar(0f, 0),
+						new UniScalar(0f, 100),
+						new UniScalar(0f, 300),
+						new UniScalar(0f, 300))
             };
             // Странноватый у этой штуки конструктор, ничего не разрешает    
 
@@ -120,7 +125,7 @@ namespace WarSpot.Client.XnaClient.Screen
         {
             Desktop.Children.Add(_pathLabel);
 
-            Desktop.Children.Add(_pathBox);
+			Desktop.Children.Add(_pathBox);
 
 			Desktop.Children.Add(_browseButton);
 			Desktop.Children.Add(_addAIButton);

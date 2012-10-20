@@ -16,11 +16,11 @@ namespace WarSpot.Client.XnaClient.Screen
 
         protected GameScreen()
         {
-            Desktop.Bounds = new UniRectangle(
-                new UniScalar(0.1f, 0.0f),
-                new UniScalar(0.1f, 0.0f),
-                new UniScalar(0.8f, 0.0f),
-                new UniScalar(0.8f, 0.0f));
+			Desktop.Bounds = new UniRectangle(
+				new UniScalar(0f, 20f),
+				new UniScalar(0f, 20f),
+				new UniScalar(1f, -40f),
+				new UniScalar(1f, -40f));
 
             Height = ScreenManager.Instance.Height;
             Width = ScreenManager.Instance.Width;

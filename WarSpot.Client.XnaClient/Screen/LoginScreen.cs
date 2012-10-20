@@ -44,8 +44,8 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
             _loginBox = new InputControl
                             {
-                                IsHidden = false,
-                                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -30), 200, 30),
+								IsHidden = false,
+								Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -30), 200, 30),
                                 Text = ""
                             };
 
