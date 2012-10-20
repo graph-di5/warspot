@@ -1,10 +1,14 @@
-﻿using WarSpot.XNA.Framework;
+﻿using System;
+using WarSpot.XNA.Framework;
 
 namespace WarSpot.Contracts.Intellect
 {
 	public class BeingCharacteristics
 	{
 #region статические
+
+		public Guid Id { private set; get; }
+
 		//  определяет максимальное количество жизненной энергии
 		//    определяет максимальны процент восполнения
 		public float MaxHealth { private set; get; }
@@ -26,8 +30,9 @@ namespace WarSpot.Contracts.Intellect
 
 #endregion
 
-		BeingCharacteristics(float maxHealth, float maxStep, float maxSeeDistance)
+		BeingCharacteristics(Guid id, float maxHealth, float maxStep, float maxSeeDistance)
 		{
+			Id = id;
 			MaxHealth = maxHealth;
 			MaxStep = maxStep;
 			MaxSeeDistance = maxSeeDistance;
