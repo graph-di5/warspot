@@ -1,4 +1,6 @@
-﻿namespace WarSpot.Contracts.Intellect
+﻿using WarSpot.Contracts.Intellect.Actions;
+
+namespace WarSpot.Contracts.Intellect
 {
 	internal class Being : IBeingInterface
 	{
@@ -11,7 +13,7 @@
 		}
 
 		// todo set parameters
-		public Action Think()
+		public GameAction Think()
 		{
 			return Me.Think(); 
 		}
