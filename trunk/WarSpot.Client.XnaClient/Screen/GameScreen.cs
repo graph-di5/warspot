@@ -12,7 +12,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
         protected ContentManager ContentManager { get; private set; }
 
-        protected SpriteFont SpriteFont { get; set; }
+		protected SpriteFont SpriteFont { get; set; }
 
         protected GameScreen()
         {
