@@ -42,7 +42,8 @@ namespace WarSpot.Client.XnaClient
 					System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
 					_graphics.PreferredBackBufferWidth = rect.Width;
 					_graphics.PreferredBackBufferHeight = rect.Height;
-					_graphics.IsFullScreen = true;
+					System.Windows.Forms.Form.FromHandle(Window.Handle).FindForm().FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+					//_graphics.IsFullScreen = true;
                     break;
             }
 
