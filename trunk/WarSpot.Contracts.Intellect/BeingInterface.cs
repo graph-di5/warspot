@@ -4,6 +4,6 @@ namespace WarSpot.Contracts.Intellect
 {
 	public interface IBeingInterface
 	{
-		GameAction Think();
+		GameAction Think(ulong step, BeingCharacteristics characteristics);
 	}
 }
