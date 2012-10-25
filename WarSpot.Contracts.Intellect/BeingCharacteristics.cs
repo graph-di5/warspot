@@ -5,32 +5,33 @@ namespace WarSpot.Contracts.Intellect
 {
 	public class BeingCharacteristics
 	{
-#region статические
+#region readlony properties: constants for fixed object
 		/// <summary>
-		/// Unique id of the object
+		/// Unique id of the object.
 		/// </summary>
 		public Guid Id { private set; get; }
 
-		// todo максимальный процент чего ?
 		/// <summary>
-		/// определяет максимальное количество жизненной энергии
-		/// определяет максимальны процент восполнения 
+		/// Maximum available health for the object.
 		/// </summary>
 		public float MaxHealth { private set; get; }
 
 		/// <summary>
-		/// max step length
+		/// Maximum available step length.
 		/// </summary>
 		public float MaxStep { private set; get; }
 
 		/// <summary>
-		/// Half of the visible square edge
+		/// Half of the visible square edge.
 		/// </summary>
 		public int MaxSeeDistance { private set; get; }
 
 #endregion 
-#region динамические
+#region variable properties for this object
 
+		/// <summary>
+		/// Health of the object.
+		/// </summary>
 		public float Health { get; set; }
 
 		/// <summary>
@@ -38,10 +39,20 @@ namespace WarSpot.Contracts.Intellect
 		/// </summary>
 		public float Ci { get; set; }
 
+		/// <summary>
+		/// Current coordinates of the object.
+		/// </summary>
 		public Vector2 Coordinates { get; set; }
 
 #endregion
 
+		/// <summary>
+		/// Ctor for new object.
+		/// </summary>
+		/// <param name="id">Unique id of the object.</param>
+		/// <param name="maxHealth">Maximum available health for the object.</param>
+		/// <param name="maxStep">Maximum available step length.</param>
+		/// <param name="maxSeeDistance">Half of the visible square edge.</param>
 		BeingCharacteristics(Guid id, float maxHealth, float maxStep, int maxSeeDistance)
 		{
 			Id = id;
