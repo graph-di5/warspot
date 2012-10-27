@@ -16,12 +16,12 @@ namespace WarSpot.Cloud.UserService
         public AccountDataSource DataBase;
 
 
-        public bool register(string username, string pass)
+        public bool Register(string username, string pass)
         {
             return DataBase.AddAccountEntry(new AccountEntry(username, pass));
         }
 
-        public bool login(string inputUsername, string inputPass)
+        public bool Login(string inputUsername, string inputPass)
         {
             return DataBase.CheckAccountEntry(inputUsername, inputPass);
         }

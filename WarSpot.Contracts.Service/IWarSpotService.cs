@@ -12,7 +12,7 @@ namespace WarSpot.Contracts.Service
         bool Register(string username, string pass);
 
         [OperationContract]
-        Guid? Login(string inputUsername, string inputPass);
+        bool Login(string inputUsername, string inputPass);
 
     }
 }
