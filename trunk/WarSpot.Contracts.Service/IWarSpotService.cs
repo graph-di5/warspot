@@ -3,19 +3,19 @@ using System.ServiceModel;
 
 namespace WarSpot.Contracts.Service
 {
-    [ServiceContract]
-    public interface IWarSpotService
-    {
-        [OperationContract]
-        ErrorCode Register(string username, string pass);
+	[ServiceContract]
+	public interface IWarSpotService
+	{
+		[OperationContract]
+		ErrorCode Register(string username, string pass);
 
-        [OperationContract]
-        ErrorCode Login(string inputUsername, string inputPass);
+		[OperationContract]
+		ErrorCode Login(string inputUsername, string inputPass);
 
         [OperationContract]
         ErrorCode UploadIntellect(byte[] intellect, string name);
 
         [OperationContract]
-        string[] getListOfIntellects();
+        string[] GetListOfIntellects();
     }
 }

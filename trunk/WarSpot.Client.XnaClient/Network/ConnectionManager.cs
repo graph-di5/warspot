@@ -71,7 +71,7 @@ namespace WarSpot.Client.XnaClient.Network
 
         public string[] GetListOfIntellects()
         {
-            return _service.getListOfIntellects();
+            return _service.GetListOfIntellects();
         }
 
 
