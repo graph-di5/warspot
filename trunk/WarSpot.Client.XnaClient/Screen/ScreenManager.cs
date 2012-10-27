@@ -152,7 +152,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			_screens.Clear();
 		}
 
-		public void RelodContent()
+		public void ReloadContent()
 		{
 			string current = GetActiveScreen().GetType().Name;
 			Console.WriteLine(current);

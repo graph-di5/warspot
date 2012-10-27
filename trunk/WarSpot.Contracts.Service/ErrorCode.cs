@@ -32,6 +32,9 @@ namespace WarSpot.Contracts.Service
 	{
 		Ok,
 
+		//connection exceptions
+		WrongLoginOrPassword,
+
 		//.dll file exceptions
 		BadFileType,
 		ForbiddenUsages,	//Multi-threading, reflection

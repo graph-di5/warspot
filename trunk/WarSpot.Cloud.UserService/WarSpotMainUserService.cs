@@ -22,7 +22,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			return DataBase.CheckAccountEntry(inputUsername, inputPass) ?
 				new ErrorCode(ErrorType.Ok) :
-				new ErrorCode(ErrorType.UnknownException);
+				new ErrorCode(ErrorType.WrongLoginOrPassword);
 		}
 
         public ErrorCode UploadIntellect(byte[] data, string name)

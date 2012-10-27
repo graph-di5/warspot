@@ -3,11 +3,21 @@ namespace WarSpot.Client.XnaClient.Input
 {
     internal class InputControl : Nuclex.UserInterface.Controls.Desktop.InputControl
     {
-        private int _passwordLength = 0;
-
         public bool IsHidden { get; set; }
 
-        public string RealText { get; set; }
+		private string _realText = "";
+
+		public string RealText {
+			get 
+			{ 
+				return _realText; 
+			}
+			set 
+			{ 
+				_realText = value;
+				Text = IsHidden ? new string('*', value.Length) : value; 
+			}
+		}
 
         public static string HiddenText(string text)
         {
@@ -33,8 +43,6 @@ namespace WarSpot.Client.XnaClient.Input
 					if (CaretPosition < RealText.Length)
 					{
 						RealText = RealText.Substring(0, CaretPosition) + RealText.Substring(CaretPosition + 1);
-						_passwordLength--;
-						Text = IsHidden ? new string('*', _passwordLength) : RealText;
 					}
 					return true;
 				default:
@@ -56,9 +64,7 @@ namespace WarSpot.Client.XnaClient.Input
             {
 				int cp = CaretPosition;
 				RealText = RealText.Substring(0, CaretPosition - 1) + RealText.Substring(CaretPosition);
-				//RealText = RealText.Substring(0, _passwordLength - 1);
-				_passwordLength--;
-				Text = IsHidden ? new string('*', _passwordLength) : RealText;
+				//Text = IsHidden ? new string('*', _passwordLength) : RealText;
 				CaretPosition = cp - 1;
             }
 			else if (character != '\b' && character != '\t' && character != '\n')
@@ -68,8 +74,7 @@ namespace WarSpot.Client.XnaClient.Input
 					RealText = "";
 				}
 				RealText = RealText.Substring(0, CaretPosition) + character + RealText.Substring(CaretPosition);
-				_passwordLength++;
-				Text = IsHidden ? new string('*', _passwordLength) : RealText;
+				//Text = IsHidden ? new string('*', _passwordLength) : RealText;
 				CaretPosition++;
 			}
         }
