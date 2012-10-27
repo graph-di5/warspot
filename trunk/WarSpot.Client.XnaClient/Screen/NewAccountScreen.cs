@@ -149,6 +149,17 @@ namespace WarSpot.Client.XnaClient.Screen
             Desktop.Children.Add(_registerButton);
 
 			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
+            ScreenManager.Instance.Controller.AddListener(_registerButton, RegisterButtonPressed);
+        }
+
+        private void RegisterButtonPressed(object sender, EventArgs args)
+        {
+            bool checker = Input.InputValidator.checkText(_nicknameBox.RealText) && Input.InputValidator.checkText(_nameBox.RealText) && Input.InputValidator.checkEmail(_emailBox.RealText)
+                && Input.InputValidator.checkText(_surNameBox.RealText) && Input.InputValidator.checkText(_passwordBox.RealText);
+            if (!checker)
+            {
+                MessageBox.Show("Incorrect input", ScreenManager.ScreenEnum.NewAccountScreen);
+            }
         }
 
 		private void BackButtonPressed(object sender, EventArgs args)
