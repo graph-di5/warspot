@@ -20,7 +20,7 @@
                 RealText = RealText.Substring(0, _passwordLength - 1);
                 _passwordLength--;
             }
-            else
+            else if (character != '\b' && character != '\t' && character != '\n')
             {
                 _passwordLength++;
                 RealText += character;
