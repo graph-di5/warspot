@@ -163,6 +163,17 @@ namespace WarSpot.Client.XnaClient.Screen
             {
                 MessageBox.Show("Incorrect input", ScreenManager.ScreenEnum.NewAccountScreen);
             }
+            else
+            {
+                if (!Network.ConnectionManager.Instance.Register(_nicknameBox.RealText, _passwordBox.RealText))
+                {
+                    MessageBox.Show("This nickname is currently used", ScreenManager.ScreenEnum.NewAccountScreen);
+                }
+                else
+                {
+                    MessageBox.Show("Registered Successfully", ScreenManager.ScreenEnum.LoginScreen);
+                }
+            }
         }
 
 		private void BackButtonPressed(object sender, EventArgs args)
