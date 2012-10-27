@@ -139,6 +139,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utils\HashHelper.cs" />
     <Compile Include="WarSpotGame.cs" />
     <Compile Include="Screen\GameScreen.cs" />
     <Compile Include="Screen\LoginScreen.cs" />
