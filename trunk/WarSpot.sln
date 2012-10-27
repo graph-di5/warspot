@@ -22,10 +22,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Contracts.Service", "WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj", "{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -41,10 +37,10 @@ Global
 		{218A447E-8808-4987-B665-A8B1FB107022}.Release|Any CPU.Build.0 = Release|Any CPU
 		{218A447E-8808-4987-B665-A8B1FB107022}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{218A447E-8808-4987-B665-A8B1FB107022}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{8E6F7189-150C-4E93-B98F-28A1CC200D79}.Debug|Any CPU.ActiveCfg = Debug|X64
+		{8E6F7189-150C-4E93-B98F-28A1CC200D79}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{8E6F7189-150C-4E93-B98F-28A1CC200D79}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{8E6F7189-150C-4E93-B98F-28A1CC200D79}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{8E6F7189-150C-4E93-B98F-28A1CC200D79}.Release|Any CPU.ActiveCfg = Release|X64
+		{8E6F7189-150C-4E93-B98F-28A1CC200D79}.Release|Any CPU.ActiveCfg = Release|x86
 		{8E6F7189-150C-4E93-B98F-28A1CC200D79}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{8E6F7189-150C-4E93-B98F-28A1CC200D79}.Release|Mixed Platforms.Build.0 = Release|x86
 		{527DA210-44B9-4E24-BE23-C83BC8339C6A}.Debug|Any CPU.ActiveCfg = Debug|X64
@@ -110,5 +106,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

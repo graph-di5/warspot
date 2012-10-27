@@ -173,6 +173,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent />
-    <PostBuildEvent>copy $(SolutionDir)\bin\$(ProjectName).dll $(SolutionDir)\redistr</PostBuildEvent>
+    <PostBuildEvent>copy "$(SolutionDir)\bin\$(ProjectName).dll" "$(SolutionDir)\redistr"</PostBuildEvent>
   </PropertyGroup>
 </Project>
