@@ -5,6 +5,7 @@ using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using InputControl = WarSpot.Client.XnaClient.Input.InputControl;
+using WarSpot.Contracts.Service;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -165,9 +166,12 @@ namespace WarSpot.Client.XnaClient.Screen
             }
             else
             {
-                if (!Network.ConnectionManager.Instance.Register(_nicknameBox.RealText, _passwordBox.RealText))
+				ErrorCode errorCode = Network.ConnectionManager.Instance.Register(_nicknameBox.RealText, _passwordBox.RealText);
+                if (errorCode.Type != ErrorType.Ok)
                 {
-                    MessageBox.Show("This nickname is currently used", ScreenManager.ScreenEnum.NewAccountScreen);
+					MessageBox.Show("This nickname is currently used" +
+					(errorCode.Message.Length > 0 ? "\n" + errorCode.Message : ""), 
+					ScreenManager.ScreenEnum.NewAccountScreen);
                 }
                 else
                 {

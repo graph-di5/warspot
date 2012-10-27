@@ -7,10 +7,10 @@ namespace WarSpot.Contracts.Service
     public interface IWarSpotService
     {
         [OperationContract]
-        bool Register(string username, string pass);
+        ErrorCode Register(string username, string pass);
 
         [OperationContract]
-        bool Login(string inputUsername, string inputPass);
+        ErrorCode Login(string inputUsername, string inputPass);
 
     }
 }
