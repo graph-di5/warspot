@@ -169,8 +169,7 @@ namespace WarSpot.Client.XnaClient.Screen
 				ErrorCode errorCode = Network.ConnectionManager.Instance.Register(_nicknameBox.RealText, _passwordBox.RealText);
                 if (errorCode.Type != ErrorType.Ok)
                 {
-					MessageBox.Show("This nickname is currently used" +
-					(errorCode.Message.Length > 0 ? "\n" + errorCode.Message : ""), 
+					MessageBox.Show("This nickname is currently used", 
 					ScreenManager.ScreenEnum.NewAccountScreen);
                 }
                 else

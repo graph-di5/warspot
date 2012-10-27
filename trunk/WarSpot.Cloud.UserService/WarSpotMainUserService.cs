@@ -8,7 +8,7 @@ namespace WarSpot.Cloud.UserService
 		public AccountDataSource DataBase;
 		public WarSpotMainUserService()
 		{
-
+			DataBase = new AccountDataSource();
 		}
 
 		public ErrorCode Register(string username, string pass)
