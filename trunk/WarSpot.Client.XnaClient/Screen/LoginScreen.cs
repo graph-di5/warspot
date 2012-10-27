@@ -109,6 +109,14 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoginButtonPressed(object sender, EventArgs args)
 		{
+            if (!Network.ConnectionManager.Instance.Login(_loginBox.RealText, _passwordBox.RealText))
+            {
+                MessageBox.Show("Incorrect login or password!", ScreenManager.ScreenEnum.LoginScreen);
+            }
+            else
+            {
+                // TODO: game selection screen/ai download
+            }
 		}
 
 		private void NewAccountButtonPressed(object sender, EventArgs args)

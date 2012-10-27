@@ -59,11 +59,6 @@ namespace WarSpot.Client.XnaClient.Network
 			{
 				Trace.WriteLine(e);
 			}
-
-			if (!login)
-			{
-				MessageBox.Show("Login error!", ScreenManager.ScreenEnum.LoginScreen);
-			}
 			return login;
 		}
 	}
