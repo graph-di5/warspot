@@ -126,7 +126,7 @@
     <Compile Include="AIManager\Intellect.cs" />
     <Compile Include="Input\Controller.cs" />
     <Compile Include="Input\InputControl.cs" />
-    <Compile Include="Input\InputValidator.cs" />
+    <Compile Include="Utils\InputValidator.cs" />
     <Compile Include="Input\KeyboardAndMouse.cs" />
     <Compile Include="AIManager\IntellectStorageController.cs" />
     <Compile Include="Network\ConnectionManager.cs" />
