@@ -11,14 +11,18 @@ namespace WarSpot.Cloud.UserService
         public AccountDataSource DataBase;
 
 
-        public bool Register(string username, string pass)
-        {
-            return DataBase.AddAccountEntry(new AccountEntry(username, pass));
+        public ErrorCode Register(string username, string pass)
+		{
+			return DataBase.AddAccountEntry(new AccountEntry(username, pass)) ?
+				new ErrorCode(ErrorType.Ok) :
+				new ErrorCode(ErrorType.UnknownException); ;
         }
 
-        public bool Login(string inputUsername, string inputPass)
+        public ErrorCode Login(string inputUsername, string inputPass)
         {
-            return DataBase.CheckAccountEntry(inputUsername, inputPass);
+            return DataBase.CheckAccountEntry(inputUsername, inputPass) ? 
+				new ErrorCode(ErrorType.Ok) : 
+				new ErrorCode(ErrorType.UnknownException);
         }
 
     }

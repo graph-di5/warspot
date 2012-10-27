@@ -33,7 +33,7 @@ namespace WarSpot.Client.XnaClient.Network
 			}
 		}
 
-		public bool Register(string username, string password)
+		public ErrorCode Register(string username, string password)
 		{
 			InitializeConnection();
 			try
@@ -43,23 +43,21 @@ namespace WarSpot.Client.XnaClient.Network
 			catch (Exception e)
 			{
 				Trace.WriteLine(e);
-				return false;
+				return new ErrorCode(ErrorType.UnknownException);
 			}
 		}
 
-		public bool Login(string username, string password)
+		public ErrorCode Login(string username, string password)
 		{
-			InitializeConnection();
-			bool login = false;
 			try
 			{
-				login = _service.Login(username, HashHelper.GetMd5Hash(password));
+				return _service.Login(username, HashHelper.GetMd5Hash(password));
 			}
 			catch (Exception e)
 			{
 				Trace.WriteLine(e);
+				return new ErrorCode(ErrorType.UnknownException);
 			}
-			return login;
 		}
 	}
 }
