@@ -113,9 +113,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			ErrorCode errorCode = Network.ConnectionManager.Instance.Login(_loginBox.RealText, _passwordBox.RealText);
             if (errorCode.Type != ErrorType.Ok)
             {
-                MessageBox.Show("Incorrect login or password!" + 
-					(errorCode.Message.Length > 0 ? "\n" + errorCode.Message : ""), 
-					ScreenManager.ScreenEnum.LoginScreen);
+                MessageBox.Show("Incorrect login or password!", ScreenManager.ScreenEnum.LoginScreen);
             }
             else
             {
