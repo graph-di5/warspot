@@ -154,8 +154,11 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private void RegisterButtonPressed(object sender, EventArgs args)
         {
-            bool checker = Input.InputValidator.checkText(_nicknameBox.RealText) && Input.InputValidator.checkText(_nameBox.RealText) && Input.InputValidator.checkEmail(_emailBox.RealText)
-                && Input.InputValidator.checkText(_surNameBox.RealText) && Input.InputValidator.checkText(_passwordBox.RealText);
+            bool checker = Utils.InputValidator.checkText(_nameBox.RealText) &&
+            Utils.InputValidator.checkText(_surNameBox.RealText) &&
+            Utils.InputValidator.checkEmail(_emailBox.RealText) &&
+            Utils.InputValidator.checkText(_nicknameBox.RealText) &&
+            Utils.InputValidator.checkText(_passwordBox.RealText);
             if (!checker)
             {
                 MessageBox.Show("Incorrect input", ScreenManager.ScreenEnum.NewAccountScreen);
