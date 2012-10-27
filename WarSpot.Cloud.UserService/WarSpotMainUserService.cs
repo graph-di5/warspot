@@ -3,29 +3,27 @@ using WarSpot.Contracts.Service;
 
 namespace WarSpot.Cloud.UserService
 {
-    // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
-    public class WarSpotMainUserService : IWarSpotService
-    {
+	public class WarSpotMainUserService : IWarSpotService
+	{
+		public AccountDataSource DataBase;
+		public WarSpotMainUserService()
+		{
 
-        public AccountDataSource DataBase;
-        public WarSpotMainUserService()
-        {
-            
-        }
+		}
 
-        public ErrorCode Register(string username, string pass)
+		public ErrorCode Register(string username, string pass)
 		{
 			return DataBase.AddAccountEntry(new AccountEntry(username, pass)) ?
 				new ErrorCode(ErrorType.Ok) :
 				new ErrorCode(ErrorType.UnknownException); ;
-        }
+		}
 
-        public ErrorCode Login(string inputUsername, string inputPass)
-        {
-            return DataBase.CheckAccountEntry(inputUsername, inputPass) ? 
-				new ErrorCode(ErrorType.Ok) : 
+		public ErrorCode Login(string inputUsername, string inputPass)
+		{
+			return DataBase.CheckAccountEntry(inputUsername, inputPass) ?
+				new ErrorCode(ErrorType.Ok) :
 				new ErrorCode(ErrorType.UnknownException);
-        }
+		}
 
         public ErrorCode UploadIntellect(byte[] data, string name)
         {
