@@ -127,6 +127,7 @@
     <Compile Include="Input\InputControl.cs" />
     <Compile Include="Input\KeyboardAndMouse.cs" />
     <Compile Include="AIManager\IntellectStorageController.cs" />
+    <Compile Include="Network\ConnectionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Screen\AIManageScreen.cs" />
@@ -152,6 +153,10 @@
     <ProjectReference Include="..\WarSpot.Client.XnaClientContent\WarSpot.Client.XnaClientContent.contentproj">
       <Name>WarSpot.Client.XnaClientContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj">
+      <Project>{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}</Project>
+      <Name>WarSpot.Contracts.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

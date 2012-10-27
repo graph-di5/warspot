@@ -21,6 +21,7 @@ namespace WarSpot.Client.XnaClient.Screen
         private ButtonControl _backButton;
         private ButtonControl _upVolume;
         private ButtonControl _downVolume;
+
         private LabelControl _volumeValueLabel;
 
         public OptionsScreen()
@@ -74,7 +75,7 @@ namespace WarSpot.Client.XnaClient.Screen
                 Bounds = new UniRectangle(new UniScalar(0.5f, -25), new UniScalar(0.25f, -20), 50, 30)
             };
 
-            _volumeLabel = new LabelControl("Volume: ")
+            _volumeLabel = new LabelControl("Volume:")
             {
                 Bounds =
 					new UniRectangle(new UniScalar(0.5f, -SpriteFont.MeasureString("Volume:").X / 2 - 35),
