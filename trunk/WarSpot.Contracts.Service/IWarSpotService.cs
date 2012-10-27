@@ -12,5 +12,10 @@ namespace WarSpot.Contracts.Service
         [OperationContract]
         ErrorCode Login(string inputUsername, string inputPass);
 
+        [OperationContract]
+        ErrorCode UploadIntellect(byte[] intellect, string name);
+
+        [OperationContract]
+        string[] getListOfIntellects();
     }
 }

@@ -32,8 +32,9 @@ namespace WarSpot.Client.XnaClient.Network
 				Trace.WriteLine(e);
 			}
 		}
+        #region login and registration
 
-		public ErrorCode Register(string username, string password)
+        public ErrorCode Register(string username, string password)
 		{
 			InitializeConnection();
 			try
@@ -43,7 +44,7 @@ namespace WarSpot.Client.XnaClient.Network
 			catch (Exception e)
 			{
 				Trace.WriteLine(e);
-				return new ErrorCode(ErrorType.UnknownException);
+                return new ErrorCode(ErrorType.UnknownException, e.ToString());
 			}
 		}
 
@@ -56,8 +57,24 @@ namespace WarSpot.Client.XnaClient.Network
 			catch (Exception e)
 			{
 				Trace.WriteLine(e);
-				return new ErrorCode(ErrorType.UnknownException);
+				return new ErrorCode(ErrorType.UnknownException, e.ToString());
 			}
-		}
-	}
+        }
+        #endregion login and registration
+
+        #region DLLUploadControl
+
+        public ErrorCode UploadIntellect(AIManager.Intellect intellect)
+        {
+            return _service.UploadIntellect(intellect.byteDll, intellect.Name);
+        }
+
+        public string[] GetListOfIntellects()
+        {
+            return _service.getListOfIntellects();
+        }
+
+
+        #endregion DLLUploadControl
+    }
 }
