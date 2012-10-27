@@ -133,8 +133,6 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private void FullScreenSelected(object sender, EventArgs e)
         {
-            Settings.Default.FullScreenSelected = _fullscreenButton.Selected;
-            Settings.Default.Save();
 
 			if (WarSpotGame.Instance.IsFullScreen != _fullscreenButton.Selected)
 			{

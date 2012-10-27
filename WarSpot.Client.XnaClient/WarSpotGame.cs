@@ -115,6 +115,8 @@ namespace WarSpot.Client.XnaClient
 		{
 			////_graphics.ToggleFullScreen();
 			_isFullScreen = !_isFullScreen;
+			Settings.Default.FullScreenSelected = _isFullScreen;
+			Settings.Default.Save();
 			if (IsFullScreen)
 			{
 				System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
