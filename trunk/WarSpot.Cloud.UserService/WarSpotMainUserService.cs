@@ -1,15 +1,17 @@
-﻿using System;
+﻿using WarSpot.Cloud.Storage.Account;
 using WarSpot.Contracts.Service;
-using WarSpot.Cloud.Storage.Account;
-
 
 namespace WarSpot.Cloud.UserService
 {
+    // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
     public class WarSpotMainUserService : IWarSpotService
     {
 
         public AccountDataSource DataBase;
-
+        public WarSpotMainUserService()
+        {
+            
+        }
 
         public ErrorCode Register(string username, string pass)
 		{

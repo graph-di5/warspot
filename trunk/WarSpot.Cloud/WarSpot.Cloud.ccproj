@@ -47,9 +47,9 @@
     </ProjectReference>
     <ProjectReference Include="..\WarSpot.Cloud.UserService\WarSpot.Cloud.UserService.csproj">
       <Name>WarSpot.Cloud.UserService</Name>
-      <Project>{9a5360eb-4fd7-45a7-97fc-93d322bde6b9}</Project>
+      <Project>{4b844151-1d1e-45ad-8a84-8de910e359e3}</Project>
       <Private>True</Private>
-      <RoleType>Web</RoleType>
+      <RoleType>Worker</RoleType>
       <RoleName>WarSpot.Cloud.UserService</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
