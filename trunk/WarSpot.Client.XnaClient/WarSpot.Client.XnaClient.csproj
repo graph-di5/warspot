@@ -128,7 +128,6 @@
     <Compile Include="Input\InputControl.cs" />
     <Compile Include="Utils\InputValidator.cs" />
     <Compile Include="Input\KeyboardAndMouse.cs" />
-    <Compile Include="AIManager\IntellectStorageController.cs" />
     <Compile Include="Network\ConnectionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
