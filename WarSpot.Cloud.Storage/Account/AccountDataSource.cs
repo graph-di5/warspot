@@ -16,7 +16,8 @@ namespace WarSpot.Cloud.Storage.Account
         
         static AccountDataSource()
         {
-             storageAccount = CloudStorageAccount.FromConfigurationSetting("DataConnectionString");
+					//CloudStorageAccount.SetConfigurationSettingPublisher(
+					//          (a, b) => b(RoleEnvironment.GetConfigurationSettingValue(a))); storageAccount = CloudStorageAccount.FromConfigurationSetting("DataConnectionString");
 
              CloudTableClient.CreateTablesFromModel(
              typeof(AccountDataContext),

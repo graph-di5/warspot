@@ -1,56 +1,65 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
 
 namespace WarSpot.Cloud.MatchComputer
 {
-    public class WorkerRole : RoleEntryPoint
-    {
-		private CloudQueue queue;
+	public class WorkerRole : RoleEntryPoint
+	{
+		private CloudQueue _queue;
+		//private bool 
 
-        public override void Run()
-        {
-            // Это образец реализации рабочего процесса. Замените его собственной логикой.
-            Trace.WriteLine("WarSpot.Cloud.MatchComputer entry point called", "Information");
+		public override void Run()
+		{
+			// Это образец реализации рабочего процесса. Замените его собственной логикой.
+			Trace.WriteLine("WarSpot.Cloud.MatchComputer entry point called", "Information");
 
-            /*while (true)
-            {
-                Thread.Sleep(10000);
-                Trace.WriteLine("Working", "Information");
-            }*/
+			/*while (true)
+			{
+				Thread.Sleep(10000);
+				Trace.WriteLine("Working", "Information");
+			}*/
 
-			var msg = queue.GetMessage();
-			if (msg != null)
-			{ 
-				//обработка сообщения
-				
-				//а затем удаление
-				queue.DeleteMessage(msg);
+			//todo rewrite this
+			while (true)
+			{
+				var msg = _queue.GetMessage();
+				if (msg != null)
+				{
+					//обработка сообщения
+
+					//а затем удаление
+					// we need to delete message before it'll apeared in queue 'cause timeout 
+					_queue.DeleteMessage(msg);
+
+					// todo start here the match
+				}
+				Thread.Sleep(100);
 			}
-        }
+		}
 
-        public override bool OnStart()
-        {
-            // Задайте максимальное число одновременных подключений 
-            ServicePointManager.DefaultConnectionLimit = 12;
+		public override bool OnStart()
+		{
+			CloudStorageAccount.SetConfigurationSettingPublisher(
+										(a, b) => b(RoleEnvironment.GetConfigurationSettingValue(a)));
 
-            // Дополнительные сведения по управлению изменениями конфигурации
-            // см. раздел MSDN по ссылке http://go.microsoft.com/fwlink/?LinkId=166357.
+			// Задайте максимальное число одновременных подключений 
+			ServicePointManager.DefaultConnectionLimit = 12;
 
-			StorageCredentialsAccountAndKey accountAndKey = new StorageCredentialsAccountAndKey("account", "key");
-			CloudStorageAccount account = new CloudStorageAccount(accountAndKey, true);
+			// Дополнительные сведения по управлению изменениями конфигурации
+			// см. раздел MSDN по ссылке http://go.microsoft.com/fwlink/?LinkId=166357.
+
+			//StorageCredentialsAccountAndKey accountAndKey = new StorageCredentialsAccountAndKey("account",
+			//  System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("key")));
+			CloudStorageAccount account = CloudStorageAccount.FromConfigurationSetting("DataConnectionString");
 			CloudQueueClient client = account.CreateCloudQueueClient();
-			CloudQueue queue = client.GetQueueReference("queue");
-			queue.CreateIfNotExist();
+			_queue = client.GetQueueReference("queue");
+			_queue.CreateIfNotExist();
 
-            return base.OnStart();
-        }
-    }
+			return base.OnStart();
+		}
+	}
 }

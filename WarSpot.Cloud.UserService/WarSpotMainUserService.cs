@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using WarSpot.Cloud;
 using WarSpot.Contracts.Service;
-using WarSpot.Cloud.Storage;
 using WarSpot.Cloud.Storage.Account;
 
 

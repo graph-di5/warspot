@@ -14,7 +14,7 @@ namespace WarSpot.Cloud.UserService
 			StorageCredentialsAccountAndKey accountAndKey = new StorageCredentialsAccountAndKey("account", "key");
 			CloudStorageAccount account = new CloudStorageAccount(accountAndKey, true);
 			CloudQueueClient client = account.CreateCloudQueueClient();
-			CloudQueue queue = client.GetQueueReference("queue");
+			queue = client.GetQueueReference("queue");
 			queue.CreateIfNotExist();
 		}
 
