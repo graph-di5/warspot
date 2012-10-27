@@ -1,32 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="WarSpot.Cloud" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2012-05.1.7">
-  <WebRole name="WarSpot.Cloud.UserService" vmsize="Small">
-    <Sites>
-      <Site name="Web">
-        <Bindings>
-          <Binding name="Endpoint1" endpointName="Endpoint1" />
-        </Bindings>
-      </Site>
-    </Sites>
-    <Endpoints>
-      <InputEndpoint name="Endpoint1" protocol="http" port="80" />
-    </Endpoints>
-    <Imports>
-      <Import moduleName="Diagnostics" />
-    </Imports>
-    <LocalResources>
-      <LocalStorage name="WarSpot.Cloud.UserService.svclog" sizeInMB="1000" cleanOnRoleRecycle="false" />
-    </LocalResources>
-    <ConfigurationSettings>
-      <Setting name="DataConnectionString" />
-    </ConfigurationSettings>
-  </WebRole>
   <WorkerRole name="WarSpot.Cloud.MatchComputer" vmsize="Small">
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
     <LocalResources>
     </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+    </ConfigurationSettings>
+  </WorkerRole>
+  <WorkerRole name="WarSpot.Cloud.UserService" vmsize="Small">
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    <Endpoints>
+      <InputEndpoint name="ServiceEndpoint" protocol="tcp" port="10100" />
+    </Endpoints>
     <ConfigurationSettings>
       <Setting name="DataConnectionString" />
     </ConfigurationSettings>
