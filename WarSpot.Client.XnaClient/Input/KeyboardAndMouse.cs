@@ -18,7 +18,6 @@ namespace WarSpot.Client.XnaClient.Input
         public KeyboardAndMouse(InputManager inputManager)
             : base(inputManager)
         {
-			//_keyboard = InputManager.GetKeyboard();
             _currentKeyboardState = InputManager.GetKeyboard().GetState();
             _currentMouseState = InputManager.GetMouse().GetState();
         }
