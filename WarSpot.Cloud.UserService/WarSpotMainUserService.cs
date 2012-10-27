@@ -39,5 +39,11 @@ namespace WarSpot.Cloud.UserService
             string[] intellects = new string[20];
             return intellects;
         }
+
+		public ErrorCode DeleteIntellect(string name)
+		{
+			// TODO: корректная работа с удалением
+			return new ErrorCode(ErrorType.Ok);
+		}
     }
 }

@@ -74,7 +74,11 @@ namespace WarSpot.Client.XnaClient.Network
             return _service.GetListOfIntellects();
         }
 
-
+		public ErrorCode DeleteIntellect(string name)
+		{
+			return _service.DeleteIntellect(name);
+		}
+        
         #endregion DLLUploadControl
     }
 }
