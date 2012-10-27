@@ -5,6 +5,7 @@ using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using InputControl = WarSpot.Client.XnaClient.Input.InputControl;
+using WarSpot.Client.XnaClient.Network;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -108,7 +109,6 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoginButtonPressed(object sender, EventArgs args)
 		{
-            MessageBox.Show("Not implemented yet", ScreenManager.ScreenEnum.LoginScreen);
 		}
 
 		private void NewAccountButtonPressed(object sender, EventArgs args)
