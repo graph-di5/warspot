@@ -47,10 +47,10 @@ namespace WarSpot.Client.XnaClient.Network
 			}
 		}
 
-		public Guid? Login(string username, string password)
+		public bool Login(string username, string password)
 		{
 			InitializeConnection();
-			Guid? login = null;
+			bool login = false;
 			try
 			{
 				login = _service.Login(username, HashHelper.GetMd5Hash(password));
@@ -60,7 +60,7 @@ namespace WarSpot.Client.XnaClient.Network
 				Trace.WriteLine(e);
 			}
 
-			if (!login.HasValue)
+			if (!login)
 			{
 				MessageBox.Show("Login error!", ScreenManager.ScreenEnum.LoginScreen);
 			}
