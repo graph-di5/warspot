@@ -31,9 +31,11 @@ namespace WarSpot.Contracts.Service
 	public enum ErrorType
 	{
 		Ok,
+
 		//.dll file exceptions
 		BadFileType,
-		ForbiddenUsages, //Multi-threading, reflection
+		ForbiddenUsages,	//Multi-threading, reflection
+
 		//other
 		UnknownException
 	}
