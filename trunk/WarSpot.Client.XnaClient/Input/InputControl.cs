@@ -20,7 +20,7 @@
                 RealText = RealText.Substring(0, _passwordLength - 1);
                 _passwordLength--;
             }
-            else if (char.IsLetter(character) || char.IsDigit(character) || (character == '_'))
+            else
             {
                 _passwordLength++;
                 RealText += character;
