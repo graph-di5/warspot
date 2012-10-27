@@ -9,10 +9,10 @@ namespace WarSpot.Contracts.Service
     public interface IWarSpotService
     {
         [OperationContract]
-        bool register(string username, string pass);
+        bool Register(string username, string pass);
 
         [OperationContract]
-        bool login(string inputUsername, string inputPass);
+        Guid? Login(string inputUsername, string inputPass);
 
     }
 }
