@@ -27,5 +27,19 @@ namespace WarSpot.Cloud.UserService
 				new ErrorCode(ErrorType.UnknownException);
         }
 
+        public ErrorCode UploadIntellect(byte[] data, string name)
+        {
+            // Проверка и что-то типа return isCorrect(intellect) ? new ErrorCode(ErrorType.ok) :
+            // new ErrorCode(ErrorType.ForbiddenUsages)
+            return new ErrorCode(ErrorType.Ok);
+        }
+        public string[] GetListOfIntellects()
+        {
+            // TODO: получать список всех интеллектов пользователя и возвращать их массивом
+
+            // Заглушка
+            string[] intellects = new string[20];
+            return intellects;
+        }
     }
 }
