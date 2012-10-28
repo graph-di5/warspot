@@ -51,7 +51,7 @@
     <Compile Include="BeingCharacteristics.cs" />
     <Compile Include="BeingInterface.cs" />
     <Compile Include="IWorldCell.cs" />
-</ItemGroup>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WarSpot.Xna.Framework.Lite\WarSpot.Xna.Lite.csproj">
       <Project>{B76FFCE6-2D2B-43F2-B71F-EDA7ED82FEB5}</Project>
