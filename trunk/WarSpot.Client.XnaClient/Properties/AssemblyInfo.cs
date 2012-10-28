@@ -8,8 +8,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WarSpot.Client.XnaClient")]
 [assembly: AssemblyProduct("WarSpot.Client.XnaClient")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -24,11 +22,3 @@ using System.Runtime.InteropServices;
 // title storage container when deploying this assembly to the device.
 [assembly: Guid("35312bab-20ad-4be1-b017-9fe38b785484")]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-[assembly: AssemblyVersion("1.0.0.0")]

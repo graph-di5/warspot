@@ -9,5 +9,10 @@ namespace WarSpot.Contracts.Intellect.Actions
 		{
 			TargetID = targetID;
 		}
+
+		public override float Cost()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

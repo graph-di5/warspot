@@ -8,10 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WarSpot.MatchComputer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WarSpot.MatchComputer")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
-[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Параметр ComVisible со значением FALSE делает типы в сборке невидимыми 
@@ -22,15 +19,3 @@ using System.Runtime.InteropServices;
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
 [assembly: Guid("81bed09b-a6b8-48ec-a25d-a2f165151767")]
 
-// Сведения о версии сборки состоят из следующих четырех значений:
-//
-//      Основной номер версии
-//      Дополнительный номер версии 
-//      Номер построения
-//      Редакция
-//
-// Можно задать все значения или принять номер построения и номер редакции по умолчанию, 
-// используя "*", как показано ниже:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]

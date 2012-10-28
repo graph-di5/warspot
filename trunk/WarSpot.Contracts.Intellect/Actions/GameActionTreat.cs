@@ -10,5 +10,10 @@ namespace WarSpot.Contracts.Intellect.Actions
 		{
 			HealthAmount = healthAmount;
 		}
+
+		public override float Cost()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
