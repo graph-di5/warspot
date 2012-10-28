@@ -2,26 +2,56 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Contracts.Intellect", "WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj", "{218A447E-8808-4987-B665-A8B1FB107022}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573} = {FA906681-9071-4D80-9FE7-7AF85FCFB573}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Client.XnaClient", "WarSpot.Client.XnaClient\WarSpot.Client.XnaClient.csproj", "{8E6F7189-150C-4E93-B98F-28A1CC200D79}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573} = {FA906681-9071-4D80-9FE7-7AF85FCFB573}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Client.XnaClientContent", "WarSpot.Client.XnaClientContent\WarSpot.Client.XnaClientContent.contentproj", "{527DA210-44B9-4E24-BE23-C83BC8339C6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.MatchComputer", "WarSpot.MatchComputer\WarSpot.MatchComputer.csproj", "{8B236A28-C004-4207-8F6E-2DE18D4739D5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573} = {FA906681-9071-4D80-9FE7-7AF85FCFB573}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Xna.Lite", "WarSpot.Xna.Framework.Lite\WarSpot.Xna.Lite.csproj", "{B76FFCE6-2D2B-43F2-B71F-EDA7ED82FEB5}"
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "WarSpot.Cloud", "WarSpot.Cloud\WarSpot.Cloud.ccproj", "{99999999-9999-9999-9999-999999999999}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573} = {FA906681-9071-4D80-9FE7-7AF85FCFB573}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Cloud.MatchComputer", "WarSpot.Cloud.MatchComputer\WarSpot.Cloud.MatchComputer.csproj", "{06D57BAE-127C-45D7-9D6D-F65B0D71ABED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573} = {FA906681-9071-4D80-9FE7-7AF85FCFB573}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Cloud.Storage", "WarSpot.Cloud.Storage\WarSpot.Cloud.Storage.csproj", "{4D2D5B7A-0BF4-41D2-BF18-F450BF3CB33F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573} = {FA906681-9071-4D80-9FE7-7AF85FCFB573}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Contracts.Service", "WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj", "{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573} = {FA906681-9071-4D80-9FE7-7AF85FCFB573}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Cloud.UserService", "WarSpot.Cloud.UserService\WarSpot.Cloud.UserService.csproj", "{4B844151-1D1E-45AD-8A84-8DE910E359E3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573} = {FA906681-9071-4D80-9FE7-7AF85FCFB573}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Common", "WarSpot.Common\WarSpot.Common.csproj", "{FA906681-9071-4D80-9FE7-7AF85FCFB573}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -103,12 +133,16 @@ Global
 		{4B844151-1D1E-45AD-8A84-8DE910E359E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4B844151-1D1E-45AD-8A84-8DE910E359E3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4B844151-1D1E-45AD-8A84-8DE910E359E3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FA906681-9071-4D80-9FE7-7AF85FCFB573}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
