@@ -7,5 +7,10 @@ namespace WarSpot.Contracts.Intellect.Actions
 		public GameActionGiveCi(Guid senderId) : base(senderId)
 		{
 		}
+
+		public override float Cost()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

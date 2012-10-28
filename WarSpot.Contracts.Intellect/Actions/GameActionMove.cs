@@ -10,5 +10,10 @@ namespace WarSpot.Contracts.Intellect.Actions
 		{
 			Shift = shift;
 		}
+
+		public override float Cost()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

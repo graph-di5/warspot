@@ -7,5 +7,10 @@ namespace WarSpot.Contracts.Intellect.Actions
 		public GameActionEat(Guid senderId) : base(senderId)
 		{
 		}
+
+		public override float Cost()
+		{
+			return 0f;
+		}
 	}
 }

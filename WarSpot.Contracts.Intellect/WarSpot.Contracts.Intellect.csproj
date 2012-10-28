@@ -46,17 +46,19 @@
     <Compile Include="Actions\GameActionGiveCi.cs" />
     <Compile Include="Actions\GameActionMove.cs" />
     <Compile Include="Actions\GameActionTreat.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs " />
     <Compile Include="BeingCharacteristics.cs" />
     <Compile Include="BeingInterface.cs" />
     <Compile Include="IWorldCell.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
+</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WarSpot.Xna.Framework.Lite\WarSpot.Xna.Lite.csproj">
       <Project>{B76FFCE6-2D2B-43F2-B71F-EDA7ED82FEB5}</Project>
       <Name>WarSpot.Xna.Lite</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(SolutionDir)\bin\$(ProjectName).dll" "$(SolutionDir)\redistr"</PostBuildEvent>

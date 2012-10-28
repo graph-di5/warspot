@@ -23,7 +23,8 @@ namespace WarSpot.MatchComputer
 			//Obtaining new actions from beings
 			foreach (var curObject in _objects)
 			{
-				_actions.Add(curObject.Think(_step, curObject.Characteristics));
+				// todo send NOT NULL world info
+				_actions.Add(curObject.Think(_step, curObject.Characteristics, null));
 			}
 
 			//Doing somethink with received actions
@@ -31,6 +32,7 @@ namespace WarSpot.MatchComputer
 			foreach (var curAction in _actions)
 			{
 				curAction.Execute();
+				// todo save action if succeded
 			}
 			*/
 

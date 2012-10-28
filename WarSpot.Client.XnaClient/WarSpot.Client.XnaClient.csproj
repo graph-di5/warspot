@@ -146,7 +146,8 @@
     <Compile Include="Screen\MainMenuScreen.cs" />
     <Compile Include="Screen\NewAccountScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />
-  </ItemGroup>
+      <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs " />
+</ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
