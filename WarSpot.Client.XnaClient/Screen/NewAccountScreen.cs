@@ -111,7 +111,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
             _backButton = new ButtonControl
             {
-                Text = "Main Menu",
+                Text = "Back",
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0.35f, -5),
@@ -181,7 +181,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void BackButtonPressed(object sender, EventArgs args)
 		{
-			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
 		}
     }
 }

@@ -20,7 +20,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private InputControl _loginBox;
 		private InputControl _passwordBox;
 
-		private ButtonControl _backButton;
+		private ButtonControl _exitButton;
 		private ButtonControl _loginButton;
 		private ButtonControl _newAccountButton;
 
@@ -72,13 +72,13 @@ namespace WarSpot.Client.XnaClient.Screen
 			_loginButton = new ButtonControl
 							{
 								Text = "Login",
-								Bounds = new UniRectangle(new UniScalar(0.5f, 110), new UniScalar(0.4f, 70), 100, 32)
+								Bounds = new UniRectangle(new UniScalar(0.5f, -210), new UniScalar(0.4f, 70), 100, 32)
 							};
 
-			_backButton = new ButtonControl
+			_exitButton = new ButtonControl
 							{
-								Text = "MainMenu",
-								Bounds = new UniRectangle(new UniScalar(0.5f, -210f), new UniScalar(0.4f, 70), 100, 32),
+								Text = "Exit",
+								Bounds = new UniRectangle(new UniScalar(0.5f, 110), new UniScalar(0.4f, 70), 100, 32),
 							};
 
 			_newAccountButton = new ButtonControl
@@ -94,18 +94,18 @@ namespace WarSpot.Client.XnaClient.Screen
             Desktop.Children.Add(_passwordBox);
 			Desktop.Children.Add(_loginLabel);
 			Desktop.Children.Add(_passwordLabel);
-			Desktop.Children.Add(_backButton);
+			Desktop.Children.Add(_exitButton);
 			Desktop.Children.Add(_newAccountButton);
 			Desktop.Children.Add(_loginButton);
 
 			ScreenManager.Instance.Controller.AddListener(_loginButton, LoginButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_exitButton, ExitButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_newAccountButton, NewAccountButtonPressed);
 		}
 
-		private void BackButtonPressed(object sender, EventArgs args)
+		private void ExitButtonPressed(object sender, EventArgs args)
 		{
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+			ScreenManager.Instance.Game.Exit();
 		}
 
 		private void LoginButtonPressed(object sender, EventArgs args)
@@ -118,6 +118,7 @@ namespace WarSpot.Client.XnaClient.Screen
             else
             {
                 // TODO: game selection screen/ai download
+				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
             }
 		}
 
