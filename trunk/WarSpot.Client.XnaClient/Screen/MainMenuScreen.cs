@@ -13,9 +13,8 @@ namespace WarSpot.Client.XnaClient.Screen
         // tmp
         private ButtonControl _AIButton;
 
-        private ButtonControl _logInButton;
+        private ButtonControl _logOutButton;
         private ButtonControl _optionsButton;
-        private ButtonControl _newAccountButton;
         private ButtonControl _exitButton;
 
         public MainMenuScreen()
@@ -48,9 +47,9 @@ namespace WarSpot.Client.XnaClient.Screen
                         new UniScalar(0.1f, 0)),
             };
 
-            _logInButton = new ButtonControl
+            _optionsButton = new ButtonControl
             {
-                Text = "Log In",
+                Text = "Options",
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0.30f, 0),
@@ -59,9 +58,9 @@ namespace WarSpot.Client.XnaClient.Screen
                         new UniScalar(0.1f, 0)),
 			};
 
-			_newAccountButton = new ButtonControl
+			_logOutButton = new ButtonControl
 			{
-				Text = "Registration",
+				Text = "Log Out",
 				Bounds =
 					new UniRectangle(
 						new UniScalar(0.30f, 0),
@@ -69,17 +68,6 @@ namespace WarSpot.Client.XnaClient.Screen
 						new UniScalar(0.4f, 0),
 						new UniScalar(0.1f, 0)),
 			};
-
-            _optionsButton = new ButtonControl
-            {
-                Text = "Options",
-                Bounds =
-                    new UniRectangle(
-                        new UniScalar(0.30f, 0),
-                        new UniScalar(0.55f, 0),
-                        new UniScalar(0.4f, 0),
-                        new UniScalar(0.1f, 0)),
-            };
         
             _exitButton = new ButtonControl
             {
@@ -87,7 +75,7 @@ namespace WarSpot.Client.XnaClient.Screen
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0.30f, 0),
-                        new UniScalar(0.7f, 0),
+                        new UniScalar(0.55f, 0),
                         new UniScalar(0.4f, 0),
                         new UniScalar(0.1f, 0)),
             };
@@ -99,14 +87,12 @@ namespace WarSpot.Client.XnaClient.Screen
             Desktop.Children.Add(_AIButton);
             ScreenManager.Instance.Controller.AddListener(_AIButton, AIButtonPressed);
 
-            Desktop.Children.Add(_logInButton);
+            Desktop.Children.Add(_logOutButton);
             Desktop.Children.Add(_optionsButton);
-            Desktop.Children.Add(_newAccountButton);
             Desktop.Children.Add(_exitButton);
 
-            ScreenManager.Instance.Controller.AddListener(_logInButton, logInButtonPressed);
+            ScreenManager.Instance.Controller.AddListener(_logOutButton, logOutButtonPressed);
             ScreenManager.Instance.Controller.AddListener(_optionsButton, optionsButtonPressed);
-            ScreenManager.Instance.Controller.AddListener(_newAccountButton, newAccountButtonPressed);
             ScreenManager.Instance.Controller.AddListener(_exitButton, exitButtonPressed);
         }
 
@@ -117,7 +103,7 @@ namespace WarSpot.Client.XnaClient.Screen
             ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.AIManageScreen);
         }
 
-        private void logInButtonPressed(object sender, EventArgs e)
+        private void logOutButtonPressed(object sender, EventArgs e)
         {
             ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
         }
@@ -125,11 +111,6 @@ namespace WarSpot.Client.XnaClient.Screen
         private void optionsButtonPressed(object sender, EventArgs e)
         {
             ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.OptionsScreen);
-        }
-
-        private void newAccountButtonPressed(object sender, EventArgs e)
-        {
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.NewAccountScreen);
         }
 
         private void exitButtonPressed(object sender, EventArgs e)
