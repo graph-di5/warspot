@@ -10,9 +10,7 @@ namespace WarSpot.Client.XnaClient.Screen
     {
         private static Texture2D _texture;
         
-        // tmp
-        private ButtonControl _AIButton;
-
+        private ButtonControl _LocalAIButton;
         private ButtonControl _logOutButton;
         private ButtonControl _optionsButton;
         private ButtonControl _exitButton;
@@ -36,9 +34,9 @@ namespace WarSpot.Client.XnaClient.Screen
         }
         private void CreateControls()
         {
-            _AIButton = new ButtonControl
+            _LocalAIButton = new ButtonControl
             {
-                Text = "AI Manage (tmp)",
+                Text = "AI Manage",
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0.30f, 0),
@@ -84,8 +82,8 @@ namespace WarSpot.Client.XnaClient.Screen
         private void InitializeControls()
         {
             // tmp
-            Desktop.Children.Add(_AIButton);
-            ScreenManager.Instance.Controller.AddListener(_AIButton, AIButtonPressed);
+            Desktop.Children.Add(_LocalAIButton);
+            ScreenManager.Instance.Controller.AddListener(_LocalAIButton, localAIButtonPressed);
 
             Desktop.Children.Add(_logOutButton);
             Desktop.Children.Add(_optionsButton);
@@ -96,11 +94,9 @@ namespace WarSpot.Client.XnaClient.Screen
             ScreenManager.Instance.Controller.AddListener(_exitButton, exitButtonPressed);
         }
 
-        // tmp
-
-        private void AIButtonPressed(object sender, EventArgs e)
+        private void localAIButtonPressed(object sender, EventArgs e)
         {
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.AIManageScreen);
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LocalAIManageScreen);
         }
 
         private void logOutButtonPressed(object sender, EventArgs e)

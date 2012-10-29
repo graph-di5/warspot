@@ -110,6 +110,13 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoginButtonPressed(object sender, EventArgs args)
 		{
+			//TEMPORARY
+			if (_loginBox.Text == "" && _passwordBox.Text == "")
+			{
+				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+				return;
+			}
+
 			ErrorCode errorCode = Network.ConnectionManager.Instance.Login(_loginBox.RealText, _passwordBox.RealText);
             if (errorCode.Type != ErrorType.Ok)
             {

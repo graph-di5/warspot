@@ -5,6 +5,7 @@ using System.Web;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using WarSpot.Cloud.Storage.Account;
+using System.Diagnostics;
 
 
 namespace WarSpot.Cloud.Storage.Account
