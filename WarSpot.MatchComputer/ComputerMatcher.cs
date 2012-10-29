@@ -5,13 +5,23 @@ using WarSpot.Contracts.Intellect;
 
 namespace WarSpot.MatchComputer
 {
-	class ComputerMatcher
+	public class ComputerMatcher
 	{
 		private List<Being> _objects;
 		private List<GameAction> _actions;
 		private ulong _step;
 
-		ComputerMatcher()
+		public ComputerMatcher(List<string> _listDll)
+		{
+			_objects = new List<Being>();
+			_actions = new List<GameAction>();
+			_step = 0;
+
+			foreach (string _newDll in _listDll)
+				AddBeing(_newDll);
+		}
+
+		public ComputerMatcher()
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
