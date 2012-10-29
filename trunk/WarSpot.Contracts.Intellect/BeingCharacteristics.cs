@@ -53,7 +53,7 @@ namespace WarSpot.Contracts.Intellect
 		/// <param name="maxHealth">Maximum available health for the object.</param>
 		/// <param name="maxStep">Maximum available step length.</param>
 		/// <param name="maxSeeDistance">Half of the visible square edge.</param>
-		BeingCharacteristics(Guid id, float maxHealth, float maxStep, int maxSeeDistance)
+		public BeingCharacteristics(Guid id, float maxHealth, float maxStep, int maxSeeDistance)
 		{
 			Id = id;
 			MaxHealth = maxHealth;

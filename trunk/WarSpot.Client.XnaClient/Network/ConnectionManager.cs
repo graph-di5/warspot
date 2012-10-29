@@ -50,7 +50,7 @@ namespace WarSpot.Client.XnaClient.Network
 
 		public ErrorCode Login(string username, string password)
 		{
-			InitializeConnection();
+			InitializeConnection(); 
 			try
 			{
 				return _service.Login(username, HashHelper.GetMd5Hash(password));
