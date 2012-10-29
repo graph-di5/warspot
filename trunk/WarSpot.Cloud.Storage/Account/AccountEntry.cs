@@ -9,6 +9,13 @@ namespace WarSpot.Cloud.Storage.Account
     public class AccountEntry : Microsoft.WindowsAzure.StorageClient.TableServiceEntity
 
     {
+		public AccountEntry()
+		{
+			PartitionKey = DateTime.UtcNow.ToString("MMddyyyy");
+			// Row key allows sorting, so we make sure the rows come back in time order
+			RowKey = string.Format("{0:10}_{1}", DateTime.MaxValue.Ticks - DateTime.Now.Ticks, Guid.NewGuid());
+		}
+
         public AccountEntry(string _name, string _pass)
         {            
             PartitionKey = DateTime.UtcNow.ToString("MMddyyyy");
