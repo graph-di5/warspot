@@ -6,9 +6,14 @@ namespace WarSpot.Cloud.UserService
 	public class WarSpotMainUserService : IWarSpotService
 	{
 		public AccountDataSource DataBase;
+
+        public bool loggedIn;
+
+
 		public WarSpotMainUserService()
 		{
 			DataBase = new AccountDataSource();
+            loggedIn = false;
 		}
 
 		public ErrorCode Register(string username, string pass)
@@ -20,16 +25,27 @@ namespace WarSpot.Cloud.UserService
 
 		public ErrorCode Login(string inputUsername, string inputPass)
 		{
-			return DataBase.CheckAccountEntry(inputUsername, inputPass) ?
-				new ErrorCode(ErrorType.Ok) :
-				new ErrorCode(ErrorType.WrongLoginOrPassword);
+            if (DataBase.CheckAccountEntry(inputUsername, inputPass))
+            {
+                loggedIn = true;
+                return new ErrorCode(ErrorType.Ok);
+            }
+            else
+                return new ErrorCode(ErrorType.WrongLoginOrPassword);
 		}
 
-		public ErrorCode UploadIntellect(byte[] data, string name)
+		public ErrorCode UploadIntellect(string username, string dllpath)
 		{
 			// Проверка и что-то типа return isCorrect(intellect) ? new ErrorCode(ErrorType.ok) :
 			// new ErrorCode(ErrorType.ForbiddenUsages)
-			return new ErrorCode(ErrorType.Ok);
+
+            if (loggedIn)
+            {
+                DataBase.UploadDLL(username, dllpath);
+                return new ErrorCode(ErrorType.Ok);
+            }
+            else
+                return new ErrorCode(ErrorType.ForbiddenUsages);
 		}
 		public string[] GetListOfIntellects()
 		{
