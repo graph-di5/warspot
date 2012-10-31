@@ -247,6 +247,10 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void uploadButtonPressed(object sender, EventArgs e)
 		{
+			if (_intellectList.Items.Count == 0)
+			{
+				return;
+			}
 			Intellect i = _intellects[_intellectList.SelectedItems[0]];
 			ErrorCode ec = Network.ConnectionManager.Instance.UploadIntellect(i);
 			if (ec.Type == ErrorType.Ok)
@@ -261,6 +265,10 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void deleteButtonPressed(object sender, EventArgs e)
 		{
+			if (_intellectList.Items.Count == 0)
+			{
+				return;
+			}
 			int idx = _intellectList.SelectedItems[0];
 			_intellects.RemoveAt(idx);
 			_intellectList.Items.RemoveAt(idx);
