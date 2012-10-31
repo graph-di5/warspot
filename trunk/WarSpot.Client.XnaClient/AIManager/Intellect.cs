@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Reflection;
+using System.Diagnostics;
+using WarSpot.Contracts.Intellect;
+
 namespace WarSpot.Client.XnaClient.AIManager
 {
     class Intellect
@@ -17,8 +21,24 @@ namespace WarSpot.Client.XnaClient.AIManager
 
 		private string getName(byte[] byteDll)
 		{
-			//Not implemented  yet.
-			return "Intellect" + Path.GetHashCode() % 1000;
+			//Didn't test yet.
+			try
+			{
+				Assembly assembly = Assembly.Load(byteDll);
+				Type[] types = assembly.GetTypes();
+				foreach (Type type in types)
+				{
+					if (type.IsClass && type.GetInterface("IBeingInterface") != null)
+					{
+						return type.ToString();
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.WriteLine(e);
+			}
+			return "BadFile" + Path.GetHashCode() % 1000;
 		}
 
 
