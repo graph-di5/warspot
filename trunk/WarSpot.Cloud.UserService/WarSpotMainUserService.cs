@@ -7,13 +7,13 @@ namespace WarSpot.Cloud.UserService
 	{
 		public AccountDataSource DataBase;
 
-        public bool loggedIn;
+		public bool loggedIn;
 
 
 		public WarSpotMainUserService()
 		{
 			DataBase = new AccountDataSource();
-            loggedIn = false;
+			loggedIn = false;
 		}
 
 		public ErrorCode Register(string username, string pass)
@@ -25,13 +25,18 @@ namespace WarSpot.Cloud.UserService
 
 		public ErrorCode Login(string inputUsername, string inputPass)
 		{
-            if (DataBase.CheckAccountEntry(inputUsername, inputPass))
-            {
-                loggedIn = true;
-                return new ErrorCode(ErrorType.Ok);
-            }
-            else
-                return new ErrorCode(ErrorType.WrongLoginOrPassword);
+			if (DataBase.CheckAccountEntry(inputUsername, inputPass))
+			{
+				loggedIn = true;
+				return new ErrorCode(ErrorType.Ok);
+			}
+			else
+				return new ErrorCode(ErrorType.WrongLoginOrPassword);
+		}
+
+		public ErrorCode UploadIntellect(byte[] intellect, string name)
+		{
+			throw new System.NotImplementedException();
 		}
 
 		public ErrorCode UploadIntellect(byte[] data)
@@ -39,13 +44,13 @@ namespace WarSpot.Cloud.UserService
 			// Проверка и что-то типа return isCorrect(intellect) ? new ErrorCode(ErrorType.ok) :
 			// new ErrorCode(ErrorType.ForbiddenUsages)
 
-            if (loggedIn)
-            {
-                DataBase.UploadDLL(data);
-                return new ErrorCode(ErrorType.Ok);
-            }
-            else
-                return new ErrorCode(ErrorType.ForbiddenUsages);
+			if (loggedIn)
+			{
+				DataBase.UploadDLL(data);
+				return new ErrorCode(ErrorType.Ok);
+			}
+			else
+				return new ErrorCode(ErrorType.ForbiddenUsages);
 		}
 		public string[] GetListOfIntellects()
 		{

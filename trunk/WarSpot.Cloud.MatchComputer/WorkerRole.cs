@@ -1,9 +1,6 @@
-using System.Diagnostics;
 using System.Net;
 using System.Threading;
-using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
-using Microsoft.WindowsAzure.StorageClient;
 
 namespace WarSpot.Cloud.MatchComputer
 {
