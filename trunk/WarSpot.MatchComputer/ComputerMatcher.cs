@@ -5,31 +5,61 @@ using WarSpot.Contracts.Intellect;
 
 namespace WarSpot.MatchComputer
 {
+	public class TeamIntellectList //Класс для загрузки команд с их ДЛЛками.
+	{
+		public int Number { set; get ;}
+		public List<IBeingInterface> Members;
+	}
+
 	public class ComputerMatcher
 	{
+		private List<int> _teamsMembersCounter; 
 		private List<Being> _objects;
 		private List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нуном порядке.
 		private List<GameAction> _didedActions; //для истории действий
 		private ulong _step;
 
-		public ComputerMatcher(List<string> _listDll)
+		/// <summary>
+		/// Номера команд ОБЯЗАНЫ быть упорядоченны и начинаться с нуля [0,1,2,...]
+		/// </summary>
+		public ComputerMatcher(List<TeamIntellectList> _listIntellect)
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
 			_didedActions = new List<GameAction>();
 			_step = 0;
+			_teamsMembersCounter = new List<int>();
 
-			foreach (string _newDll in _listDll)
-				AddBeing(_newDll);
+			foreach(TeamIntellectList Team in _listIntellect)
+			{
+				_teamsMembersCounter.Add(0);//Добавляем новую команду
+				foreach (IBeingInterface _newIntellect in Team.Members)
+				{
+					var newBeing = new Being(_newIntellect);
+					_teamsMembersCounter[Team.Number]++;
+					_objects.Add(newBeing);
+				}
+			}
 		}
 
-		public ComputerMatcher()
-		{
-			_objects = new List<Being>();
-			_actions = new List<GameAction>();
-			_didedActions = new List<GameAction>();
-			_step = 0;
-		}
+		//public ComputerMatcher(List<string> _listDll)
+		//{
+		//    _objects = new List<Being>();
+		//    _actions = new List<GameAction>();
+		//    _didedActions = new List<GameAction>();
+		//    _step = 0;
+
+		//    foreach (string _newDll in _listDll)
+		//        AddBeing(_newDll);
+		//}
+
+		//public ComputerMatcher()
+		//{
+		//    _objects = new List<Being>();
+		//    _actions = new List<GameAction>();
+		//    _didedActions = new List<GameAction>();
+		//    _step = 0;
+		//}
 
 		public void Update()
 		{
@@ -66,27 +96,27 @@ namespace WarSpot.MatchComputer
 			}			
 		}
 
-		public void AddBeing(string _fullPath)
-		{//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
-			Assembly assembly = Assembly.LoadFrom(_fullPath);//вытаскиваем библиотеку
-			string iMyInterfaceName = typeof(IBeingInterface).ToString();
-			System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
-			object[] defaultConstructorParameters = new object[0];
+		//public void AddBeing(string _fullPath)
+		//{//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
+		//    Assembly assembly = Assembly.LoadFrom(_fullPath);//вытаскиваем библиотеку
+		//    string iMyInterfaceName = typeof(IBeingInterface).ToString();
+		//    System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
+		//    object[] defaultConstructorParameters = new object[0];
 			
-			IBeingInterface iAI = null;
+		//    IBeingInterface iAI = null;
 			
-			foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
-			{
-				if (type.GetInterface(iMyInterfaceName) != null)
-				{
-					ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
-					object instance = defaultConstructor.Invoke(defaultConstructorParameters);
-					iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
-				}
-			}
+		//    foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
+		//    {
+		//        if (type.GetInterface(iMyInterfaceName) != null)
+		//        {
+		//            ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
+		//            object instance = defaultConstructor.Invoke(defaultConstructorParameters);
+		//            iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
+		//        }
+		//    }
 			
-			var newBeing = new Being(iAI);//Возможно, стоит перестраховаться, и написать проверку на не null.
-			_objects.Add(newBeing);
-        }
+		//    var newBeing = new Being(iAI);//Возможно, стоит перестраховаться, и написать проверку на не null.
+		//    _objects.Add(newBeing);
+		//}
     }		
 }
