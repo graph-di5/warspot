@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Actions\GameAction.cs" />
     <Compile Include="Actions\GameActionAttack.cs" />
+    <Compile Include="Actions\GameActionDie.cs" />
     <Compile Include="Actions\GameActionEat.cs" />
     <Compile Include="Actions\GameActionGiveCi.cs" />
     <Compile Include="Actions\GameActionMove.cs" />
