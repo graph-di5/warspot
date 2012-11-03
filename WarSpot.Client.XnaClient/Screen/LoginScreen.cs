@@ -46,6 +46,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
             _loginBox = new InputControl
                             {
+								Name = "login",
 								IsHidden = false,
 								Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -30), 200, 30),
                                 Text = ""
@@ -53,6 +54,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
             _passwordBox = new InputControl
                             {
+								Name = "password",
                                 IsHidden = true,
                                 Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, 30), 200, 30),
                                 RealText = "",
