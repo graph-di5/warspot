@@ -46,6 +46,8 @@
     <Compile Include="Account\AccountDataContext.cs" />
     <Compile Include="Account\AccountDataSource.cs" />
     <Compile Include="Account\AccountEntry.cs" />
+    <Compile Include="Intellect\IntellectDataContext.cs" />
+    <Compile Include="Intellect\IntellectEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs " />
   </ItemGroup>
