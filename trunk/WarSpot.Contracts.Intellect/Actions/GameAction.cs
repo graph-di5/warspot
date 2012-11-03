@@ -31,6 +31,12 @@ namespace WarSpot.Contracts.Intellect.Actions
 		/// </summary>
 		/// <returns>Ci need for execute the sction.</returns>
 		public abstract float Cost();
+
+		/// <summary>
+		/// Execute the action.
+		/// </summary>
+		/// <returns></returns>
+		public abstract void Execute();
 	}
 
 #if false
