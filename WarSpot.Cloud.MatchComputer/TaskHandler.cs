@@ -11,10 +11,10 @@ namespace WarSpot.Cloud.MatchComputer
 	internal class TaskHandler
 	{
 		AutoResetEvent are = new AutoResetEvent(false);
+		Thread thread = new Thread(new ThreadStart(ThreadFunctions));
 
 		public void Start()
 		{
-			Thread thread = new Thread(new ThreadStart(ThreadFunctions));
 			thread.Start();
 		}
 
@@ -44,7 +44,7 @@ namespace WarSpot.Cloud.MatchComputer
 				CloudQueueMessage msg = queue.GetMessage();
 				are.WaitOne(0);
 
-				if (are.Set())
+				if (are.WaitOne(1))
 				{
 					break;
 					//return;
@@ -58,7 +58,14 @@ namespace WarSpot.Cloud.MatchComputer
 
 				if (msg == null)
 				{
-					are.WaitOne(timeout);
+					if(are.WaitOne(timeout))
+					{
+						break;
+					}
+					else
+					{
+						
+					}
 				}
 			}
 		}
