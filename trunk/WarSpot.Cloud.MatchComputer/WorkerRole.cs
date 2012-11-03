@@ -7,15 +7,21 @@ using Microsoft.WindowsAzure.StorageClient;
 
 namespace WarSpot.Cloud.MatchComputer
 {
-	public class WorkerRole : RoleEntryPoint
-	{
-		private CloudQueue _queue;
-		//private bool 
+    public class WorkerRole : RoleEntryPoint
+    {
+        public override void Run()
+        {
 
-		public override void Run()
-		{
-			// Это образец реализации рабочего процесса. Замените его собственной логикой.
-			Trace.WriteLine("WarSpot.Cloud.MatchComputer entry point called", "Information");
+
+            /*// Это образец реализации рабочего процесса. Замените его собственной логикой.
+            Trace.WriteLine("WarSpot.Cloud.MatchComputer entry point called", "Information");
+
+            while (true)
+            {
+                Thread.Sleep(10000);
+                Trace.WriteLine("Working", "Information");
+            }*/
+        }
 
 			/*while (true)
 			{
