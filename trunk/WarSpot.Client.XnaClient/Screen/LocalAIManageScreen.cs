@@ -80,6 +80,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
             _pathBox = new InputControl
             {
+				Name = "path",
                 IsHidden = false,
                 Bounds = new UniRectangle(new UniScalar(0, 0), new UniScalar(0f, 20), 300, 30),
                 Text = "",
@@ -206,17 +207,17 @@ namespace WarSpot.Client.XnaClient.Screen
         private void browseButtonPressed(object sender, EventArgs e)
         {
             DialogResult dialog = _pathDialog.ShowDialog();
-            _pathBox.Text = _pathDialog.FileName;
+            _pathBox.RealText = _pathDialog.FileName;
         }
 
 
         private void addAIButtonPressed(object sender, EventArgs e)
         {
             // Проверить, что это .dll, да еще и подходящая под условия
-			Intellect i = new Intellect(_pathBox.Text);
+			Intellect i = new Intellect(_pathBox.RealText);
 			_intellects.Add(i);
 			_intellectList.Items.Add(i.Name);
-			Settings.Default.IntellectList.Add(_pathBox.Text);
+			Settings.Default.IntellectList.Add(_pathBox.RealText);
 			Settings.Default.Save();
         }
 

@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using WarSpot.Client.XnaClient.Input;
+using System.Collections.Generic;
+using System;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -77,6 +79,38 @@ namespace WarSpot.Client.XnaClient.Screen
         {
 
         }
+
+		public Dictionary<string, string> GetTexts()
+		{
+			Dictionary<string, string> ans = new Dictionary<string,string>();
+			foreach (var control in Desktop.Children)
+			{
+				if (control.GetType() == typeof(InputControl))
+				{
+					InputControl ic = (InputControl)control;
+					if (ic.Name != null)
+					{
+						ans.Add(ic.Name, ic.RealText);
+					}
+				}
+			}
+			return ans;
+		}
+
+		public void UseTexts(Dictionary<string, string> dict)
+		{
+			foreach (var control in Desktop.Children)
+			{
+				if (control.GetType() == typeof(InputControl))
+				{
+					InputControl ic = (InputControl)control;
+					if (dict.ContainsKey(ic.Name))
+					{
+						ic.RealText = dict[ic.Name];
+					}
+				}
+			}
+		}
 
         //protected void DrawString(string text, float positionX, float positionY, Color color)
         //{

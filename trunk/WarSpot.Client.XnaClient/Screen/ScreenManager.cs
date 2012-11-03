@@ -154,11 +154,12 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public void ReloadContent()
 		{
+			var dict = _activeScreen.GetTexts();
 			string current = GetActiveScreen().GetType().Name;
-			Console.WriteLine(current);
 			UnloadContent();
 			LoadContent();
 			SetActiveScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), current));
+			_activeScreen.UseTexts(dict);
 		}
         
     }

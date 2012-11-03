@@ -76,6 +76,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
             _nameBox = new InputControl
             {
+				Name = "name",
                 IsHidden = false,
                 Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.1f, -45), 200, 30),
                 Text = ""
@@ -83,6 +84,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
             _surNameBox = new InputControl
             {
+				Name = "surname",
                 IsHidden = false,
                 Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.25f, -45), 200, 30),
                 Text = ""
@@ -90,6 +92,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
             _emailBox = new InputControl
             {
+				Name = "email",
                 IsHidden = false,
                 Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -45), 200, 30),
                 Text = ""
@@ -97,6 +100,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
             _nicknameBox = new InputControl
             {
+				Name = "nickname",
                 IsHidden = false,
                 Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.55f, -45), 200, 30),
                 Text = ""
@@ -104,6 +108,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
             _passwordBox = new InputControl
             {
+				Name = "password",
                 IsHidden = true,
                 Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.7f, -45), 200, 30),
                 Text = ""

@@ -19,6 +19,8 @@ namespace WarSpot.Client.XnaClient.Input
 			}
 		}
 
+		public string Name { get; set; }
+
         public static string HiddenText(string text)
         {
             return new string('*', text.Length);
