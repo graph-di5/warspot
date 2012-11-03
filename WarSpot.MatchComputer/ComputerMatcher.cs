@@ -8,13 +8,15 @@ namespace WarSpot.MatchComputer
 	public class ComputerMatcher
 	{
 		private List<Being> _objects;
-		private List<GameAction> _actions;
+		private List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нуном порядке.
+		private List<GameAction> _didedActions; //для истории действий
 		private ulong _step;
 
 		public ComputerMatcher(List<string> _listDll)
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
+			_didedActions = new List<GameAction>();
 			_step = 0;
 
 			foreach (string _newDll in _listDll)
@@ -25,12 +27,14 @@ namespace WarSpot.MatchComputer
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
+			_didedActions = new List<GameAction>();
 			_step = 0;
 		}
 
 		public void Update()
 		{
 			_actions.Clear();
+			_didedActions.Clear();
 			_step++;
 			//Obtaining new actions from beings
 			foreach (var curObject in _objects)
@@ -39,16 +43,17 @@ namespace WarSpot.MatchComputer
 				_actions.Add(curObject.Think(_step, curObject.Characteristics, null));
 			}
 
-			//Doing somethink with received actions
-			/*
-			foreach (var curAction in _actions)
+			for (GameAction curAction = _actions[0]; curAction != null; curAction = _actions[0])
 			{
-				curAction.Execute();
-				// todo save action if succeded
+				if (curAction.Cost() <= _objects.Find(a => a.Characteristics.Id == curAction.SenderId).Characteristics.Ci)
+				{
+					curAction.Execute();
+					_didedActions.Add(curAction);
+					_actions.Remove(curAction);
+				}
 			}
-			*/
-
-			_actions.Clear();
+			
+				_actions.Clear();
 		}
 
 		public void AddBeing(string _fullPath)
@@ -58,7 +63,7 @@ namespace WarSpot.MatchComputer
 			System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
 			object[] defaultConstructorParameters = new object[0];
 			
-			IBeingInterface iAI;
+			IBeingInterface iAI = null;
 			
 			foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
 			{
@@ -70,8 +75,8 @@ namespace WarSpot.MatchComputer
 				}
 			}
 			
-			//newBeing = new Being(iAI);
-			//_objects.Add(newMob);
+			var newBeing = new Being(iAI);//Возможно, стоит перестраховаться, и написать проверку на не null.
+			_objects.Add(newBeing);
         }
     }		
 }

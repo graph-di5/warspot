@@ -12,5 +12,10 @@ namespace WarSpot.Contracts.Intellect.Actions
 		{
 			return 0f;
 		}
+
+		public override void Execute()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
