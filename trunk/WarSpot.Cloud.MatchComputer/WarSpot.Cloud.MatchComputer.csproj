@@ -100,6 +100,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Cloud.Common\WarSpot.Cloud.Common.csproj">
+      <Project>{0D16B483-7926-430D-A330-46CF90F2CF5A}</Project>
+      <Name>WarSpot.Cloud.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
