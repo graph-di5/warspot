@@ -34,14 +34,14 @@ namespace WarSpot.Cloud.UserService
                 return new ErrorCode(ErrorType.WrongLoginOrPassword);
 		}
 
-		public ErrorCode UploadIntellect(string username, string dllpath)
+		public ErrorCode UploadIntellect(byte[] data)
 		{
 			// Проверка и что-то типа return isCorrect(intellect) ? new ErrorCode(ErrorType.ok) :
 			// new ErrorCode(ErrorType.ForbiddenUsages)
 
             if (loggedIn)
             {
-                DataBase.UploadDLL(username, dllpath);
+                DataBase.UploadDLL(data);
                 return new ErrorCode(ErrorType.Ok);
             }
             else
