@@ -14,21 +14,15 @@ namespace WarSpot.Cloud.Storage.Account
         public AccountEntry(string _name, string _pass)
         {             
             PartitionKey = DateTime.UtcNow.ToString("MMddyyyy");
-            // Row key allows sorting, so we make sure the rows come back in time order
             RowKey = string.Format("{0:10}_{1}", DateTime.MaxValue.Ticks - DateTime.Now.Ticks, Guid.NewGuid());
+            this.User_ID = Guid.NewGuid(); // или лучше будет: = new Guid(username); ?
             this.Name = _name;
             this.Pass = _pass;
         }
 
-        public void UpdateDLL(string _DLL)
-        {
-            this.DLL = _DLL;           
-        }
-
-
         public string Name {get; set;}
         public string Pass { get; set; }
-        public string DLL { get; set; }
+        public Guid User_ID { get; set; }
 
 
     }
