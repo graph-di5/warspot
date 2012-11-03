@@ -40,6 +40,7 @@ namespace WarSpot.MatchComputer
 			foreach (var curObject in _objects)
 			{
 				// todo send NOT NULL world info
+				
 				_actions.Add(curObject.Think(_step, curObject.Characteristics, null));
 			}
 
@@ -52,8 +53,17 @@ namespace WarSpot.MatchComputer
 					_actions.Remove(curAction);
 				}
 			}
-			
-				_actions.Clear();
+
+			foreach (var curObject in _objects)//проверяем мёртвых
+			{
+				if (curObject.Characteristics.Health <= 0)
+				{
+					var _die = new GameActionDie(curObject.Characteristics.Id);//Пишем от его имени действие смерти.
+					_die.Execute();//Выполняем его (выброс энергии из трупа, к примеру)
+					_didedActions.Add(_die);
+					_objects.Remove(curObject);
+				}
+			}			
 		}
 
 		public void AddBeing(string _fullPath)
