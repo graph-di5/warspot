@@ -2,6 +2,8 @@
 using WarSpot.Contracts.Intellect.Actions;
 using System.Reflection;
 using WarSpot.Contracts.Intellect;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace WarSpot.MatchComputer
 {
@@ -18,18 +20,25 @@ namespace WarSpot.MatchComputer
 		private List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нуном порядке.
 		private List<GameAction> _didedActions; //для истории действий
 		private ulong _step;
+		private Stream _stream;
+		private BinaryFormatter _formatter;
 
-		/// <summary>
-		/// Номера команд ОБЯЗАНЫ быть упорядоченны и начинаться с нуля [0,1,2,...]
-		/// </summary>
-		public ComputerMatcher(List<TeamIntellectList> _listIntellect)
+		public ComputerMatcher ()
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
 			_didedActions = new List<GameAction>();
 			_step = 0;
 			_teamsMembersCounter = new List<int>();
-
+			//_stream = new Stream() //создание какого то потока для сериализации ивентов
+			_formatter = new BinaryFormatter();
+		}
+		
+		/// <summary>
+		/// Номера команд ОБЯЗАНЫ быть упорядоченны и начинаться с нуля [0,1,2,...]
+		/// </summary>
+		public ComputerMatcher(List<TeamIntellectList> _listIntellect)
+		{
 			foreach(TeamIntellectList Team in _listIntellect)
 			{
 				_teamsMembersCounter.Add(0);//Добавляем новую команду
@@ -76,6 +85,8 @@ namespace WarSpot.MatchComputer
 
 			for (GameAction curAction = _actions[0]; curAction != null; curAction = _actions[0])
 			{
+				_formatter.Serialize(_stream, curAction); //Сериализация ивента
+
 				if (curAction.Cost() <= _objects.Find(a => a.Characteristics.Id == curAction.SenderId).Characteristics.Ci)
 				{
 					curAction.Execute();
