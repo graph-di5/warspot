@@ -18,7 +18,7 @@ namespace WarSpot.MatchComputer
 		private List<int> _teamsMembersCounter; 
 		private List<Being> _objects;
 		private List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нуном порядке.
-		private List<GameAction> _didedActions; //для истории действий
+		private List<GameAction> _doneActions; //для истории действий
 		private ulong _step;
 		private Stream _stream;
 		private BinaryFormatter _formatter;
@@ -27,7 +27,7 @@ namespace WarSpot.MatchComputer
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
-			_didedActions = new List<GameAction>();
+			_doneActions = new List<GameAction>();
 			_step = 0;
 			_teamsMembersCounter = new List<int>();
 			//_stream = new Stream() //создание какого то потока для сериализации ивентов
@@ -73,7 +73,7 @@ namespace WarSpot.MatchComputer
 		public void Update()
 		{
 			_actions.Clear();
-			_didedActions.Clear();
+			_doneActions.Clear();
 			_step++;
 			//Obtaining new actions from beings
 			foreach (var curObject in _objects)
@@ -90,7 +90,7 @@ namespace WarSpot.MatchComputer
 				if (curAction.Cost() <= _objects.Find(a => a.Characteristics.Id == curAction.SenderId).Characteristics.Ci)
 				{
 					curAction.Execute();
-					_didedActions.Add(curAction);
+					_doneActions.Add(curAction);
 					_actions.Remove(curAction);
 				}
 			}
@@ -101,7 +101,7 @@ namespace WarSpot.MatchComputer
 				{
 					var _die = new GameActionDie(curObject.Characteristics.Id);//Пишем от его имени действие смерти.
 					_die.Execute();//Выполняем его (выброс энергии из трупа, к примеру)
-					_didedActions.Add(_die);
+					_doneActions.Add(_die);
 					_objects.Remove(curObject);
 				}
 			}			
