@@ -51,25 +51,6 @@ namespace WarSpot.MatchComputer
 			}
 		}
 
-		//public ComputerMatcher(List<string> _listDll)
-		//{
-		//    _objects = new List<Being>();
-		//    _actions = new List<GameAction>();
-		//    _didedActions = new List<GameAction>();
-		//    _step = 0;
-
-		//    foreach (string _newDll in _listDll)
-		//        AddBeing(_newDll);
-		//}
-
-		//public ComputerMatcher()
-		//{
-		//    _objects = new List<Being>();
-		//    _actions = new List<GameAction>();
-		//    _didedActions = new List<GameAction>();
-		//    _step = 0;
-		//}
-
 		public void Update()
 		{
 			_actions.Clear();
@@ -95,17 +76,28 @@ namespace WarSpot.MatchComputer
 				}
 			}
 
+			var _objectsToDelete = new List<Being>();//Список объектов на удаление
+
 			foreach (var curObject in _objects)//проверяем мёртвых
 			{
 				if (curObject.Characteristics.Health <= 0)
 				{
 					var _die = new GameActionDie(curObject.Characteristics.Id);//Пишем от его имени действие смерти.
 					_die.Execute();//Выполняем его (выброс энергии из трупа, к примеру)
-					_doneActions.Add(_die);
-					_objects.Remove(curObject);
+					_doneActions.Add(_die);//генерируем в историю событие смерти. ToDo: решить, здесь его генерировать, или же внутри execute
+					_objectsToDelete.Add(curObject);//Вносим умерших в список на удаление
 				}
-			}			
+			}
+
+			for (int i = 0; i < _objectsToDelete.Count; i++ )
+			{
+				_objects.Remove(_objectsToDelete[i]);//удаляем все умершие объекты из главного списка
+			}
+
+			_objectsToDelete.Clear();
 		}
+
+		//Это должно быть перенесено в хэндлер:
 
 		//public void AddBeing(string _fullPath)
 		//{//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
