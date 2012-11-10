@@ -6,7 +6,7 @@ using System.IO;
 using System.Net;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
-
+using System.Data.Entity;
 
 namespace WarSpot.Cloud.Storage
 {
@@ -68,7 +68,9 @@ namespace WarSpot.Cloud.Storage
         {
 
             string uniqueBlobName = string.Format("{0}/{1}", Account_ID.ToString(), name);
+            
             CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
+            
             blob.UploadByteArray(data);
 
         }

@@ -3,6 +3,7 @@ using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
 using System.Data;
 using System.Collections;
+using System.Linq;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -30,7 +31,7 @@ namespace WarSpot.Cloud.UserService
                         where b.Account_Name == username
                         select b).ToList<Account>();
 
-            if (test)
+            if (test != null)
                 return new ErrorCode(ErrorType.WrongLoginOrPassword, "Existed account with same name.");
             else
             {                
@@ -43,17 +44,16 @@ namespace WarSpot.Cloud.UserService
         {
             var test = (from b in db.Account
                         where b.Account_Name == username
-                        select b).FirstOrDefault<Account>();
+                        select b).FirstOrDefault();
 
-            var res = test.Where(b => b.Account_Password == pass);
-
-            if (res)
+            if (test.Account_Password == pass)
             {           
 
                 loggedIn = true;
                 user_ID = (from b in db.Account
                            where b.Account_Name == username
-                           select b).Account_ID;
+                           select b).First().Account_ID;
+
 
                 return new ErrorCode(ErrorType.Ok, "Logged in successfully.");
             }
@@ -90,7 +90,7 @@ namespace WarSpot.Cloud.UserService
 
             var test = (from b in db.Intellect
                         where b.AccountAccount_ID == user_ID
-                        select b).ToList<Intellect>;
+                        select b).ToList<Intellect>();
 
             foreach (Intellect i in test)
             {
@@ -111,10 +111,11 @@ namespace WarSpot.Cloud.UserService
 
             var test = (from b in db.Intellect
                         where b.AccountAccount_ID == user_ID
-                        select b).ToList<Intellect>;
+                        select b).ToList<Intellect>();
+
             var result = test.Where(b => b.Intellect_Name == name);
 
-            if (result)
+            if (result != null)
             {
                // db.DeleteFromIntellect(result);
                 return new ErrorCode(ErrorType.Ok, "Inttellect has been deleted.");
