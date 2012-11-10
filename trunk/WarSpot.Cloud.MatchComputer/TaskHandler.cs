@@ -1,12 +1,14 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using Microsoft.WindowsAzure.StorageClient;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using System.Reflection;
 using WarSpot.Contracts.Intellect;
 using WarSpot.MatchComputer;
-namespace WarSpot.Cloud.MatchComputer
 
+namespace WarSpot.Cloud.MatchComputer
 {
 	internal class TaskHandler
 	{
