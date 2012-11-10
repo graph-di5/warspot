@@ -20,6 +20,7 @@ namespace WarSpot.Cloud.UserService
         public WarSpotMainUserService()
         {
             db = new DBContext();
+            blob = new Storage.Storage();
             loggedIn = false;
         }
 
