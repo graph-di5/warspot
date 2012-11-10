@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.WindowsAzure.StorageClient;
 using Microsoft.WindowsAzure;
 
@@ -10,17 +6,18 @@ namespace WarSpot.Cloud.MatchComputer
 {
 	internal class TaskHandler
 	{
-		AutoResetEvent are = new AutoResetEvent(false);
-		Thread thread = new Thread(new ThreadStart(ThreadFunctions));
+		readonly AutoResetEvent _are = new AutoResetEvent(false);
+		Thread _thread;
 
 		public void Start()
 		{
-			thread.Start();
+			_thread = new Thread(new ThreadStart(ThreadFunctions));
+			_thread.Start();
 		}
 
 		public void Stop(Thread thread)
 		{
-			are.Set();
+			_are.Set();
 			thread.Join();
 		}
 
@@ -42,9 +39,9 @@ namespace WarSpot.Cloud.MatchComputer
 			while (true)
 			{
 				CloudQueueMessage msg = queue.GetMessage();
-				are.WaitOne(0);
+				_are.WaitOne(0);
 
-				if (are.WaitOne(1))
+				if (_are.WaitOne(1))
 				{
 					break;
 					//return;
@@ -58,7 +55,7 @@ namespace WarSpot.Cloud.MatchComputer
 
 				if (msg == null)
 				{
-					if(are.WaitOne(timeout))
+					if(_are.WaitOne(timeout))
 					{
 						break;
 					}
