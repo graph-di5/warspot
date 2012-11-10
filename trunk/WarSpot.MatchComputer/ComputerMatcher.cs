@@ -96,7 +96,7 @@ namespace WarSpot.MatchComputer
 
 			_objectsToDelete.Clear();
 
-			if(_objects.GroupBy(a => a.Characteristics.Team).Count() <= 2)
+			if (_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Count() == 1)
 			{
 				int winer = _objects.Find(a => a.Characteristics.Team != 0).Characteristics.Team;
 				//Генерируем здесь сообщение о победе, пишем это как-то в историю, если надо.
