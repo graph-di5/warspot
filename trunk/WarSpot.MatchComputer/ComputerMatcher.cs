@@ -36,14 +36,16 @@ namespace WarSpot.MatchComputer
 		/// <summary>
 		///Загрузка всех объектов списками команд
 		/// </summary>
-		public ComputerMatcher(List<TeamIntellectList> _listIntellect)
+		public ComputerMatcher(List<TeamIntellectList> _listIntellect, StreamWriter _stream)
 		{
 			foreach(TeamIntellectList Team in _listIntellect)
 			{
 				
 				foreach (IBeingInterface _newIntellect in Team.Members)
 				{
-					var newBeing = new Being(_newIntellect, Team.Number);
+					var newBeing = new Being(_newIntellect);
+					// todo придумать 
+					newBeing.Construct(Team.Number, 0, 10000, null);
 					_objects.Add(newBeing);
 				}
 
