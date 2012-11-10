@@ -4,6 +4,7 @@ using System.Reflection;
 using WarSpot.Contracts.Intellect;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 
 namespace WarSpot.MatchComputer
 {
@@ -94,6 +95,13 @@ namespace WarSpot.MatchComputer
 			}
 
 			_objectsToDelete.Clear();
+
+			if(_objects.GroupBy(a => a.Characteristics.Team).Count() <= 2)
+			{
+				int winer = _objects.Find(a => a.Characteristics.Team != 0).Characteristics.Team;
+				//Генерируем здесь сообщение о победе, пишем это как-то в историю, если надо.
+				//Закрываем молотилку.
+			}
 		}
 
 		//Это должно быть перенесено в хэндлер:
