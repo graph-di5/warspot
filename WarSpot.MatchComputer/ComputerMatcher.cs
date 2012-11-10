@@ -98,28 +98,29 @@ namespace WarSpot.MatchComputer
 		}
 
 		//Это должно быть перенесено в хэндлер:
-
-		//public void AddBeing(string _fullPath)
-		//{//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
-		//    Assembly assembly = Assembly.LoadFrom(_fullPath);//вытаскиваем библиотеку
-		//    string iMyInterfaceName = typeof(IBeingInterface).ToString();
-		//    System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
-		//    object[] defaultConstructorParameters = new object[0];
+		/*
+		public void AddBeing(string _fullPath)
+		{//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
+		    Assembly assembly = Assembly.LoadFrom(_fullPath);//вытаскиваем библиотеку
+		    string iMyInterfaceName = typeof(IBeingInterface).ToString();
+		    System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
+		    object[] defaultConstructorParameters = new object[0];
 			
-		//    IBeingInterface iAI = null;
+		    IBeingInterface iAI = null;
 			
-		//    foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
-		//    {
-		//        if (type.GetInterface(iMyInterfaceName) != null)
-		//        {
-		//            ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
-		//            object instance = defaultConstructor.Invoke(defaultConstructorParameters);
-		//            iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
-		//        }
-		//    }
+		    foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
+		    {
+		        if (type.GetInterface(iMyInterfaceName) != null)
+		        {
+		            ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
+		            object instance = defaultConstructor.Invoke(defaultConstructorParameters);
+		            iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
+		        }
+		    }
 			
-		//    var newBeing = new Being(iAI);//Возможно, стоит перестраховаться, и написать проверку на не null.
-		//    _objects.Add(newBeing);
-		//}
+		    var newBeing = new Being(iAI);//Возможно, стоит перестраховаться, и написать проверку на не null.
+		    _objects.Add(newBeing);
+		}
+		 */
     }		
 }
