@@ -17,6 +17,13 @@ namespace WarSpot.Cloud.Storage
 
         private static CloudBlobClient blobStorage;
 
+        private static CloudBlobContainer container;
+
+        public Storage()
+        {
+            this.InitializeStorage();
+        }
+
         private void InitializeStorage()
         {
             if (storageInitialized)
@@ -38,7 +45,7 @@ namespace WarSpot.Cloud.Storage
 
                     // create blob container for images
                     blobStorage = storageAccount.CreateCloudBlobClient();
-                    CloudBlobContainer container = blobStorage.GetContainerReference("intellects");
+                    container = blobStorage.GetContainerReference("intellects");
                     container.CreateIfNotExist();
 
                     // configure container for public access
@@ -59,10 +66,9 @@ namespace WarSpot.Cloud.Storage
 
         public void Upload(Guid Account_ID, string name, byte[] data)
         {
-            this.InitializeStorage();
 
-            string uniqueBlobName = string.Format("intellects/{0}/{1}", Account_ID.ToString(), name);
-            CloudBlockBlob blob = blobStorage.GetBlockBlobReference(uniqueBlobName);
+            string uniqueBlobName = string.Format("{0}/{1}", Account_ID.ToString(), name);
+            CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
             blob.UploadByteArray(data);
 
         }
