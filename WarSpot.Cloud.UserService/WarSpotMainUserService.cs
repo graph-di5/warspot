@@ -2,6 +2,7 @@
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
 using System.Data;
+using System.Collections;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -11,6 +12,7 @@ namespace WarSpot.Cloud.UserService
 
         public bool loggedIn;
 
+        
         public System.Guid user_ID;
 
         public Storage.Storage blob;
@@ -18,43 +20,45 @@ namespace WarSpot.Cloud.UserService
         public WarSpotMainUserService()
         {
             db = new DBContext();
-            loggedIn = false;            
+            loggedIn = false;
         }
 
         public ErrorCode Register(string username, string pass)
         {
             var test = (from b in db.Account
-                        where b.Account_Name = username
+                        where b.Account_Name == username
                         select b).ToList<Account>();
-            if (test != null)
-                return new ErrorCode(ErrorType.WrongLoginOrPassword);
+
+            if (test)
+                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Existed account with same name.");
             else
-            {
+            {                
                 db.AddToAccount(Account.CreateAccount(new System.Guid(), username, pass));
-                return new ErrorCode(ErrorType.Ok);
+                return new ErrorCode(ErrorType.Ok, "New account has been successfully created.");
             }
         }
 
         public ErrorCode Login(string username, string pass)
         {
             var test = (from b in db.Account
-                        where b.Account_Name = username
-                        select b).ToList<Account>();
+                        where b.Account_Name == username
+                        select b).FirstOrDefault<Account>();
 
-            var res = test.Where(b => b.Account_Password == pass).FirstOrDefault<Account>();
+            var res = test.Where(b => b.Account_Password == pass);
 
-            if (res == null)
-            {
-                return new ErrorCode(ErrorType.WrongLoginOrPassword);
+            if (res)
+            {           
+
+                loggedIn = true;
+                user_ID = (from b in db.Account
+                           where b.Account_Name == username
+                           select b).Account_ID;
+
+                return new ErrorCode(ErrorType.Ok, "Logged in successfully.");
             }
             else
             {
-                loggedIn = true;
-                user_ID = (from b in db.Account
-                           where b.Account_Name = username
-                           select b).Account_ID;
-
-                return new ErrorCode(ErrorType.Ok);
+                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Wrong username or password.");
             }
 
         }
@@ -64,10 +68,10 @@ namespace WarSpot.Cloud.UserService
             if (loggedIn)
             {
                 blob.Upload(user_ID, name, intellect);
-                return new ErrorCode(ErrorType.Ok);
+                return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
             }
             else
-                return new ErrorCode(ErrorType.WrongLoginOrPassword);
+                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
         }
 
         
@@ -76,39 +80,47 @@ namespace WarSpot.Cloud.UserService
             // TODO: получать список всех интеллектов пользователя и возвращать их массивом
 
             // Заглушка
-            string[] result = new string[20];
-            int i = 0;
-
-            var test = (from b in db.Intellect
-                        where b.AccountAccount_ID = user_ID
-                        select b).ToList<Intellect>;
-
-            foreach (Intellect j in test)
+            if (!loggedIn)
             {
-                result[i] = j.Intellect_Name;
-                i++;
+                return (new string[1] {"Not logged in yet."});
             }
 
-            return result;
+            ArrayList result = new ArrayList();
+
+            var test = (from b in db.Intellect
+                        where b.AccountAccount_ID == user_ID
+                        select b).ToList<Intellect>;
+
+            foreach (Intellect i in test)
+            {
+                result.Add(i.Intellect_Name);
+            }
+
+            return (string[]) result.ToArray();
         }
 
         public ErrorCode DeleteIntellect(string name)
         {
             // TODO: корректная работа с удалением
 
+            if (!loggedIn)
+            {
+                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+            }
+
             var test = (from b in db.Intellect
-                        where b.AccountAccount_ID = user_ID
+                        where b.AccountAccount_ID == user_ID
                         select b).ToList<Intellect>;
             var result = test.Where(b => b.Intellect_Name == name);
 
             if (result)
             {
                // db.DeleteFromIntellect(result);
-                return new ErrorCode(ErrorType.Ok);
+                return new ErrorCode(ErrorType.Ok, "Inttellect has been deleted.");
             }
             else
             {
-                return new ErrorCode(ErrorType.BadFileType);
+                return new ErrorCode(ErrorType.BadFileType, "No intellect with that name.");
             }
 
         }
