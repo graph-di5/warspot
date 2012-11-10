@@ -37,16 +37,6 @@ namespace WarSpot.MatchComputer
 			}
 		}
 
-		public ComputerMatcher ()
-		{
-			_objects = new List<Being>();
-			_actions = new List<GameAction>();
-			_doneActions = new List<GameAction>();
-			_step = 0;
-			//_stream = new Stream() //создание какого то потока для сериализации ивентов
-			_formatter = new BinaryFormatter();
-		}
-		
 		/// <summary>
 		///Загрузка всех объектов списками команд
 		/// </summary>
