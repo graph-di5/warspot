@@ -37,6 +37,7 @@ namespace WarSpot.Cloud.MatchComputer
 			return queue;
 		}
 
+		// заглушка выдирания интеллекта
 		public byte[] GetIntellect(string name)
 		{
 			// Setup the connection to Windows Azure Storage
@@ -57,7 +58,7 @@ namespace WarSpot.Cloud.MatchComputer
 
 		public void AddBeing(byte[] dll)
 		{
-			List<Being> _objects;
+			List<IBeingInterface> _objects = new List<IBeingInterface>();
 			Assembly assembly = Assembly.Load(dll);
 			string iMyInterfaceName = typeof(IBeingInterface).ToString();
 			System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
@@ -72,12 +73,12 @@ namespace WarSpot.Cloud.MatchComputer
 					ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
 					object instance = defaultConstructor.Invoke(defaultConstructorParameters);
 					iAI = (IBeingInterface)instance;//Достаём таки нужный интерфейс
+					//
+					_objects.Add(iAI);
 				}
 			}
 
-			var newBeing = new Being(iAI);//Возможно, стоит перестраховаться, и написать проверку на не null.
-			_objects.Add(new Being(iAI));
-
+			#region
 			//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
 		    //Assembly assembly = Assembly.LoadFrom(_fullPath);//вытаскиваем библиотеку
 		    /*string iMyInterfaceName = typeof(IBeingInterface).ToString();
@@ -97,7 +98,13 @@ namespace WarSpot.Cloud.MatchComputer
 		    }
 			*/
 		    //var newBeing = new Being(iAI);//Возможно, стоит перестраховаться, и написать проверку на не null.
-		    //_objects.Add(newBeing);
+			//_objects.Add(newBeing);
+			#endregion
+		}
+
+		public void SerializeData()
+		{
+			
 		}
 
 		public void ThreadFunctions()
