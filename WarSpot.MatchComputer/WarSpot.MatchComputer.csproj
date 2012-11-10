@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Being.cs" />
     <Compile Include="ComputerMatcher.cs" />
+    <Compile Include="WarSpotEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="World.cs" />
     <Compile Include="WorldCell.cs" />
