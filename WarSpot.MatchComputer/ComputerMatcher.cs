@@ -15,7 +15,6 @@ namespace WarSpot.MatchComputer
 
 	public class ComputerMatcher
 	{
-		private List<int> _teamsMembersCounter; 
 		private List<Being> _objects;
 		private List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нуном порядке.
 		private List<GameAction> _doneActions; //для истории действий
@@ -29,25 +28,25 @@ namespace WarSpot.MatchComputer
 			_actions = new List<GameAction>();
 			_doneActions = new List<GameAction>();
 			_step = 0;
-			_teamsMembersCounter = new List<int>();
 			//_stream = new Stream() //создание какого то потока для сериализации ивентов
 			_formatter = new BinaryFormatter();
 		}
 		
 		/// <summary>
-		/// Номера команд ОБЯЗАНЫ быть упорядоченны и начинаться с нуля [0,1,2,...]
+		///Загрузка всех объектов списками команд
 		/// </summary>
 		public ComputerMatcher(List<TeamIntellectList> _listIntellect)
 		{
 			foreach(TeamIntellectList Team in _listIntellect)
 			{
-				_teamsMembersCounter.Add(0);//Добавляем новую команду
+				
 				foreach (IBeingInterface _newIntellect in Team.Members)
 				{
-					var newBeing = new Being(_newIntellect);
-					_teamsMembersCounter[Team.Number]++;
+					var newBeing = new Being(_newIntellect, Team.Number);
 					_objects.Add(newBeing);
 				}
+
+
 			}
 		}
 
