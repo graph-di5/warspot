@@ -57,7 +57,12 @@
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>False</Private>
     </Reference>
+<<<<<<< .mine
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+=======
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+>>>>>>> .r187
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -102,6 +107,14 @@
     <ProjectReference Include="..\WarSpot.Cloud.Common\WarSpot.Cloud.Common.csproj">
       <Project>{0D16B483-7926-430D-A330-46CF90F2CF5A}</Project>
       <Name>WarSpot.Cloud.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj">
+      <Project>{218A447E-8808-4987-B665-A8B1FB107022}</Project>
+      <Name>WarSpot.Contracts.Intellect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WarSpot.MatchComputer\WarSpot.MatchComputer.csproj">
+      <Project>{8B236A28-C004-4207-8F6E-2DE18D4739D5}</Project>
+      <Name>WarSpot.MatchComputer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
