@@ -4,7 +4,8 @@
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
-    <LocalResources></LocalResources>
+    <LocalResources>
+    </LocalResources>
     <ConfigurationSettings>
       <Setting name="DataConnectionString" />
     </ConfigurationSettings>
