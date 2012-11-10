@@ -100,7 +100,7 @@ namespace WarSpot.Cloud.MatchComputer
 		    //_objects.Add(newBeing);
 		}
 
-		public static void ThreadFunctions()
+		public void ThreadFunctions()
 		{
 			CloudQueue queue = CreateQueue();
 			int timeout = 1000;
