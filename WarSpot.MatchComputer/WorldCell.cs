@@ -16,6 +16,7 @@ namespace WarSpot.MatchComputer
 		public IBeingInterface Being
 		{
 			get { return BeingValue.Me; }
+			set { Being = value; }
 		}
 	}
 }

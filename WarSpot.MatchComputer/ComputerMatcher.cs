@@ -5,6 +5,7 @@ using WarSpot.Contracts.Intellect;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
+using System;
 
 namespace WarSpot.MatchComputer
 {
@@ -22,6 +23,19 @@ namespace WarSpot.MatchComputer
 		private ulong _step;
 		private Stream _stream;
 		private BinaryFormatter _formatter;
+		private World _world;
+
+		private void RandomShuffle<T> (List<T> list)
+		{
+			Random rand = new Random();
+			for (int i = 0; i < list.Count; i++)
+			{
+				int next = rand.Next(list.Count - i - 1) + i;
+				T tmp = list[i];
+				list[i] = list[next];
+				list[next] = tmp;
+			}
+		}
 
 		public ComputerMatcher ()
 		{
@@ -38,18 +52,58 @@ namespace WarSpot.MatchComputer
 		/// </summary>
 		public ComputerMatcher(List<TeamIntellectList> _listIntellect, StreamWriter _stream)
 		{
-			foreach(TeamIntellectList Team in _listIntellect)
+			_objects = new List<Being>();
+			_actions = new List<GameAction>();
+			_doneActions = new List<GameAction>();
+			_step = 0;
+			//_stream = new Stream() //создание какого то потока для сериализации ивентов
+			_formatter = new BinaryFormatter();
+			_world = new World();
+
+			int c = 5; //Константа площади начального расположения, не знаю, куда ей запихнуть 
+			int min_dist = c * 2; // минимально возможное расстояние между стойбищами при генерации
+
+			List <Tuple <int, int>> center = new List<Tuple<int, int>>();
+			for (int i = 0; i < _world.Width; i++)
+				for (int j = 0; j < _world.Height; j++)
+					center.Add(new Tuple<int, int>(i, j));
+			RandomShuffle(center);
+
+			int curNum = 0;
+
+			foreach (TeamIntellectList Team in _listIntellect)
 			{
-				
-				foreach (IBeingInterface _newIntellect in Team.Members)
+				while (curNum < center.Count)
 				{
-					var newBeing = new Being(_newIntellect);
-					// todo придумать 
-					newBeing.Construct(Team.Number, 0, 10000, null);
-					_objects.Add(newBeing);
+					for (int i = 0; i < curNum; i++)
+						if (Math.Abs(center[i].Item1 - center[curNum].Item1) + Math.Abs(center[i].Item2 - center[curNum].Item2) < min_dist)
+							continue;
+					break;
 				}
 
+				if (curNum == center.Count)
+				{
+					throw new Exception();
+				}
 
+				int center_x = center[curNum].Item1, center_y = center[curNum].Item2;
+				List <Tuple <int, int>> pos = new List<Tuple<int, int>>();
+				for (int i = -c / 2; i <= c / 2; i++)
+					for (int j = -c / 2; j < c / 2; j++)
+						pos.Add(new Tuple<int, int>(i + center_x, j + center_y));
+				RandomShuffle(pos);
+
+				//foreach (IBeingInterface _newIntellect in Team.Members)
+				for (int i = 0; i < Team.Members.Count; i++)
+				{
+					var newBeing = new Being(Team.Members[i]);
+					newBeing.Characteristics.Coordinates = new XNA.Framework.Vector2(pos[i].Item1, pos[i].Item2);
+					_world.Map[pos[i].Item1, pos[i].Item2].Being = newBeing;
+					// todo придумать 
+					newBeing.Construct(Team.Number, 0, 10000, null);
+					
+					_objects.Add(newBeing);
+				}
 			}
 		}
 

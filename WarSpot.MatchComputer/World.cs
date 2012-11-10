@@ -6,17 +6,36 @@ namespace WarSpot.MatchComputer
 	class World
 	{
 		private WorldCell[,] _content;
-
+		public WorldCell[,] Map
+		{
+			get
+			{
+				return _content;
+			}
+		}
 		/// <summary>
 		/// Width
 		/// </summary>
 		private readonly int _w;
+		public int Width
+		{
+			get
+			{
+				return _w;
+			}
+		}
 
 		/// <summary>
 		/// Height
 		/// </summary>
 		private readonly int _h;
-
+		public int Height
+		{
+			get
+			{
+				return _h;
+			}
+		}
 		/// <summary>
 		/// ctor
 		/// </summary>
