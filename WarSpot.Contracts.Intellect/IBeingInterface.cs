@@ -12,6 +12,7 @@ namespace WarSpot.Contracts.Intellect
 		/// <summary>
 		/// First function called for every being object. 
 		/// </summary>
+		/// <param name="team"> </param>
 		/// <param name="step">Current time step</param>
 		/// <param name="ci">Ci available for creating of this object.</param>
 		/// <param name="area">Array of IWorldCell around the being describes visible part of the world. Array is (MaxSeeDistance*2+1)^2, with the being in central cell</param>
