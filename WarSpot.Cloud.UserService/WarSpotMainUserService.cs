@@ -79,7 +79,7 @@ namespace WarSpot.Cloud.UserService
                 return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
             }
 
-            if (storage.DeleteIntellect(name, user_ID)
+            if (storage.DeleteIntellect(name, user_ID))
             {
                 return new ErrorCode(ErrorType.Ok, "Intellect has been deleted.");
             }

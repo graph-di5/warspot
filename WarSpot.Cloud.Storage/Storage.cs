@@ -100,7 +100,7 @@ namespace WarSpot.Cloud.Storage
                 return false; 
             else
             {
-                db.AddToAccount(Account.CreateAccount(new System.Guid(), username, pass));
+                db.AddToAccount(Account.CreateAccount(new System.Guid(), username, password));
                 db.SaveChanges();
                 return true;
             }
