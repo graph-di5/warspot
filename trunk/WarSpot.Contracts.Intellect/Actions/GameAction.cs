@@ -2,15 +2,23 @@
 
 namespace WarSpot.Contracts.Intellect.Actions
 {
+	public enum ActionTypes { GameActionAtack, GameActionEat, GameActionDie,
+		GameActionGiveCi, GameActionMove, GameActionTreat};
 	/// <summary>
 	/// Parent class for all actitions
 	/// </summary>
 	public abstract class GameAction
 	{
 		/// <summary>
-		/// Id of the action.
+		/// Id of the unique action.
 		/// </summary>
 		public Guid Id { private set; get; }
+
+		/// <summary>
+		/// Type of the action.
+		/// </summary>
+		public Guid ActionType { private set; get; }
+
 		/// <summary>
 		/// Id of the being that created the action.
 		/// </summary>
