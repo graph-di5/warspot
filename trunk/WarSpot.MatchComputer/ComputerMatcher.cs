@@ -36,11 +36,20 @@ namespace WarSpot.MatchComputer
 				list[next] = tmp;
 			}
 		}
+		
+		private IWorldCell [,] ProcessWorld (int cx, int cy, int radius)
+		{
+			IWorldCell [,] res = new IWorldCell[radius * 2 + 1, radius * 2 + 1];
+			for (int dx = -radius, i = 0; dx <= radius; dx++, i++)
+				for (int dy = -radius, j = 0; dy <= radius; dy++, j++)
+					res[i, j] = _world.Map[(cx + dx) % _world.Height, (cy + dy) % _world.Width];
+			return res;
+		}
 
 		/// <summary>
 		///Загрузка всех объектов списками команд
 		/// </summary>
-		public ComputerMatcher(List<TeamIntellectList> _listIntellect, StreamWriter _stream)
+		public ComputerMatcher (List<TeamIntellectList> _listIntellect, StreamWriter _stream)
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
@@ -50,7 +59,7 @@ namespace WarSpot.MatchComputer
 			_formatter = new BinaryFormatter();
 			_world = new World();
 
-			int c = 5; //Константа площади начального расположения, не знаю, куда ей запихнуть 
+			int c = 5; //Константа площади начального расположения, не знаю, куда её запихнуть 
 			int min_dist = c * 2; // минимально возможное расстояние между стойбищами при генерации
 
 			List <Tuple <int, int>> center = new List<Tuple<int, int>>();
@@ -68,6 +77,7 @@ namespace WarSpot.MatchComputer
 					for (int i = 0; i < curNum; i++)
 						if (Math.Abs(center[i].Item1 - center[curNum].Item1) + Math.Abs(center[i].Item2 - center[curNum].Item2) < min_dist)
 							continue;
+					curNum++;
 					break;
 				}
 
@@ -90,10 +100,12 @@ namespace WarSpot.MatchComputer
 					newBeing.Characteristics.Coordinates = new XNA.Framework.Vector2(pos[i].Item1, pos[i].Item2);
 					_world.Map[pos[i].Item1, pos[i].Item2].Being = newBeing;
 					// todo придумать 
-					newBeing.Construct(Team.Number, 0, 10000, null);
+					newBeing.Construct(Team.Number, 0, 10000, ProcessWorld(pos[i].Item1, pos[i].Item2, newBeing.Characteristics.MaxSeeDistance));
 					
 					_objects.Add(newBeing);
 				}
+
+				curNum++;
 			}
 		}
 
@@ -106,8 +118,11 @@ namespace WarSpot.MatchComputer
 			foreach (var curObject in _objects)
 			{
 				// todo send NOT NULL world info
-				
-				_actions.Add(curObject.Think(_step, curObject.Characteristics, null));
+				int xPos = (int) curObject.Characteristics.Coordinates.X; //
+				int yPos = (int) curObject.Characteristics.Coordinates.Y; //как то криво типы приводить, надо получать кооринаты подругому 
+				int seeDistance = curObject.Characteristics.MaxSeeDistance;
+
+				_actions.Add(curObject.Think(_step, curObject.Characteristics, ProcessWorld(xPos, yPos, seeDistance)));
 			}
 
 			for (GameAction curAction = _actions[0]; curAction != null; curAction = _actions[0])
