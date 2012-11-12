@@ -6,6 +6,7 @@ namespace WarSpot.Contracts.Intellect.Actions
 	{
 		public GameActionEat(Guid senderId) : base(senderId)
 		{
+			ActionType = ActionTypes.GameActionEat;
 		}
 
 		public override float Cost()

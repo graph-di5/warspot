@@ -17,7 +17,7 @@ namespace WarSpot.Contracts.Intellect.Actions
 		/// <summary>
 		/// Type of the action.
 		/// </summary>
-		public Guid ActionType { private set; get; }
+		public WarSpot.Contracts.Intellect.Actions.ActionTypes ActionType {set; get; }
 
 		/// <summary>
 		/// Id of the being that created the action.
