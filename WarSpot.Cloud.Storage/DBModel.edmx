@@ -28,7 +28,6 @@
     <Property Name="Intellect_ID" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Intellect_Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="AccountAccount_ID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Intellect_BLOBAddress" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <Association Name="AccountIntellect">
     <End Role="Account" Type="DBModel.Store.Account" Multiplicity="1" />
@@ -71,7 +70,6 @@
           <Property Type="String" Name="Intellect_Name" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="DBModel.AccountIntellect" FromRole="Intellect" ToRole="Account" />
           <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
-          <Property Type="Guid" Name="Intellect_BLOBAddress" Nullable="false" />
         </EntityType>
         <Association Name="AccountIntellect">
           <End Type="DBModel.Account" Role="Account" Multiplicity="1" />
@@ -106,7 +104,6 @@
           <ScalarProperty Name="Intellect_ID" ColumnName="Intellect_ID" />
           <ScalarProperty Name="Intellect_Name" ColumnName="Intellect_Name" />
           <ScalarProperty Name="AccountAccount_ID" ColumnName="AccountAccount_ID" />
-          <ScalarProperty Name="Intellect_BLOBAddress" ColumnName="Intellect_BLOBAddress" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -132,7 +129,7 @@
     <edmx:Diagrams>
       <Diagram Name="DBModel" >
         <EntityTypeShape EntityType="DBModel.Account" Width="2.75" PointX="0.875" PointY="1.375" Height="1.787985026041667" />
-        <EntityTypeShape EntityType="DBModel.Intellect" Width="2.625" PointX="5.25" PointY="1.375" Height="1.9802864583333339" />
+        <EntityTypeShape EntityType="DBModel.Intellect" Width="2.625" PointX="5.25" PointY="1.375" Height="1.787985026041667" />
         <AssociationConnector Association="DBModel.AccountIntellect">
           <ConnectorPoint PointX="3.625" PointY="2.2689925130208337" />
           <ConnectorPoint PointX="5.25" PointY="2.2689925130208337" />

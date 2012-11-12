@@ -14,7 +14,7 @@ namespace WarSpot.Cloud.Storage
     public class Storage
     {
         #region BLOB SECTION VAR 
-        private const string CONNECTIONSTRING = "";
+        private const string CONNECTIONSTRING = "UseDevelopmentStorage=true";
 
         private static bool storageInitialized = false;
         private static object gate = new object();
@@ -78,11 +78,12 @@ namespace WarSpot.Cloud.Storage
 
         public void Upload(Guid Account_ID, string name, byte[] data)
         {
-
+            
             string uniqueBlobName = string.Format("{0}/{1}", Account_ID.ToString(), name);
-            
+            db.AddToIntellect(Intellect.CreateIntellect(new System.Guid(), name, Account_ID));
+            db.SaveChanges();            
             CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
-            
+           
             blob.UploadByteArray(data);
 
         }
@@ -143,6 +144,10 @@ namespace WarSpot.Cloud.Storage
 
             if (result != null)
             {
+                string neededname = string.Format("{0}/{1}", userID.ToString(), name);
+                CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
+                blob.Delete();                    
+
                 db.Intellect.DeleteObject(result);
                 db.SaveChanges();
                 return true;

@@ -282,14 +282,12 @@ namespace WarSpot.Cloud.Storage
         /// <param name="intellect_ID">Исходное значение свойства Intellect_ID.</param>
         /// <param name="intellect_Name">Исходное значение свойства Intellect_Name.</param>
         /// <param name="accountAccount_ID">Исходное значение свойства AccountAccount_ID.</param>
-        /// <param name="intellect_BLOBAddress">Исходное значение свойства Intellect_BLOBAddress.</param>
-        public static Intellect CreateIntellect(global::System.Guid intellect_ID, global::System.String intellect_Name, global::System.Guid accountAccount_ID, global::System.Guid intellect_BLOBAddress)
+        public static Intellect CreateIntellect(global::System.Guid intellect_ID, global::System.String intellect_Name, global::System.Guid accountAccount_ID)
         {
             Intellect intellect = new Intellect();
             intellect.Intellect_ID = intellect_ID;
             intellect.Intellect_Name = intellect_Name;
             intellect.AccountAccount_ID = accountAccount_ID;
-            intellect.Intellect_BLOBAddress = intellect_BLOBAddress;
             return intellect;
         }
 
@@ -371,30 +369,6 @@ namespace WarSpot.Cloud.Storage
         private global::System.Guid _AccountAccount_ID;
         partial void OnAccountAccount_IDChanging(global::System.Guid value);
         partial void OnAccountAccount_IDChanged();
-    
-        /// <summary>
-        /// Нет доступной документации по метаданным.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid Intellect_BLOBAddress
-        {
-            get
-            {
-                return _Intellect_BLOBAddress;
-            }
-            set
-            {
-                OnIntellect_BLOBAddressChanging(value);
-                ReportPropertyChanging("Intellect_BLOBAddress");
-                _Intellect_BLOBAddress = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Intellect_BLOBAddress");
-                OnIntellect_BLOBAddressChanged();
-            }
-        }
-        private global::System.Guid _Intellect_BLOBAddress;
-        partial void OnIntellect_BLOBAddressChanging(global::System.Guid value);
-        partial void OnIntellect_BLOBAddressChanged();
 
         #endregion
 

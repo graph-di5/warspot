@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/12/2012 14:14:13
+-- Date Created: 11/12/2012 15:47:09
 -- Generated from EDMX file: D:\sem4\w2\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
@@ -48,8 +48,7 @@ GO
 CREATE TABLE [dbo].[Intellect] (
     [Intellect_ID] uniqueidentifier  NOT NULL,
     [Intellect_Name] nvarchar(max)  NOT NULL,
-    [AccountAccount_ID] uniqueidentifier  NOT NULL,
-    [Intellect_BLOBAddress] uniqueidentifier  NOT NULL
+    [AccountAccount_ID] uniqueidentifier  NOT NULL
 );
 GO
 
