@@ -10,7 +10,6 @@
 using System;
 using System.ComponentModel;
 using System.Data.EntityClient;
-using System.Data.Entity;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
 using System.Linq;
@@ -25,7 +24,6 @@ using System.Xml.Serialization;
 #endregion
 
 namespace WarSpot.Cloud.Storage
-
 {
     #region Контексты
     
