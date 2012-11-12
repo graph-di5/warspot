@@ -96,7 +96,7 @@ namespace WarSpot.MatchComputer
 				//foreach (IBeingInterface _newIntellect in Team.Members)
 				for (int i = 0; i < Team.Members.Count; i++)
 				{
-					var newBeing = new Being(Team.Members[i]);
+					var newBeing = new Being(Team.Members[i], Team.Number);
 					newBeing.Characteristics.Coordinates = new XNA.Framework.Vector2(pos[i].Item1, pos[i].Item2);
 					_world.Map[pos[i].Item1, pos[i].Item2].Being = newBeing;
 					// todo придумать 
