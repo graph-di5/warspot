@@ -8,6 +8,7 @@ namespace WarSpot.Contracts.Intellect.Actions
 		// todo may be added target parameter or another action
 		public GameActionTreat(Guid senderId, float healthAmount) : base(senderId)
 		{
+			ActionType = ActionTypes.GameActionTreat;
 			HealthAmount = healthAmount;
 		}
 

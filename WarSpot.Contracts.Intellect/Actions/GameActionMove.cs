@@ -8,6 +8,7 @@ namespace WarSpot.Contracts.Intellect.Actions
 		public Vector2 Shift { private set; get; }
 		public GameActionMove(Guid senderId, Vector2 shift) : base(senderId)
 		{
+			ActionType = ActionTypes.GameActionMove;
 			Shift = shift;
 		}
 
