@@ -33,16 +33,19 @@ namespace WarSpot.Cloud.UserService
 
         public ErrorCode Login(string username, string pass)
         {
-            if (storage.Login(username, pass))
-            {
-                loggedIn = true;
-                user_ID = (from b in storage.db.Account
-                           where b.Account_Name == username
-                           select b).First().Account_ID;
-                return new ErrorCode(ErrorType.Ok, "Logged in successfully.");
-            }
-            else
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Wrong username or password.");
+			if (storage.Login(username, pass))
+			{
+				loggedIn = true;
+				user_ID = (from b in storage.db.Account
+									where b.Account_Name == username
+									select b).First().Account_ID;
+
+				return new ErrorCode(ErrorType.Ok, "Logged in successfully.");
+			}
+			else
+			{
+				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Wrong username or password.");
+			}
 
         }
 

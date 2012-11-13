@@ -72,7 +72,7 @@ namespace WarSpot.Client.XnaClient.Network
 
         public string[] GetListOfIntellects()
         {
-            return _service.GetListOfIntellects();
+            return _service == null ? new string[0] : _service.GetListOfIntellects();
         }
 
 		public ErrorCode DeleteIntellect(string name)
