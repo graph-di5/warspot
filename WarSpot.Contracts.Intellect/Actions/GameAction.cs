@@ -45,6 +45,12 @@ namespace WarSpot.Contracts.Intellect.Actions
 		/// </summary>
 		/// <returns></returns>
 		public abstract void Execute();
+
+		#region Конкретные свойства и методы, ради доступа из ComputerMatcher.
+
+		public virtual Guid TargetID { get; protected set; }
+
+		#endregion
 	}
 
 #if false

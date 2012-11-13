@@ -9,6 +9,9 @@ using System;
 
 namespace WarSpot.MatchComputer
 {
+
+	
+
 	public class TeamIntellectList //Класс для загрузки команд с их ДЛЛками.
 	{
 		public int Number { set; get ;}
@@ -17,9 +20,12 @@ namespace WarSpot.MatchComputer
 
 	public class ComputerMatcher
 	{
+		public const float DAMAGE = 100500;//ToDo: Решить, куда всякое подобное пихнуть, и будет ли урон всегда одинаковым.
+
 		private List<Being> _objects;
 		private List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нуном порядке.
 		private List<GameAction> _doneActions; //для истории действий
+		private List<GameEvent> _eventsHistory;//Для истории событий (не действий). Это и отправляется пользователю для просмотра матча.
 		private ulong _step;
 		private Stream _stream;
 		private BinaryFormatter _formatter;
@@ -133,6 +139,27 @@ namespace WarSpot.MatchComputer
 				{
 					curAction.Execute();
 					_doneActions.Add(curAction);
+
+					switch (curAction.ActionType)
+					{
+						case ActionTypes.GameActionAtack:
+							_eventsHistory.Add(new GameEventHealthChange(curAction.TargetID,
+								_objects.Find(a => a.Characteristics.Id == curAction.TargetID).Characteristics.Health - DAMAGE));
+							_eventsHistory.Add(new GameEventCiChange(curAction.SenderId,
+								_objects.Find(a => a.Characteristics.Id == curAction.SenderId).Characteristics.Ci -= curAction.Cost()));
+							break;
+						case ActionTypes.GameActionDie:
+							break;
+						case ActionTypes.GameActionEat:
+							break;
+						case ActionTypes.GameActionGiveCi:
+							break;
+						case ActionTypes.GameActionMove:
+							break;
+						case ActionTypes.GameActionTreat:
+							break;
+					}
+
 					_actions.Remove(curAction);
 				}
 			}
