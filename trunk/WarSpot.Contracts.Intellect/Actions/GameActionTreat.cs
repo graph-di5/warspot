@@ -6,15 +6,18 @@ namespace WarSpot.Contracts.Intellect.Actions
 	{
 		public float HealthAmount { private set; get; }
 		// todo may be added target parameter or another action
-		public GameActionTreat(Guid senderId, float healthAmount) : base(senderId)
+		public GameActionTreat(Guid senderId, Guid targetId, float healthAmount) : base(senderId)
 		{
 			ActionType = ActionTypes.GameActionTreat;
 			HealthAmount = healthAmount;
+			TargetId = targetId;
 		}
+
+		public Guid TargetId { get; private set; }
 
 		public override float Cost()
 		{
-			throw new NotImplementedException();
+			return HealthAmount;//Можно множитель добавить.
 		}
 
 		public override void Execute()

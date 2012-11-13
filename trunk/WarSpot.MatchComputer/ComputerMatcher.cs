@@ -24,8 +24,7 @@ namespace WarSpot.MatchComputer
 
 		private List<Being> _objects;
 		private List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нуном порядке.
-		private List<GameAction> _doneActions; //для истории действий
-		private List<GameEvent> _eventsHistory;//Для истории событий (не действий). Это и отправляется пользователю для просмотра матча.
+		private List<WarSpotEvent> _eventsHistory;//Для истории событий (не действий). Это и отправляется пользователю для просмотра матча.
 		private ulong _step;
 		private Stream _stream;
 		private BinaryFormatter _formatter;
@@ -59,7 +58,7 @@ namespace WarSpot.MatchComputer
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
-			_doneActions = new List<GameAction>();
+			_eventsHistory = new List<WarSpotEvent>();
 			_step = 0;
 			//_stream = new Stream() //создание какого то потока для сериализации ивентов
 			_formatter = new BinaryFormatter();
@@ -103,7 +102,8 @@ namespace WarSpot.MatchComputer
 				for (int i = 0; i < Team.Members.Count; i++)
 				{
 					var newBeing = new Being(Team.Members[i], Team.Number);
-					newBeing.Characteristics.Coordinates = new XNA.Framework.Vector2(pos[i].Item1, pos[i].Item2);
+					newBeing.Characteristics.X = pos[i].Item1;//
+					newBeing.Characteristics.Y = pos[i].Item2;//Убрал Coordinates
 					_world.Map[pos[i].Item1, pos[i].Item2].Being = newBeing;
 					// todo придумать 
 					newBeing.Construct(Team.Number, 0, 10000, ProcessWorld(pos[i].Item1, pos[i].Item2, newBeing.Characteristics.MaxSeeDistance));
@@ -118,14 +118,13 @@ namespace WarSpot.MatchComputer
 		public void Update()
 		{
 			_actions.Clear();
-			_doneActions.Clear();
 			_step++;
 			//Obtaining new actions from beings
 			foreach (var curObject in _objects)
 			{
 				// todo send NOT NULL world info
-				int xPos = (int) curObject.Characteristics.Coordinates.X; //
-				int yPos = (int) curObject.Characteristics.Coordinates.Y; //как то криво типы приводить, надо получать кооринаты подругому 
+				int xPos = curObject.Characteristics.X; //
+				int yPos = curObject.Characteristics.Y; //Убрал Coordinates
 				int seeDistance = curObject.Characteristics.MaxSeeDistance;
 
 				_actions.Add(curObject.Think(_step, curObject.Characteristics, ProcessWorld(xPos, yPos, seeDistance)));
@@ -135,44 +134,105 @@ namespace WarSpot.MatchComputer
 			{
 				_formatter.Serialize(_stream, curAction); //Сериализация ивента
 
+				#region Event Dealer 
 				if (curAction.Cost() <= _objects.Find(a => a.Characteristics.Id == curAction.SenderId).Characteristics.Ci)
 				{
-					curAction.Execute();
-					_doneActions.Add(curAction);
+					curAction.Execute();//А это мы уже не используем.
 
+					//ToDo: Переписать так, чтобы возможность действия считалась внутри свича (логичнее для сложных оценок стоимости действий)
+					Being actor;
+					Being target;
 					switch (curAction.ActionType)
 					{
 						case ActionTypes.GameActionAtack:
-							_eventsHistory.Add(new GameEventHealthChange(curAction.TargetID,
-								_objects.Find(a => a.Characteristics.Id == curAction.TargetID).Characteristics.Health - DAMAGE));
-							_eventsHistory.Add(new GameEventCiChange(curAction.SenderId,
-								_objects.Find(a => a.Characteristics.Id == curAction.SenderId).Characteristics.Ci -= curAction.Cost()));
+							var atackAction = curAction as GameActionAttack;
+							actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
+							target = _objects.Find(a => a.Characteristics.Id == atackAction.TargetId);
+
+							actor.Characteristics.Ci -= atackAction.Cost();//применяем изменения
+							target.Characteristics.Health -= DAMAGE; //Можно переписать на урон, зависящий от потраченной на удар энергии
+							
+							_eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));
+							_eventsHistory.Add(new GameEventHealthChange(atackAction.TargetId, target.Characteristics.Health));//пишем историю
+
 							break;
+
 						case ActionTypes.GameActionDie:
+							var deathAction = curAction as GameActionDie;
+
+							_eventsHistory.Add(new GameEventDeath(deathAction.SenderId));
+
 							break;
+
 						case ActionTypes.GameActionEat:
+							var eatAction = curAction as GameActionEat;
+							actor = _objects.Find(a => a.Characteristics.Id == eatAction.SenderId);
+							
+							actor.Characteristics.Ci += _world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci;//увеличиваем энергию существа
+							_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0;//Убираем энергию из клетки
+							
+							_eventsHistory.Add(new GameEventCiChange(eatAction.SenderId, actor.Characteristics.Ci));
+							_eventsHistory.Add(new GameEventWorldCiChanged(actor.Characteristics.X, actor.Characteristics.Y, 0));//Событие в клетке по координатам существа
+
 							break;
+
 						case ActionTypes.GameActionGiveCi:
+
+							var giveCiAction = curAction as GameActionGiveCi;
+							actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
+							target = _objects.Find(a => a.Characteristics.Id == giveCiAction.TargetId);
+
+							actor.Characteristics.Ci -= giveCiAction.Cost();
+							target.Characteristics.Ci += giveCiAction.Cost();
+
+							_eventsHistory.Add(new GameEventCiChange(giveCiAction.SenderId, actor.Characteristics.Ci));
+							_eventsHistory.Add(new GameEventCiChange(giveCiAction.TargetId, target.Characteristics.Ci));
+
 							break;
+
 						case ActionTypes.GameActionMove:
+
+							var moveAction = curAction as GameActionMove;
+							actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
+
+							actor.Characteristics.X += moveAction.ShiftX;
+							actor.Characteristics.Y += moveAction.ShiftY;
+
+							_eventsHistory.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
+
 							break;
+
 						case ActionTypes.GameActionTreat:
+
+							var treatAction = curAction as GameActionGiveCi;
+							actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
+							target = _objects.Find(a => a.Characteristics.Id == treatAction.TargetId);
+
+							actor.Characteristics.Health -= treatAction.Cost();
+							target.Characteristics.Health += treatAction.Cost();
+
+							_eventsHistory.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
+							_eventsHistory.Add(new GameEventHealthChange(treatAction.TargetId, target.Characteristics.Health));
+
 							break;
 					}
 
+					#endregion
 					_actions.Remove(curAction);
 				}
 			}
-
+			#region Objects Deleter //Здесь удаляются все, у кого кончилось здоровье
 			var _objectsToDelete = new List<Being>();//Список объектов на удаление
 
 			foreach (var curObject in _objects)//проверяем мёртвых
 			{
 				if (curObject.Characteristics.Health <= 0)
 				{
-					var _die = new GameActionDie(curObject.Characteristics.Id);//Пишем от его имени действие смерти.
-					_die.Execute();//Выполняем его (выброс энергии из трупа, к примеру)
-					_doneActions.Add(_die);//генерируем в историю событие смерти. ToDo: решить, здесь его генерировать, или же внутри execute
+					_world.Map[curObject.Characteristics.X, curObject.Characteristics.Y].Ci += curObject.Characteristics.Ci;//Из существа при смерти вываливается энергия. ToDo: Таки энергия или энергия из здоровья (мясо)--как сделать? 
+
+					_eventsHistory.Add(new GameEventDeath(curObject.Characteristics.Id));
+					_eventsHistory.Add(new GameEventWorldCiChanged(curObject.Characteristics.X, curObject.Characteristics.Y, _world.Map[curObject.Characteristics.X, curObject.Characteristics.Y].Ci));
+
 					_objectsToDelete.Add(curObject);//Вносим умерших в список на удаление
 				}
 			}
@@ -183,15 +243,18 @@ namespace WarSpot.MatchComputer
 			}
 
 			_objectsToDelete.Clear();
+			#endregion
 
 			if (_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Count() == 1)
 			{
 				int winer = _objects.Find(a => a.Characteristics.Team != 0).Characteristics.Team;
-				//Генерируем здесь сообщение о победе, пишем это как-то в историю, если надо.
-				//Закрываем молотилку.
+				_eventsHistory.Add(new SystemEventCommandWin(winer));//Объявляем победителя
+				_eventsHistory.Add(new SystemEventMatchEnd());//И матч заканчивается. Логично.
+
+				//Как-то закрываем молотилку.
 			}
 		}
-
+		#region To Handler //Удалите это, если загрузку интеллекта из DLL уже перенесли в хэндлер.
 		//Это должно быть перенесено в хэндлер:
 		/*
 		public void AddBeing(string _fullPath)
@@ -217,5 +280,8 @@ namespace WarSpot.MatchComputer
 		    _objects.Add(newBeing);
 		}
 		 */
-    }		
+
+		#endregion
+	}		
 }
+
