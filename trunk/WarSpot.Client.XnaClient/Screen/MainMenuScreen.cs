@@ -96,7 +96,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private void localAIButtonPressed(object sender, EventArgs e)
         {
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LocalAIManageScreen);
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.AIManageScreen);
         }
 
         private void logOutButtonPressed(object sender, EventArgs e)

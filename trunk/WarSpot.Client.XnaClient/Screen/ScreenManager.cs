@@ -13,7 +13,7 @@ namespace WarSpot.Client.XnaClient.Screen
     {
         public enum ScreenEnum
         {
-            LocalAIManageScreen,
+            AIManageScreen,
             MainMenuScreen,
             NewAccountScreen,
             LoginScreen,
@@ -129,12 +129,15 @@ namespace WarSpot.Client.XnaClient.Screen
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Font = ContentManager.Load<SpriteFont>("Textures/menufont");
 
-            RegisterScreen(ScreenEnum.LocalAIManageScreen, new LocalAIManageScreen());
-            RegisterScreen(ScreenEnum.LoginScreen, new LoginScreen());
-            RegisterScreen(ScreenEnum.MainMenuScreen, new MainMenuScreen());
-            RegisterScreen(ScreenEnum.NewAccountScreen, new NewAccountScreen());
-            RegisterScreen(ScreenEnum.OptionsScreen, new OptionsScreen());
-            RegisterScreen(ScreenEnum.MessageBox, new MessageBox());
+			//RegisterScreen(ScreenEnum.AIManageScreen, new AIManageScreen());
+			//RegisterScreen(...);
+			//...
+			foreach (string screen in Enum.GetNames(typeof(ScreenEnum)))
+			{
+				RegisterScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), screen), 
+					(GameScreen)Type.GetType("WarSpot.Client.XnaClient.Screen." + screen)
+					.GetConstructor(new Type[0]).Invoke(new object[0]));
+			}
             
             foreach (var gameScreen in _screens.Values)
             {

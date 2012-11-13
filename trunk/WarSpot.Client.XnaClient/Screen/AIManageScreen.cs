@@ -9,19 +9,19 @@ using System.Windows.Forms;
 using WarSpot.Client.XnaClient.AIManager;
 using System.Collections.Generic;
 using WarSpot.Contracts.Service;
+using WarSpot.Client.XnaClient.Network;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
-    internal class LocalAIManageScreen : GameScreen
+    internal class AIManageScreen : GameScreen
     {
         private Texture2D _texture;
 
         private ButtonControl _browseButton;
-        private ButtonControl _addAIButton;
+        private ButtonControl _uploadButton;
 		private ButtonControl _backButton;
 
 		private ButtonControl _refreshButton;
-		private ButtonControl _uploadButton;
 		private ButtonControl _deleteButton;
 
         private LabelControl _pathLabel;
@@ -32,9 +32,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private OpenFileDialog _pathDialog = new OpenFileDialog();
 
-		private List<Intellect> _intellects = new List<Intellect>();
-
-        public LocalAIManageScreen()
+        public AIManageScreen()
         {
             CreateControls();
             InitializeControls();
@@ -43,19 +41,11 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoadIntellects()
 		{
-			if (Settings.Default.IntellectList == null)
-			{
-				Settings.Default.IntellectList = new System.Collections.Specialized.StringCollection();
-				Settings.Default.Save();
-			}
-			var paths = Settings.Default.IntellectList;
-			_intellects.Clear();
+			string[] intellects = ConnectionManager.Instance.GetListOfIntellects();
 			_intellectList.Items.Clear();
-			foreach (string path in paths)
+			foreach (string i in intellects)
 			{
-				Intellect i = new Intellect(path);
-				_intellects.Add(i);
-				_intellectList.Items.Add(i.Name);
+				_intellectList.Items.Add(i);
 			}
 		}
 
@@ -98,9 +88,9 @@ namespace WarSpot.Client.XnaClient.Screen
                         new UniScalar(0f, 30))
             };
 
-            _addAIButton = new ButtonControl
+            _uploadButton = new ButtonControl
             {
-                Text = "Add",
+                Text = "Upload",
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0f, 0),
@@ -141,16 +131,6 @@ namespace WarSpot.Client.XnaClient.Screen
 						new UniScalar(0f, 100),
 						new UniScalar(0f, 30))
 			};
-			_uploadButton = new ButtonControl
-			{
-				Text = "Upload",
-				Bounds =
-					new UniRectangle(
-						new UniScalar(0f, 310),
-						new UniScalar(0f, 140),
-						new UniScalar(0f, 100),
-						new UniScalar(0f, 30))
-			};
 			_deleteButton = new ButtonControl
 			{
 				Text = "Delete",
@@ -186,17 +166,15 @@ namespace WarSpot.Client.XnaClient.Screen
 			Desktop.Children.Add(_pathBox);
 
 			Desktop.Children.Add(_browseButton);
-			Desktop.Children.Add(_addAIButton);
+			Desktop.Children.Add(_uploadButton);
 			Desktop.Children.Add(_backButton);
 
             Desktop.Children.Add(_intellectList);
 
 			Desktop.Children.Add(_refreshButton);
-			Desktop.Children.Add(_uploadButton);
 			Desktop.Children.Add(_deleteButton);
 
 			ScreenManager.Instance.Controller.AddListener(_browseButton, browseButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_addAIButton, addAIButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_refreshButton, refreshButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_uploadButton, uploadButtonPressed);
@@ -210,17 +188,6 @@ namespace WarSpot.Client.XnaClient.Screen
             _pathBox.RealText = _pathDialog.FileName;
         }
 
-
-        private void addAIButtonPressed(object sender, EventArgs e)
-        {
-            // Проверить, что это .dll, да еще и подходящая под условия
-			Intellect i = new Intellect(_pathBox.RealText);
-			_intellects.Add(i);
-			_intellectList.Items.Add(i.Name);
-			Settings.Default.IntellectList.Add(_pathBox.RealText);
-			Settings.Default.Save();
-        }
-
 		private void BackButtonPressed(object sender, EventArgs e)
 		{
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
@@ -228,40 +195,27 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void refreshButtonPressed(object sender, EventArgs e)
 		{
-			List<string> paths = new List<string>();
-			foreach (Intellect i in _intellects)
-			{
-				paths.Add(i.Path);
-			}
-			_intellects.Clear();
-			_intellectList.Items.Clear();
-			Settings.Default.IntellectList.Clear();
-			foreach (string path in paths)
-			{
-				Intellect i = new Intellect(path);
-				_intellects.Add(i);
-				_intellectList.Items.Add(i.Name);
-				Settings.Default.IntellectList.Add(path);
-			}
-			Settings.Default.Save();
+			LoadIntellects();
 		}
 
 		private void uploadButtonPressed(object sender, EventArgs e)
 		{
-			if (_intellectList.Items.Count == 0)
+			if (_pathBox.Text == "")
 			{
 				return;
 			}
-			Intellect i = _intellects[_intellectList.SelectedItems[0]];
+			Intellect i = new Intellect(_pathBox.Text);
 			ErrorCode ec = Network.ConnectionManager.Instance.UploadIntellect(i);
 			if (ec.Type == ErrorType.Ok)
 			{
-				MessageBox.Show("Intellect " + i + " was uploaded successfully!", ScreenManager.ScreenEnum.LocalAIManageScreen);
+				_pathBox.Text = "";
+				MessageBox.Show("Intellect " + i + " was uploaded successfully!", ScreenManager.ScreenEnum.AIManageScreen);
 			}
 			else
 			{
-				MessageBox.Show("Some error occured...", ScreenManager.ScreenEnum.LocalAIManageScreen);
+				MessageBox.Show("Some error occured...", ScreenManager.ScreenEnum.AIManageScreen);
 			}
+			LoadIntellects();
 		}
 
 		private void deleteButtonPressed(object sender, EventArgs e)
@@ -270,11 +224,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				return;
 			}
-			int idx = _intellectList.SelectedItems[0];
-			_intellects.RemoveAt(idx);
-			_intellectList.Items.RemoveAt(idx);
-			Settings.Default.IntellectList.RemoveAt(idx);
-			Settings.Default.Save();
+			ConnectionManager.Instance.DeleteIntellect(_intellectList.Items[_intellectList.SelectedItems[0]]);
+			LoadIntellects();
 		}
                 
     }

@@ -70,16 +70,5 @@ namespace WarSpot.Client.XnaClient {
                 this["Volume"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection IntellectList {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["IntellectList"]));
-            }
-            set {
-                this["IntellectList"] = value;
-            }
-        }
     }
 }
