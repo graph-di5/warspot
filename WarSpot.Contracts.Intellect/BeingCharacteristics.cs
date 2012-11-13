@@ -45,9 +45,14 @@ namespace WarSpot.Contracts.Intellect
 		public float Ci { get; set; }
 
 		/// <summary>
-		/// Current coordinates of the object.
+		/// Current X coordinate of the object.
 		/// </summary>
-		public Vector2 Coordinates { get; set; }
+		public int X { get; set; }
+
+		/// <summary>
+		/// Current Y coordinate of the object.
+		/// </summary>
+		public int Y { get; set; }
 
 #endregion
 

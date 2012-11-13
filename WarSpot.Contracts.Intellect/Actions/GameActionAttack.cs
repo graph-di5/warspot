@@ -4,12 +4,12 @@ namespace WarSpot.Contracts.Intellect.Actions
 {
 	public class GameActionAttack : GameAction
 	{
-		public override Guid TargetID { get; protected set; }
+		public Guid TargetId { get; private set; }
 
-		public GameActionAttack(Guid senderId, Guid targetID) : base(senderId)
+		public GameActionAttack(Guid senderId, Guid targetId) : base(senderId)
 		{
 			ActionType = ActionTypes.GameActionAtack;
-			TargetID = targetID;
+			TargetId = targetId;
 		}
 
 		public override float Cost()

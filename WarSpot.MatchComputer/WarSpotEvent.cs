@@ -46,6 +46,20 @@ namespace WarSpot.MatchComputer
 		public float Ci { get; private set; }
 	}
 
+	public class GameEventMove : GameEvent
+	{
+		public GameEventMove(Guid subjectId, int shiftX, int shiftY):
+			base(subjectId)
+		{
+			ShiftX = shiftX;
+			ShiftY = shiftY;
+		}
+
+		public int ShiftX { get; private set; }
+
+		public int ShiftY { get; private set; }
+	}
+
 	public class GameEventDeath : GameEvent
 	{
 		public GameEventDeath(Guid creator) : base(creator)
@@ -62,13 +76,17 @@ namespace WarSpot.MatchComputer
 
 	public class GameEventWorldCiChanged : WarSpotEvent
 	{
-		public GameEventWorldCiChanged(Vector2 coordinates, float ci)
+		public GameEventWorldCiChanged(int x, int y, float ci)
 		{
-			Coordinates = coordinates;
+			X = x;
+			Y = y;
 			Ci = ci;
 		}
 
-		public Vector2 Coordinates { get; private set; }
+		public int X { get; private set; }
+
+		public int Y { get; private set; }
+
 		/// <summary>
 		/// new Ci
 		/// </summary>
