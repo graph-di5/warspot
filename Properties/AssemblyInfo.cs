@@ -1,13 +1,16 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("WarSpot.Contracts.Service")]
+[assembly: AssemblyTitle("Serialization")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("WarSpot.Contracts.Service")]
+[assembly: AssemblyCompany("Home")]
+[assembly: AssemblyProduct("Serialization")]
+[assembly: AssemblyCopyright("Copyright © Home 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -17,5 +20,17 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("7f64cbdd-782d-4739-aa6f-4d3ef53ad2a1")]
+[assembly: Guid("8170e910-ac7a-4ab6-958c-29135318a00d")]
 
+// Сведения о версии сборки состоят из следующих четырех значений:
+//
+//      Основной номер версии
+//      Дополнительный номер версии 
+//      Номер построения
+//      Редакция
+//
+// Можно задать все значения или принять номер построения и номер редакции по умолчанию, 
+// используя "*", как показано ниже:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
