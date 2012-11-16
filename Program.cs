@@ -80,10 +80,13 @@ namespace SerializeData//Приличное простое пособие: http:
 
 			foreach (Data _data in _deserialazedList)//смотрим, что там наполучалось
 			{
-				if (_data is AdvancedData)
+				
+
+				if (_data is DeeperAdvancedData)//Сперва проверяем потомков, потом родителей!
 				{
-					var _forDisplayOnly1 = _data as AdvancedData;
-					Console.WriteLine("Number: {0}, Name: {1}, Age: {2}", _forDisplayOnly1.Number, _forDisplayOnly1.Name, _forDisplayOnly1.Age);
+					var _forDisplayOnly3 = _data as DeeperAdvancedData;
+
+					Console.WriteLine("Number: {0}, Name: {1}, Age: {2}, Height: {3}", _forDisplayOnly3.Number, _forDisplayOnly3.Name, _forDisplayOnly3.Age, _forDisplayOnly3.Height);
 				}
 
 				else if (_data is AnotherAdvancedData)
@@ -93,12 +96,12 @@ namespace SerializeData//Приличное простое пособие: http:
 					Console.WriteLine("Number: {0}, Name: {1},  Weight: {2}", _forDisplayOnly2.Number, _forDisplayOnly2.Name, _forDisplayOnly2.Weight);
 				}
 
-				else if (_data is DeeperAdvancedData)
+				else if (_data is AdvancedData)
 				{
-					var _forDisplayOnly3 = _data as DeeperAdvancedData;
-
-					Console.WriteLine("Number: {0}, Name: {1}, Age: {2}, Height: {3}", _forDisplayOnly3.Number, _forDisplayOnly3.Name, _forDisplayOnly3.Age, _forDisplayOnly3.Height);
+					var _forDisplayOnly1 = _data as AdvancedData;
+					Console.WriteLine("Number: {0}, Name: {1}, Age: {2}", _forDisplayOnly1.Number, _forDisplayOnly1.Name, _forDisplayOnly1.Age);
 				}
+
 
 				else
 				{
