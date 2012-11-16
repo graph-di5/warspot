@@ -15,7 +15,38 @@ namespace SerializeData//Приличное простое пособие: http:
 		public string Name { set; get; }
 
 		public Data(int number, string name) { Number = number; Name = name; }
+	
+		public Data(){ Number = 0; Name = "0"; }//Конструктор без аргументов нужен для наследования
 	}
+
+	[Serializable]
+	class AdvancedData : Data
+	{
+		public int Age { set; get; }
+
+		public AdvancedData(int number, string name, int age) { Number = number; Name = name; Age = age; }
+
+		public AdvancedData() { Number = 0; Name = "0"; Age = 0; }
+
+	}
+
+	[Serializable]
+	class AnotherAdvancedData: Data
+	{
+		public int Weight { set; get; }
+
+		public AnotherAdvancedData(int number, string name, int weight) { Number = number; Name = name; Weight = weight; }
+	}
+
+	[Serializable]
+	class DeeperAdvancedData : AdvancedData
+	{
+		public int Height { set; get; }
+
+		public DeeperAdvancedData(int number, string name, int age, int height) { Number = number; Name = name; Age = age; Height = height; }
+	}
+
+
 
 	class Program
 	{
@@ -24,9 +55,12 @@ namespace SerializeData//Приличное простое пособие: http:
 			List<Data> _serialazedList = new List<Data>();//Пишем всё сюда, потом сериализуем
 			List<Data> _deserialazedList = new List<Data>();//Для проверки при десериализации
 
+			
 			_serialazedList.Add(new Data(1, "first"));
-			_serialazedList.Add(new Data(2, "second"));
-			_serialazedList.Add(new Data(3, "third"));
+			_serialazedList.Add(new AdvancedData(2, "second", 1));
+			_serialazedList.Add(new AnotherAdvancedData(3, "third", 2));
+			_serialazedList.Add(new DeeperAdvancedData(4, "fourth", 1, 3));
+			
 
 			//откроем поток для записи в файл
 			FileStream fs = new FileStream("file.s", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
@@ -46,7 +80,30 @@ namespace SerializeData//Приличное простое пособие: http:
 
 			foreach (Data _data in _deserialazedList)//смотрим, что там наполучалось
 			{
-				Console.WriteLine("Number: {0}, Name: {1}", _data.Number, _data.Name);
+				if (_data is AdvancedData)
+				{
+					var _forDisplayOnly1 = _data as AdvancedData;
+					Console.WriteLine("Number: {0}, Name: {1}, Age: {2}", _forDisplayOnly1.Number, _forDisplayOnly1.Name, _forDisplayOnly1.Age);
+				}
+
+				else if (_data is AnotherAdvancedData)
+				{
+					var _forDisplayOnly2 = _data as AnotherAdvancedData;
+
+					Console.WriteLine("Number: {0}, Name: {1},  Weight: {2}", _forDisplayOnly2.Number, _forDisplayOnly2.Name, _forDisplayOnly2.Weight);
+				}
+
+				else if (_data is DeeperAdvancedData)
+				{
+					var _forDisplayOnly3 = _data as DeeperAdvancedData;
+
+					Console.WriteLine("Number: {0}, Name: {1}, Age: {2}, Height: {3}", _forDisplayOnly3.Number, _forDisplayOnly3.Name, _forDisplayOnly3.Age, _forDisplayOnly3.Height);
+				}
+
+				else
+				{
+					Console.WriteLine("Number: {0}, Name: {1}", _data.Number, _data.Name);
+				}
 			}
 
 			Console.ReadKey();
