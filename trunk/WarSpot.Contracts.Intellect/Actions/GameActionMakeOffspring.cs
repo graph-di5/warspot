@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WarSpot.Contracts.Intellect.Actions
 {
-	class GameActionMakeOffspring: GameAction
+	public class GameActionMakeOffspring: GameAction
 	{
 		/// <summary>
 		/// Make an offspring.
