@@ -54,13 +54,13 @@ namespace WarSpot.MatchComputer
 		/// <summary>
 		///Загрузка всех объектов списками команд
 		/// </summary>
-		public ComputerMatcher (List<TeamIntellectList> _listIntellect, StreamWriter _stream)//Имена потоков одинаковые (хранимого и получаемого)
+		public ComputerMatcher (List<TeamIntellectList> listIntellect, Stream stream)
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
 			_eventsHistory = new List<WarSpotEvent>();
 			_step = 0;
-			//_stream = new Stream() //создание какого то потока для сериализации ивентов
+			_stream = stream;
 			_formatter = new BinaryFormatter();
 			_world = new World();
 
@@ -75,7 +75,7 @@ namespace WarSpot.MatchComputer
 
 			int curNum = 0;
 
-			foreach (TeamIntellectList Team in _listIntellect)
+			foreach (TeamIntellectList Team in listIntellect)
 			{
 				while (curNum < center.Count)
 				{
@@ -252,11 +252,10 @@ namespace WarSpot.MatchComputer
 				_eventsHistory.Add(new SystemEventMatchEnd());//И матч заканчивается. Логично.
 
 				BinaryFormatter bf = new BinaryFormatter();//Создаём буфер для сериализации
-				MemoryStream tempStorage = new MemoryStream();//Здесь будем хранить сериализованную историю.
-				bf.Serialize(tempStorage, _eventsHistory);
+			
+				bf.Serialize(_stream, _eventsHistory);
 				//tempStorage.ToArray();//- Этот метод исключает неиспользуемые байты в MemoryStream из массива. //http://www.cyberforum.ru/csharp-net/thread35406.html
 				
-				//ToDo: Выгружать наш буфер в поток. Как мы это будем делать? По частям через сокет, напрямую одним куском?
 				//Как-то закрываем молотилку.
 			}
 		}
