@@ -3,7 +3,7 @@
 namespace WarSpot.Contracts.Intellect.Actions
 {
 	public enum ActionTypes { GameActionAtack, GameActionEat, GameActionDie,
-		GameActionGiveCi, GameActionMove, GameActionTreat};
+		GameActionGiveCi, GameActionMove, GameActionTreat, GameActionMakeOffspring};
 	/// <summary>
 	/// Parent class for all actitions
 	/// </summary>
@@ -33,18 +33,6 @@ namespace WarSpot.Contracts.Intellect.Actions
 			SenderId = senderId;
 			Id = Guid.NewGuid();
 		}
-
-		/// <summary>
-		/// Cost in ci of the action.
-		/// </summary>
-		/// <returns>Ci need for execute the sction.</returns>
-		public abstract float Cost();
-
-		/// <summary>
-		/// Execute the action.
-		/// </summary>
-		/// <returns></returns>
-		public abstract void Execute();
 }
 
 #if false

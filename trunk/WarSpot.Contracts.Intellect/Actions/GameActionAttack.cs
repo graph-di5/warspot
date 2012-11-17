@@ -5,21 +5,16 @@ namespace WarSpot.Contracts.Intellect.Actions
 	public class GameActionAttack : GameAction
 	{
 		public Guid TargetId { get; private set; }
+		public float Ci { set; get; }
 
-		public GameActionAttack(Guid senderId, Guid targetId) : base(senderId)
+		/// <summary>
+		/// Atack target using Ci energy.
+		/// </summary>
+		public GameActionAttack(Guid senderId, Guid targetId, float ci) : base(senderId)
 		{
 			ActionType = ActionTypes.GameActionAtack;
 			TargetId = targetId;
-		}
-
-		public override float Cost()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Execute()
-		{
-			throw new NotImplementedException();
+			Ci = ci;
 		}
 	}
 }
