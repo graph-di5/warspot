@@ -1,0 +1,13 @@
+#summary Battle and economic rules of the game.
+
+= Introduction =
+
+It describes how to event counting takes place in the game.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
