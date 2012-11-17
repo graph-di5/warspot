@@ -1,5 +1,4 @@
 using WarSpot.Contracts.Intellect;
-using WarSpot.XNA.Framework;
 
 namespace WarSpot.MatchComputer
 {
@@ -8,7 +7,9 @@ namespace WarSpot.MatchComputer
 	/// </summary>
 	class WorldCell : IWorldCell
 	{
-		public Vector2 Coordinates { get; set; }
+		public int X { get; set; }
+
+		public int Y { get; set; }
 
 		public float Ci { get; set; }
 
@@ -16,7 +17,7 @@ namespace WarSpot.MatchComputer
 		public IBeingInterface Being
 		{
 			get { return BeingValue.Me; }
-			set { Being = value; }
+			set { BeingValue = value as Being; }
 		}
 	}
 }

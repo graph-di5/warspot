@@ -1,5 +1,4 @@
 using System;
-using WarSpot.XNA.Framework;
 
 namespace WarSpot.Contracts.Intellect.Actions
 {
