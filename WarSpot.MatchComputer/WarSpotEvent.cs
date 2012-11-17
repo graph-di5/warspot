@@ -4,7 +4,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace WarSpot.MatchComputer
 {
 	public enum EventTypes { GameEventHealthChange, GameEventCiChange, GameEventMove, GameEventDeath, GameEventBirth,
-		GameEventWorldCiChanged, SystemEventCommandDead, SystemEventCommandWin, SystemEventMatchEnd};
+	GameEventWorldCiChanged, SystemEventTurnStarted, SystemEventCommandDead, SystemEventCommandWin, SystemEventMatchEnd
+	};
 
 	[Serializable]
 	public abstract class WarSpotEvent
@@ -116,6 +117,18 @@ namespace WarSpot.MatchComputer
 	[Serializable]
 	public abstract class SystemEvent : WarSpotEvent
 	{
+	}
+
+	[Serializable]
+	public class SystemEventTurnStarted : SystemEvent
+	{
+		public ulong Number {set; get;}
+
+		public SystemEventTurnStarted(ulong number)
+		{
+			EventType = EventTypes.SystemEventTurnStarted;
+			Number = number;
+		}
 	}
 
 	[Serializable]
