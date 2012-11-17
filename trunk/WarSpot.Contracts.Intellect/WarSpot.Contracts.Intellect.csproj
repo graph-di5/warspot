@@ -71,12 +71,6 @@
     <Compile Include="IWorldCell.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WarSpot.Xna.Framework.Lite\WarSpot.Xna.Lite.csproj">
-      <Project>{B76FFCE6-2D2B-43F2-B71F-EDA7ED82FEB5}</Project>
-      <Name>WarSpot.Xna.Lite</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>

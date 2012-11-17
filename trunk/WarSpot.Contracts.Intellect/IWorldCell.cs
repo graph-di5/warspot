@@ -1,5 +1,3 @@
-using WarSpot.XNA.Framework;
-
 namespace WarSpot.Contracts.Intellect
 {
 	/// <summary>
@@ -10,7 +8,8 @@ namespace WarSpot.Contracts.Intellect
 		/// <summary>
 		/// Cell coordinates
 		/// </summary>
-		Vector2 Coordinates { get; }
+		int X { get; }
+		int Y { get; }
 
 		/// <summary>
 		/// Count of free available Ci

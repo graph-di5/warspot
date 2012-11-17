@@ -1,5 +1,4 @@
 ﻿using System;
-using WarSpot.XNA.Framework;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace WarSpot.MatchComputer
