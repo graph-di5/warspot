@@ -62,6 +62,7 @@
     <Compile Include="Actions\GameActionDie.cs" />
     <Compile Include="Actions\GameActionEat.cs" />
     <Compile Include="Actions\GameActionGiveCi.cs" />
+    <Compile Include="Actions\GameActionMakeOffspring.cs" />
     <Compile Include="Actions\GameActionMove.cs" />
     <Compile Include="Actions\GameActionTreat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

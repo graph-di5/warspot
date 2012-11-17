@@ -8,15 +8,5 @@ namespace WarSpot.Contracts.Intellect.Actions
 		{
 			ActionType = ActionTypes.GameActionEat;
 		}
-
-		public override float Cost()
-		{
-			return 0f;
-		}
-
-		public override void Execute()
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

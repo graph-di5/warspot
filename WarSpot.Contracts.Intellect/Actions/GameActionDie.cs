@@ -8,16 +8,5 @@ namespace WarSpot.Contracts.Intellect.Actions
 		{
 			ActionType = ActionTypes.GameActionDie;
 		}
-
-		public override float Cost()
-		{
-			return 0;
-		}
-
-		public override void Execute()
-		{
-			//Видимо, здесь будет выброс энергии из трупа.
-			throw new NotImplementedException();
-		}
 	}
 }

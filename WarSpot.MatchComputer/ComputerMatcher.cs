@@ -119,6 +119,7 @@ namespace WarSpot.MatchComputer
 		{
 			_actions.Clear();
 			_step++;
+			var _objectsToDelete = new List<Being>();//Список объектов на удаление
 			//Obtaining new actions from beings
 			foreach (var curObject in _objects)
 			{
@@ -134,14 +135,15 @@ namespace WarSpot.MatchComputer
 			{
 				_formatter.Serialize(_stream, curAction); //Сериализация ивента
 
-				#region Event Dealer 
-				if (curAction.Cost() <= _objects.Find(a => a.Characteristics.Id == curAction.SenderId).Characteristics.Ci)
+#region Event Dealer 
+				if (true)//Не пользуем. Все проверки переносим в свич. (curAction.Cost() <= _objects.Find(a => a.Characteristics.Id == curAction.SenderId).Characteristics.Ci)
 				{
-					curAction.Execute();//А это мы уже не используем.
+					//curAction.Execute();//А это мы уже не используем.
 
 					//ToDo: Переписать так, чтобы возможность действия считалась внутри свича (логичнее для сложных оценок стоимости действий)
 					Being actor;
 					Being target;
+					float cost;
 					switch (curAction.ActionType)
 					{
 						case ActionTypes.GameActionAtack:
@@ -149,28 +151,39 @@ namespace WarSpot.MatchComputer
 							actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
 							target = _objects.Find(a => a.Characteristics.Id == atackAction.TargetId);
 
-							actor.Characteristics.Ci -= atackAction.Cost();//применяем изменения
-							target.Characteristics.Health -= DAMAGE; //Можно переписать на урон, зависящий от потраченной на удар энергии
-							
-							_eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));
-							_eventsHistory.Add(new GameEventHealthChange(atackAction.TargetId, target.Characteristics.Health));//пишем историю
+							cost = 20 + atackAction.Ci;
+							if (actor.Characteristics.Ci >= cost)//ToDo: Дописать проверку дистанции
+							{
+								actor.Characteristics.Ci -= cost;//применяем изменения
+								target.Characteristics.Health -= atackAction.Ci;
 
+								_eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));
+								_eventsHistory.Add(new GameEventHealthChange(atackAction.TargetId, target.Characteristics.Health));//пишем историю
+							}//Если энергии на действие не хватило, ничего не делаем.
 							break;
 
-						case ActionTypes.GameActionDie:
+						case ActionTypes.GameActionDie://Не очевидно, как обрабатывать.
 							var deathAction = curAction as GameActionDie;
-
+							actor = _objects.Find(a => a.Characteristics.Id == deathAction.SenderId);
+							
 							_eventsHistory.Add(new GameEventDeath(deathAction.SenderId));
+							
 
 							break;
 
 						case ActionTypes.GameActionEat:
 							var eatAction = curAction as GameActionEat;
 							actor = _objects.Find(a => a.Characteristics.Id == eatAction.SenderId);
-							
-							actor.Characteristics.Ci += _world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci;//увеличиваем энергию существа
-							_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0;//Убираем энергию из клетки
-							
+							if (_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci > 20)
+							{
+								actor.Characteristics.Ci += 20;//Съесть можно не больше 20 энергии за ход.
+								_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci -= 20;
+							}
+							else
+							{
+								actor.Characteristics.Ci += _world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci;//увеличиваем энергию существа
+								_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0;//Убираем энергию из клетки
+							}
 							_eventsHistory.Add(new GameEventCiChange(eatAction.SenderId, actor.Characteristics.Ci));
 							_eventsHistory.Add(new GameEventWorldCiChanged(actor.Characteristics.X, actor.Characteristics.Y, 0));//Событие в клетке по координатам существа
 
@@ -181,12 +194,15 @@ namespace WarSpot.MatchComputer
 							var giveCiAction = curAction as GameActionGiveCi;
 							actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
 							target = _objects.Find(a => a.Characteristics.Id == giveCiAction.TargetId);
+							cost = 20 + giveCiAction.Ci;
 
-							actor.Characteristics.Ci -= giveCiAction.Cost();
-							target.Characteristics.Ci += giveCiAction.Cost();
-
-							_eventsHistory.Add(new GameEventCiChange(giveCiAction.SenderId, actor.Characteristics.Ci));
-							_eventsHistory.Add(new GameEventCiChange(giveCiAction.TargetId, target.Characteristics.Ci));
+							if (actor.Characteristics.Ci >= cost)
+							{
+								actor.Characteristics.Ci -= cost;
+								target.Characteristics.Ci += giveCiAction.Ci;
+								_eventsHistory.Add(new GameEventCiChange(giveCiAction.SenderId, actor.Characteristics.Ci));
+								_eventsHistory.Add(new GameEventCiChange(giveCiAction.TargetId, target.Characteristics.Ci));
+							}
 
 							break;
 
@@ -194,12 +210,14 @@ namespace WarSpot.MatchComputer
 
 							var moveAction = curAction as GameActionMove;
 							actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
+							cost = (moveAction.ShiftX + moveAction.ShiftY)*actor.Characteristics.MaxHealth/100;
 
-							actor.Characteristics.X += moveAction.ShiftX;
-							actor.Characteristics.Y += moveAction.ShiftY;
-
-							_eventsHistory.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
-
+							if (actor.Characteristics.Ci >= cost)//Добавить проверку на пустоту пути.
+							{
+								actor.Characteristics.X += moveAction.ShiftX;
+								actor.Characteristics.Y += moveAction.ShiftY;
+								_eventsHistory.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
+							}
 							break;
 
 						case ActionTypes.GameActionTreat:
@@ -207,23 +225,25 @@ namespace WarSpot.MatchComputer
 							var treatAction = curAction as GameActionGiveCi;
 							actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
 							target = _objects.Find(a => a.Characteristics.Id == treatAction.TargetId);
+							cost = treatAction.Ci;
 
-							actor.Characteristics.Health -= treatAction.Cost();
-							target.Characteristics.Health += treatAction.Cost();
+							if (actor.Characteristics.Ci >= cost)//Добавить проверку дальности.
+							{
+								actor.Characteristics.Health -= cost;
+								target.Characteristics.Health += cost/3;
 
-							_eventsHistory.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
-							_eventsHistory.Add(new GameEventHealthChange(treatAction.TargetId, target.Characteristics.Health));
-
+								_eventsHistory.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
+								_eventsHistory.Add(new GameEventHealthChange(treatAction.TargetId, target.Characteristics.Health));
+							}
 							break;
 					}
 
-					#endregion
+#endregion
 					_actions.Remove(curAction);
 				}
 			}
-			#region Objects Deleter //Здесь удаляются все, у кого кончилось здоровье
-			var _objectsToDelete = new List<Being>();//Список объектов на удаление
-
+#region Objects Deleter //Здесь удаляются все, у кого кончилось здоровье
+			
 			foreach (var curObject in _objects)//проверяем мёртвых
 			{
 				if (curObject.Characteristics.Health <= 0)
@@ -243,7 +263,7 @@ namespace WarSpot.MatchComputer
 			}
 
 			_objectsToDelete.Clear();
-			#endregion
+#endregion
 
 			if (_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Count() == 1)
 			{
