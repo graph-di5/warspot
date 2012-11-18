@@ -39,7 +39,7 @@ namespace WarSpot.Client.XnaClient.Screen
         {
 			_startGameButton = new ButtonControl
 			{
-				Text = "AI Manage",
+				Text = "New game",
 				Bounds =
 					new UniRectangle(
 						new UniScalar(0.30f, 0),
@@ -106,7 +106,6 @@ namespace WarSpot.Client.XnaClient.Screen
 
         private void InitializeControls()
         {
-            // tmp
             Desktop.Children.Add(_localAIButton);
             ScreenManager.Instance.Controller.AddListener(_localAIButton, localAIButtonPressed);
 
@@ -135,6 +134,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void watchReplayButtonPressed(object sender, EventArgs e)
 		{
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
 		}
 
         private void logOutButtonPressed(object sender, EventArgs e)

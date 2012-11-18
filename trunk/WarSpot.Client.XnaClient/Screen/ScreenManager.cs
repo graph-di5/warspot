@@ -18,7 +18,8 @@ namespace WarSpot.Client.XnaClient.Screen
             NewAccountScreen,
             LoginScreen,
             OptionsScreen,
-            MessageBox
+            MessageBox,
+			WatchReplayScreen
         }
 
         private static ScreenManager _instance;
@@ -129,9 +130,6 @@ namespace WarSpot.Client.XnaClient.Screen
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Font = ContentManager.Load<SpriteFont>("Textures/menufont");
 
-			//RegisterScreen(ScreenEnum.AIManageScreen, new AIManageScreen());
-			//RegisterScreen(...);
-			//...
 			foreach (string screen in Enum.GetNames(typeof(ScreenEnum)))
 			{
 				RegisterScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), screen), 

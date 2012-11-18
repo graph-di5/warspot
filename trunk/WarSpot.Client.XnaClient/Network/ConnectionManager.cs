@@ -81,5 +81,24 @@ namespace WarSpot.Client.XnaClient.Network
 		}
         
         #endregion DLLUploadControl
-    }
+
+		#region recieving replays
+
+		public ErrorCode recieveReplay(byte[] replay, string name)
+		{
+			InitializeConnection();
+			try
+			{
+
+			}
+			catch (Exception e)
+			{
+				Trace.WriteLine(e);
+				return new ErrorCode(ErrorType.UnknownException, e.ToString());
+			}
+			return new ErrorCode(ErrorType.Ok);
+		}
+
+		#endregion
+	}
 }
