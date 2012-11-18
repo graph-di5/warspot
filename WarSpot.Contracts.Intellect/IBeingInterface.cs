@@ -15,9 +15,8 @@ namespace WarSpot.Contracts.Intellect
 		/// <param name="team"> </param>
 		/// <param name="step">Current time step</param>
 		/// <param name="ci">Ci available for creating of this object.</param>
-		/// <param name="area">Array of IWorldCell around the being describes visible part of the world. Array is (MaxSeeDistance*2+1)^2, with the being in central cell</param>
 		/// <returns>Characteriscts of the object.</returns>
-		BeingCharacteristics Construct(int team, ulong step, float ci, IWorldCell[,] area);
+		BeingCharacteristics Construct(int team, ulong step, float ci);
 
 		/// <summary>
 		/// Main function of the every being in the world.

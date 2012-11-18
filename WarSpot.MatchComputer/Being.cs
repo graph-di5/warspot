@@ -24,8 +24,7 @@ namespace WarSpot.MatchComputer
 		/// <param name="me">Reference to the custom object</param>
 		public Being(IBeingInterface me, int team)
 		{
-			Me = me;
-			
+			Me = me;		
 		}
 
 		/// <summary>
@@ -47,12 +46,11 @@ namespace WarSpot.MatchComputer
 		/// <param name="team"> </param>
 		/// <param name="turnNumber">Current time step</param>
 		/// <param name="ci">Ci available for creating of this object.</param>
-		/// <param name="area">Array of IWorldCell around the being describes visible part of the world. Array is (MaxSeeDistance*2+1)^2, with the being in central cell</param>
 		/// <returns>Characteriscts of the being.</returns>
-		public BeingCharacteristics Construct(int team, ulong turnNumber, float ci, IWorldCell[,] area)
+		public BeingCharacteristics Construct(int team, ulong turnNumber, float ci)
 		{
 			// todo add here checking of the returned characteristics
-			return Me.Construct(team, turnNumber, ci, area);
+			return Me.Construct(team, turnNumber, ci);
 		}
 
 	}
