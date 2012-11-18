@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization.Formatters.Binary;
+using WarSpot.Contracts.Intellect;
 
 namespace WarSpot.MatchComputer
 {
@@ -87,9 +88,12 @@ namespace WarSpot.MatchComputer
 	[Serializable]
 	public class GameEventBirth : GameEvent
 	{
-		public GameEventBirth(Guid creator) : base(creator)
+		public BeingCharacteristics Newborn { set; get; }
+
+		public GameEventBirth(Guid creator, BeingCharacteristics newborn) : base(creator)
 		{
 			EventType = EventTypes.GameEventBirth;
+			Newborn = newborn;
 		}
 	}
 

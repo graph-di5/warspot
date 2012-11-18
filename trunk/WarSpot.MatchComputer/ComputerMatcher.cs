@@ -96,17 +96,17 @@ namespace WarSpot.MatchComputer
 						pos.Add(new Tuple<int, int>(i + center_x, j + center_y));
 				RandomShuffle(pos);
 
-				//foreach (IBeingInterface _newIntellect in Team.Members)
 				for (int i = 0; i < Team.Members.Count; i++)
 				{
 					var newBeing = new Being(Team.Members[i], Team.Number);
-					newBeing.Characteristics.X = pos[i].Item1;//
-					newBeing.Characteristics.Y = pos[i].Item2;//Убрал Coordinates
+					newBeing.Characteristics.X = pos[i].Item1;
+					newBeing.Characteristics.Y = pos[i].Item2;
 					_world.Map[pos[i].Item1, pos[i].Item2].Being = newBeing;
 					// todo придумать 
 					newBeing.Construct(Team.Number, 0, 10000, ProcessWorld(pos[i].Item1, pos[i].Item2, newBeing.Characteristics.MaxSeeDistance));
-					
+
 					_objects.Add(newBeing);
+					_eventsHistory.Add(new GameEventBirth(newBeing.Characteristics.Id, newBeing.Characteristics));//Рождение записываем в историю.
 				}
 
 				curNum++;
@@ -125,14 +125,14 @@ namespace WarSpot.MatchComputer
 				// todo send NOT NULL world info
 				int xPos = curObject.Characteristics.X; //
 				int yPos = curObject.Characteristics.Y; //Убрал Coordinates
-				int seeDistance = curObject.Characteristics.MaxSeeDistance;
+				int seeDistance = curObject.Characteristics.MaxSeeDistance;//ToDo: Переделать для самоопределения..
 
 				_actions.Add(curObject.Think(_turnNumber, curObject.Characteristics, ProcessWorld(xPos, yPos, seeDistance)));
 			}
 
 			for (GameAction curAction = _actions[0]; curAction != null; curAction = _actions[0])
 			{
-				_formatter.Serialize(_stream, curAction); //Сериализация ивента
+				//_formatter.Serialize(_stream, curAction); //Сериализация ивента//Кто это писал, и для чего?
 
 #region Event Dealer 
 				
@@ -147,7 +147,7 @@ namespace WarSpot.MatchComputer
 						target = _objects.Find(a => a.Characteristics.Id == atackAction.TargetId);
 
 						cost = 20 + atackAction.Ci;
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health >= 0))//ToDo: Дописать проверку дистанции
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0))//ToDo: Дописать проверку дистанции
 						{
 							actor.Characteristics.Ci -= cost;//применяем изменения
 							target.Characteristics.Health -= atackAction.Ci;
@@ -160,7 +160,7 @@ namespace WarSpot.MatchComputer
 					case ActionTypes.GameActionEat:
 						var eatAction = curAction as GameActionEat;
 						actor = _objects.Find(a => a.Characteristics.Id == eatAction.SenderId);
-						if (actor.Characteristics.Health >= 0)
+						if (actor.Characteristics.Health > 0)
 						{
 							if (_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci > 20)
 							{
@@ -184,7 +184,7 @@ namespace WarSpot.MatchComputer
 						target = _objects.Find(a => a.Characteristics.Id == giveCiAction.TargetId);
 						cost = 20 + giveCiAction.Ci;
 
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health >= 0))
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0))
 						{
 							actor.Characteristics.Ci -= cost;
 							target.Characteristics.Ci += giveCiAction.Ci;
@@ -200,7 +200,7 @@ namespace WarSpot.MatchComputer
 						actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
 						cost = (moveAction.ShiftX + moveAction.ShiftY)*actor.Characteristics.MaxHealth/100;
 
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health >= 0))//Добавить проверку на пустоту пути.
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0))//Добавить проверку на пустоту пути.
 						{
 							actor.Characteristics.X += moveAction.ShiftX;
 							actor.Characteristics.Y += moveAction.ShiftY;
@@ -215,7 +215,7 @@ namespace WarSpot.MatchComputer
 						target = _objects.Find(a => a.Characteristics.Id == treatAction.TargetId);
 						cost = treatAction.Ci;
 
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health >= 0))//Добавить проверку дальности.
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0))//Добавить проверку дальности.
 						{
 							actor.Characteristics.Health -= cost;
 							target.Characteristics.Health += cost/3;
@@ -228,13 +228,19 @@ namespace WarSpot.MatchComputer
 					case ActionTypes.GameActionMakeOffspring:
 						var birthAcrion = curAction as GameActionMakeOffspring;
 						actor = _objects.Find(a => a.Characteristics.Id == birthAcrion.SenderId);
-						cost = actor.Characteristics.MaxHealth * 0.8f;
-
-						if ((actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.7f) & (actor.Characteristics.Ci >= cost))
+						cost = birthAcrion.MaxHealth*0.8f //Стоимость максимального здоровья
+							+ (birthAcrion.MaxStep * birthAcrion.MaxStep)//стоимость максимального шага
+							+ ((birthAcrion.MaxSeeDistance/2)^2);//стоимость дистанции видимости
+						if ((actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f) & (actor.Characteristics.Ci >= cost) & (actor.Characteristics.Ci >= birthAcrion.MaxHealth*0.9f) & (actor.Characteristics.Ci > 0))
 						{
-							var _offspring = new Being(actor.Me, actor.Characteristics.Team);
+							var _offspring = new Being(actor.Me, actor.Characteristics.Team);//правильный ли интерфейс?
+							_offspring.Characteristics.Health = _offspring.Characteristics.MaxHealth * 0.6f;
+							_offspring.Characteristics.Ci = _offspring.Characteristics.MaxHealth * 0.3f;
+							//_offspring.Construct(actor.Characteristics.Team, _turnNumber, _offspring.Characteristics.MaxHealth*0.3f,ProcessWorld(_offspring.Characteristics.X , _offspring.y, _offspring.Characteristics.MaxSeeDistance));//ToDo: Как создавать существо?
 							_objects.Add(_offspring);
-							//_eventsHistory.Add(new GameEventBirth());//Как-то записывать создавшегося.
+							_eventsHistory.Add(new GameEventBirth(_offspring.Characteristics.Id, _offspring.Characteristics));
+							actor.Characteristics.Ci -= cost;
+							_eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
 						}
 
 						break;
