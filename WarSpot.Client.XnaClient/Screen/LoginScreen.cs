@@ -126,7 +126,6 @@ namespace WarSpot.Client.XnaClient.Screen
             }
             else
             {
-                // TODO: game selection screen/ai download
 				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
             }
 		}
