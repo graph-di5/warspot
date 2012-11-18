@@ -74,20 +74,20 @@ namespace WarSpot.Client.XnaClient.Screen
 			_loginButton = new ButtonControl
 							{
 								Text = "Login",
-								Bounds = new UniRectangle(new UniScalar(0.5f, -210), new UniScalar(0.4f, 70), 100, 32)
+								Bounds = new UniRectangle(new UniScalar(0.5f, 110), new UniScalar(0.4f, 70), 100, 32)
 							};
 
 			_exitButton = new ButtonControl
 							{
 								Text = "Exit",
-								Bounds = new UniRectangle(new UniScalar(0.5f, 110), new UniScalar(0.4f, 70), 100, 32),
+								Bounds = new UniRectangle(new UniScalar(0.5f, -210), new UniScalar(0.4f, 70), 100, 32),
 							};
 
 			_newAccountButton = new ButtonControl
-									{
-										Text = "Create new account",
-										Bounds = new UniRectangle(new UniScalar(0.5f, -75f), new UniScalar(0.4f, 70), 150, 32)
-									};
+								{
+									Text = "Create new account",
+									Bounds = new UniRectangle(new UniScalar(0.5f, -75f), new UniScalar(0.4f, 70), 150, 32)
+								};
 		}
 
 		private void InitializeControls()

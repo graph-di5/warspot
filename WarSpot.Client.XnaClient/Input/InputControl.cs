@@ -19,7 +19,7 @@ namespace WarSpot.Client.XnaClient.Input
 			}
 		}
 
-		public string Name { get; set; }
+		new public string Name { get; set; }
 
         public static string HiddenText(string text)
         {
@@ -66,7 +66,6 @@ namespace WarSpot.Client.XnaClient.Input
             {
 				int cp = CaretPosition;
 				RealText = RealText.Substring(0, CaretPosition - 1) + RealText.Substring(CaretPosition);
-				//Text = IsHidden ? new string('*', _passwordLength) : RealText;
 				CaretPosition = cp - 1;
             }
 			else if (character != '\b' && character != '\t' && character != '\n')
@@ -76,7 +75,6 @@ namespace WarSpot.Client.XnaClient.Input
 					RealText = "";
 				}
 				RealText = RealText.Substring(0, CaretPosition) + character + RealText.Substring(CaretPosition);
-				//Text = IsHidden ? new string('*', _passwordLength) : RealText;
 				CaretPosition++;
 			}
         }
