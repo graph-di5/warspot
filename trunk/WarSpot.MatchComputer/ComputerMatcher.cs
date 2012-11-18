@@ -103,7 +103,7 @@ namespace WarSpot.MatchComputer
 					newBeing.Characteristics.Y = pos[i].Item2;
 					_world.Map[pos[i].Item1, pos[i].Item2].Being = newBeing;
 					// todo придумать 
-					newBeing.Construct(Team.Number, 0, 10000, ProcessWorld(pos[i].Item1, pos[i].Item2, newBeing.Characteristics.MaxSeeDistance));
+					newBeing.Construct(Team.Number, 0, 100);
 
 					_objects.Add(newBeing);
 					_eventsHistory.Add(new GameEventBirth(newBeing.Characteristics.Id, newBeing.Characteristics));//Рождение записываем в историю.
@@ -123,11 +123,7 @@ namespace WarSpot.MatchComputer
 			foreach (var curObject in _objects)
 			{
 				// todo send NOT NULL world info
-				int xPos = curObject.Characteristics.X; //
-				int yPos = curObject.Characteristics.Y; //Убрал Coordinates
-				int seeDistance = curObject.Characteristics.MaxSeeDistance;//ToDo: Переделать для самоопределения..
-
-				_actions.Add(curObject.Think(_turnNumber, curObject.Characteristics, ProcessWorld(xPos, yPos, seeDistance)));
+				_actions.Add(curObject.Think(_turnNumber, curObject.Characteristics, ProcessWorld(curObject.Characteristics.X, curObject.Characteristics.Y, curObject.Characteristics.MaxSeeDistance)));
 			}
 
 			for (GameAction curAction = _actions[0]; curAction != null; curAction = _actions[0])
@@ -228,15 +224,20 @@ namespace WarSpot.MatchComputer
 					case ActionTypes.GameActionMakeOffspring:
 						var birthAcrion = curAction as GameActionMakeOffspring;
 						actor = _objects.Find(a => a.Characteristics.Id == birthAcrion.SenderId);
-						cost = birthAcrion.MaxHealth*0.8f //Стоимость максимального здоровья
-							+ (birthAcrion.MaxStep * birthAcrion.MaxStep)//стоимость максимального шага
-							+ ((birthAcrion.MaxSeeDistance/2)^2);//стоимость дистанции видимости
-						if ((actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f) & (actor.Characteristics.Ci >= cost) & (actor.Characteristics.Ci >= birthAcrion.MaxHealth*0.9f) & (actor.Characteristics.Ci > 0))
+						var _offspring = new Being(actor.Me, actor.Characteristics.Team);
+						_offspring.Construct(actor.Characteristics.Team, _turnNumber, birthAcrion.Ci);//Вызываем пользовательский конструктор.
+						
+						//Собственная проверка стоимости
+						cost = _offspring.Characteristics.MaxHealth * 0.8f//Стоимость максимального здоровья
+							+ _offspring.Characteristics.MaxStep * _offspring.Characteristics.MaxStep//Стоимость максимального шага
+							+ (_offspring.Characteristics.MaxSeeDistance / 2.0f) * (_offspring.Characteristics.MaxSeeDistance / 2.0f);//Стоимость дистанции видимости
+
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Ci >= birthAcrion.Ci)
+							 & (actor.Characteristics.Health > 0) & (actor.Characteristics.Ci >= _offspring.Characteristics.MaxHealth * 0.9f) & (actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f))
 						{
-							var _offspring = new Being(actor.Me, actor.Characteristics.Team);//правильный ли интерфейс?
 							_offspring.Characteristics.Health = _offspring.Characteristics.MaxHealth * 0.6f;
 							_offspring.Characteristics.Ci = _offspring.Characteristics.MaxHealth * 0.3f;
-							//_offspring.Construct(actor.Characteristics.Team, _turnNumber, _offspring.Characteristics.MaxHealth*0.3f,ProcessWorld(_offspring.Characteristics.X , _offspring.y, _offspring.Characteristics.MaxSeeDistance));//ToDo: Как создавать существо?
+							
 							_objects.Add(_offspring);
 							_eventsHistory.Add(new GameEventBirth(_offspring.Characteristics.Id, _offspring.Characteristics));
 							actor.Characteristics.Ci -= cost;

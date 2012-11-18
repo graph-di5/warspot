@@ -53,6 +53,13 @@ namespace WarSpot.Contracts.Intellect
 		/// </summary>
 		public int Y { get; set; }
 
+		/// <summary>
+		/// Cost of such Being in Ci.
+		/// </summary>
+		public float Cost()
+		{
+			return (MaxHealth * 0.8f) + (MaxStep * MaxStep) + ((MaxSeeDistance / 2) * (MaxSeeDistance / 2));
+		}
 #endregion
 
 		/// <summary>
