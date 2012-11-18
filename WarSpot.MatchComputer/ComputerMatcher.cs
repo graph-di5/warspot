@@ -9,9 +9,6 @@ using System;
 
 namespace WarSpot.MatchComputer
 {
-
-	
-
 	public class TeamIntellectList //Класс для загрузки команд с их ДЛЛками.
 	{
 		public int Number { set; get ;}
@@ -24,8 +21,8 @@ namespace WarSpot.MatchComputer
 		private List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нуном порядке.
 		private List<WarSpotEvent> _eventsHistory;//Для истории событий (не действий). Это и отправляется пользователю для просмотра матча.
 		private ulong _turnNumber;
-		private Stream _stream;
-		private BinaryFormatter _formatter;
+		private Stream _stream;//Поток для вывода сериализованной истории
+		private BinaryFormatter _formatter;//Создаём буфер для сериализации
 		private World _world;
 
 		private void RandomShuffle<T> (List<T> list)
@@ -40,12 +37,12 @@ namespace WarSpot.MatchComputer
 			}
 		}
 		
-		private IWorldCell [,] ProcessWorld (int cx, int cy, int radius)
+		private IWorldCell [,] ProcessWorld (int x, int y, int radius)
 		{
 			IWorldCell [,] res = new IWorldCell[radius * 2 + 1, radius * 2 + 1];
 			for (int dx = -radius, i = 0; dx <= radius; dx++, i++)
 				for (int dy = -radius, j = 0; dy <= radius; dy++, j++)
-					res[i, j] = _world.Map[(cx + dx) % _world.Height, (cy + dy) % _world.Width];
+					res[i, j] = _world.Map[(x + dx) % _world.Height, (y + dy) % _world.Width];
 			return res;
 		}
 
@@ -113,23 +110,21 @@ namespace WarSpot.MatchComputer
 			}
 		}
 
-		public void Update()
+		public int Update()
 		{
 			_actions.Clear();
 			_eventsHistory.Add(new SystemEventTurnStarted(_turnNumber));//Записываем в историю начало хода.
 
 			var _objectsToDelete = new List<Being>();//Список объектов на удаление.
+
 			//Obtaining new actions from beings
 			foreach (var curObject in _objects)
-			{
-				// todo send NOT NULL world info
+			{//ToDo: send NOT NULL world info
 				_actions.Add(curObject.Think(_turnNumber, curObject.Characteristics, ProcessWorld(curObject.Characteristics.X, curObject.Characteristics.Y, curObject.Characteristics.MaxSeeDistance)));
 			}
 
 			for (GameAction curAction = _actions[0]; curAction != null; curAction = _actions[0])
 			{
-				//_formatter.Serialize(_stream, curAction); //Сериализация ивента//Кто это писал, и для чего?
-
 #region Event Dealer 
 				
 				Being actor;
@@ -243,14 +238,12 @@ namespace WarSpot.MatchComputer
 							actor.Characteristics.Ci -= cost;
 							_eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
 						}
-
 						break;
 				}
 				
 				_actions.Remove(curAction);//Удаляем  проверенное действие
-#endregion
-
 			}
+#endregion
 #region Grim Reaper //Здесь удаляются все, у кого кончилось здоровье
 
 			foreach (var curObject in _objects)//проверяем мёртвых
@@ -273,51 +266,24 @@ namespace WarSpot.MatchComputer
 
 			_objectsToDelete.Clear();
 #endregion
-
-			_turnNumber++;
-
+#region Check For Winning
 			if (_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Count() == 1)
 			{
 				int winer = _objects.Find(a => a.Characteristics.Team != 0).Characteristics.Team;
 				_eventsHistory.Add(new SystemEventCommandWin(winer));//Объявляем победителя
-				_eventsHistory.Add(new SystemEventMatchEnd());//И матч заканчивается. Логично.
+				_eventsHistory.Add(new SystemEventMatchEnd());//И матч заканчивается.
 
-				BinaryFormatter bf = new BinaryFormatter();//Создаём буфер для сериализации
-			
-				bf.Serialize(_stream, _eventsHistory);
-				//tempStorage.ToArray();//- Этот метод исключает неиспользуемые байты в MemoryStream из массива. //http://www.cyberforum.ru/csharp-net/thread35406.html
-				
-				//Как-то закрываем молотилку.
+				_formatter.Serialize(_stream, _eventsHistory);//Отдаём историю событий.
+
+				return 0;
 			}
+			else
+			{
+				_turnNumber++;
+				return 1;//Если нужны ещё ходы.
+			}
+#endregion
 		}
-		#region To Handler //Удалите это, если загрузку интеллекта из DLL уже перенесли в хэндлер.
-		//Это должно быть перенесено в хэндлер:
-		/*
-		public void AddBeing(string _fullPath)
-		{//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
-		    Assembly assembly = Assembly.LoadFrom(_fullPath);//вытаскиваем библиотеку
-		    string iMyInterfaceName = typeof(IBeingInterface).ToString();
-		    System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
-		    object[] defaultConstructorParameters = new object[0];
-			
-		    IBeingInterface iAI = null;
-			
-		    foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
-		    {
-		        if (type.GetInterface(iMyInterfaceName) != null)
-		        {
-		            ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
-		            object instance = defaultConstructor.Invoke(defaultConstructorParameters);
-		            iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
-		        }
-		    }
-			
-		    var newBeing = new Being(iAI);//Возможно, стоит перестраховаться, и написать проверку на не null.
-		    _objects.Add(newBeing);
-		}
-		 */
-
-		#endregion
 	}		
 }
 
