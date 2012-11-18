@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
-using System.Linq;
 
 
 namespace WarSpot.Cloud.UserService
