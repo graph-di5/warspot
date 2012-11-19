@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace WarSpot.Client.XnaClient.Utils
 {
-    static class InputValidator
-    {
-        static public bool checkText(string input)
-        {
-            if (input == null)
-                return false;
-            string pattern = @"^[0-9a-zA-Z_]{6,18}$";
-            return Regex.IsMatch(input, pattern);
-        }
+	static class InputValidator
+	{
+		static public bool CheckText(string input)
+		{
+			if (input == null)
+				return false;
+			const string pattern = @"^[\w.-_]{6,18}$";
+			return Regex.IsMatch(input, pattern);
+		}
 
-        static public bool checkEmail(string input)
-        {
-            if (input == null)
-                return false;
-            string pattern = @"^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@(([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9})$";
-            return Regex.IsMatch(input, pattern);
-        }
-    }
+		static public bool CheckEmail(string input)
+		{
+			if (input == null)
+				return false;
+			const string pattern = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
+			return Regex.IsMatch(input, pattern);
+		}
+	}
 
 }

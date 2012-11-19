@@ -9,34 +9,34 @@ using WarSpot.Contracts.Service;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
-    internal class NewAccountScreen :  GameScreen
-    {
-        private static Texture2D _texture;
+	internal class NewAccountScreen : GameScreen
+	{
+		private static Texture2D _texture;
 
-        private LabelControl _nameLabel;
-        private LabelControl _surNameLabel;
-        private LabelControl _emailLabel;
-        private LabelControl _nicknameLabel;
-        private LabelControl _passwordLabel;
+		private LabelControl _nameLabel;
+		private LabelControl _surNameLabel;
+		private LabelControl _emailLabel;
+		private LabelControl _nicknameLabel;
+		private LabelControl _passwordLabel;
 
-        private InputControl _nameBox;
-        private InputControl _surNameBox;
-        private InputControl _emailBox;
-        private InputControl _nicknameBox;
-        private InputControl _passwordBox;
+		private InputControl _nameBox;
+		private InputControl _surNameBox;
+		private InputControl _emailBox;
+		private InputControl _nicknameBox;
+		private InputControl _passwordBox;
 
-        private ButtonControl _registerButton;
-        private ButtonControl _backButton;
+		private ButtonControl _registerButton;
+		private ButtonControl _backButton;
 
-        public NewAccountScreen()
+		public NewAccountScreen()
 		{
 			CreateControls();
 			InitializeControls();
 		}
 
-        public override void LoadContent()
+		public override void LoadContent()
 		{
-            _texture = ContentManager.Load<Texture2D>("Textures/Screens/mainMenuScreen");
+			_texture = ContentManager.Load<Texture2D>("Textures/Screens/mainMenuScreen");
 		}
 
 		public override void Draw(GameTime gameTime)
@@ -46,147 +46,147 @@ namespace WarSpot.Client.XnaClient.Screen
 			SpriteBatch.End();
 		}
 
-        private void CreateControls()
-        {
-            _nameLabel = new LabelControl("Enter your name:")
-            {
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.1f, -70), 100, 30)
-            };
+		private void CreateControls()
+		{
+			_nameLabel = new LabelControl("Enter your name:")
+			{
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.1f, -70), 100, 30)
+			};
 
-            _surNameLabel = new LabelControl("Enter your surname:")
-            {
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.25f, -70), 100, 30)
-            };
+			_surNameLabel = new LabelControl("Enter your surname:")
+			{
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.25f, -70), 100, 30)
+			};
 
-            _emailLabel = new LabelControl("Enter your e-mail:")
-            {
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.4f, -70), 100, 30)
-            };
+			_emailLabel = new LabelControl("Enter your e-mail:")
+			{
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.4f, -70), 100, 30)
+			};
 
-            _nicknameLabel = new LabelControl("Enter your nickname:")
-            {
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.55f, -70), 100, 30)
-            };
-            
-            _passwordLabel = new LabelControl("Enter your password:")
-            {
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.7f, -70), 100, 30)
-            };
+			_nicknameLabel = new LabelControl("Enter your nickname:")
+			{
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.55f, -70), 100, 30)
+			};
+
+			_passwordLabel = new LabelControl("Enter your password:")
+			{
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.7f, -70), 100, 30)
+			};
 
 
-            _nameBox = new InputControl
-            {
+			_nameBox = new InputControl
+			{
 				Name = "name",
-                IsHidden = false,
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.1f, -45), 200, 30),
-                Text = ""
-            };
+				IsHidden = false,
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.1f, -45), 200, 30),
+				Text = ""
+			};
 
-            _surNameBox = new InputControl
-            {
+			_surNameBox = new InputControl
+			{
 				Name = "surname",
-                IsHidden = false,
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.25f, -45), 200, 30),
-                Text = ""
-            };
+				IsHidden = false,
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.25f, -45), 200, 30),
+				Text = ""
+			};
 
-            _emailBox = new InputControl
-            {
+			_emailBox = new InputControl
+			{
 				Name = "email",
-                IsHidden = false,
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -45), 200, 30),
-                Text = ""
-            };
+				IsHidden = false,
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -45), 200, 30),
+				Text = ""
+			};
 
-            _nicknameBox = new InputControl
-            {
+			_nicknameBox = new InputControl
+			{
 				Name = "nickname",
-                IsHidden = false,
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.55f, -45), 200, 30),
-                Text = ""
-            };
+				IsHidden = false,
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.55f, -45), 200, 30),
+				Text = ""
+			};
 
-            _passwordBox = new InputControl
-            {
+			_passwordBox = new InputControl
+			{
 				Name = "password",
-                IsHidden = true,
-                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.7f, -45), 200, 30),
-                Text = ""
-            };
+				IsHidden = true,
+				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.7f, -45), 200, 30),
+				Text = ""
+			};
 
-            _backButton = new ButtonControl
-            {
-                Text = "Back",
-                Bounds =
-                    new UniRectangle(
-                        new UniScalar(0.35f, -5),
-                        new UniScalar(0.8f, 0),
-                        new UniScalar(0.3f, 10),
-                        new UniScalar(0.07f, 0)),
-            };
+			_backButton = new ButtonControl
+			{
+				Text = "Back",
+				Bounds =
+						new UniRectangle(
+								new UniScalar(0.35f, -5),
+								new UniScalar(0.8f, 0),
+								new UniScalar(0.3f, 10),
+								new UniScalar(0.07f, 0)),
+			};
 
-            _registerButton = new ButtonControl
-            {
-                Text = "Register",
-                Bounds =
-                    new UniRectangle(
-                        new UniScalar(0.35f, -5),
-                        new UniScalar(0.7f, 0),
-                        new UniScalar(0.3f, 10),
-                        new UniScalar(0.07f, 0)),
-            };
-        }
+			_registerButton = new ButtonControl
+			{
+				Text = "Register",
+				Bounds =
+						new UniRectangle(
+								new UniScalar(0.35f, -5),
+								new UniScalar(0.7f, 0),
+								new UniScalar(0.3f, 10),
+								new UniScalar(0.07f, 0)),
+			};
+		}
 
-        private void InitializeControls()
-        {
-            Desktop.Children.Add(_nameLabel);
-            Desktop.Children.Add(_surNameLabel);
-            Desktop.Children.Add(_emailLabel);
-            Desktop.Children.Add(_nicknameLabel);
-            Desktop.Children.Add(_passwordLabel);
+		private void InitializeControls()
+		{
+			Desktop.Children.Add(_nameLabel);
+			Desktop.Children.Add(_surNameLabel);
+			Desktop.Children.Add(_emailLabel);
+			Desktop.Children.Add(_nicknameLabel);
+			Desktop.Children.Add(_passwordLabel);
 
-            Desktop.Children.Add(_nameBox);
-            Desktop.Children.Add(_surNameBox);
-            Desktop.Children.Add(_emailBox);
-            Desktop.Children.Add(_nicknameBox);
-            Desktop.Children.Add(_passwordBox);
+			Desktop.Children.Add(_nameBox);
+			Desktop.Children.Add(_surNameBox);
+			Desktop.Children.Add(_emailBox);
+			Desktop.Children.Add(_nicknameBox);
+			Desktop.Children.Add(_passwordBox);
 
-            Desktop.Children.Add(_backButton);
-            Desktop.Children.Add(_registerButton);
+			Desktop.Children.Add(_backButton);
+			Desktop.Children.Add(_registerButton);
 
 			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
-            ScreenManager.Instance.Controller.AddListener(_registerButton, RegisterButtonPressed);
-        }
+			ScreenManager.Instance.Controller.AddListener(_registerButton, RegisterButtonPressed);
+		}
 
-        private void RegisterButtonPressed(object sender, EventArgs args)
-        {
-            bool checker = Utils.InputValidator.checkText(_nameBox.RealText) &&
-            Utils.InputValidator.checkText(_surNameBox.RealText) &&
-            Utils.InputValidator.checkEmail(_emailBox.RealText) &&
-            Utils.InputValidator.checkText(_nicknameBox.RealText) &&
-            Utils.InputValidator.checkText(_passwordBox.RealText);
-            if (!checker)
-            {
-                MessageBox.Show("Incorrect input", ScreenManager.ScreenEnum.NewAccountScreen);
-            }
-            else
-            {
+		private void RegisterButtonPressed(object sender, EventArgs args)
+		{
+			bool checker = Utils.InputValidator.CheckText(_nameBox.RealText) &&
+			Utils.InputValidator.CheckText(_surNameBox.RealText) &&
+			Utils.InputValidator.CheckEmail(_emailBox.RealText) &&
+			Utils.InputValidator.CheckText(_nicknameBox.RealText) &&
+			Utils.InputValidator.CheckText(_passwordBox.RealText);
+			if (!checker)
+			{
+				MessageBox.Show("Incorrect input", ScreenManager.ScreenEnum.NewAccountScreen);
+			}
+			else
+			{
 				ErrorCode errorCode = Network.ConnectionManager.Instance.Register(_nicknameBox.RealText, _passwordBox.RealText);
-                if (errorCode.Type != ErrorType.Ok)
-                {
-					MessageBox.Show("This nickname is currently used", 
+				if (errorCode.Type != ErrorType.Ok)
+				{
+					MessageBox.Show("This nickname is currently used",
 					ScreenManager.ScreenEnum.NewAccountScreen);
-                }
-                else
-                {
-                    MessageBox.Show("Registered Successfully", ScreenManager.ScreenEnum.LoginScreen);
-                }
-            }
-        }
+				}
+				else
+				{
+					MessageBox.Show("Registered Successfully", ScreenManager.ScreenEnum.LoginScreen);
+				}
+			}
+		}
 
 		private void BackButtonPressed(object sender, EventArgs args)
 		{
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
 		}
-    }
+	}
 }

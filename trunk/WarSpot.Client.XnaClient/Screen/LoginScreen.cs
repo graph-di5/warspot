@@ -5,7 +5,6 @@ using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using InputControl = WarSpot.Client.XnaClient.Input.InputControl;
-using WarSpot.Client.XnaClient.Network;
 using WarSpot.Contracts.Service;
 
 namespace WarSpot.Client.XnaClient.Screen
@@ -32,7 +31,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public override void LoadContent()
 		{
-            _texture = ContentManager.Load<Texture2D>("Textures/Screens/mainMenuScreen");
+			_texture = ContentManager.Load<Texture2D>("Textures/Screens/mainMenuScreen");
 		}
 
 		public override void Draw(GameTime gameTime)
@@ -44,22 +43,22 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void CreateControls()
 		{
-            _loginBox = new InputControl
-                            {
-								Name = "login",
-								IsHidden = false,
-								Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -30), 200, 30),
-                                Text = ""
-                            };
+			_loginBox = new InputControl
+											{
+												Name = "login",
+												IsHidden = false,
+												Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -30), 200, 30),
+												Text = ""
+											};
 
-            _passwordBox = new InputControl
-                            {
-								Name = "password",
-                                IsHidden = true,
-                                Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, 30), 200, 30),
-                                RealText = "",
-                                Text = InputControl.HiddenText("")
-                            };
+			_passwordBox = new InputControl
+											{
+												Name = "password",
+												IsHidden = true,
+												Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, 30), 200, 30),
+												RealText = "",
+												Text = InputControl.HiddenText("")
+											};
 
 			_loginLabel = new LabelControl("Username")
 							{
@@ -92,8 +91,8 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void InitializeControls()
 		{
-            Desktop.Children.Add(_loginBox);
-            Desktop.Children.Add(_passwordBox);
+			Desktop.Children.Add(_loginBox);
+			Desktop.Children.Add(_passwordBox);
 			Desktop.Children.Add(_loginLabel);
 			Desktop.Children.Add(_passwordLabel);
 			Desktop.Children.Add(_exitButton);
@@ -112,7 +111,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoginButtonPressed(object sender, EventArgs args)
 		{
-			//TEMPORARY
+			// todo check this TEMPORARY
 			if (_loginBox.Text == "" && _passwordBox.Text == "")
 			{
 				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
@@ -120,19 +119,19 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 
 			ErrorCode errorCode = Network.ConnectionManager.Instance.Login(_loginBox.RealText, _passwordBox.RealText);
-            if (errorCode.Type != ErrorType.Ok)
-            {
-                MessageBox.Show("Incorrect login or password!", ScreenManager.ScreenEnum.LoginScreen);
-            }
-            else
-            {
+			if (errorCode.Type != ErrorType.Ok)
+			{
+				MessageBox.Show("Incorrect login or password!", ScreenManager.ScreenEnum.LoginScreen);
+			}
+			else
+			{
 				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
-            }
+			}
 		}
 
 		private void NewAccountButtonPressed(object sender, EventArgs args)
 		{
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.NewAccountScreen);
 		}
-    }
+	}
 }

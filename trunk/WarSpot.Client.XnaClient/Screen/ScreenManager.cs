@@ -9,139 +9,140 @@ using WarSpot.Client.XnaClient.Input;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
-    class ScreenManager:DrawableGameComponent
-    {
-        public enum ScreenEnum
-        {
-            AIManageScreen,
-            MainMenuScreen,
-            NewAccountScreen,
-            LoginScreen,
-            OptionsScreen,
-            MessageBox,
+	class ScreenManager : DrawableGameComponent
+	{
+		public enum ScreenEnum
+		{
+			AIManageScreen,
+			MainMenuScreen,
+			NewAccountScreen,
+			LoginScreen,
+			OptionsScreen,
+			MessageBox,
 			WatchReplayScreen
-        }
+		}
 
-        private static ScreenManager _instance;
+		private static ScreenManager _instance;
 
-        private readonly GuiManager _gui;
-        private readonly InputManager _inputManager;
-        private readonly Dictionary<ScreenEnum, GameScreen> _screens = new Dictionary<ScreenEnum, GameScreen>();
+		private readonly GuiManager _gui;
+		private readonly InputManager _inputManager;
+		private readonly Dictionary<ScreenEnum, GameScreen> _screens = new Dictionary<ScreenEnum, GameScreen>();
 
-        private GameScreen _activeScreen;
+		private GameScreen _activeScreen;
 
-        private ScreenManager(Microsoft.Xna.Framework.Game game)
-            : base(game)
-        {
-            _gui = new GuiManager(Game.Services) { Visible = false };
-            _inputManager = new InputManager(Game.Services, Game.Window.Handle);
+		private ScreenManager(Game game)
+			: base(game)
+		{
+			_gui = new GuiManager(Game.Services) { Visible = false };
+			_inputManager = new InputManager(Game.Services, Game.Window.Handle);
 
-            Game.Components.Add(_gui);
-            Game.Components.Add(_inputManager);
+			Game.Components.Add(_gui);
+			Game.Components.Add(_inputManager);
 
-            Controller = new KeyboardAndMouse(_inputManager);
-        }
+			Controller = new KeyboardAndMouse(_inputManager);
+		}
 
-        public static ScreenManager Instance
-        {
-            get { return _instance; }
-        }
+		public static ScreenManager Instance
+		{
+			get { return _instance; }
+		}
 
-        public Controller Controller { get; private set; }
+		public Controller Controller { get; private set; }
 
-        public SpriteBatch SpriteBatch { get; private set; }
+		public SpriteBatch SpriteBatch { get; private set; }
 
-        public SpriteFont Font { get; private set; }
+		public SpriteFont Font { get; private set; }
 
-        public ContentManager ContentManager { get; private set; }
+		public ContentManager ContentManager { get; private set; }
 
-        public int Height
-        {
-            get { return GraphicsDevice.Viewport.Height; }
-        }
+		public int Height
+		{
+			get { return GraphicsDevice.Viewport.Height; }
+		}
 
-        public int Width
-        {
-            get { return GraphicsDevice.Viewport.Width; }
-        }
+		public int Width
+		{
+			get { return GraphicsDevice.Viewport.Width; }
+		}
 
-        public static void Init(Microsoft.Xna.Framework.Game game)
-        {
-            if (_instance == null)
-                _instance = new ScreenManager(game);
-            else
-            {
-                throw new Exception("Already initialized");
-            }
-        }
+		public static void Init(Game game)
+		{
+			if (_instance == null)
+				_instance = new ScreenManager(game);
+			else
+			{
+				throw new Exception("Already initialized");
+			}
+		}
 
-        public void SetActiveScreen(ScreenEnum screenName)
-        {
-            if (_screens.ContainsKey(screenName))
-            {
-                if (_activeScreen != null)
-                    _activeScreen.OnHide();
+		public void SetActiveScreen(ScreenEnum screenName)
+		{
+			if (_screens.ContainsKey(screenName))
+			{
+				if (_activeScreen != null)
+					_activeScreen.OnHide();
 
-                _activeScreen = _screens[screenName];
-                _gui.Screen = _activeScreen;
+				_activeScreen = _screens[screenName];
+				_gui.Screen = _activeScreen;
 
-                _activeScreen.OnShow();
-            }
-            else
-            {
-                throw new Exception("Game screen not found");
-            }
-        }
+				_activeScreen.OnShow();
+			}
+			else
+			{
+				throw new Exception("Game screen not found");
+			}
+		}
 
-        public void RegisterScreen(ScreenEnum screenName, GameScreen gameScreen)
-        {
-            if (!_screens.ContainsKey(screenName))
-            {
-                _screens.Add(screenName, gameScreen);
-            }
-            else
-            {
-                throw new Exception("game screen is already initialized");
-            }
-        }
+		public void RegisterScreen(ScreenEnum screenName, GameScreen gameScreen)
+		{
+			if (!_screens.ContainsKey(screenName))
+			{
+				_screens.Add(screenName, gameScreen);
+			}
+			else
+			{
+				throw new Exception("game screen is already initialized");
+			}
+		}
 
-        public GameScreen GetActiveScreen()
-        {
-            return _activeScreen;
-        }
+		public GameScreen GetActiveScreen()
+		{
+			return _activeScreen;
+		}
 
-        public override void Update(GameTime gameTime)
-        {
-            _activeScreen.Update(gameTime);
+		public override void Update(GameTime gameTime)
+		{
+			_activeScreen.Update(gameTime);
 
-            Controller.Update();
-            _activeScreen.HandleInput(Controller);
-        }
+			Controller.Update();
+			_activeScreen.HandleInput(Controller);
+		}
 
-        public override void Draw(GameTime gameTime)
-        {
-            _activeScreen.Draw(gameTime);
-            _gui.Draw(gameTime);
-        }
+		public override void Draw(GameTime gameTime)
+		{
+			_activeScreen.Draw(gameTime);
+			_gui.Draw(gameTime);
+		}
 
-        protected override void LoadContent()
-        {
-            ContentManager = Game.Content;
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
-            Font = ContentManager.Load<SpriteFont>("Textures/menufont");
+		protected override void LoadContent()
+		{
+			ContentManager = Game.Content;
+			SpriteBatch = new SpriteBatch(GraphicsDevice);
+			Font = ContentManager.Load<SpriteFont>("Textures/menufont");
 
 			foreach (string screen in Enum.GetNames(typeof(ScreenEnum)))
 			{
-				RegisterScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), screen), 
+				// !! todo check this wtf
+				RegisterScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), screen),
 					(GameScreen)Type.GetType("WarSpot.Client.XnaClient.Screen." + screen)
 					.GetConstructor(new Type[0]).Invoke(new object[0]));
 			}
-            
-            foreach (var gameScreen in _screens.Values)
-            {
-                gameScreen.LoadContent();
-            }
-        }
+
+			foreach (var gameScreen in _screens.Values)
+			{
+				gameScreen.LoadContent();
+			}
+		}
 
 		protected override void UnloadContent()
 		{
@@ -162,6 +163,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			SetActiveScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), current));
 			_activeScreen.UseTexts(dict);
 		}
-        
-    }
+
+	}
 }
