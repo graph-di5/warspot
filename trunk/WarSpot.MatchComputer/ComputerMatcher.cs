@@ -130,27 +130,31 @@ namespace WarSpot.MatchComputer
 				Being actor;
 				Being target;
 				float cost;
+				int distance;
+
 				switch (curAction.ActionType)
 				{
 					case ActionTypes.GameActionAtack:
 						var atackAction = curAction as GameActionAttack;
 						actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
 						target = _objects.Find(a => a.Characteristics.Id == atackAction.TargetId);
-
 						cost = 20 + atackAction.Ci;
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0))//ToDo: Дописать проверку дистанции
+						distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
+
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (distance <= 3))
 						{
 							actor.Characteristics.Ci -= cost;//применяем изменения
 							target.Characteristics.Health -= atackAction.Ci;
 
-							_eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));
-							_eventsHistory.Add(new GameEventHealthChange(atackAction.TargetId, target.Characteristics.Health));//пишем историю
-						}//Если энергии на действие не хватило, ничего не делаем.
+							_eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));//пишем историю
+							_eventsHistory.Add(new GameEventHealthChange(atackAction.TargetId, target.Characteristics.Health));
+						}
 						break;
 
 					case ActionTypes.GameActionEat:
 						var eatAction = curAction as GameActionEat;
 						actor = _objects.Find(a => a.Characteristics.Id == eatAction.SenderId);
+
 						if (actor.Characteristics.Health > 0)
 						{
 							if (_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci > 20)
@@ -174,11 +178,13 @@ namespace WarSpot.MatchComputer
 						actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
 						target = _objects.Find(a => a.Characteristics.Id == giveCiAction.TargetId);
 						cost = 20 + giveCiAction.Ci;
+						distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
 
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0))
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (distance <=3))
 						{
 							actor.Characteristics.Ci -= cost;
 							target.Characteristics.Ci += giveCiAction.Ci;
+
 							_eventsHistory.Add(new GameEventCiChange(giveCiAction.SenderId, actor.Characteristics.Ci));
 							_eventsHistory.Add(new GameEventCiChange(giveCiAction.TargetId, target.Characteristics.Ci));
 						}
@@ -189,12 +195,15 @@ namespace WarSpot.MatchComputer
 
 						var moveAction = curAction as GameActionMove;
 						actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
-						cost = (moveAction.ShiftX + moveAction.ShiftY)*actor.Characteristics.MaxHealth/100;
+						cost = (Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY)) * actor.Characteristics.MaxHealth / 100;
+						distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
 
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0))//Добавить проверку на пустоту пути.
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Being.Equals(null))
+							& (distance <= actor.Characteristics.MaxStep))
 						{
 							actor.Characteristics.X += moveAction.ShiftX;
 							actor.Characteristics.Y += moveAction.ShiftY;
+
 							_eventsHistory.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
 						}
 						break;
@@ -205,8 +214,9 @@ namespace WarSpot.MatchComputer
 						actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
 						target = _objects.Find(a => a.Characteristics.Id == treatAction.TargetId);
 						cost = treatAction.Ci;
+						distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
 
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0))//Добавить проверку дальности.
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (distance <= 3))
 						{
 							actor.Characteristics.Health -= cost;
 							target.Characteristics.Health += cost/3;
@@ -226,7 +236,7 @@ namespace WarSpot.MatchComputer
 						cost = _offspring.Characteristics.MaxHealth * 0.8f//Стоимость максимального здоровья
 							+ _offspring.Characteristics.MaxStep * _offspring.Characteristics.MaxStep//Стоимость максимального шага
 							+ (_offspring.Characteristics.MaxSeeDistance / 2.0f) * (_offspring.Characteristics.MaxSeeDistance / 2.0f);//Стоимость дистанции видимости
-						_world.Map[1, 4].Being.Equals(null);
+						
 						var _emptyEnvirons = new List<WorldCell>();
 						var _environs = ProcessWorld(actor.Characteristics.X, actor.Characteristics.Y, 1);//Собираем информацию об окресностях.
 
