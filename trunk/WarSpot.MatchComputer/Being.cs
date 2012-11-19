@@ -22,6 +22,7 @@ namespace WarSpot.MatchComputer
 		/// Ctor
 		/// </summary>
 		/// <param name="me">Reference to the custom object</param>
+		/// <param name="team"> </param>
 		public Being(IBeingInterface me, int team)
 		{
 			Me = me;		

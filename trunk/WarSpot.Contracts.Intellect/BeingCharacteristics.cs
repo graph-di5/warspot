@@ -4,7 +4,7 @@ namespace WarSpot.Contracts.Intellect
 {
 	public class BeingCharacteristics
 	{
-#region readlony properties: constants for fixed object
+		#region readlony properties: constants for fixed object
 		/// <summary>
 		/// Unique id of the object.
 		/// </summary>
@@ -12,6 +12,7 @@ namespace WarSpot.Contracts.Intellect
 
 		/// <summary>
 		/// Team of the object.
+		/// In some game modes different intelects can be in one team, so this property can be used for determining the teammates.
 		/// </summary>
 		public int Team { private set; get; }
 
@@ -30,8 +31,8 @@ namespace WarSpot.Contracts.Intellect
 		/// </summary>
 		public int MaxSeeDistance { private set; get; }
 
-#endregion 
-#region variable properties for this object
+		#endregion
+		#region variable properties for this object
 
 		/// <summary>
 		/// Health of the object.
@@ -60,12 +61,13 @@ namespace WarSpot.Contracts.Intellect
 		{
 			return (MaxHealth * 0.8f) + (MaxStep * MaxStep) + ((MaxSeeDistance / 2) * (MaxSeeDistance / 2));
 		}
-#endregion
+		#endregion
 
 		/// <summary>
 		/// Ctor for new object.
 		/// </summary>
 		/// <param name="id">Unique id of the object.</param>
+		/// <param name="team"> Team number.</param>
 		/// <param name="maxHealth">Maximum available health for the object.</param>
 		/// <param name="maxStep">Maximum available step length.</param>
 		/// <param name="maxSeeDistance">Half of the visible square edge.</param>

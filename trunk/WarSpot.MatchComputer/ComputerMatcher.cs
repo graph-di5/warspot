@@ -110,7 +110,7 @@ namespace WarSpot.MatchComputer
 					var newBeing = new Being(Team.Members[i], Team.Number);
 					newBeing.Characteristics.X = pos[i].Item1;
 					newBeing.Characteristics.Y = pos[i].Item2;
-					_world[pos[i].Item1, pos[i].Item2].Being = newBeing;
+					_world[pos[i].Item1, pos[i].Item2].BeingValue = newBeing;
 					// todo придумать 
 					newBeing.Construct(Team.Number, 0, 100);
 
