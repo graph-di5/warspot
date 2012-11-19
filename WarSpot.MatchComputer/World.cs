@@ -5,6 +5,9 @@ namespace WarSpot.MatchComputer
 	/// </summary>
 	class World
 	{
+		/// <summary>
+		///Обращение к ячейке мира [x,y].
+		/// </summary>
 		public WorldCell this[int x, int y]//Перегрузка индексатора
 		{
 			set
@@ -12,18 +15,30 @@ namespace WarSpot.MatchComputer
 				int _x, _y;
 
 				if (x > this.Width)
+				{
 					_x = x % this.Width;//Вычитаем лишнее				
+				}
 				else if (x < 0)
+				{
 					_x = this.Width - (x % this.Width);
+				}
 				else
+				{
 					_x = x;
+				}
 
 				if (y > this.Height)
+				{
 					_y = y % this.Height;
+				}
 				else if (y < 0)
+				{
 					_y = this.Height - (y % this.Height);
+				}
 				else
+				{
 					_y = y;
+				}
 				
 				this.Map[_x, _y] = value;//Обращаемся к нужной точке.
 			}
@@ -32,19 +47,30 @@ namespace WarSpot.MatchComputer
 				int _x, _y;
 
 				if (x > this.Width)
-					_x = x % this.Width;		
+				{
+					_x = x % this.Width;
+				}
 				else if (x < 0)
+				{
 					_x = this.Width - (x % this.Width);
+				}
 				else
+				{
 					_x = x;
+				}
 
 				if (y > this.Height)
+				{
 					_y = y % this.Height;
+				}
 				else if (y < 0)
+				{
 					_y = this.Height - (y % this.Height);
+				}
 				else
+				{
 					_y = y;
-
+				}
 				return this.Map[_x, _y];
 			}
 		}
@@ -82,7 +108,7 @@ namespace WarSpot.MatchComputer
 			}
 		}
 		/// <summary>
-		/// ctor
+		/// Конструктор
 		/// </summary>
 		public World()
 		{

@@ -9,7 +9,7 @@ using System;
 
 namespace WarSpot.MatchComputer
 {
-	public class TeamIntellectList //Класс для загрузки команд с их ДЛЛками.
+	public class TeamIntellectList //Класс для загрузки команд с их интеллектами.
 	{
 		public int Number { set; get ;}
 		public List<IBeingInterface> Members;
@@ -25,6 +25,10 @@ namespace WarSpot.MatchComputer
 		private BinaryFormatter _formatter;//Создаём буфер для сериализации
 		private World _world;
 
+		/// <summary>
+		///Универсальный перемешиватель списков.
+		/// </summary>
+		/// <param name="list">Список на перемешивание в случайном порядке.</param>
 		private void RandomShuffle<T> (List<T> list)
 		{
 			Random rand = new Random();
@@ -36,7 +40,13 @@ namespace WarSpot.MatchComputer
 				list[next] = tmp;
 			}
 		}
-		
+
+		/// <summary>
+		///Выдача области видимости вокруг начальной точки. (квадрат)
+		/// </summary>
+		/// <param name="x">Координата X центральной точки области.</param>
+		/// <param name="y">Координата Y центральной точки области.</param>
+		/// <param name="radius">Количество точек видимости в каждую сторону.</param>
 		private IWorldCell [,] ProcessWorld (int x, int y, int radius)
 		{
 			IWorldCell [,] res = new IWorldCell[radius * 2 + 1, radius * 2 + 1];
@@ -47,8 +57,10 @@ namespace WarSpot.MatchComputer
 		}
 
 		/// <summary>
-		///Загрузка всех объектов списками команд
+		///Высчитывание и вывод истории матча при заданных командах интеллектов.
 		/// </summary>
+		/// <param name="listIntellect">Список для загрузки всех интеллектов командами.</param>
+		/// <param name="stream">Поток для выгрузки сериализованной истории событий.</param>
 		public ComputerMatcher (List<TeamIntellectList> listIntellect, Stream stream)
 		{
 			_objects = new List<Being>();
@@ -110,6 +122,9 @@ namespace WarSpot.MatchComputer
 			}
 		}
 
+		/// <summary>
+		///Произведение очередного кода, запись результатов в историю. Вывод истории, если матч завершился.
+		/// </summary>
 		public int Update()
 		{
 			_actions.Clear();
@@ -125,15 +140,16 @@ namespace WarSpot.MatchComputer
 
 			for (GameAction curAction = _actions[0]; curAction != null; curAction = _actions[0])
 			{
-#region Event Dealer 
+#region Event Dealer //Проход по всем действиям этого хода.
 				
 				Being actor;
 				Being target;
 				float cost;
 				int distance;
 
-				switch (curAction.ActionType)
+				switch (curAction.ActionType)//Выясняем тип действия, и выполняем, если это возможно.
 				{
+					#region GameActionAtack
 					case ActionTypes.GameActionAtack:
 						var atackAction = curAction as GameActionAttack;
 						actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
@@ -149,8 +165,10 @@ namespace WarSpot.MatchComputer
 							_eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));//пишем историю
 							_eventsHistory.Add(new GameEventHealthChange(atackAction.TargetId, target.Characteristics.Health));
 						}
-						break;
 
+						break;
+					#endregion
+					#region GameActionEat
 					case ActionTypes.GameActionEat:
 						var eatAction = curAction as GameActionEat;
 						actor = _objects.Find(a => a.Characteristics.Id == eatAction.SenderId);
@@ -170,8 +188,10 @@ namespace WarSpot.MatchComputer
 							_eventsHistory.Add(new GameEventCiChange(eatAction.SenderId, actor.Characteristics.Ci));
 							_eventsHistory.Add(new GameEventWorldCiChanged(actor.Characteristics.X, actor.Characteristics.Y, 0));//Событие в клетке по координатам существа
 						}
-						break;
 
+						break;
+					#endregion
+					#region GameActionGiveCi
 					case ActionTypes.GameActionGiveCi:
 
 						var giveCiAction = curAction as GameActionGiveCi;
@@ -190,7 +210,8 @@ namespace WarSpot.MatchComputer
 						}
 
 						break;
-
+					#endregion
+					#region GameActionMove
 					case ActionTypes.GameActionMove:
 
 						var moveAction = curAction as GameActionMove;
@@ -206,8 +227,10 @@ namespace WarSpot.MatchComputer
 
 							_eventsHistory.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
 						}
-						break;
 
+						break;
+					#endregion
+					#region GameActionTreat
 					case ActionTypes.GameActionTreat:
 
 						var treatAction = curAction as GameActionGiveCi;
@@ -224,8 +247,10 @@ namespace WarSpot.MatchComputer
 							_eventsHistory.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
 							_eventsHistory.Add(new GameEventHealthChange(treatAction.TargetId, target.Characteristics.Health));
 						}
-						break;
 
+						break;
+					#endregion
+					#region GameActionMakeOffspring
 					case ActionTypes.GameActionMakeOffspring:
 						var birthAcrion = curAction as GameActionMakeOffspring;
 						actor = _objects.Find(a => a.Characteristics.Id == birthAcrion.SenderId);
@@ -269,13 +294,15 @@ namespace WarSpot.MatchComputer
 								_eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
 							}
 						}
+
 						break;
+					#endregion
 				}
 				
 				_actions.Remove(curAction);//Удаляем  проверенное действие
 			}
 #endregion
-#region Grim Reaper //Здесь удаляются все, у кого кончилось здоровье
+#region Grim Reaper //Здесь удаляются все, у кого кончилось здоровье.
 
 			foreach (var curObject in _objects)//проверяем мёртвых
 			{
@@ -297,7 +324,7 @@ namespace WarSpot.MatchComputer
 
 			_objectsToDelete.Clear();
 #endregion
-#region Check For Winning
+#region Check For Winning //Если остались представители лишь одной команды--эта команда победила.
 			if (_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Count() == 1)
 			{
 				int winer = _objects.Find(a => a.Characteristics.Team != 0).Characteristics.Team;
@@ -316,6 +343,9 @@ namespace WarSpot.MatchComputer
 #endregion
 		}
 
+		/// <summary>
+		///Выгрузка в поток накопившейся истории событий, очистка истории для дальнейшего накопления.
+		/// </summary>
 		public void PullOut()
 		{
 			_formatter.Serialize(_stream, _eventsHistory);//Отдаём всё, что успело накопиться в истории событий с последнего вызова этого метода.
