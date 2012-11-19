@@ -42,7 +42,7 @@ namespace WarSpot.MatchComputer
 			IWorldCell [,] res = new IWorldCell[radius * 2 + 1, radius * 2 + 1];
 			for (int dx = -radius, i = 0; dx <= radius; dx++, i++)
 				for (int dy = -radius, j = 0; dy <= radius; dy++, j++)
-					res[i, j] = _world.Map[(x + dx) % _world.Height, (y + dy) % _world.Width];
+					res[i, j] = _world[(x + dx) % _world.Height, (y + dy) % _world.Width];
 			return res;
 		}
 
@@ -98,7 +98,7 @@ namespace WarSpot.MatchComputer
 					var newBeing = new Being(Team.Members[i], Team.Number);
 					newBeing.Characteristics.X = pos[i].Item1;
 					newBeing.Characteristics.Y = pos[i].Item2;
-					_world.Map[pos[i].Item1, pos[i].Item2].Being = newBeing;
+					_world[pos[i].Item1, pos[i].Item2].Being = newBeing;
 					// todo придумать 
 					newBeing.Construct(Team.Number, 0, 100);
 
@@ -157,15 +157,15 @@ namespace WarSpot.MatchComputer
 
 						if (actor.Characteristics.Health > 0)
 						{
-							if (_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci > 20)
+							if (_world[actor.Characteristics.X, actor.Characteristics.Y].Ci > 20)
 							{
 								actor.Characteristics.Ci += 20;//Съесть можно не больше 20 энергии за ход.
-								_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci -= 20;
+								_world[actor.Characteristics.X, actor.Characteristics.Y].Ci -= 20;
 							}
 							else
 							{
-								actor.Characteristics.Ci += _world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci;//увеличиваем энергию существа
-								_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0;//Убираем энергию из клетки
+								actor.Characteristics.Ci += _world[actor.Characteristics.X, actor.Characteristics.Y].Ci;//увеличиваем энергию существа
+								_world[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0;//Убираем энергию из клетки
 							}
 							_eventsHistory.Add(new GameEventCiChange(eatAction.SenderId, actor.Characteristics.Ci));
 							_eventsHistory.Add(new GameEventWorldCiChanged(actor.Characteristics.X, actor.Characteristics.Y, 0));//Событие в клетке по координатам существа
@@ -198,7 +198,7 @@ namespace WarSpot.MatchComputer
 						cost = (Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY)) * actor.Characteristics.MaxHealth / 100;
 						distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
 
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (_world.Map[actor.Characteristics.X, actor.Characteristics.Y].Being.Equals(null))
+						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (_world[actor.Characteristics.X, actor.Characteristics.Y].Being.Equals(null))
 							& (distance <= actor.Characteristics.MaxStep))
 						{
 							actor.Characteristics.X += moveAction.ShiftX;
@@ -281,10 +281,10 @@ namespace WarSpot.MatchComputer
 			{
 				if (curObject.Characteristics.Health <= 0)
 				{
-					_world.Map[curObject.Characteristics.X, curObject.Characteristics.Y].Ci += (curObject.Characteristics.Ci+curObject.Characteristics.MaxHealth/5);//Из существа при смерти вываливается энергия.
+					_world[curObject.Characteristics.X, curObject.Characteristics.Y].Ci += (curObject.Characteristics.Ci+curObject.Characteristics.MaxHealth/5);//Из существа при смерти вываливается энергия.
 
 					_eventsHistory.Add(new GameEventDeath(curObject.Characteristics.Id));
-					_eventsHistory.Add(new GameEventWorldCiChanged(curObject.Characteristics.X, curObject.Characteristics.Y, _world.Map[curObject.Characteristics.X, curObject.Characteristics.Y].Ci));
+					_eventsHistory.Add(new GameEventWorldCiChanged(curObject.Characteristics.X, curObject.Characteristics.Y, _world[curObject.Characteristics.X, curObject.Characteristics.Y].Ci));
 
 					_objectsToDelete.Add(curObject);//Вносим умерших в список на удаление
 				}
