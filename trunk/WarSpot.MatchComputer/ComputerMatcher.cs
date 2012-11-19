@@ -226,17 +226,38 @@ namespace WarSpot.MatchComputer
 						cost = _offspring.Characteristics.MaxHealth * 0.8f//Стоимость максимального здоровья
 							+ _offspring.Characteristics.MaxStep * _offspring.Characteristics.MaxStep//Стоимость максимального шага
 							+ (_offspring.Characteristics.MaxSeeDistance / 2.0f) * (_offspring.Characteristics.MaxSeeDistance / 2.0f);//Стоимость дистанции видимости
+						_world.Map[1, 4].Being.Equals(null);
+						var _emptyEnvirons = new List<WorldCell>();
+						var _environs = ProcessWorld(actor.Characteristics.X, actor.Characteristics.Y, 1);//Собираем информацию об окресностях.
 
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Ci >= birthAcrion.Ci)
-							 & (actor.Characteristics.Health > 0) & (actor.Characteristics.Ci >= _offspring.Characteristics.MaxHealth * 0.9f) & (actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f))
+						_emptyEnvirons.Clear(); //ToDo: Нужно ли?
+
+						foreach (WorldCell c in _environs)//Собираем список пустых ячеек вокруг существа
 						{
-							_offspring.Characteristics.Health = _offspring.Characteristics.MaxHealth * 0.6f;
-							_offspring.Characteristics.Ci = _offspring.Characteristics.MaxHealth * 0.3f;
-							
-							_objects.Add(_offspring);
-							_eventsHistory.Add(new GameEventBirth(_offspring.Characteristics.Id, _offspring.Characteristics));
-							actor.Characteristics.Ci -= cost;
-							_eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
+							if (c.Being.Equals(null))
+							{
+								_emptyEnvirons.Add(c);
+							}
+						}
+
+						if (_emptyEnvirons.Count() > 0)
+						{
+							Random r = new Random();
+							int d = r.Next(_emptyEnvirons.Count - 1);//Номер клетки из списка пустых клеток вокруг существа.
+						
+							if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Ci >= birthAcrion.Ci)
+								 & (actor.Characteristics.Health > 0) & (actor.Characteristics.Ci >= _offspring.Characteristics.MaxHealth * 0.9f) & (actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f))
+							{
+								_offspring.Characteristics.Health = _offspring.Characteristics.MaxHealth * 0.6f;
+								_offspring.Characteristics.Ci = _offspring.Characteristics.MaxHealth * 0.3f;
+								_offspring.Characteristics.X = _emptyEnvirons[d].X;
+								_offspring.Characteristics.Y = _emptyEnvirons[d].Y;
+
+								_objects.Add(_offspring);
+								_eventsHistory.Add(new GameEventBirth(_offspring.Characteristics.Id, _offspring.Characteristics));
+								actor.Characteristics.Ci -= cost;
+								_eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
+							}
 						}
 						break;
 				}
@@ -273,7 +294,7 @@ namespace WarSpot.MatchComputer
 				_eventsHistory.Add(new SystemEventCommandWin(winer));//Объявляем победителя
 				_eventsHistory.Add(new SystemEventMatchEnd());//И матч заканчивается.
 
-				_formatter.Serialize(_stream, _eventsHistory);//Отдаём историю событий.
+				PullOut();//Отдаём историю событий.
 
 				return 0;
 			}
@@ -283,6 +304,12 @@ namespace WarSpot.MatchComputer
 				return 1;//Если нужны ещё ходы.
 			}
 #endregion
+		}
+
+		public void PullOut()
+		{
+			_formatter.Serialize(_stream, _eventsHistory);//Отдаём всё, что успело накопиться в истории событий с последнего вызова этого метода.
+			_eventsHistory.Clear();//Очищаем историю.
 		}
 	}		
 }
