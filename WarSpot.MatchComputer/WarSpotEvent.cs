@@ -1,22 +1,40 @@
 ﻿using System;
-using System.Runtime.Serialization.Formatters.Binary;
 using WarSpot.Contracts.Intellect;
+
+// todo spit to different files
 
 namespace WarSpot.MatchComputer
 {
-	public enum EventTypes { GameEventHealthChange, GameEventCiChange, GameEventMove, GameEventDeath, GameEventBirth,
-	GameEventWorldCiChanged, SystemEventTurnStarted, SystemEventCommandDead, SystemEventCommandWin, SystemEventMatchEnd
+	public enum EventTypes
+	{
+		#region Game events
+		GameEventHealthChange,
+		GameEventCiChange,
+		GameEventMove,
+		GameEventDeath,
+		GameEventBirth,
+		GameEventWorldCiChanged,
+		#endregion
+
+		#region System events
+		SystemEventTurnStarted,
+		SystemEventCommandDead,
+		SystemEventCommandWin,
+		SystemEventMatchEnd
+		#endregion
 	};
 
+	// todo check if needed [KnowTypes] attribute
 	[Serializable]
 	public abstract class WarSpotEvent
 	{
 		/// <summary>
 		/// Type of the event.
 		/// </summary>
-		public WarSpot.MatchComputer.EventTypes EventType { set; get; }
+		public EventTypes EventType { set; get; }
 	}
 
+	#region Game events
 	[Serializable]
 	public abstract class GameEvent : WarSpotEvent
 	{
@@ -63,7 +81,7 @@ namespace WarSpot.MatchComputer
 	[Serializable]
 	public class GameEventMove : GameEvent
 	{
-		public GameEventMove(Guid subjectId, int shiftX, int shiftY):
+		public GameEventMove(Guid subjectId, int shiftX, int shiftY) :
 			base(subjectId)
 		{
 			EventType = EventTypes.GameEventMove;
@@ -79,7 +97,8 @@ namespace WarSpot.MatchComputer
 	[Serializable]
 	public class GameEventDeath : GameEvent
 	{
-		public GameEventDeath(Guid creator) : base(creator)
+		public GameEventDeath(Guid creator)
+			: base(creator)
 		{
 			EventType = EventTypes.GameEventDeath;
 		}
@@ -90,7 +109,8 @@ namespace WarSpot.MatchComputer
 	{
 		public BeingCharacteristics Newborn { set; get; }
 
-		public GameEventBirth(Guid creator, BeingCharacteristics newborn) : base(creator)
+		public GameEventBirth(Guid creator, BeingCharacteristics newborn)
+			: base(creator)
 		{
 			EventType = EventTypes.GameEventBirth;
 			Newborn = newborn;
@@ -117,6 +137,9 @@ namespace WarSpot.MatchComputer
 		/// </summary>
 		public float Ci { get; private set; }
 	}
+	#endregion
+
+	#region System events
 
 	[Serializable]
 	public abstract class SystemEvent : WarSpotEvent
@@ -126,7 +149,7 @@ namespace WarSpot.MatchComputer
 	[Serializable]
 	public class SystemEventTurnStarted : SystemEvent
 	{
-		public ulong Number {set; get;}
+		public ulong Number { set; get; }
 
 		public SystemEventTurnStarted(ulong number)
 		{
@@ -167,4 +190,5 @@ namespace WarSpot.MatchComputer
 			EventType = EventTypes.SystemEventMatchEnd;
 		}
 	}
+	#endregion
 }

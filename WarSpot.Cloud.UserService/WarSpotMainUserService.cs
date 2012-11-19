@@ -1,43 +1,37 @@
-﻿
-using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using WarSpot.Contracts.Service;
-using WarSpot.Cloud.Storage;
-
 
 namespace WarSpot.Cloud.UserService
 {
-    public class WarSpotMainUserService : IWarSpotService
-    {
-        
+	public class WarSpotMainUserService : IWarSpotService
+	{
+		private bool _loggedIn;
+		private System.Guid _userID;
 
-        public bool loggedIn;        
-        public System.Guid user_ID;
+		private readonly Storage.Storage _storage;
 
-        public Storage.Storage storage;
+		public WarSpotMainUserService()
+		{
+			_storage = new Storage.Storage();
+			_loggedIn = false;
+		}
 
-        public WarSpotMainUserService()
-        {
-            storage = new Storage.Storage();
-            loggedIn = false;
-        }
+		public ErrorCode Register(string username, string pass)
+		{
+			if (_storage.Register(username, pass))
+				return new ErrorCode(ErrorType.Ok, "New account has been successfully created.");
+			else
+				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Existed account with same name.");
+		}
 
-        public ErrorCode Register(string username, string pass)
-        {
-            if (storage.Register(username, pass))
-                return new ErrorCode(ErrorType.Ok, "New account has been successfully created.");
-            else
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Existed account with same name.");
-        }
-
-        public ErrorCode Login(string username, string pass)
-        {
-			if (storage.Login(username, pass))
+		public ErrorCode Login(string username, string pass)
+		{
+			if (_storage.Login(username, pass))
 			{
-				loggedIn = true;
-				user_ID = (from b in storage.db.Account
-									where b.Account_Name == username
-									select b).First().Account_ID;
+				_loggedIn = true;
+				_userID = (from b in _storage.db.Account
+									 where b.Account_Name == username
+									 select b).First().Account_ID;
 
 				return new ErrorCode(ErrorType.Ok, "Logged in successfully.");
 			}
@@ -46,48 +40,48 @@ namespace WarSpot.Cloud.UserService
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Wrong username or password.");
 			}
 
-        }
+		}
 
-        public ErrorCode UploadIntellect(byte[] intellect, string name)
-        {
-            if (loggedIn)
-            {
-                storage.Upload(user_ID, name, intellect);
-                return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
-            }
-            else
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
-        }
+		public ErrorCode UploadIntellect(byte[] intellect, string name)
+		{
+			if (_loggedIn)
+			{
+				_storage.Upload(_userID, name, intellect);
+				return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
+			}
+			else
+				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+		}
 
-        
-        public string[] GetListOfIntellects()
-        {
-            // TODO: получать список всех интеллектов пользователя и возвращать их массивом
 
-            if (!loggedIn)
-            {
-                return (new string[1] {"Not logged in yet."});
-            }
+		public string[] GetListOfIntellects()
+		{
+			// TODO: получать список всех интеллектов пользователя и возвращать их массивом
 
-            return storage.GetListOfIntellects(user_ID);
-        }
+			if (!_loggedIn)
+			{
+				return (new string[1] { "Not logged in yet." });
+			}
 
-        public ErrorCode DeleteIntellect(string name)
-        {
-            // TODO: корректная работа с удалением
+			return _storage.GetListOfIntellects(_userID);
+		}
 
-            if (!loggedIn)
-            {
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
-            }
+		public ErrorCode DeleteIntellect(string name)
+		{
+			// TODO: корректная работа с удалением
 
-            if (storage.DeleteIntellect(name, user_ID))
-            {
-                return new ErrorCode(ErrorType.Ok, "Intellect has been deleted.");
-            }
-            else
-                return new ErrorCode(ErrorType.BadFileType, "No intellect with that name");
+			if (!_loggedIn)
+			{
+				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+			}
 
-        }
-    }
+			if (_storage.DeleteIntellect(name, _userID))
+			{
+				return new ErrorCode(ErrorType.Ok, "Intellect has been deleted.");
+			}
+			else
+				return new ErrorCode(ErrorType.BadFileType, "No intellect with that name");
+
+		}
+	}
 }

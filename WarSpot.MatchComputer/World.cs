@@ -6,12 +6,25 @@ namespace WarSpot.MatchComputer
 	class World
 	{
 		/// <summary>
-		///Обращение к ячейке мира [x,y].
+		/// Обращение к ячейке мира [x,y].
 		/// </summary>
 		public WorldCell this[int x, int y]//Перегрузка индексатора
 		{
 			set
 			{
+#if true
+				while (x < 0)
+				{
+					x += Width;
+				}
+				x %= Width;
+				while (y < 0)
+				{
+					y += Height;
+				}
+				y %= Height;
+				Map[x, y] = value;
+#else
 				int _x, _y;
 
 				if (x > this.Width)
@@ -41,9 +54,23 @@ namespace WarSpot.MatchComputer
 				}
 				
 				this.Map[_x, _y] = value;//Обращаемся к нужной точке.
+#endif
 			}
 			get
 			{
+#if true
+				while (x < 0)
+				{
+					x += Width;
+				}
+				x %= Width;
+				while (y < 0)
+				{
+					y += Height;
+				}
+				y %= Height;
+				return Map[x, y];
+#else
 				int _x, _y;
 
 				if (x > this.Width)
@@ -72,49 +99,25 @@ namespace WarSpot.MatchComputer
 					_y = y;
 				}
 				return this.Map[_x, _y];
+#endif
 			}
 		}
 
-		private WorldCell[,] _content;
+		//
+		private WorldCell[,] Map { get; set; }
 
-		public WorldCell[,] Map
-		{
-			get
-			{
-				return _content;
-			}
-		}
-		/// <summary>
-		/// Width
-		/// </summary>
-		private readonly int _w;
-		public int Width
-		{
-			get
-			{
-				return _w;
-			}
-		}
+		public int Width { get; private set; }
 
-		/// <summary>
-		/// Height
-		/// </summary>
-		private readonly int _h;
-		public int Height
-		{
-			get
-			{
-				return _h;
-			}
-		}
+		public int Height { get; private set; }
+
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		public World()
 		{
-			_w = 100;
-			_h = 70;
-			_content = new WorldCell[_w, _h];
+			Width = 100;
+			Height = 70;
+			Map = new WorldCell[Width, Height];
 		}
 	}
 }

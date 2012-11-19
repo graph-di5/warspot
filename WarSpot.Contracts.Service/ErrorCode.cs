@@ -1,45 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ServiceModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace WarSpot.Contracts.Service
 {
-    [DataContract]
+	/// <summary>
+	/// Error codes
+	/// </summary>
+	public enum ErrorType
+	{
+		/// <summary>
+		/// All done fine.
+		/// </summary>
+		Ok,
+
+		/// <summary>
+		/// Connection exceptions
+		/// </summary>
+		WrongLoginOrPassword,
+
+		#region .dll file exceptions
+		/// <summary>
+		/// Not a valid .NET dll
+		/// </summary>
+		BadFileType,
+
+		/// <summary>
+		/// Multi-threading, reflection
+		/// </summary>
+		ForbiddenUsages,	
+		#endregion
+
+		/// <summary>
+		/// Some error, that not listed before.
+		/// </summary>
+		UnknownException
+	}
+
+	/// <summary>
+	/// Class is needed for reporting errors from UserService to the client
+	/// </summary>
+	[DataContract]
 	public class ErrorCode
 	{
-        [DataMember]
-		public ErrorType Type {get; private set;}
-        [DataMember]
-		public string Message {get; private set;}
-		
-		public ErrorCode(ErrorType type)
-		{
-			Type = type;
-			Message = "";
-		}
+		// todo check if this working with private set
+		// todo may be refactor this
 
-		public ErrorCode(ErrorType type, string message)
+		/// <summary>
+		/// Error code.
+		/// </summary>
+		[DataMember]
+		public ErrorType Type { get; private set; }
+
+		/// <summary>
+		/// Some string description of the error.
+		/// </summary>
+		[DataMember]
+		public string Message { get; private set; }
+
+		public ErrorCode(ErrorType type = ErrorType.Ok, string message = "")
 		{
 			Type = type;
 			Message = message;
 		}
 	}
 
-	public enum ErrorType
-	{
-		Ok,
-
-		//connection exceptions
-		WrongLoginOrPassword,
-
-		//.dll file exceptions
-		BadFileType,
-		ForbiddenUsages,	//Multi-threading, reflection
-
-		//other
-		UnknownException
-	}
 }

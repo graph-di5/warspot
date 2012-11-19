@@ -7,8 +7,6 @@ namespace WarSpot.Contracts.Intellect
 	/// </summary>
 	public interface IBeingInterface
 	{
-		// todo write good wrapper for worldcells 
-
 		/// <summary>
 		/// First function called for every being object. 
 		/// </summary>
