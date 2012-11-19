@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace WarSpot.Client.XnaClient.ReplayController
 {
 	class Replay
 	{
-		private static string _globalPath; 
+		private static readonly string GlobalPath;
 		public string Name { get; set; }
 		private byte[] _replay;
 
@@ -16,26 +13,28 @@ namespace WarSpot.Client.XnaClient.ReplayController
 		// TODO: some tests, it isn't even tested
 		static Replay()
 		{
-			_globalPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "zReplays";
-			if (!Directory.Exists(_globalPath))
+			// !! todo move this to Common
+			GlobalPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "zReplays";
+			if (!Directory.Exists(GlobalPath))
 			{
 				try
 				{
-					Directory.CreateDirectory(_globalPath);
+					Directory.CreateDirectory(GlobalPath);
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					// хрен знает, что тут может произойти
+					// DI: ну это смотря, что мы выше можем напортить
 					System.Diagnostics.Trace.WriteLine(e);
 				}
 			}
 		}
 
-		public void saveReplay(byte[] replay, string name)
+		public void SaveReplay(byte[] replay, string name)
 		{
 			// TODO: tests
 			// Экранирует ли первый слэш второй?
-			File.WriteAllBytes(_globalPath + "\\" + name, replay);
+			File.WriteAllBytes(Path.Combine(GlobalPath, name), replay);
 		}
 	}
 }

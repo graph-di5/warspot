@@ -5,117 +5,115 @@ using WarSpot.Client.XnaClient.Screen;
 
 namespace WarSpot.Client.XnaClient
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
-    public class WarSpotGame : Microsoft.Xna.Framework.Game
-    {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-		private static WarSpotGame _instance;
-		private bool _isFullScreen;
+	/// <summary>
+	/// This is the main type for your game
+	/// </summary>
+	public class WarSpotGame : Game
+	{
+		private GraphicsDeviceManager _graphics;
+		private SpriteBatch _spriteBatch;
 
-		public static WarSpotGame Instance { get { return _instance; } }
-		public bool IsFullScreen { get { return _isFullScreen; } private set {} }
+		public static WarSpotGame Instance { get; private set; }
+		public bool IsFullScreen { get; private set; }
 
-        public WarSpotGame()
-        {
-			_instance = this;
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            _isFullScreen = Settings.Default.FullScreenSelected;
+		public WarSpotGame()
+		{
+			Instance = this;
+			_graphics = new GraphicsDeviceManager(this);
+			Content.RootDirectory = "Content";
+			IsFullScreen = Settings.Default.FullScreenSelected;
 			switch (IsFullScreen)
-            {
-                case false:
-                    {
-                        _graphics.PreferredBackBufferWidth = 800;
-                        _graphics.PreferredBackBufferHeight = 600;
-                    }
-                    break;
-                case true:
-					System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
-					_graphics.PreferredBackBufferWidth = rect.Width;
-					_graphics.PreferredBackBufferHeight = rect.Height;
-					System.Windows.Forms.Form.FromHandle(Window.Handle).FindForm().FormBorderStyle = 
-						System.Windows.Forms.FormBorderStyle.None;
-					//_graphics.IsFullScreen = true;
-                    break;
-            }
+			{
+			case false:
+				{
+					_graphics.PreferredBackBufferWidth = 800;
+					_graphics.PreferredBackBufferHeight = 600;
+				}
+				break;
+			case true:
+				System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+				_graphics.PreferredBackBufferWidth = rect.Width;
+				_graphics.PreferredBackBufferHeight = rect.Height;
+				System.Windows.Forms.Form.FromHandle(Window.Handle).FindForm().FormBorderStyle =
+					System.Windows.Forms.FormBorderStyle.None;
+				//_graphics.IsFullScreen = true;
+				break;
+			}
 
-            IsMouseVisible = true;
-        }
+			IsMouseVisible = true;
+		}
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
-        protected override void Initialize()
-        {
-            ScreenManager.Init(this);
-            Components.Add(ScreenManager.Instance);
+		/// <summary>
+		/// Allows the game to perform any initialization it needs to before starting to run.
+		/// This is where it can query for any required services and load any non-graphic
+		/// related content.  Calling base.Initialize will enumerate through any components
+		/// and initialize them as well.
+		/// </summary>
+		protected override void Initialize()
+		{
+			ScreenManager.Init(this);
+			Components.Add(ScreenManager.Instance);
 
-            base.Initialize();
+			base.Initialize();
 
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
-        }
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
+		}
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+		/// <summary>
+		/// LoadContent will be called once per game and is the place to load
+		/// all of your content.
+		/// </summary>
+		protected override void LoadContent()
+		{
+			// Create a new SpriteBatch, which can be used to draw textures.
+			_spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-        }
+			// TODO: use this.Content to load your game content here
+		}
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
+		/// <summary>
+		/// UnloadContent will be called once per game and is the place to unload
+		/// all content.
+		/// </summary>
+		protected override void UnloadContent()
+		{
+			// TODO: Unload any non ContentManager content here
+		}
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+		/// <summary>
+		/// Allows the game to run logic such as updating the world,
+		/// checking for collisions, gathering input, and playing audio.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+		protected override void Update(GameTime gameTime)
+		{
+			// Allows the game to exit
+			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+				this.Exit();
 
-            // TODO: Add your update logic here
+			// TODO: Add your update logic here
 
-            base.Update(gameTime);
-        }
+			base.Update(gameTime);
+		}
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+		/// <summary>
+		/// This is called when the game should draw itself.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+		protected override void Draw(GameTime gameTime)
+		{
+			GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+			// TODO: Add your drawing code here
 
-            base.Draw(gameTime);
-        }
+			base.Draw(gameTime);
+		}
 
 		public void ToggleFullScreen()
 		{
 			////_graphics.ToggleFullScreen();
-			_isFullScreen = !_isFullScreen;
-			Settings.Default.FullScreenSelected = _isFullScreen;
+			IsFullScreen = !IsFullScreen;
+			Settings.Default.FullScreenSelected = IsFullScreen;
 			Settings.Default.Save();
 			if (IsFullScreen)
 			{
@@ -140,5 +138,5 @@ namespace WarSpot.Client.XnaClient
 		{
 			return new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 		}
-    }
+	}
 }

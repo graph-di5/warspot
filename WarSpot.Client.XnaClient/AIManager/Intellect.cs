@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Reflection;
 using System.Diagnostics;
-using WarSpot.Contracts.Intellect;
 
 namespace WarSpot.Client.XnaClient.AIManager
 {
-    class Intellect
+	class Intellect
 	{
 		public string Name { get; set; }
 		public string Path { get; set; }
-        public byte[] byteDll;
-        public int SizeInBits { get; set; }
+		public byte[] ByteDll;
+		public int SizeInBits { get; set; }
 
-        public Intellect(string path)
-        {
-            this.byteDll = System.IO.File.ReadAllBytes(path);
-            this.Path = path;
-			Name = getName(byteDll);
-        }
+		public Intellect(string path)
+		{
+			ByteDll = System.IO.File.ReadAllBytes(path);
+			Path = path;
+			Name = GetName(ByteDll);
+		}
 
-		private string getName(byte[] byteDll)
+		private string GetName(byte[] byteDll)
 		{
 			//Didn't test yet.
 			try
@@ -40,7 +39,5 @@ namespace WarSpot.Client.XnaClient.AIManager
 			}
 			return "BadFile" + Path.GetHashCode() % 1000;
 		}
-
-
-    }
+	}
 }

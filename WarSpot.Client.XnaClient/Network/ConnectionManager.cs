@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WarSpot.Contracts.Service;
+using System.Diagnostics;
 using System.ServiceModel;
 using WarSpot.Client.XnaClient.Utils;
-using System.Diagnostics;
-using WarSpot.Client.XnaClient.Screen;
+using WarSpot.Contracts.Service;
 
 namespace WarSpot.Client.XnaClient.Network
 {
@@ -32,9 +28,9 @@ namespace WarSpot.Client.XnaClient.Network
 				Trace.WriteLine(e);
 			}
 		}
-        #region login and registration
+		#region login and registration
 
-        public ErrorCode Register(string username, string password)
+		public ErrorCode Register(string username, string password)
 		{
 			InitializeConnection();
 			try
@@ -44,13 +40,13 @@ namespace WarSpot.Client.XnaClient.Network
 			catch (Exception e)
 			{
 				Trace.WriteLine(e);
-                return new ErrorCode(ErrorType.UnknownException, e.ToString());
+				return new ErrorCode(ErrorType.UnknownException, e.ToString());
 			}
 		}
 
 		public ErrorCode Login(string username, string password)
 		{
-			InitializeConnection(); 
+			InitializeConnection();
 			try
 			{
 				return _service.Login(username, HashHelper.GetMd5Hash(password));
@@ -60,31 +56,31 @@ namespace WarSpot.Client.XnaClient.Network
 				Trace.WriteLine(e);
 				return new ErrorCode(ErrorType.UnknownException, e.ToString());
 			}
-        }
-        #endregion login and registration
+		}
+		#endregion login and registration
 
-        #region DLLUploadControl
+		#region DLLUploadControl
 
-        public ErrorCode UploadIntellect(AIManager.Intellect intellect)
-        {
-            return _service.UploadIntellect(intellect.byteDll, intellect.Name);
-        }
+		public ErrorCode UploadIntellect(AIManager.Intellect intellect)
+		{
+			return _service.UploadIntellect(intellect.ByteDll, intellect.Name);
+		}
 
-        public string[] GetListOfIntellects()
-        {
-            return _service == null ? new string[0] : _service.GetListOfIntellects();
-        }
+		public string[] GetListOfIntellects()
+		{
+			return _service == null ? new string[0] : _service.GetListOfIntellects();
+		}
 
 		public ErrorCode DeleteIntellect(string name)
 		{
 			return _service.DeleteIntellect(name);
 		}
-        
-        #endregion DLLUploadControl
+
+		#endregion DLLUploadControl
 
 		#region recieving replays
 
-		public ErrorCode recieveReplay(byte[] replay, string name)
+		public ErrorCode RecieveReplay(byte[] replay, string name)
 		{
 			InitializeConnection();
 			try
@@ -96,7 +92,7 @@ namespace WarSpot.Client.XnaClient.Network
 				Trace.WriteLine(e);
 				return new ErrorCode(ErrorType.UnknownException, e.ToString());
 			}
-			return new ErrorCode(ErrorType.Ok);
+			return new ErrorCode();
 		}
 
 		#endregion
