@@ -6,7 +6,7 @@ namespace WarSpot.MatchComputer
 	/// <summary>
 	/// Main being class in the MathComputer. "Me" field if reference to custom beings or "standart".
 	/// </summary>
-	internal class Being : IBeingInterface
+	public class Being : IBeingInterface
 	{
 		/// <summary>
 		/// Characterisct of the current being. Placed here for security.
