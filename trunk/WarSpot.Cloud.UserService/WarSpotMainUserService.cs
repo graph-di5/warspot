@@ -3,6 +3,7 @@ using WarSpot.Contracts.Service;
 
 namespace WarSpot.Cloud.UserService
 {
+	
 	public class WarSpotMainUserService : IWarSpotService
 	{
 		private bool _loggedIn;
@@ -16,6 +17,7 @@ namespace WarSpot.Cloud.UserService
 			_loggedIn = false;
 		}
 
+		#region login and registration
 		public ErrorCode Register(string username, string pass)
 		{
 			if (_storage.Register(username, pass))
@@ -41,7 +43,9 @@ namespace WarSpot.Cloud.UserService
 			}
 
 		}
+	#endregion login and registration
 
+		#region intellect's stuff
 		public ErrorCode UploadIntellect(byte[] intellect, string name)
 		{
 			if (_loggedIn)
@@ -52,7 +56,6 @@ namespace WarSpot.Cloud.UserService
 			else
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
 		}
-
 
 		public string[] GetListOfIntellects()
 		{
@@ -83,5 +86,13 @@ namespace WarSpot.Cloud.UserService
 				return new ErrorCode(ErrorType.BadFileType, "No intellect with that name");
 
 		}
+		#endregion intellect's stuff
+
+		#region replay's stuff
+		public Replay SendReplay(Replay replay)
+		{
+			return replay;
+		}
+		#endregion replay's stuff
 	}
 }
