@@ -6,7 +6,7 @@ namespace WarSpot.Contracts.Service
 	/// Prototype-class for uploading replays to client
 	/// </summary>
 	[DataContract]
-	class Replay
+	public class Replay
 	{
 		[DataMember]
 		public string name;
