@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.ServiceModel;
 using WarSpot.Client.XnaClient.Utils;
 using WarSpot.Contracts.Service;
+using System.IO;
 
 namespace WarSpot.Client.XnaClient.Network
 {
@@ -80,11 +81,17 @@ namespace WarSpot.Client.XnaClient.Network
 
 		#region recieving replays
 
-		public ErrorCode RecieveReplay(byte[] replay, string name)
+		public ErrorCode RecieveReplay(string name)
 		{
 			InitializeConnection();
 			try
 			{
+				// TODO: refactor this
+				Replay tmp;
+				tmp = _service.SendReplay(name);
+				string absolutePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				string path = Path.Combine(absolutePath, tmp.name + ".log");
+				File.WriteAllBytes(path, tmp.data);
 
 			}
 			catch (Exception e)

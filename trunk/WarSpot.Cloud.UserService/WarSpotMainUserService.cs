@@ -89,9 +89,10 @@ namespace WarSpot.Cloud.UserService
 		#endregion intellect's stuff
 
 		#region replay's stuff
-		public Replay SendReplay(Replay replay)
+		public Replay SendReplay(string name)
 		{
-			return replay;
+			// TODO: all
+			return new Replay();
 		}
 		#endregion replay's stuff
 	}

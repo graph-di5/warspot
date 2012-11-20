@@ -22,7 +22,7 @@ namespace WarSpot.Contracts.Service
         ErrorCode DeleteIntellect(string name);
 
 		[OperationContract]
-		Replay SendReplay(Replay replay);
+		Replay SendReplay(string name);
 
     }
 }
