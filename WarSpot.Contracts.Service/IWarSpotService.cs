@@ -21,7 +21,8 @@ namespace WarSpot.Contracts.Service
         [OperationContract]
         ErrorCode DeleteIntellect(string name);
 
-	  //[OperationContract]
-	  //ErrorCode SendReplay(byte[] replay, string name);
+		[OperationContract]
+		Replay SendReplay(Replay replay);
+
     }
 }
