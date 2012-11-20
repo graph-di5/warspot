@@ -142,16 +142,6 @@ namespace WarSpot.Client.XnaClient.Screen
 						new UniScalar(0f, 30))
 			};
 
-			// Странноватый у этой штуки конструктор, ничего не разрешает    
-
-			/* Правильный вариант:
-			List<string> tmp = new List<string>();
-			tmp.AddRange(WarSpot.Client.XnaClient.AIManager.IntellectStorageController.GetIntellectsNames());
-			foreach (var intellect in tmp)
-			{
-					_intellectsList.Items.Add(intellect);
-			}*/
-
 			_intellectList.Slider.Bounds.Location.X.Offset -= 1.0f;
 			_intellectList.Slider.Bounds.Location.Y.Offset += 1.0f;
 			_intellectList.Slider.Bounds.Size.Y.Offset -= 2.0f;
