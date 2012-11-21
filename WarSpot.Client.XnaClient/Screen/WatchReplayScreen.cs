@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
+using System.IO;
+
 namespace WarSpot.Client.XnaClient.Screen
 {
 	// TODO: filling listbox and deleting replays
@@ -94,6 +96,8 @@ namespace WarSpot.Client.XnaClient.Screen
 
 			ScreenManager.Instance.Controller.AddListener(_watchButton, watchButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_deleteButton, deleteButtonPressed);
+
+
 		}
 
 		private void watchButtonPressed(object sender, EventArgs e)
@@ -101,6 +105,10 @@ namespace WarSpot.Client.XnaClient.Screen
 		}
 
 		private void deleteButtonPressed(object sender, EventArgs e)
+		{
+		}
+
+		private void UpdataReplaysList()
 		{
 		}
 	}
