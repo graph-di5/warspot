@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIManager\Intellect.cs" />
+    <Compile Include="FoldersController\FoldersController.cs" />
     <Compile Include="Input\Controller.cs" />
     <Compile Include="Input\InputControl.cs" />
     <Compile Include="Screen\WatchReplayScreen.cs" />

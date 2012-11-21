@@ -90,6 +90,9 @@ namespace WarSpot.Client.XnaClient.Network
 				Replay tmp;
 				tmp = _service.SendReplay(name);
 				string absolutePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				Path.Combine(absolutePath, "Replays");
+				if (!Directory.Exists(absolutePath))
+					Directory.CreateDirectory(absolutePath);
 				string path = Path.Combine(absolutePath, tmp.name + ".log");
 				File.WriteAllBytes(path, tmp.data);
 
