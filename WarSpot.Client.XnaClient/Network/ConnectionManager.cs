@@ -86,16 +86,11 @@ namespace WarSpot.Client.XnaClient.Network
 			InitializeConnection();
 			try
 			{
-				// TODO: refactor this
+				// TODO: test this
 				Replay tmp;
 				tmp = _service.SendReplay(name);
-				string absolutePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-				Path.Combine(absolutePath, "Replays");
-				if (!Directory.Exists(absolutePath))
-					Directory.CreateDirectory(absolutePath);
-				string path = Path.Combine(absolutePath, tmp.name + ".log");
-				File.WriteAllBytes(path, tmp.data);
-
+				string path = FoldersController.FoldersController.GetReplayPath();
+				File.WriteAllBytes(Path.Combine(path, tmp.name + ".log"), tmp.data);
 			}
 			catch (Exception e)
 			{

@@ -97,7 +97,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			ScreenManager.Instance.Controller.AddListener(_watchButton, watchButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_deleteButton, deleteButtonPressed);
 
-
+			UpdataReplaysList();
 		}
 
 		private void watchButtonPressed(object sender, EventArgs e)
@@ -106,10 +106,21 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void deleteButtonPressed(object sender, EventArgs e)
 		{
+			// TODO: test this
+			string forDelete = _replaysBox.Items[_replaysBox.SelectedItems[0]];
+			File.Delete(Path.Combine(FoldersController.FoldersController.GetReplayPath(), forDelete));
+			UpdataReplaysList();
 		}
 
 		private void UpdataReplaysList()
 		{
+			// TODO: test this
+			DirectoryInfo tmp = new DirectoryInfo(FoldersController.FoldersController.GetReplayPath());
+			var replays = tmp.GetFiles();
+			foreach (var replay in replays)
+			{
+				_replaysBox.Items.Add(replay.Name);
+			}
 		}
 	}
 }
