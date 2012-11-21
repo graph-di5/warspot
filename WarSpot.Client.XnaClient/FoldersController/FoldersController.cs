@@ -34,7 +34,16 @@ namespace WarSpot.Client.XnaClient.FoldersController
 			if (!Directory.Exists(absolutePath))
 				Directory.CreateDirectory(absolutePath);
 			_intellectsAbsolutePath = absolutePath;
+		}
 
+		public static string GetReplayPath()
+		{
+			return _replaysAbsolutePath;
+		}
+
+		public static string GetDllPath()
+		{
+			return _intellectsAbsolutePath;
 		}
 	}
 }
