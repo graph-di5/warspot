@@ -66,6 +66,10 @@
     <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs " />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Cloud.MatchComputer\WarSpot.Cloud.MatchComputer.csproj">
+      <Project>{06D57BAE-127C-45D7-9D6D-F65B0D71ABED}</Project>
+      <Name>WarSpot.Cloud.MatchComputer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj">
       <Project>{218A447E-8808-4987-B665-A8B1FB107022}</Project>
       <Name>WarSpot.Contracts.Intellect</Name>
