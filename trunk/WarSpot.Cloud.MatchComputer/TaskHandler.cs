@@ -6,11 +6,11 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using System.Reflection;
 using WarSpot.Contracts.Intellect;
-using WarSpot.MatchComputer;
+//using WarSpot.MatchComputer;
 
 namespace WarSpot.Cloud.MatchComputer
 {
-	internal class TaskHandler
+	public class TaskHandler
 	{
 		readonly AutoResetEvent _are = new AutoResetEvent(false);
 		Thread _thread;
@@ -38,7 +38,7 @@ namespace WarSpot.Cloud.MatchComputer
 		}
 
 		// заглушка выдирания интеллекта
-		public byte[] GetIntellect(string name)
+		public static byte[] GetIntellect(string name)
 		{
 			// Setup the connection to Windows Azure Storage
 			string connectionString = "myConnectionString";
@@ -106,7 +106,7 @@ namespace WarSpot.Cloud.MatchComputer
 		{
 
 		}
-
+		
 		public void ThreadFunctions()
 		{
 			CloudQueue queue = CreateQueue();
