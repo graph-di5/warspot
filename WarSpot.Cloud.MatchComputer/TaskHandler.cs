@@ -6,6 +6,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using System.Reflection;
 using WarSpot.Contracts.Intellect;
+using System.IO.MemoryStream;
 //using WarSpot.MatchComputer;
 
 namespace WarSpot.Cloud.MatchComputer
