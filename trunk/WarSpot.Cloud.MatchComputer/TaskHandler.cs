@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using System.Reflection;
 using WarSpot.Contracts.Intellect;
-using System.IO.MemoryStream;
+using System.IO;
 //using WarSpot.MatchComputer;
 
 namespace WarSpot.Cloud.MatchComputer
@@ -103,9 +103,11 @@ namespace WarSpot.Cloud.MatchComputer
 			#endregion
 		}
 
-		public void SerializeData()
+		public void MemoryStreamer(string name)
 		{
+			MemoryStream memStream = new MemoryStream(GetIntellect(name));
 
+			//тут что-то считается?
 		}
 		
 		public void ThreadFunctions()
