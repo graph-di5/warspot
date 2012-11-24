@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using WarSpot.Contracts.Service;
 using System;
+using System.Collections.Generic;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -17,7 +18,10 @@ namespace WarSpot.Cloud.UserService
 			_storage = new Storage.Storage();
 			_loggedIn = false;
 		}
-
+		public Guid? StartGame(List<Guid> tmp)
+		{
+			return null;
+		}
 		#region login and registration
 		public ErrorCode Register(string username, string pass)
 		{
