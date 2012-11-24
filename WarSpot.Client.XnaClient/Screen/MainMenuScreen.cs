@@ -134,7 +134,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void watchReplayButtonPressed(object sender, EventArgs e)
 		{
-			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.SelectReplayScreen);
 		}
 
 		private void logOutButtonPressed(object sender, EventArgs e)
