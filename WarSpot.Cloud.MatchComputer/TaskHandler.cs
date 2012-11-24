@@ -7,7 +7,7 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 using System.Reflection;
 using WarSpot.Contracts.Intellect;
 using System.IO;
-//using WarSpot.MatchComputer;
+using WarSpot.MatchComputer;
 
 namespace WarSpot.Cloud.MatchComputer
 {
@@ -103,11 +103,12 @@ namespace WarSpot.Cloud.MatchComputer
 			#endregion
 		}
 
-		public void MemoryStreamer(string name)
+		private void MemoryStreamer()
 		{
-			MemoryStream memStream = new MemoryStream(GetIntellect(name));
+			Stream stream = new MemoryStream();
+			List<TeamIntellectList> listIntellect = new List<TeamIntellectList>();
 
-			//тут что-то считается?
+			ComputerMatcher computer = new ComputerMatcher(listIntellect, stream);
 		}
 		
 		public void ThreadFunctions()
@@ -128,11 +129,11 @@ namespace WarSpot.Cloud.MatchComputer
 				if (msg != null)
 				{
 					// calculate in matchcomputer
-
+					MemoryStreamer();
 					continue;
 				}
 
-				if (msg == null)
+				else //(msg == null)
 				{
 					if (_are.WaitOne(timeout))
 					{
