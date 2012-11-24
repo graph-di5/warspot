@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
 using System;
-using WarSpot.Cloud.MatchComputer;
+//using WarSpot.Cloud.MatchComputer;
 
 namespace WarSpot.MatchComputer
 {
@@ -347,9 +347,17 @@ namespace WarSpot.MatchComputer
 #endregion
 		}
 
-		public void GetIntellect(string name)
+		/*public void GetIntellect(string name)
 		{
 			byte[] intellect = TaskHandler.GetIntellect(name);
+		}
+		*/
+
+		public void FileStreamer()
+		{
+			string address=" ";
+			//FileMode mode = new FileMode();
+			FileStream fileStream = new FileStream(address, FileMode.Open);
 		}
 
 
