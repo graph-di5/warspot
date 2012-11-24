@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace WarSpot.Contracts.Service
 {
@@ -25,7 +27,7 @@ namespace WarSpot.Contracts.Service
 		Replay SendReplay(string name);
 
         [OperationContract]
-        Guid[] StartTwoIntellects(string name1, string name2);
+        Guid[] StartGame(List<Guid> intellects);
 
     }
 }

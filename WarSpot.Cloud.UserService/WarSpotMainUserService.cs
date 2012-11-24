@@ -97,18 +97,6 @@ namespace WarSpot.Cloud.UserService
 		}
 		#endregion replay's stuff
 
-        #region start game's stuff
 
-        public Guid[] StartTwoIntellects(string name1, string name2)
-        {
-            if (!_loggedIn)
-            {
-                return null;
-            }
-
-            return _storage.FindTwoIntellects(name1, name2, _userID);
-        }
-
-        #endregion
     }
 }

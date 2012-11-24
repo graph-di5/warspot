@@ -93,11 +93,11 @@ namespace WarSpot.Cloud.Storage
         #region DATABASE METHODS
         public bool Register(string username, string password)
         {
-            var test = (from b in db.Account
+            List<Account> test = (from b in db.Account
                         where b.Account_Name == username
                         select b).ToList<Account>();
 
-            if (test != null)
+            if (test.Count() == 0)
                 return false; 
             else
             {
@@ -158,31 +158,7 @@ namespace WarSpot.Cloud.Storage
             }
         }
         #endregion
-
-
-        public Guid[] FindTwoIntellects(string name1, string name2, Guid userID)
-        {
-            var test = (from b in db.Intellect
-                        where b.AccountAccount_ID == userID
-                        select b).ToList<Intellect>();
-
-            List<Intellect> result = test.Where(b => (b.Intellect_Name == name1 || b.Intellect_Name == name2)).ToList<Intellect>();
-
-            if (result.Count() != 2)
-            {
-                return null;
-            }
-            else
-            {
-                List<Guid> res = new List<Guid>();
-
-                res.Add(result[0].Intellect_ID);
-                res.Add(result[1].Intellect_ID);
-
-                return res.ToArray<Guid>();
-            }
-        }
             
-        }
+        
     }
 }
