@@ -27,7 +27,7 @@ namespace WarSpot.Contracts.Service
 		Replay SendReplay(string name);
 
         [OperationContract]
-        Guid StartGame(List<Guid> intellects);
+        Guid? StartGame(List<Guid> intellects);
 
     }
 }
