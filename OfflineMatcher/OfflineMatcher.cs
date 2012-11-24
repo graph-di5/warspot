@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
-using System.Text;
 using System.IO;
 using WarSpot.Contracts.Intellect;
-using WarSpot.Contracts.Intellect.Actions;
 using WarSpot.MatchComputer;
+
+
 namespace OfflineMatcher
 {
 	class OfflineMatcher
