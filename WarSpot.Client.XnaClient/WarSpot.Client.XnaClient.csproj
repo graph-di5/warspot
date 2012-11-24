@@ -129,6 +129,7 @@
     <Compile Include="FoldersController\FoldersController.cs" />
     <Compile Include="Input\Controller.cs" />
     <Compile Include="Input\InputControl.cs" />
+    <Compile Include="OfflineMatcher\Deserializator.cs" />
     <Compile Include="Screen\WatchReplayScreen.cs" />
     <Compile Include="Utils\InputValidator.cs" />
     <Compile Include="Input\KeyboardAndMouse.cs" />
