@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using WarSpot.Contracts.Service;
+using System;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -95,5 +96,19 @@ namespace WarSpot.Cloud.UserService
 			return new Replay();
 		}
 		#endregion replay's stuff
-	}
+
+        #region start game's stuff
+
+        public Guid[] StartTwoIntellects(string name1, string name2)
+        {
+            if (!_loggedIn)
+            {
+                return null;
+            }
+
+            return _storage.FindTwoIntellects(name1, name2, _userID);
+        }
+
+        #endregion
+    }
 }
