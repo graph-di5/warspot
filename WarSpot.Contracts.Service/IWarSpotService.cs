@@ -24,5 +24,8 @@ namespace WarSpot.Contracts.Service
 		[OperationContract]
 		Replay SendReplay(string name);
 
+        [OperationContract]
+        Guid[] StartTwoIntellects(string name1, string name2);
+
     }
 }
