@@ -107,9 +107,17 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void deleteButtonPressed(object sender, EventArgs e)
 		{
 			// TODO: test this
-			string forDelete = _replaysBox.Items[_replaysBox.SelectedItems[0]];
-			File.Delete(Path.Combine(FoldersController.FoldersController.GetReplayPath(), forDelete));
-			UpdataReplaysList();
+			try
+			{
+				string forDelete = _replaysBox.Items[_replaysBox.SelectedItems[0]];
+				File.Delete(Path.Combine(FoldersController.FoldersController.GetReplayPath(), forDelete));
+				UpdataReplaysList();
+			}
+			catch
+			{
+				MessageBox.Show("Select replay!", ScreenManager.ScreenEnum.WatchReplayScreen);
+			}
+
 		}
 
 		private void UpdataReplaysList()
