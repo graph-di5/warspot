@@ -10,11 +10,10 @@ using WarSpot.Cloud.MatchComputer;
 
 namespace WarSpot.MatchComputer
 {
-<<<<<<< .mine
-	public class TeamIntellectList //Класс для загрузки команд с их ДЛЛками.
-=======
+	//public class TeamIntellectList //Класс для загрузки команд с их ДЛЛками.
+
 	public class TeamIntellectList //Класс для загрузки команд с их интеллектами.
->>>>>>> .r257
+	
 	{
 		public int Number { set; get ;}
 		public List<IBeingInterface> Members;
@@ -347,12 +346,12 @@ namespace WarSpot.MatchComputer
 			}
 #endregion
 		}
-<<<<<<< .mine
 
 		public void GetIntellect(string name)
 		{
 			byte[] intellect = TaskHandler.GetIntellect(name);
-=======
+		}
+
 
 		/// <summary>
 		///Выгрузка в поток накопившейся истории событий, очистка истории для дальнейшего накопления.
@@ -361,12 +360,9 @@ namespace WarSpot.MatchComputer
 		{
 			_formatter.Serialize(_stream, _eventsHistory);//Отдаём всё, что успело накопиться в истории событий с последнего вызова этого метода.
 			_eventsHistory.Clear();//Очищаем историю.
->>>>>>> .r257
-		}
-<<<<<<< .mine
 
-=======
->>>>>>> .r257
+		}
+
 	}		
 }
 
