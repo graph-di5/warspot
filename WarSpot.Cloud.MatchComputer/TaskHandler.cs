@@ -8,6 +8,8 @@ using System.Reflection;
 using WarSpot.Contracts.Intellect;
 using System.IO;
 using WarSpot.MatchComputer;
+using WarSpot.Cloud.Common;
+using System.Xml.Serialization;
 
 namespace WarSpot.Cloud.MatchComputer
 {
