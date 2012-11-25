@@ -12,5 +12,5 @@ using System.Reflection;
 // 
 // Warning: last to fileds are autoupdatable. DO NOT CHANGE them manualy
 
-[assembly: AssemblyVersion("1.1.287.120")]
-[assembly: AssemblyFileVersion("1.1.287.120")]
+[assembly: AssemblyVersion("1.1.287.122")]
+[assembly: AssemblyFileVersion("1.1.287.122")]
