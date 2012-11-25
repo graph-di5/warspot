@@ -126,10 +126,16 @@ namespace WarSpot.MatchComputer
 			}
 		}
 
+		public void Compute()
+		{
+			while (Update() != 0)
+				;
+		}
+
 		/// <summary>
 		///Произведение очередного кода, запись результатов в историю. Вывод истории, если матч завершился.
 		/// </summary>
-		public int Update()
+		private int Update()
 		{
 			_actions.Clear();
 			_eventsHistory.Add(new SystemEventTurnStarted(_turnNumber));//Записываем в историю начало хода.
