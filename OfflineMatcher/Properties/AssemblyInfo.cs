@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("OfflineMatcher")]
+[assembly: AssemblyTitle("OfflineComputer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Home")]
-[assembly: AssemblyProduct("OfflineMatcher")]
+[assembly: AssemblyProduct("OfflineComputer")]
 [assembly: AssemblyCopyright("Copyright © Home 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

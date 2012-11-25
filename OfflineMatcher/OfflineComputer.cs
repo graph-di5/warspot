@@ -7,9 +7,9 @@ using WarSpot.Contracts.Intellect;
 using WarSpot.MatchComputer;
 
 
-namespace OfflineMatcher
+namespace OfflineComputer
 {
-	class OfflineMatcher
+	class OfflineComputer
 	{
 		static void Main(string[] args)
 		{
