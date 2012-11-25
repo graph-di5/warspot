@@ -132,7 +132,7 @@
     <Compile Include="OfflineMatcher\Deserializator.cs" />
     <Compile Include="Screen\SelectReplayScreen.cs" />
     <Compile Include="Screen\WatchReplayScreen.cs" />
-    <Compile Include="Utils\InputValidator.cs" />
+    <Compile Include="Screen\Utils\InputValidator.cs" />
     <Compile Include="Input\KeyboardAndMouse.cs" />
     <Compile Include="Network\ConnectionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,7 +145,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Utils\HashHelper.cs" />
+    <Compile Include="Screen\Utils\HashHelper.cs" />
     <Compile Include="WarSpotGame.cs" />
     <Compile Include="Screen\GameScreen.cs" />
     <Compile Include="Screen\LoginScreen.cs" />
@@ -159,11 +159,6 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WarSpot.Client.XnaClientContent\WarSpot.Client.XnaClientContent.contentproj">
-      <Name>WarSpot.Client.XnaClientContent %28Content%29</Name>
-      <XnaReferenceType>Content</XnaReferenceType>
-      <Project>{527DA210-44B9-4E24-BE23-C83BC8339C6A}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Cloud.MatchComputer\WarSpot.Cloud.MatchComputer.csproj">
       <Project>{06D57BAE-127C-45D7-9D6D-F65B0D71ABED}</Project>
       <Name>WarSpot.Cloud.MatchComputer</Name>
