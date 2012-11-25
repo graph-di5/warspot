@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
+using WarSpot.Client.XnaClient.OfflineMatcher;
 using WarSpot.Contracts.Intellect;
 using WarSpot.MatchComputer;
 
@@ -34,6 +35,9 @@ namespace WarSpot.ConsoleComputer
 			computer.Compute();
 			fs.Close();
 			Console.WriteLine("Done.");
+#if !true
+			var list = Deserializator.Deserialize(outFileName);
+#endif
 		}
 
 
