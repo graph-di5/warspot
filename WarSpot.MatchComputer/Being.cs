@@ -51,7 +51,7 @@ namespace WarSpot.MatchComputer
 		public BeingCharacteristics Construct(int team, ulong turnNumber, float ci)
 		{
 			// todo add here checking of the returned characteristics
-			return Me.Construct(team, turnNumber, ci);
+			return Characteristics = Me.Construct(team, turnNumber, ci);
 		}
 
 	}
