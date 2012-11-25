@@ -2,6 +2,7 @@
 
 namespace WarSpot.Contracts.Intellect
 {
+	[Serializable]
 	public class BeingCharacteristics
 	{
 		#region readlony properties: constants for fixed object
@@ -39,10 +40,23 @@ namespace WarSpot.Contracts.Intellect
 		/// </summary>
 		public float Health { get; set; }
 
+		private float _ci;
 		/// <summary>
 		/// Universal energy count. 
 		/// </summary>
-		public float Ci { get; set; }
+		public float Ci
+		{
+			get { return _ci; }
+			set
+			{
+				_ci = value;
+				if(_ci < 0)
+				{
+					Health += _ci;
+					_ci = 0;
+				}
+			}
+		}
 
 		/// <summary>
 		/// Current X coordinate of the object.

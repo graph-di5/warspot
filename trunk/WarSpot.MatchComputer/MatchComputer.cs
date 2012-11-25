@@ -13,10 +13,10 @@ namespace WarSpot.MatchComputer
 		private readonly List<Being> _objects;
 		private readonly List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нужом порядке.
 		private readonly List<WarSpotEvent> _eventsHistory;//Для истории событий (не действий). Это и отправляется пользователю для просмотра матча.
-		private ulong _turnNumber;
 		private readonly Stream _stream;//Поток для вывода сериализованной истории
 		private readonly BinaryFormatter _formatter;//Создаём буфер для сериализации
 		private readonly World _world;
+		private ulong _turnNumber;
 
 		/// <summary>
 		///Универсальный перемешиватель списков.
@@ -139,10 +139,17 @@ namespace WarSpot.MatchComputer
 					ProcessWorld(curObject.Characteristics.X, curObject.Characteristics.Y, curObject.Characteristics.MaxSeeDistance)));
 			}
 
+			foreach (var curObjwct in _objects)
+			{
+				curObjwct.Characteristics.Ci -= 0.01f * (0.1f * curObjwct.Characteristics.MaxHealth +
+					0.05f * curObjwct.Characteristics.MaxSeeDistance * curObjwct.Characteristics.MaxSeeDistance +
+					0.3f * curObjwct.Characteristics.MaxStep);
+				_eventsHistory.Add(new GameEventCiChange(curObjwct.Characteristics.Id, curObjwct.Characteristics.Ci));
+			}
+
 			#region Event Dealer //Проход по всем действиям этого хода.
 			foreach (var curAction in _actions)
 			{
-
 				Being actor;
 				Being target;
 				float cost;
@@ -357,6 +364,17 @@ namespace WarSpot.MatchComputer
 				PullOut();//Отдаём историю событий.
 
 				return 0;
+			}
+			if (!_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Any())
+			{
+				// system  command win
+				_eventsHistory.Add(new SystemEventCommandWin(0));//Объявляем победителя
+				_eventsHistory.Add(new SystemEventMatchEnd());//И матч заканчивается.
+
+				PullOut();//Отдаём историю событий.
+
+				return 0;
+				
 			}
 
 			_turnNumber++;
