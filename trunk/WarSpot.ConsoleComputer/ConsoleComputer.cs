@@ -8,7 +8,7 @@ using WarSpot.MatchComputer;
 
 namespace WarSpot.ConsoleComputer
 {
-	class Program
+	class ConsoleComputer
 	{
 		static void Main(string[] args)
 		{
@@ -80,7 +80,20 @@ namespace WarSpot.ConsoleComputer
 
 
 		public static IBeingInterface ParseIntellect(string fullPath)
-		{//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
+		{
+#if true
+			Assembly assembly = Assembly.LoadFrom(fullPath);//вытаскиваем библиотеку
+			string iMyInterfaceName = typeof(IBeingInterface).ToString();
+			foreach(var t in assembly.GetTypes())
+			{
+				if(t.GetInterface(iMyInterfaceName) != null)
+				{
+					t.GetConstructor()
+				}
+			}
+			return null;
+#else
+	//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
 			Assembly assembly = Assembly.LoadFrom(fullPath);//вытаскиваем библиотеку
 			string iMyInterfaceName = typeof(IBeingInterface).ToString();
 			System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
@@ -88,17 +101,24 @@ namespace WarSpot.ConsoleComputer
 
 			IBeingInterface iAI = null;
 
-			foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
+			try
 			{
-				if (type.GetInterface(iMyInterfaceName) != null)
+				foreach (TypeDelegator type in assembly.GetTypes())
 				{
-					ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
-					object instance = defaultConstructor.Invoke(defaultConstructorParameters);
-					iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
+					if (type.GetInterface(iMyInterfaceName) != null)
+					{
+						ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
+						object instance = defaultConstructor.Invoke(defaultConstructorParameters);
+						iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
+					}
 				}
-			}
 
+			}
+			catch (Exception)
+			{
+			}
 			return iAI;
+#endif
 		}
 	}
 }
