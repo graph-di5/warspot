@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using Microsoft.WindowsAzure;
@@ -15,7 +15,7 @@ namespace WarSpot.Cloud.MatchComputer
 		public override void Run()
 		{
 			// Это образец реализации рабочего процесса. Замените его собственной логикой.
-			Trace.WriteLine("WarSpot.Cloud.MatchComputer entry point called", "Information");
+			Trace.WriteLine("WarSpot.Cloud.Computer entry point called", "Information");
 
 			/*while (true)
 			{

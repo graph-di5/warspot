@@ -32,21 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,10 +52,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WarSpot.Cloud.Common\WarSpot.Cloud.Common.csproj">
-      <Project>{0D16B483-7926-430D-A330-46CF90F2CF5A}</Project>
-      <Name>WarSpot.Cloud.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Cloud.Storage\WarSpot.Cloud.Storage.csproj">
       <Project>{4D2D5B7A-0BF4-41D2-BF18-F450BF3CB33F}</Project>
       <Name>WarSpot.Cloud.Storage</Name>
