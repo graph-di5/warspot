@@ -13,6 +13,29 @@ namespace OfflineMatcher
 	{
 		static void Main(string[] args)
 		{
+#if true
+			var listIntellect = new List<TeamIntellectList>();
+			if(args.Length == 0)
+			{
+				Console.WriteLine("Usage:");
+				Console.WriteLine("{0} [i-th.dll]", Assembly.GetExecutingAssembly().GetName().Name);
+				return;
+			}
+			foreach (var s in args)
+			{
+				var t = new TeamIntellectList();
+				t.Number = listIntellect.Count();
+				t.Members.Add(ParseIntellect(s));
+				listIntellect.Add(t);
+			}
+
+			var outFileName = String.Format("replay_{0}.txt", DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+			var fs = new FileStream(outFileName, FileMode.CreateNew);
+			var computer = new ComputerMatcher(listIntellect, fs);
+			computer.Compute();
+			fs.Close();
+			Console.WriteLine("Done.");
+#else
 			string _directory;
 			List<TeamIntellectList> _listIntellect = new List<TeamIntellectList>();
 			TeamIntellectList _firstTeam = new TeamIntellectList();
@@ -45,7 +68,7 @@ namespace OfflineMatcher
 			Console.WriteLine("Enter the directory for serialized match history: ");
 			_directory = Console.ReadLine();
 
-			Console.WriteLine("First team: {0}. Second team: {1}.",_firstTeam.Members.Count(), _secondTeam.Members.Count());
+			Console.WriteLine("First team: {0}. Second team: {1}.", _firstTeam.Members.Count(), _secondTeam.Members.Count());
 			Console.WriteLine("Computing...");
 			FileStream fs = new FileStream(_directory + "file.s", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
 			var _matcher = new ComputerMatcher(_listIntellect, fs);
@@ -53,29 +76,30 @@ namespace OfflineMatcher
 			fs.Close();
 			Console.WriteLine("All done. Take your match history in: {0}", _directory);
 			Console.ReadLine();
-			}
+#endif
+		}
 
-		
+
 		public static IBeingInterface ParseIntellect(string _fullPath)
 		{//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
-		    Assembly assembly = Assembly.LoadFrom(_fullPath);//вытаскиваем библиотеку
-		    string iMyInterfaceName = typeof(IBeingInterface).ToString();
-		    System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
-		    object[] defaultConstructorParameters = new object[0];
-			
-		    IBeingInterface iAI = null;
-			
-		    foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
-		    {
-		        if (type.GetInterface(iMyInterfaceName) != null)
-		        {
-		            ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
-		            object instance = defaultConstructor.Invoke(defaultConstructorParameters);
-		            iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
-		        }
-		    }
-				    
-		    return iAI;
+			Assembly assembly = Assembly.LoadFrom(_fullPath);//вытаскиваем библиотеку
+			string iMyInterfaceName = typeof(IBeingInterface).ToString();
+			System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
+			object[] defaultConstructorParameters = new object[0];
+
+			IBeingInterface iAI = null;
+
+			foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
+			{
+				if (type.GetInterface(iMyInterfaceName) != null)
+				{
+					ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
+					object instance = defaultConstructor.Invoke(defaultConstructorParameters);
+					iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
+				}
+			}
+
+			return iAI;
 		}
 	}
 }
