@@ -160,8 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WarSpot.Client.XnaClientContent\WarSpot.Client.XnaClientContent.contentproj">
-      <Name>WarSpot.Client.XnaClientContent</Name>
+      <Name>WarSpot.Client.XnaClientContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{527DA210-44B9-4E24-BE23-C83BC8339C6A}</Project>
     </ProjectReference>
     <ProjectReference Include="..\WarSpot.Cloud.MatchComputer\WarSpot.Cloud.MatchComputer.csproj">
       <Project>{06D57BAE-127C-45D7-9D6D-F65B0D71ABED}</Project>
