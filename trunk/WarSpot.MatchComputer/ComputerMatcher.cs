@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using WarSpot.Contracts.Intellect.Actions;
-using System.Reflection;
-using WarSpot.Contracts.Intellect;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
-using System;
-//using WarSpot.Cloud.MatchComputer;
+using System.Runtime.Serialization.Formatters.Binary;
+using WarSpot.Contracts.Intellect;
+using WarSpot.Contracts.Intellect.Actions;
 
 namespace WarSpot.MatchComputer
 {
@@ -341,7 +339,10 @@ namespace WarSpot.MatchComputer
 				_eventsHistory.Add(new SystemEventCommandWin(winer));//Объявляем победителя
 				_eventsHistory.Add(new SystemEventMatchEnd());//И матч заканчивается.
 
+				// todo understand what is this. done
+#if true
 				PullOut();//Отдаём историю событий.
+#endif
 
 				return 0;
 			}
@@ -353,6 +354,9 @@ namespace WarSpot.MatchComputer
 #endregion
 		}
 
+// todo delete this functions
+
+#if false
 		/*public void GetIntellect(string name)
 		{
 			byte[] intellect = TaskHandler.GetIntellect(name);
@@ -367,6 +371,7 @@ namespace WarSpot.MatchComputer
 		}
 
 
+#endif
 		/// <summary>
 		///Выгрузка в поток накопившейся истории событий, очистка истории для дальнейшего накопления.
 		/// </summary>
@@ -376,7 +381,6 @@ namespace WarSpot.MatchComputer
 			_eventsHistory.Clear();//Очищаем историю.
 
 		}
-
 	}		
 }
 
