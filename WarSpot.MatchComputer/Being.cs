@@ -44,15 +44,13 @@ namespace WarSpot.MatchComputer
 		/// <summary>
 		/// Calls Construct of the custmo being.
 		/// </summary>
-		/// <param name="team"> </param>
 		/// <param name="turnNumber">Current time step</param>
 		/// <param name="ci">Ci available for creating of this object.</param>
 		/// <returns>Characteriscts of the being.</returns>
-		public BeingCharacteristics Construct(int team, ulong turnNumber, float ci)
+		public BeingCharacteristics Construct(ulong turnNumber, float ci)
 		{
 			// todo add here checking of the returned characteristics
-			Characteristics = Me.Construct(team, turnNumber, ci);
-			Characteristics.Team = team;
+			Characteristics = Me.Construct(turnNumber, ci);
 			Characteristics.Ci = ci;
 			Characteristics.Health = Characteristics.MaxHealth;
 			return Characteristics;

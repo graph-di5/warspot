@@ -10,11 +10,10 @@ namespace WarSpot.Contracts.Intellect
 		/// <summary>
 		/// First function called for every being object. 
 		/// </summary>
-		/// <param name="team"> </param>
 		/// <param name="step">Current time step</param>
 		/// <param name="ci">Ci available for creating of this object.</param>
 		/// <returns>Characteriscts of the object.</returns>
-		BeingCharacteristics Construct(int team, ulong step, float ci);
+		BeingCharacteristics Construct(ulong step, float ci);
 
 		/// <summary>
 		/// Main function of the every being in the world.

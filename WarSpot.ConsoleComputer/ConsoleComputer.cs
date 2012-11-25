@@ -25,7 +25,12 @@ namespace WarSpot.ConsoleComputer
 			{
 				var t = new TeamIntellectList();
 				t.Number = ++team;
-				t.Members.Add(ParseIntellect(s));
+				var i = ParseIntellect(s);
+				if(i == null)
+				{
+					continue;
+				}
+				t.Members.Add(i);
 				listIntellect.Add(t);
 			}
 
@@ -44,6 +49,25 @@ namespace WarSpot.ConsoleComputer
 		public static IBeingInterface ParseIntellect(string fullPath)
 		{
 			Assembly assembly = Assembly.LoadFrom(fullPath);//вытаскиваем библиотеку
+			var referencedAssemblies = assembly.GetReferencedAssemblies();
+			// LOOOOOOOOOOOOL
+			var floudIntellect = false;
+			foreach (var referencedAssembly in referencedAssemblies)
+			{
+				if(referencedAssembly.Name == "WarSpot.Contracts.Intellect")
+				{
+
+					if (referencedAssembly.Version.Major == Assembly.GetExecutingAssembly().GetName().Version.Major &&
+						referencedAssembly.Version.Minor == Assembly.GetExecutingAssembly().GetName().Version.Minor)
+					{
+						floudIntellect = true;
+					}
+					break;
+				}
+			}
+			if(!floudIntellect)
+				return null;
+
 			string iMyInterfaceName = typeof(IBeingInterface).ToString();
 			foreach (var t in assembly.GetTypes())
 			{
