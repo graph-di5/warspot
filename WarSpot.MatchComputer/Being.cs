@@ -52,6 +52,7 @@ namespace WarSpot.MatchComputer
 		{
 			// todo add here checking of the returned characteristics
 			Characteristics = Me.Construct(team, turnNumber, ci);
+			Characteristics.Team = team;
 			Characteristics.Ci = ci;
 			Characteristics.Health = Characteristics.MaxHealth;
 			return Characteristics;

@@ -15,7 +15,7 @@ namespace WarSpot.Contracts.Intellect
 		/// Team of the object.
 		/// In some game modes different intelects can be in one team, so this property can be used for determining the teammates.
 		/// </summary>
-		public int Team { private set; get; }
+		public int Team { set; get; }
 
 		/// <summary>
 		/// Maximum available health for the object.

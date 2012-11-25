@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Being.cs" />
-    <Compile Include="MatchComputer.cs" />
+    <Compile Include="Computer.cs" />
     <Compile Include="TeamIntellectList.cs" />
     <Compile Include="WarSpotEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
