@@ -88,7 +88,12 @@ namespace WarSpot.ConsoleComputer
 			{
 				if(t.GetInterface(iMyInterfaceName) != null)
 				{
-					t.GetConstructor()
+					var defaultCtor = t.GetConstructor(new Type[0]);
+					if (defaultCtor != null)
+					{
+						var inst = defaultCtor.Invoke(new Type[0]);
+						return inst as IBeingInterface;
+					}
 				}
 			}
 			return null;
