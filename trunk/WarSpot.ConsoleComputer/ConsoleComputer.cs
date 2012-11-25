@@ -30,7 +30,7 @@ namespace WarSpot.ConsoleComputer
 
 			var outFileName = String.Format("replay_{0}.txt", DateTime.Now.ToString("yyyy.MM.dd_HH.mm.ss"));
 			var fs = new FileStream(outFileName, FileMode.CreateNew);
-			var computer = new ComputerMatcher(listIntellect, fs);
+			var computer = new MatchComputer.MatchComputer(listIntellect, fs);
 			computer.Compute();
 			fs.Close();
 			Console.WriteLine("Done.");

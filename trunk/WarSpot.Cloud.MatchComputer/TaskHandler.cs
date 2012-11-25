@@ -110,7 +110,7 @@ namespace WarSpot.Cloud.MatchComputer
 			Stream stream = new MemoryStream();
 			List<TeamIntellectList> listIntellect = new List<TeamIntellectList>();
 
-			ComputerMatcher computer = new ComputerMatcher(listIntellect, stream);
+			WarSpot.MatchComputer.MatchComputer matchComputer = new WarSpot.MatchComputer.MatchComputer(listIntellect, stream);
 		}
 		
 		public void ThreadFunctions()

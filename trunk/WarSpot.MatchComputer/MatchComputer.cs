@@ -8,7 +8,7 @@ using WarSpot.Contracts.Intellect.Actions;
 
 namespace WarSpot.MatchComputer
 {
-	public class ComputerMatcher
+	public class MatchComputer
 	{
 		private readonly List<Being> _objects;
 		private readonly List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нужом порядке.
@@ -54,7 +54,7 @@ namespace WarSpot.MatchComputer
 		/// </summary>
 		/// <param name="listIntellect">Список для загрузки всех интеллектов командами.</param>
 		/// <param name="stream">Поток для выгрузки сериализованной истории событий.</param>
-		public ComputerMatcher(IEnumerable<TeamIntellectList> listIntellect, Stream stream)
+		public MatchComputer(IEnumerable<TeamIntellectList> listIntellect, Stream stream)
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
@@ -205,11 +205,11 @@ namespace WarSpot.MatchComputer
 				case ActionTypes.GameActionGiveCi:
 
 					var giveCiAction = curAction as GameActionGiveCi;
-										if (giveCiAction== null)
+					if (giveCiAction == null)
 					{
 						break;
 					}
-actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
+					actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == giveCiAction.TargetId);
 					cost = 20 + giveCiAction.Ci;
 					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
@@ -229,11 +229,11 @@ actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
 				case ActionTypes.GameActionMove:
 
 					var moveAction = curAction as GameActionMove;
-										if (moveAction == null)
+					if (moveAction == null)
 					{
 						break;
 					}
-actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
+					actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
 					cost = (Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY)) * actor.Characteristics.MaxHealth / 100;
 					distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
 
@@ -256,7 +256,7 @@ actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
 					{
 						break;
 					}
-actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
+					actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == treatAction.TargetId);
 					cost = treatAction.Ci;
 					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
@@ -275,7 +275,7 @@ actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
 				#region GameActionMakeOffspring
 				case ActionTypes.GameActionMakeOffspring:
 					var birthAcrion = curAction as GameActionMakeOffspring;
-					if(birthAcrion == null)
+					if (birthAcrion == null)
 					{
 						break;
 					}
@@ -293,13 +293,7 @@ actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
 
 					emptyEnvirons.Clear(); //ToDo: Нужно ли?
 
-					foreach (WorldCell c in environs)//Собираем список пустых ячеек вокруг существа
-					{
-						if (c.Being.Equals(null))
-						{
-							emptyEnvirons.Add(c);
-						}
-					}
+					emptyEnvirons.AddRange(from WorldCell c in environs where c.Being.Equals(null) select c);
 
 					if (emptyEnvirons.Count() > 0)
 					{
@@ -364,7 +358,7 @@ actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
 
 				return 0;
 			}
-			
+
 			_turnNumber++;
 			return 1;//Если нужны ещё ходы.
 
@@ -389,7 +383,7 @@ actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
 
 
 #endif
-		
+
 		/// <summary>
 		///Выгрузка в поток накопившейся истории событий, очистка истории для дальнейшего накопления.
 		/// </summary>
