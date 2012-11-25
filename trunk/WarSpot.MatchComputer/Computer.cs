@@ -100,12 +100,16 @@ namespace WarSpot.MatchComputer
 
 				for (int i = 0; i < team.Members.Count; i++)
 				{
+					if(team.Members[i] == null)
+					{
+						continue;
+					}
 					var newBeing = new Being(team.Members[i], team.Number);
-					newBeing.Construct(team.Number, 0, 100);
+					newBeing.Construct(0, 100);
+					newBeing.Characteristics.Team = team.Number;
 					newBeing.Characteristics.X = pos[i].Item1;
 					newBeing.Characteristics.Y = pos[i].Item2;
 					_world[pos[i].Item1, pos[i].Item2].BeingValue = newBeing;
-					// todo придумать 
 
 					_objects.Add(newBeing);
 					_eventsHistory.Add(new GameEventBirth(newBeing.Characteristics.Id, newBeing.Characteristics));//Рождение записываем в историю.
@@ -288,7 +292,8 @@ namespace WarSpot.MatchComputer
 					}
 					actor = _objects.Find(a => a.Characteristics.Id == birthAcrion.SenderId);
 					var offspring = new Being(actor.Me, actor.Characteristics.Team);
-					offspring.Construct(actor.Characteristics.Team, _turnNumber, birthAcrion.Ci);//Вызываем пользовательский конструктор.
+					// //!! todo understand what is happening here with team number
+					offspring.Construct(_turnNumber, birthAcrion.Ci);//Вызываем пользовательский конструктор.
 
 					//Собственная проверка стоимости
 					cost = offspring.Characteristics.MaxHealth * 0.8f//Стоимость максимального здоровья

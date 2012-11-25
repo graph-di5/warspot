@@ -18,7 +18,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private LabelControl _replayLabel;
 
-		private Nuclex.UserInterface.Controls.Desktop.ListControl _replaysBox;
+		private ListControl _replaysBox;
 
 		public SelectReplayScreen()
 		{
@@ -40,7 +40,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void CreateControls()
 		{
-			_replaysBox = new Nuclex.UserInterface.Controls.Desktop.ListControl
+			_replaysBox = new ListControl
 			{
 				SelectionMode = ListSelectionMode.Single,
 				Bounds =
@@ -95,7 +95,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			Desktop.Children.Add(_replaysBox);
 
 			ScreenManager.Instance.Controller.AddListener(_watchButton, watchButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_deleteButton, deleteButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_deleteButton, DeleteButtonPressed);
 
 			UpdataReplaysList();
 		}
@@ -105,7 +105,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
 		}
 
-		private void deleteButtonPressed(object sender, EventArgs e)
+		private void DeleteButtonPressed(object sender, EventArgs e)
 		{
 			// TODO: test this
 			try

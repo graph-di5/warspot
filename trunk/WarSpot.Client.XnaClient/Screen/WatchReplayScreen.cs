@@ -1,11 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Nuclex.UserInterface;
-using Nuclex.UserInterface.Controls;
-using Nuclex.UserInterface.Controls.Desktop;
-using InputControl = WarSpot.Client.XnaClient.Input.InputControl;
-using WarSpot.Contracts.Service;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
