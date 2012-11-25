@@ -8,8 +8,6 @@ using System.Reflection;
 using WarSpot.Contracts.Intellect;
 using System.IO;
 using WarSpot.MatchComputer;
-using WarSpot.Cloud.Common;
-using System.Xml.Serialization;
 
 namespace WarSpot.Cloud.MatchComputer
 {
@@ -110,7 +108,7 @@ namespace WarSpot.Cloud.MatchComputer
 			Stream stream = new MemoryStream();
 			List<TeamIntellectList> listIntellect = new List<TeamIntellectList>();
 
-			WarSpot.MatchComputer.MatchComputer matchComputer = new WarSpot.MatchComputer.MatchComputer(listIntellect, stream);
+			WarSpot.MatchComputer.Computer computer = new WarSpot.MatchComputer.Computer(listIntellect, stream);
 		}
 		
 		public void ThreadFunctions()

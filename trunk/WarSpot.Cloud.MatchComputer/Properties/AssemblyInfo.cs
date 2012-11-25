@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WarSpot.Cloud.MatchComputer")]
+[assembly: AssemblyTitle("WarSpot.Cloud.Computer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("WarSpot.Cloud.MatchComputer")]
+[assembly: AssemblyProduct("WarSpot.Cloud.Computer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
