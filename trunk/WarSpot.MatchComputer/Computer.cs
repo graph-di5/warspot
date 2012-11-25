@@ -8,7 +8,7 @@ using WarSpot.Contracts.Intellect.Actions;
 
 namespace WarSpot.MatchComputer
 {
-	public class MatchComputer
+	public class Computer
 	{
 		private readonly List<Being> _objects;
 		private readonly List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нужом порядке.
@@ -54,7 +54,7 @@ namespace WarSpot.MatchComputer
 		/// </summary>
 		/// <param name="listIntellect">Список для загрузки всех интеллектов командами.</param>
 		/// <param name="stream">Поток для выгрузки сериализованной истории событий.</param>
-		public MatchComputer(IEnumerable<TeamIntellectList> listIntellect, Stream stream)
+		public Computer(IEnumerable<TeamIntellectList> listIntellect, Stream stream)
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Linq;
 using System.IO;
 using WarSpot.Contracts.Intellect;
 using WarSpot.MatchComputer;
@@ -20,17 +19,19 @@ namespace WarSpot.ConsoleComputer
 				Console.WriteLine("{0} [i-th.dll]", Assembly.GetExecutingAssembly().GetName().Name);
 				return;
 			}
+
+			int team = 0;
 			foreach (var s in args)
 			{
 				var t = new TeamIntellectList();
-				t.Number = listIntellect.Count();
+				t.Number = ++team;
 				t.Members.Add(ParseIntellect(s));
 				listIntellect.Add(t);
 			}
 
 			var outFileName = String.Format("replay_{0}.out", DateTime.Now.ToString("yyyy.MM.dd_HH.mm.ss"));
 			var fs = new FileStream(outFileName, FileMode.CreateNew);
-			var computer = new MatchComputer.MatchComputer(listIntellect, fs);
+			var computer = new Computer(listIntellect, fs);
 			computer.Compute();
 			fs.Close();
 			Console.WriteLine("Done.");
