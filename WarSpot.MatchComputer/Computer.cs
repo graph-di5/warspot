@@ -140,15 +140,15 @@ namespace WarSpot.MatchComputer
 			foreach (var curObject in _objects)
 			{
 				_actions.Add(curObject.Think(_turnNumber, curObject.Characteristics,
-					ProcessWorld(curObject.Characteristics.X, curObject.Characteristics.Y, curObject.Characteristics.MaxSeeDistance)));
+				ProcessWorld(curObject.Characteristics.X, curObject.Characteristics.Y, curObject.Characteristics.MaxSeeDistance)));
 			}
 
-			foreach (var curObjwct in _objects)
+			foreach (var curObject in _objects)
 			{
-				curObjwct.Characteristics.Ci -= 0.01f * (0.1f * curObjwct.Characteristics.MaxHealth +
-					0.05f * curObjwct.Characteristics.MaxSeeDistance * curObjwct.Characteristics.MaxSeeDistance +
-					0.3f * curObjwct.Characteristics.MaxStep);
-				_eventsHistory.Add(new GameEventCiChange(curObjwct.Characteristics.Id, curObjwct.Characteristics.Ci));
+				curObject.Characteristics.Ci -= 0.01f * (0.1f * curObject.Characteristics.MaxHealth +
+				0.05f * curObject.Characteristics.MaxSeeDistance * curObject.Characteristics.MaxSeeDistance +
+				0.3f * curObject.Characteristics.MaxStep);
+				_eventsHistory.Add(new GameEventCiChange(curObject.Characteristics.Id, curObject.Characteristics.Ci));
 			}
 
 			#region Event Dealer //Проход по всем действиям этого хода.
@@ -170,7 +170,7 @@ namespace WarSpot.MatchComputer
 					}
 					actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == atackAction.TargetId);
-					cost = 20 + atackAction.Ci;
+					cost = 20 + atackAction.Ci; 
 					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
 
 					if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (distance <= 3))
