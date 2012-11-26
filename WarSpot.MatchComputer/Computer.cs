@@ -264,7 +264,7 @@ namespace WarSpot.MatchComputer
 				#region GameActionTreat
 				case ActionTypes.GameActionTreat:
 
-					var treatAction = curAction as GameActionGiveCi;
+					var treatAction = curAction as GameActionTreat;
 					if (treatAction == null)
 					{
 						break;
@@ -272,7 +272,7 @@ namespace WarSpot.MatchComputer
 
 					actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == treatAction.TargetId);
-					cost = treatAction.Ci;
+					cost = treatAction.UsingCi;
 					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
 
 					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3) && (cost <= actor.Characteristics.Ci * 0.6f))
