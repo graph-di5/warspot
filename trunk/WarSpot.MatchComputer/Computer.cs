@@ -170,10 +170,10 @@ namespace WarSpot.MatchComputer
 					}
 					actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == atackAction.TargetId);
-					cost = 20 + atackAction.Damage; 
+					cost = 0.2f * actor.Characteristics.MaxHealth + atackAction.Damage; 
 					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
 
-					if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (distance <= 3))
+					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
 					{
 						actor.Characteristics.Ci -= cost;//применяем изменения
 						target.Characteristics.Health -= atackAction.Damage;
@@ -220,12 +220,13 @@ namespace WarSpot.MatchComputer
 					{
 						break;
 					}
+						
 					actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == giveCiAction.TargetId);
-					cost = 20 + giveCiAction.Ci;
+					cost = 0.1f * actor.Characteristics.MaxHealth + giveCiAction.Ci;
 					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
 
-					if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (distance <= 3))
+					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
 					{
 						actor.Characteristics.Ci -= cost;
 						target.Characteristics.Ci += giveCiAction.Ci;
@@ -245,11 +246,12 @@ namespace WarSpot.MatchComputer
 						break;
 					}
 					actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
-					cost = (Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY)) * actor.Characteristics.MaxHealth / 100;
+					cost = actor.Characteristics.MaxStep * (Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY)) * actor.Characteristics.MaxHealth * 0.01f;
 					distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
 
-					if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (_world[actor.Characteristics.X, actor.Characteristics.Y].Being.Equals(null))
-						& (distance <= actor.Characteristics.MaxStep))
+					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) 
+						&& (_world[actor.Characteristics.X, actor.Characteristics.Y].Being.Equals(null))
+						&& (distance <= actor.Characteristics.MaxStep))
 					{
 						actor.Characteristics.X += moveAction.ShiftX;
 						actor.Characteristics.Y += moveAction.ShiftY;
@@ -267,14 +269,15 @@ namespace WarSpot.MatchComputer
 					{
 						break;
 					}
+
 					actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == treatAction.TargetId);
 					cost = treatAction.Ci;
 					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
 
-					if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (distance <= 3))
+					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3) && (cost <= actor.Characteristics.Ci * 0.6f))
 					{
-						actor.Characteristics.Health -= cost;
+						actor.Characteristics.Ci -= cost;
 						target.Characteristics.Health += cost / 3;
 
 						_eventsHistory.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
@@ -312,8 +315,9 @@ namespace WarSpot.MatchComputer
 						var r = new Random();
 						int d = r.Next(emptyEnvirons.Count - 1);//Номер клетки из списка пустых клеток вокруг существа.
 
-						if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Ci >= birthAcrion.Ci)
-							 & (actor.Characteristics.Health > 0) & (actor.Characteristics.Ci >= offspring.Characteristics.MaxHealth * 0.9f) & (actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f))
+						if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Ci >= birthAcrion.Ci)
+							 && (actor.Characteristics.Health > 0) && (actor.Characteristics.Ci >= offspring.Characteristics.MaxHealth * 0.9f) 
+							 && (actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f))
 						{
 							offspring.Characteristics.Health = offspring.Characteristics.MaxHealth * 0.6f;
 							offspring.Characteristics.Ci = offspring.Characteristics.MaxHealth * 0.3f;
