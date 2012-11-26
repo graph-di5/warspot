@@ -5,7 +5,7 @@ namespace WarSpot.Contracts.Intellect.Actions
 	public class GameActionAttack : GameAction
 	{
 		public Guid TargetId { get; private set; }
-		public float Ci { set; get; }
+		public float Damage { set; get; }
 
 		/// <summary>
 		/// Atack target using Ci energy.
@@ -14,7 +14,7 @@ namespace WarSpot.Contracts.Intellect.Actions
 		{
 			ActionType = ActionTypes.GameActionAtack;
 			TargetId = targetId;
-			Ci = ci;
+			Damage = ci;
 		}
 	}
 }

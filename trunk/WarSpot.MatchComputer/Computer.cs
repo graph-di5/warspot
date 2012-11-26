@@ -170,13 +170,13 @@ namespace WarSpot.MatchComputer
 					}
 					actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == atackAction.TargetId);
-					cost = 20 + atackAction.Ci; 
+					cost = 20 + atackAction.Damage; 
 					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
 
 					if ((actor.Characteristics.Ci >= cost) & (actor.Characteristics.Health > 0) & (distance <= 3))
 					{
 						actor.Characteristics.Ci -= cost;//применяем изменения
-						target.Characteristics.Health -= atackAction.Ci;
+						target.Characteristics.Health -= atackAction.Damage;
 
 						_eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));//пишем историю
 						_eventsHistory.Add(new GameEventHealthChange(atackAction.TargetId, target.Characteristics.Health));
