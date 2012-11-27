@@ -108,6 +108,7 @@
     <Compile Include="Input\Controller.cs" />
     <Compile Include="Input\InputControl.cs" />
     <Compile Include="OfflineMatcher\Deserializator.cs" />
+    <Compile Include="OfflineMatcher\InGameObjects.cs" />
     <Compile Include="Screen\SelectReplayScreen.cs" />
     <Compile Include="Screen\WatchReplayScreen.cs" />
     <Compile Include="Screen\Utils\InputValidator.cs" />
@@ -137,6 +138,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj">
+      <Project>{218A447E-8808-4987-B665-A8B1FB107022}</Project>
+      <Name>WarSpot.Contracts.Intellect</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj">
       <Project>{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}</Project>
       <Name>WarSpot.Contracts.Service</Name>
