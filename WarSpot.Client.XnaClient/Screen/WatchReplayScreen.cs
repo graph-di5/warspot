@@ -18,6 +18,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private List<Creature> _listOfCreatures = new List<Creature>();
 
 		// Для экрана 800х600, потом изменять динамически
+		// 100х75 размер в клетках
 		private int _XSize = 100;
 		private int _YSize = 75;
 		private float _scale = 0.125f;
@@ -43,7 +44,9 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				for (int j = 0; j <= _YSize; j++)
 				{
-					SpriteBatch.Draw(_grass, new Rectangle(i * 32, j * 32, i * 32 + (int)Math.Round(_scale * 32), j * 32 + (int)Math.Floor(_scale * 32)), Color.White);					
+					int scaledWidth = (int)Math.Round(_grass.Width * _scale);
+					int scaledHeight = (int)Math.Round(_grass.Height * _scale);
+					SpriteBatch.Draw(_grass, new Rectangle(i * 32, j * 32, i * 32 + scaledWidth, j * 32 + scaledHeight), Color.White);					
 				}
 			}
 			SpriteBatch.End();
