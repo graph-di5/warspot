@@ -47,7 +47,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				for (int j = 0; j <= _YSize; j++)
 				{
-					SpriteBatch.Draw(_grass, new Rectangle(i * scaledWidth, j * scaledHeight, i * 32 + scaledWidth, j * 32 + scaledHeight), Color.White);					
+					SpriteBatch.Draw(_grass, new Rectangle(i * scaledWidth, j * scaledHeight, i * scaledWidth + scaledWidth, j * scaledHeight + scaledHeight), Color.White);					
 				}
 			}
 			SpriteBatch.End();
