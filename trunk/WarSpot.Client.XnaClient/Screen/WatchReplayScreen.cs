@@ -16,12 +16,13 @@ namespace WarSpot.Client.XnaClient.Screen
 		private Texture2D _hedge;
 		private List<WarSpotEvent> _listOfEvents = new List<WarSpotEvent>();
 		private List<Creature> _listOfCreatures = new List<Creature>();
-
 		// Для экрана 800х600, потом изменять динамически
 		// 100х75 размер в клетках
 		private int _XSize = 100;
 		private int _YSize = 75;
 		private float _scale = 0.125f;
+		private int scaledWidth;
+		private int scaledHeight;
 
 		public WatchReplayScreen()
 		{
@@ -34,6 +35,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			_creature = ContentManager.Load<Texture2D>("Textures/GameSprites/creature");
 			_grass = ContentManager.Load<Texture2D>("Textures/GameSprites/grass");
 			_hedge = ContentManager.Load<Texture2D>("Textures/GameSprites/hedge");
+			scaledWidth = (int)Math.Round(_grass.Width * _scale);
+			scaledHeight = (int)Math.Round(_grass.Height * _scale);
 		}
 
 		public override void Draw(GameTime gameTime)
@@ -44,9 +47,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				for (int j = 0; j <= _YSize; j++)
 				{
-					int scaledWidth = (int)Math.Round(_grass.Width * _scale);
-					int scaledHeight = (int)Math.Round(_grass.Height * _scale);
-					SpriteBatch.Draw(_grass, new Rectangle(i * 32, j * 32, i * 32 + scaledWidth, j * 32 + scaledHeight), Color.White);					
+					SpriteBatch.Draw(_grass, new Rectangle(i * scaledWidth, j * scaledHeight, i * 32 + scaledWidth, j * 32 + scaledHeight), Color.White);					
 				}
 			}
 			SpriteBatch.End();
@@ -54,19 +55,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void CreateControls()
 		{
-			_listOfEvents = OfflineMatcher.Deserializator.Deserialize(@"replay_2012.11.25_21.05.02.out");
-
-			foreach (WarSpotEvent i in _listOfEvents)
-			{
-				if (i is GameEventBirth)
-				{
-					
-				//	int a = i.Newborn.Health;
-				//	Creature tmp = new OfflineMatcher.Creature()
-				//	_listOfCreatures.Add();
-				}
-			}
-
+	
 		}
 
 		private void InitializeControls()
