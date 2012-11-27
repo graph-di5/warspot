@@ -17,9 +17,10 @@ namespace WarSpot.Client.XnaClient.Screen
 		private List<WarSpotEvent> _listOfEvents = new List<WarSpotEvent>();
 		private List<Creature> _listOfCreatures = new List<Creature>();
 
+		// Для экрана 800х600, потом изменять динамически
 		private int _XSize = 100;
 		private int _YSize = 75;
-		private float _scale = 1 / 8;
+		private float _scale = 0.125f;
 
 		public WatchReplayScreen()
 		{
@@ -38,12 +39,11 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			SpriteBatch.Begin();
 
-			for (int i = 0; i < _XSize; i++)
+			for (int i = 0; i <= _XSize; i++)
 			{
-				for (int j = 0; j < _YSize; j++)
+				for (int j = 0; j <= _YSize; j++)
 				{
-					//SpriteBatch.Draw(_grass, new Vector2(i * _grass.Width, j * _grass.Height), Color.White);
-					SpriteBatch.Draw(_grass, new Rectangle(i * 32, j * 32, i * 32 + (int)Math.Round(_scale * 32), j * 32 + (int)Math.Floor(_scale * 32)), Color.White);
+					SpriteBatch.Draw(_grass, new Rectangle(i * 32, j * 32, i * 32 + (int)Math.Round(_scale * 32), j * 32 + (int)Math.Floor(_scale * 32)), Color.White);					
 				}
 			}
 			SpriteBatch.End();
