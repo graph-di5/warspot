@@ -10,7 +10,6 @@ namespace WarSpot.Client.XnaClient.Screen
 {
 	internal class WatchReplayScreen : GameScreen
 	{
-
 		private Texture2D _creature;
 		private Texture2D _grass;
 		private Texture2D _hedge;
@@ -60,7 +59,16 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void InitializeControls()
 		{
+			_listOfEvents = Deserializator.Deserialize(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "replay_2012.11.25_21.05.02.out"));
+			WarSpotEvent tmp = _listOfEvents[0];
 
+			foreach (var gameEvent in _listOfEvents)
+			{
+				if (gameEvent is GameEvent)
+				{
+					
+				}		
+			}
 		}
 	}
 }
