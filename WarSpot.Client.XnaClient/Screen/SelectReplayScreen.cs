@@ -104,7 +104,8 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			// TODO: test it after adding required functional,
 			// write errors handling for selecting
-			//ScreenManager.Instance.setReplayPath(_replaysBox.Items[_replaysBox.SelectedItems[0]]);
+			//ScreenManager.Instance.SetReplayPath(_replaysBox.Items[_replaysBox.SelectedItems[0]]);
+			// ScreenManager.Instance.PreapareScreen();
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
 		}
 
