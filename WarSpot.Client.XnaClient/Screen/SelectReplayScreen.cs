@@ -102,7 +102,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void watchButtonPressed(object sender, EventArgs e)
 		{
-			// TODO: test with after adding required functional,
+			// TODO: test it after adding required functional,
 			// write errors handling for selecting
 			//ScreenManager.Instance.setReplayPath(_replaysBox.Items[_replaysBox.SelectedItems[0]]);
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
@@ -123,6 +123,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 
 		}
+
 
 		private void updataReplaysList()
 		{
