@@ -15,8 +15,10 @@ namespace WarSpot.Client.XnaClient.Screen
 		private Texture2D _hedge;
 		private List<WarSpotEvent> _listOfEvents = new List<WarSpotEvent>();
 		private List<Creature> _listOfCreatures = new List<Creature>();
-		// Для экрана 800х600, потом изменять динамически
-		// 100х75 размер в клетках
+		// Path, which contains path to replay, selected in SelectReplayScreen (or in new Game) 
+		private string _replayPath;
+
+		// temporary constants
 		private int _XSize = 100;
 		private int _YSize = 75;
 		private float _scale = 0.125f;
@@ -27,6 +29,9 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			CreateControls();
 			InitializeControls();
+			_listOfEvents = Deserializator.Deserialize(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
+				"replay_2012.11.25_21.05.02.out"));
+			createGameObjects();
 		}
 
 		public override void LoadContent()
@@ -46,7 +51,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				for (int j = 0; j <= _YSize; j++)
 				{
-					SpriteBatch.Draw(_grass, new Rectangle(i * scaledWidth, j * scaledHeight, i * scaledWidth + scaledWidth, j * scaledHeight + scaledHeight), Color.White);					
+					SpriteBatch.Draw(_grass, new Rectangle(i * scaledWidth, j * scaledHeight, i * scaledWidth + scaledWidth, j * scaledHeight + scaledHeight), Color.White);
 				}
 			}
 			SpriteBatch.End();
@@ -54,21 +59,27 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void CreateControls()
 		{
-	
 		}
 
 		private void InitializeControls()
 		{
-			_listOfEvents = Deserializator.Deserialize(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "replay_2012.11.25_21.05.02.out"));
-			WarSpotEvent tmp = _listOfEvents[0];
+		}
 
-			foreach (var gameEvent in _listOfEvents)
+		// TODO: maybe refactor this and make it as part of update
+		private void createGameObjects()
+		{
+			int i = 0;
+			while (_listOfEvents[i++] is GameEventBirth)
 			{
-				if (gameEvent is GameEvent)
-				{
-					
-				}		
+				var tmp = _listOfEvents[i] as GameEventBirth;
+				_listOfCreatures.Add(new Creature(tmp.SubjectId, tmp.Newborn.X, tmp.Newborn.Y, tmp.Newborn.Team));
+				_listOfEvents.Remove(tmp);
 			}
+		}
+
+		public void SetReplayPath(string replayPath)
+		{
+			_replayPath = replayPath;
 		}
 	}
 }
