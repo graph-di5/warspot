@@ -95,24 +95,27 @@ namespace WarSpot.Client.XnaClient.Screen
 			Desktop.Children.Add(_replaysBox);
 
 			ScreenManager.Instance.Controller.AddListener(_watchButton, watchButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_deleteButton, DeleteButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_deleteButton, deleteButtonPressed);
 
-			UpdataReplaysList();
+			updataReplaysList();
 		}
 
 		private void watchButtonPressed(object sender, EventArgs e)
 		{
+			// TODO: test with after adding required functional,
+			// write errors handling for selecting
+			//ScreenManager.Instance.setReplayPath(_replaysBox.Items[_replaysBox.SelectedItems[0]]);
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
 		}
 
-		private void DeleteButtonPressed(object sender, EventArgs e)
+		private void deleteButtonPressed(object sender, EventArgs e)
 		{
 			// TODO: test this
 			try
 			{
 				string forDelete = _replaysBox.Items[_replaysBox.SelectedItems[0]];
 				File.Delete(Path.Combine(FoldersController.FoldersController.GetReplayPath(), forDelete));
-				UpdataReplaysList();
+				updataReplaysList();
 			}
 			catch
 			{
@@ -121,7 +124,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		}
 
-		private void UpdataReplaysList()
+		private void updataReplaysList()
 		{
 			// TODO: test this
 			DirectoryInfo tmp = new DirectoryInfo(FoldersController.FoldersController.GetReplayPath());
@@ -130,6 +133,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				_replaysBox.Items.Add(replay.Name);
 			}
+			
+
 		}
 	}
 }

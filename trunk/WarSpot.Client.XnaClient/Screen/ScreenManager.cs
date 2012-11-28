@@ -133,7 +133,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 			foreach (string screen in Enum.GetNames(typeof(ScreenEnum)))
 			{
-				// !! todo check this wtf
+				// TODO: rewrite/refactor this hell
 				RegisterScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), screen),
 					(GameScreen)Type.GetType("WarSpot.Client.XnaClient.Screen." + screen)
 					.GetConstructor(new Type[0]).Invoke(new object[0]));
@@ -165,5 +165,13 @@ namespace WarSpot.Client.XnaClient.Screen
 			_activeScreen.UseTexts(dict);
 		}
 
+		public void setReplayPath(string path)
+		{
+			foreach (var screen in _screens)
+			{
+				var tmp = _screens[ScreenEnum.WatchReplayScreen] as WatchReplayScreen;
+				tmp.SetReplayPath(path);
+			}
+		}
 	}
 }
