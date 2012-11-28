@@ -30,7 +30,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			// Temporary
 			_listOfEvents = Deserializator.Deserialize(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
 				"replay_2012.11.25_21.05.02.out"));
-			createGameObjects();
+			CreateGameObjects();
 		}
 
 		public override void LoadContent()
@@ -49,7 +49,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		// TODO: maybe refactor this and make it as part of update
 		// or make own udpate with blackjack (called one time before drawing and base updating)
-		private void createGameObjects()
+		private void CreateGameObjects()
 		{
 			int i = 0;
 			// Temporary, incorrect for random replay
@@ -65,9 +65,9 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// Define a size of world. Must be used before any 
 		/// actions over sprites, scaling etc.
 		/// </summary>
-		/// <param name="x"> world's width</param>
-		/// <param name="y"> world's height</param>
-		private void setWorldSize(int x, int y)
+		/// <param name="x"> world's width </param>
+		/// <param name="y"> world's height </param>
+		private void SetWorldSize(int x, int y)
 		{
 			_worldWidth = x;
 			_wordlHeight = y;
@@ -77,7 +77,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// Uses size of game world and calculate scaling according to screen resolution
 		/// it's needed for correct drawing of whole world
 		/// </summary>		
-		private void setScaling()
+		private void SetScaling()
 		{
 			// Refatcor this if there apperas any necessity in frames (for turn/statictics e.g.)
 			int width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
@@ -101,7 +101,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		public void PrepareScreen()
 		{
 			// Prepare args for drawing
-			this.setScaling();
+			this.SetScaling();
 			// TODO: initialize of all initial inGameObjects
 		}
 	}

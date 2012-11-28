@@ -165,7 +165,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			_activeScreen.UseTexts(dict);
 		}
 
-		public void setReplayPath(string path)
+		public void SetReplayPath(string path)
 		{
 			foreach (var screen in _screens)
 			{
