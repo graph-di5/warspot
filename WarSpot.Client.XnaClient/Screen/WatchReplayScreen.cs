@@ -49,8 +49,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			SpriteBatch.End();
 		}
 
-		// TODO: maybe refactor this and make it as part of update
-		// or make own udpate with blackjack (called one time before drawing and base updating)
+		// TODO: add worldCell initializing
 		private void CreateGameObjects()
 		{
 			int i = 0;
