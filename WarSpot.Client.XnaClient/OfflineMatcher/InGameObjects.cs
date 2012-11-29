@@ -7,12 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WarSpot.Client.XnaClient.OfflineMatcher
 {
-	/*internal enum Team
-	{
-		Red,
-		Blue
-	}*/
-
 	internal enum GameObjectType
 	{
 		Stone,
@@ -20,6 +14,9 @@ namespace WarSpot.Client.XnaClient.OfflineMatcher
 		Bonus
 	}
 
+	/// <summary>
+	/// Class for storing data of all drawable objects
+	/// </summary>
 	class Creature
 	{		
 		public Guid Id { get; private set; }
@@ -37,6 +34,28 @@ namespace WarSpot.Client.XnaClient.OfflineMatcher
 			X = x;
 			Y = y;
 			isAlive = true;
+		}
+	}
+
+	/// <summary>
+	/// Class for working with Ci (because Ci isn't inGameObject)
+	/// </summary>
+	class WorldCell
+	{
+		public int X { get; private set; }
+		public int Y { get; private set; }
+		public float Ci { get; private set; }
+
+		public WorldCell(int x, int y)
+		{
+			this.X = x;
+			this.Y = y;
+			this.Ci = 0;
+		}
+
+		public void changeCi(float ci)
+		{
+			this.Ci = ci;
 		}
 	}
 }

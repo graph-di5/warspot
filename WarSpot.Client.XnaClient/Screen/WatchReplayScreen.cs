@@ -16,21 +16,23 @@ namespace WarSpot.Client.XnaClient.Screen
 		private List<WarSpotEvent> _listOfEvents = new List<WarSpotEvent>();
 		private List<Creature> _listOfCreatures = new List<Creature>();
 		// Contains path to replay, selected in SelectReplayScreen (or in new Game) 
-		private string _replayPath;
+		// temporary default value
+		private string _replayPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
+			"replay_2012.11.25_21.05.02.out");
 
 		// temporary constants
 		private int _worldWidth = 100;
 		private int _wordlHeight = 75;
+
+		// Array which contains world's size and ci of every single piece of world
+		private WorldCell[][] _worldMap;
+
 		// define a scale of drawable sprites
 		private float _widthScaling;
 		private float _heightScaling;
 
 		public WatchReplayScreen()
 		{
-			// Temporary
-			_listOfEvents = Deserializator.Deserialize(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
-				"replay_2012.11.25_21.05.02.out"));
-			CreateGameObjects();
 		}
 
 		public override void LoadContent()
@@ -64,11 +66,21 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// <summary>
 		/// Define a size of world. Must be used before any 
 		/// actions over sprites, scaling etc.
+		/// Use only in gameobject in gameo bjects initialization!
 		/// </summary>
 		/// <param name="x"> world's width </param>
 		/// <param name="y"> world's height </param>
 		private void SetWorldSize(int x, int y)
 		{
+			// TODO: test this.
+			
+			for (int i = 0; i < y; i++)
+			{
+				for (int j = 0; j < x; j++)
+				{
+					_worldMap[i][j] = new WorldCell(j, i);
+				}
+			}
 			_worldWidth = x;
 			_wordlHeight = y;
 		}
@@ -82,8 +94,21 @@ namespace WarSpot.Client.XnaClient.Screen
 			// Refatcor this if there apperas any necessity in frames (for turn/statictics e.g.)
 			int width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 			int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+			// Use after adding world's size event
+			//_widthScaling = _worldMap[0].Length / width;
+			//_heightScaling = _worldMap.Length / height;
+
+			// Temporary
 			_widthScaling = _worldWidth / width;
 			_heightScaling = _wordlHeight / height;
+		}
+
+		/// <summary>
+		/// Initialize list of events
+		/// </summary>
+		private void InitializeReplay()
+		{
+			_listOfEvents = Deserializator.Deserialize(_replayPath);
 		}
 
 		/// <summary>
@@ -100,9 +125,14 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// </summary>
 		public void PrepareScreen()
 		{
+			// Initializing of event list
+			this.InitializeReplay();
+
+			// Initializing of initial inGameObjects and world map
+			this.CreateGameObjects();
+			
 			// Prepare args for drawing
 			this.SetScaling();
-			// TODO: initialize of all initial inGameObjects
 		}
 	}
 }
