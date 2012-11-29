@@ -19,6 +19,15 @@ namespace WarSpot.Client.XnaClient.Utils
 			const string pattern = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
 			return Regex.IsMatch(input, pattern);
 		}
+
+		//TODO: test this
+		static public bool CheckReplay(string input)
+		{
+			if (input == null)
+				return false;
+			const string pattern = @".*\\.out$";
+			return Regex.IsMatch(input, pattern);
+		}
 	}
 
 }
