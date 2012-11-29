@@ -31,6 +31,13 @@ namespace WarSpot.Client.XnaClient.Screen
 			_texture = ContentManager.Load<Texture2D>("Textures/Screens/screen_02");
 		}
 
+		// TODO: correct game state updating (using timer?)
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+		}
+
+		// TODO: drawing all gameobject, do smth with WorldCell with Ci
 		public override void Draw(GameTime gameTime)
 		{
 			SpriteBatch.Begin();
@@ -105,7 +112,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			// TODO: test it after adding required functional,
 			// write errors handling for selecting
 			//ScreenManager.Instance.SetReplayPath(_replaysBox.Items[_replaysBox.SelectedItems[0]]);
-			// ScreenManager.Instance.PreapareScreen();
+			ScreenManager.Instance.PreapareReplayScreen();
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
 		}
 

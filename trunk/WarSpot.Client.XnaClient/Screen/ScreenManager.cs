@@ -167,11 +167,14 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public void SetReplayPath(string path)
 		{
-			foreach (var screen in _screens)
-			{
-				var tmp = _screens[ScreenEnum.WatchReplayScreen] as WatchReplayScreen;
-				tmp.SetReplayPath(path);
-			}
+			var tmp = _screens[ScreenEnum.WatchReplayScreen] as WatchReplayScreen;
+			tmp.SetReplayPath(path);
+		}
+
+		public void PreapareReplayScreen()
+		{
+			var tmp = _screens[ScreenEnum.WatchReplayScreen] as WatchReplayScreen;
+			tmp.PrepareScreen();
 		}
 	}
 }
