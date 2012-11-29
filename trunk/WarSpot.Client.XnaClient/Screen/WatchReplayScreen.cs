@@ -72,16 +72,17 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void SetWorldSize(int x, int y)
 		{
 			// TODO: test this.
-			
-			for (int i = 0; i < y; i++)
-			{
-				for (int j = 0; j < x; j++)
+
+			/*	for (int i = 0; i < y; i++)
 				{
-					_worldMap[i][j] = new WorldCell(j, i);
+					for (int j = 0; j < x; j++)
+					{
+						_worldMap[i][j] = new WorldCell(j, i);
+					}
 				}
-			}
-			_worldWidth = x;
-			_wordlHeight = y;
+				_worldWidth = _worldMap[0].Length;
+				_wordlHeight = _worldMap.Length;
+			 */
 		}
 
 		///<summary>
