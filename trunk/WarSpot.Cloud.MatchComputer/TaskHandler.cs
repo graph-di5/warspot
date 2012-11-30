@@ -110,7 +110,47 @@ namespace WarSpot.Cloud.MatchComputer
 
 			WarSpot.MatchComputer.Computer computer = new WarSpot.MatchComputer.Computer(listIntellect, stream);
 		}
-		
+
+
+		public static IBeingInterface ParseIntellect(byte[] dll)
+		{
+			Assembly assembly = Assembly.Load(dll);//вытаскиваем библиотеку
+			var referencedAssemblies = assembly.GetReferencedAssemblies();
+
+			var floudIntellect = false;
+			foreach (var referencedAssembly in referencedAssemblies)
+			{
+				if (referencedAssembly.Name == "WarSpot.Contracts.Intellect")
+				{
+
+					if (referencedAssembly.Version.Major == Assembly.GetExecutingAssembly().GetName().Version.Major &&
+						referencedAssembly.Version.Minor == Assembly.GetExecutingAssembly().GetName().Version.Minor)
+					{
+						floudIntellect = true;
+					}
+					break;
+				}
+			}
+			if (!floudIntellect)
+				return null;
+
+			string iMyInterfaceName = typeof(IBeingInterface).ToString();
+			foreach (var t in assembly.GetTypes())
+			{
+				if (t.GetInterface(iMyInterfaceName) != null)
+				{
+					var defaultCtor = t.GetConstructor(new Type[0]);
+					if (defaultCtor != null)
+					{
+						var inst = defaultCtor.Invoke(new Type[0]);
+						return inst as IBeingInterface;
+					}
+				}
+			}
+			return null;
+		}
+
+
 		public void ThreadFunctions()
 		{
 			CloudQueue queue = CreateQueue();
