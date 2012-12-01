@@ -360,7 +360,14 @@ namespace WarSpot.MatchComputer
 
 			foreach (var t in objectsToDelete)
 			{
-				_objects.Remove(t);//удаляем все умершие объекты из главного списка
+                int team = t.Characteristics.Team;
+
+                _objects.Remove(t);//удаляем умершего из главного списка
+
+                if ((team != 0) & (!(_objects.Any(a => a.Characteristics.Team == team))))
+                {//Если команда не нулевая, и нет никого с такой же командой, пишем событие проигрыша команды.
+                    _eventsHistory.Add(new SystemEventCommandDead(team));
+                }			
 			}
 
 			objectsToDelete.Clear();
