@@ -20,7 +20,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Contains path to replay, selected in SelectReplayScreen (or in new Game) 
 		// temporary default value
 		private string _replayPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
-			"replay_2012.12.02_00.12.40.out");
+			"replay_2012.12.02_01.07.32.out");
 		// temporary constants
 		private int _worldWidth = 20;
 		private int _wordlHeight = 15;
@@ -55,7 +55,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void Draw(GameTime gameTime)
 		{
 			SpriteBatch.Begin();
-		/*	for (int i = 0; i < _wordlHeight; i++)
+			for (int i = 0; i < _wordlHeight; i++)
 			{
 				for (int j = 0; j < _worldWidth; j++)
 				{
@@ -68,7 +68,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			foreach (var creature in _listOfCreatures)
 			{
 				SpriteBatch.Draw(_creature, new Rectangle(), Color.White);
-			}*/
+			}
 
 			SpriteBatch.End();
 		}
@@ -129,9 +129,11 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// <param name="y"> world's height </param>
 		private void SetWorldSize(int x, int y)
 		{
+			_worldMap = new WorldCell[y][];
 			// TODO: test this.
 			for (int i = 0; i < y; i++)
 			{
+				_worldMap[i] = new WorldCell[x];
 				for (int j = 0; j < x; j++)
 				{
 					_worldMap[i][j] = new WorldCell(j, i);
