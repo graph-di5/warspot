@@ -163,7 +163,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			LoadContent();
 			SetActiveScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), current));
 			_activeScreen.UseTexts(dict);
-		}
+		}   
 
 		public void PreapareReplayScreen()
 		{
