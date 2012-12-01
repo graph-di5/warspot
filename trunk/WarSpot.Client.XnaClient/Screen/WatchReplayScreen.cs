@@ -20,7 +20,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Contains path to replay, selected in SelectReplayScreen (or in new Game) 
 		// temporary default value
 		private string _replayPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
-			"replay_2012.12.01_23.02.28.out");
+			"replay_2012.12.02_00.12.40.out");
 		// temporary constants
 		private int _worldWidth = 20;
 		private int _wordlHeight = 15;
