@@ -95,10 +95,17 @@ namespace WarSpot.Cloud.Storage
             blob.UploadByteArray(replay);            
         }
 
-        public byte[] DownloadIntellect(string name, Guid _userID)
+        public byte[] DownloadIntellect(Guid intellectID)
         {
+            List<Intellect> test = (from b in db.Intellect
+                                    where b.Intellect_ID == intellectID
+                                    select b).ToList<Intellect>();
 
-            string neededname = string.Format("{0}/{1}", _userID.ToString(), name);
+            List<Account> temp = (from b in db.Account
+                                  where b.Account_ID == test.First<Intellect>().AccountAccount_ID
+                                  select b).ToList<Account>();
+
+            string neededname = string.Format("{0}/{1}", temp.First<Account>().Account_Name, test.First<Intellect>().Intellect_Name);
             CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
             return blob.DownloadByteArray();
         }

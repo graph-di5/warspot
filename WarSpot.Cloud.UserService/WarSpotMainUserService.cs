@@ -98,15 +98,6 @@ namespace WarSpot.Cloud.UserService
 
 		}
 
-        public byte[] DownloadIntellect(string name)
-        {
-            if (!_loggedIn)
-            {
-                return null;
-            }
-
-            return _storage.DownloadIntellect(name, _userID);
-        }
 		#endregion intellect's stuff
 
 		#region replay's stuff
@@ -120,17 +111,6 @@ namespace WarSpot.Cloud.UserService
             return _storage.GetReplay(gameID);
 
 		}
-
-        public ErrorCode UploadReplay(byte[] replay, Guid gameID)
-        {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "You are not logged in.");
-            }
-
-            _storage.UploadReplay(replay, gameID);
-            return new ErrorCode(ErrorType.Ok, "Replay has been uploaded.");
-        }
 
 		#endregion replay's stuff
 
