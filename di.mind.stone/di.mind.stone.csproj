@@ -31,10 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Loafer.cs" />
     <Compile Include="Stone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="WarSpot.Contracts.Intellect">
       <HintPath>..\redistr\WarSpot.Contracts.Intellect.dll</HintPath>
     </Reference>
