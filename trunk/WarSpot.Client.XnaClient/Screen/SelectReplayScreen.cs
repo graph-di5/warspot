@@ -104,9 +104,9 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void watchButtonPressed(object sender, EventArgs e)
 		{
-			// TODO: test it after adding required functional,
-			// write errors handling for selecting
-			//ScreenManager.Instance.SetReplayPath(_replaysBox.Items[_replaysBox.SelectedItems[0]]);
+			//string selectedReplay = _replaysBox.Items[_replaysBox.SelectedItems[0]];
+			//string path = Path.Combine(FoldersHelper.FoldersHelper.GetReplayPath(), selectedReplay);
+			//Utils.ScreenHelper.Instance.ReplayPath = path;
 			ScreenManager.Instance.PreapareReplayScreen();
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
 		}
@@ -117,7 +117,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			try
 			{
 				string forDelete = _replaysBox.Items[_replaysBox.SelectedItems[0]];
-				File.Delete(Path.Combine(FoldersController.FoldersController.GetReplayPath(), forDelete));
+				File.Delete(Path.Combine(FoldersHelper.FoldersHelper.GetReplayPath(), forDelete));
 				updataReplaysList();
 			}
 			catch
@@ -131,7 +131,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void updataReplaysList()
 		{
 			// TODO: test this
-			DirectoryInfo tmp = new DirectoryInfo(FoldersController.FoldersController.GetReplayPath());
+			DirectoryInfo tmp = new DirectoryInfo(FoldersHelper.FoldersHelper.GetReplayPath());
 			var replays = tmp.GetFiles();
 			foreach (var replay in replays)
 			{

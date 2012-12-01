@@ -6,6 +6,7 @@ using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using InputControl = WarSpot.Client.XnaClient.Input.InputControl;
 using WarSpot.Contracts.Service;
+using WarSpot.Client.XnaClient.Utils;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -160,11 +161,11 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void RegisterButtonPressed(object sender, EventArgs args)
 		{
-			bool checker = Utils.InputValidator.CheckText(_nameBox.RealText) &&
-			Utils.InputValidator.CheckText(_surNameBox.RealText) &&
-			Utils.InputValidator.CheckEmail(_emailBox.RealText) &&
-			Utils.InputValidator.CheckText(_nicknameBox.RealText) &&
-			Utils.InputValidator.CheckText(_passwordBox.RealText);
+			bool checker = InputValidator.CheckText(_nameBox.RealText) &&
+			InputValidator.CheckText(_surNameBox.RealText) &&
+			InputValidator.CheckEmail(_emailBox.RealText) &&
+			InputValidator.CheckText(_nicknameBox.RealText) &&
+			InputValidator.CheckText(_passwordBox.RealText);
 			if (!checker)
 			{
 				MessageBox.Show("Incorrect input", ScreenManager.ScreenEnum.NewAccountScreen);
