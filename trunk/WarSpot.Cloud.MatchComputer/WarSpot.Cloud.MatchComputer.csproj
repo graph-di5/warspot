@@ -89,6 +89,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Cloud.Common\WarSpot.Cloud.Common.csproj">
+      <Project>{0D16B483-7926-430D-A330-46CF90F2CF5A}</Project>
+      <Name>WarSpot.Cloud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj">
       <Project>{218A447E-8808-4987-B665-A8B1FB107022}</Project>
       <Name>WarSpot.Contracts.Intellect</Name>

@@ -111,8 +111,13 @@ namespace WarSpot.Cloud.MatchComputer
 			WarSpot.MatchComputer.Computer computer = new WarSpot.MatchComputer.Computer(listIntellect, stream);
 		}
 
-		private static void ParseMessage(Message msg)
+		private static void ParseMessage(CloudQueueMessage message)
 		{
+			Message msg = new Message();
+			msg.ID = new Guid();
+			
+
+			/*
 			var ID = msg.ID; // надо ли нам знать ID сообщения?
 			var dlls = msg.ListOfDll;
 			List<TeamIntellectList> listIntellect = new List<TeamIntellectList>();
@@ -124,6 +129,7 @@ namespace WarSpot.Cloud.MatchComputer
 				listIntellect.Add(teamIntellectList);
 			}
 			MemoryStreamer(listIntellect);
+			*/ 
 		}
 
 		public static IBeingInterface ParseIntellect(byte[] dll)
