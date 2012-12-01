@@ -203,6 +203,22 @@ namespace WarSpot.Cloud.Storage
             return gameID;
         }
         #endregion
-        
+
+
+        public List<Guid> GetListOfGames(Guid _userID)
+        {
+            List<Game> test = (from b in db.Game
+                       where b.AccountAccount_ID == _userID
+                       select b).ToList<Game>();
+
+            List<Guid> res = new List<Guid>();
+
+            foreach (Game game in test)
+            {
+                res.Add(game.Game_ID);
+            }
+
+            return res;
+        }
     }
 }
