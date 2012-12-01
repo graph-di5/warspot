@@ -17,7 +17,7 @@ namespace WarSpot.MatchComputer
 		#endregion
 
 		#region System events
-        SystemEventWorldCreated,
+		SystemEventWorldCreated,
 		SystemEventTurnStarted,
 		SystemEventCommandDead,
 		SystemEventCommandWin,
@@ -25,7 +25,6 @@ namespace WarSpot.MatchComputer
 		#endregion
 	};
 
-	// todo check if needed [KnowTypes] attribute
 	[Serializable]
 	public abstract class WarSpotEvent
 	{
@@ -147,18 +146,19 @@ namespace WarSpot.MatchComputer
 	{
 	}
 
-    [Serializable]
-    public class SystemEventWorldCreated : SystemEvent
-    {
-        public int Width { set; get; }
-        public int Height { set; get; }
+	[Serializable]
+	public class SystemEventWorldCreated : SystemEvent
+	{
+		public int Width { set; get; }
+		public int Height { set; get; }
 
-        public SystemEventWorldCreated(int width, int height)
-        {
-            EventType = EventTypes.SystemEventWorldCreated;
-        }
-
-    }
+		public SystemEventWorldCreated(int width, int height)
+		{
+			EventType = EventTypes.SystemEventWorldCreated;
+			Width = width;
+			Height = height;
+		}
+	}
 
 	[Serializable]
 	public class SystemEventTurnStarted : SystemEvent
