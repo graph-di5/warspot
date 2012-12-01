@@ -30,7 +30,7 @@ namespace WarSpot.ConsoleComputer
 				{
 					continue;
 				}
-				t.Members.Add(i);
+				t.Members.Add(i); 
 				listIntellect.Add(t);
 			}
 
@@ -40,7 +40,7 @@ namespace WarSpot.ConsoleComputer
 			computer.Compute();
 			fs.Close();
 			Console.WriteLine("Done.");
-#if !true
+#if true
 			var list = Deserializator.Deserialize(outFileName);
 #endif
 		}

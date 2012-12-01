@@ -73,7 +73,8 @@ namespace WarSpot.MatchComputer
 					center.Add(new Tuple<int, int>(i, j));
 			RandomShuffle(center);
 
-            _eventsHistory.Add(new SystemEventWorldCreated(_world.Width, _world.Height));
+			_eventsHistory.Add(new SystemEventWorldCreated(_world.Width, _world.Height));
+			_eventsHistory.Add(new SystemEventTurnStarted(_turnNumber));//Записываем в историю начало хода.
 
 			int curNum = 0;
 
@@ -102,7 +103,7 @@ namespace WarSpot.MatchComputer
 
 				for (int i = 0; i < team.Members.Count; i++)
 				{
-					if(team.Members[i] == null)
+					if (team.Members[i] == null)
 					{
 						continue;
 					}
@@ -119,6 +120,8 @@ namespace WarSpot.MatchComputer
 
 				curNum++;
 			}
+
+			_turnNumber++;
 		}
 
 		public void Compute()
@@ -172,7 +175,7 @@ namespace WarSpot.MatchComputer
 					}
 					actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == atackAction.TargetId);
-					cost = 0.2f * actor.Characteristics.MaxHealth + atackAction.Damage; 
+					cost = 0.2f * actor.Characteristics.MaxHealth + atackAction.Damage;
 					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
 
 					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
@@ -222,7 +225,7 @@ namespace WarSpot.MatchComputer
 					{
 						break;
 					}
-						
+
 					actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
 					target = _objects.Find(a => a.Characteristics.Id == giveCiAction.TargetId);
 					cost = 0.1f * actor.Characteristics.MaxHealth + giveCiAction.Ci;
@@ -251,7 +254,7 @@ namespace WarSpot.MatchComputer
 					cost = actor.Characteristics.MaxStep * (Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY)) * actor.Characteristics.MaxHealth * 0.01f;
 					distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
 
-					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) 
+					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0)
 						&& (_world[actor.Characteristics.X, actor.Characteristics.Y].Being.Equals(null))
 						&& (distance <= actor.Characteristics.MaxStep))
 					{
@@ -318,7 +321,7 @@ namespace WarSpot.MatchComputer
 						int d = r.Next(emptyEnvirons.Count - 1);//Номер клетки из списка пустых клеток вокруг существа.
 
 						if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Ci >= birthAcrion.Ci)
-							 && (actor.Characteristics.Health > 0) && (actor.Characteristics.Ci >= offspring.Characteristics.MaxHealth * 0.9f) 
+							 && (actor.Characteristics.Health > 0) && (actor.Characteristics.Ci >= offspring.Characteristics.MaxHealth * 0.9f)
 							 && (actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f))
 						{
 							offspring.Characteristics.Health = offspring.Characteristics.MaxHealth * 0.6f;
@@ -360,14 +363,14 @@ namespace WarSpot.MatchComputer
 
 			foreach (var t in objectsToDelete)
 			{
-                int team = t.Characteristics.Team;
+				int team = t.Characteristics.Team;
 
-                _objects.Remove(t);//удаляем умершего из главного списка
+				_objects.Remove(t);//удаляем умершего из главного списка
 
-                if ((team != 0) & (!(_objects.Any(a => a.Characteristics.Team == team))))
-                {//Если команда не нулевая, и нет никого с такой же командой, пишем событие проигрыша команды.
-                    _eventsHistory.Add(new SystemEventCommandDead(team));
-                }			
+				if ((team != 0) & (!(_objects.Any(a => a.Characteristics.Team == team))))
+				{//Если команда не нулевая, и нет никого с такой же командой, пишем событие проигрыша команды.
+					_eventsHistory.Add(new SystemEventCommandDead(team));
+				}
 			}
 
 			objectsToDelete.Clear();
@@ -392,7 +395,7 @@ namespace WarSpot.MatchComputer
 				PullOut();//Отдаём историю событий.
 
 				return 0;
-				
+
 			}
 
 			_turnNumber++;
