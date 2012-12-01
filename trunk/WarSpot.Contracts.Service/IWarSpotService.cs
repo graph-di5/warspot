@@ -29,5 +29,8 @@ namespace WarSpot.Contracts.Service
         [OperationContract]
         Guid? StartGame(List<Guid> intellects);
 
+        [OperationContract]
+        List<Guid> GetListOfGames();
+
     }
 }

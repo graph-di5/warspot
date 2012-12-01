@@ -28,6 +28,18 @@ namespace WarSpot.Cloud.UserService
             return _storage.CreateGame(intellects, _userID);
  
 		}
+
+        public List<Guid> GetListOfGames()
+        {
+            if (!_loggedIn)
+            {
+                return null;
+            }
+
+            return _storage.GetListOfGames(_userID);
+        }
+
+
 		#region login and registration
 		public ErrorCode Register(string username, string pass)
 		{
