@@ -6,6 +6,6 @@ namespace WarSpot.Cloud.Common
 	public class Message
 	{
 		public Guid ID;
-		public List<Guid> ListOfDlls;
+		public List<string> ListOfDlls;
 	}
 }
