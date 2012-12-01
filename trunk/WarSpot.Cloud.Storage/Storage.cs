@@ -8,6 +8,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using System.Data.Entity;
 using System.Collections;
+using WarSpot.Contracts.Service;
 
 namespace WarSpot.Cloud.Storage
 {
@@ -158,7 +159,26 @@ namespace WarSpot.Cloud.Storage
             }
         }
         #endregion
-            
+
         
+
+        public Replay GetReplay(Guid gameID)
+        {
+            return null;
+        }
+
+        public Guid? CreateGame(List<Guid> intellects, Guid userID)
+        {
+            Guid gameID = new System.Guid();
+
+            db.AddToGame(Game.CreateGame(gameID, userID));
+
+            foreach (Guid intellect in intellects)
+            {
+                db.AddToGameIntellect(GameIntellect.CreateGameIntellect(gameID, intellect));
+            }
+
+            return gameID;
+        }
     }
 }
