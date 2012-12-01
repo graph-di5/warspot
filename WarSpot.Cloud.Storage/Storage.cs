@@ -77,16 +77,37 @@ namespace WarSpot.Cloud.Storage
             }
         }
 
-        public void Upload(Guid Account_ID, string name, byte[] data)
+        public void UploadIntellect(Guid Account_ID, string name, byte[] data)
         {
             
             string uniqueBlobName = string.Format("{0}/{1}", Account_ID.ToString(), name);
             db.AddToIntellect(Intellect.CreateIntellect(new System.Guid(), name, Account_ID));
             db.SaveChanges();            
-            CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
-           
+            CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);           
             blob.UploadByteArray(data);
 
+        }
+
+        public void UploadReplay(byte[] replay, Guid gameID)
+        {
+            string uniqueBlobName = string.Format("replay{0}", gameID.ToString());
+            CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
+            blob.UploadByteArray(replay);            
+        }
+
+        public byte[] DownloadIntellect(string name, Guid _userID)
+        {
+
+            string neededname = string.Format("{0}/{1}", _userID.ToString(), name);
+            CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
+            return blob.DownloadByteArray();
+        }
+
+        public Replay GetReplay(Guid gameID)
+        {
+            string neededname = string.Format("replay{0}", gameID.ToString());
+            CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
+            return new Replay(gameID, blob.DownloadByteArray());
         }
 
         #endregion 
@@ -158,14 +179,6 @@ namespace WarSpot.Cloud.Storage
                 return false;
             }
         }
-        #endregion
-
-        
-
-        public Replay GetReplay(Guid gameID)
-        {
-            return null;
-        }
 
         public Guid? CreateGame(List<Guid> intellects, Guid userID)
         {
@@ -178,7 +191,11 @@ namespace WarSpot.Cloud.Storage
                 db.AddToGameIntellect(GameIntellect.CreateGameIntellect(gameID, intellect));
             }
 
+            db.SaveChanges();
+
             return gameID;
         }
+        #endregion
+        
     }
 }
