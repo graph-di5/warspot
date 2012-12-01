@@ -93,6 +93,10 @@
       <Project>{0D16B483-7926-430D-A330-46CF90F2CF5A}</Project>
       <Name>WarSpot.Cloud.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Cloud.Storage\WarSpot.Cloud.Storage.csproj">
+      <Project>{4D2D5B7A-0BF4-41D2-BF18-F450BF3CB33F}</Project>
+      <Name>WarSpot.Cloud.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj">
       <Project>{218A447E-8808-4987-B665-A8B1FB107022}</Project>
       <Name>WarSpot.Contracts.Intellect</Name>
