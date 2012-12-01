@@ -184,7 +184,8 @@ namespace WarSpot.Cloud.MatchComputer
 				if (msg != null)
 				{
 					// calculate in matchcomputer
-					MemoryStreamer();
+					//msg.
+					//MemoryStreamer();
 					continue;
 				}
 
