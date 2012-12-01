@@ -18,9 +18,6 @@ namespace WarSpot.Contracts.Service
         ErrorCode UploadIntellect(byte[] intellect, string name);
 
         [OperationContract]
-        byte[] DownloadIntellect(string name);
-
-        [OperationContract]
         string[] GetListOfIntellects();
 
         [OperationContract]
@@ -31,9 +28,6 @@ namespace WarSpot.Contracts.Service
 
         [OperationContract]
         Guid? StartGame(List<Guid> intellects);
-
-        [OperationContract]
-        ErrorCode UploadReplay(byte[] replay, Guid game);
 
     }
 }
