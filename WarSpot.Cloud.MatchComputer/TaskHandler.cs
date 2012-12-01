@@ -9,6 +9,7 @@ using WarSpot.Contracts.Intellect;
 using System.IO;
 using WarSpot.MatchComputer;
 using WarSpot.Cloud.Common;
+using WarSpot.Cloud.Storage;
 
 namespace WarSpot.Cloud.MatchComputer
 {
@@ -39,26 +40,7 @@ namespace WarSpot.Cloud.MatchComputer
 			return queue;
 		}
 
-		// заглушка выдирания интеллекта
-		public static byte[] GetIntellect(string name)
-		{
-			// Setup the connection to Windows Azure Storage
-			string connectionString = "myConnectionString";
-			var storageAccount = CloudStorageAccount.Parse(RoleEnvironment.GetConfigurationSettingValue(connectionString));
-			var blobClient = storageAccount.CreateCloudBlobClient();
-			// Get and create the container
-			var blobContainer = blobClient.GetContainerReference(name);
-			blobContainer.CreateIfNotExist();
-			// upload a text blob
-			var blob = blobContainer.GetBlobReference(Guid.NewGuid().ToString());
-			blob.UploadText("Hello Windows Azure");
-
-
-			byte[] dll = blob.DownloadByteArray();
-			return dll;
-		}
-
-		public static void AddBeing(byte[] dll)
+		public static List<IBeingInterface> AddBeing(byte[] dll)
 		{
 			List<IBeingInterface> _objects = new List<IBeingInterface>();
 			Assembly assembly = Assembly.Load(dll);
@@ -79,29 +61,7 @@ namespace WarSpot.Cloud.MatchComputer
 					_objects.Add(iAI);
 				}
 			}
-
-			#region
-			//Загрузка интерфейса отсюда: http://hashcode.ru/questions/108025/csharp-загрузка-dll-в-c-по-пользовательскому-пути
-			//Assembly assembly = Assembly.LoadFrom(_fullPath);//вытаскиваем библиотеку
-			/*string iMyInterfaceName = typeof(IBeingInterface).ToString();
-			System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
-			object[] defaultConstructorParameters = new object[0];
-
-			IBeingInterface iAI = null;
-
-			foreach (System.Reflection.TypeDelegator type in assembly.GetTypes())
-			{
-					if (type.GetInterface(iMyInterfaceName) != null)
-					{
-							ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
-							object instance = defaultConstructor.Invoke(defaultConstructorParameters);
-							iAI = instance as IBeingInterface;//Достаём таки нужный интерфейс
-					}
-			}
-		*/
-			//var newBeing = new Being(iAI);//Возможно, стоит перестраховаться, и написать проверку на не null.
-			//_objects.Add(newBeing);
-			#endregion
+			return _objects;
 		}
 
 		private static void MemoryStreamer(List<TeamIntellectList> listIntellect)
@@ -111,25 +71,57 @@ namespace WarSpot.Cloud.MatchComputer
 			WarSpot.MatchComputer.Computer computer = new WarSpot.MatchComputer.Computer(listIntellect, stream);
 		}
 
-		private static void ParseMessage(CloudQueueMessage message)
+		private static Message ParseMessage(CloudQueueMessage message)
 		{
 			Message msg = new Message();
-			msg.ID = new Guid();
-			
+			// получаем из сообщения из очереди имена интеллектов
+			// надо разделять имена интеллектов в сообщении каким-то стандартным сепаратором, например пробелом
+			List<Guid> namesOfIntellects = new List<Guid>();
 
-			/*
-			var ID = msg.ID; // надо ли нам знать ID сообщения?
-			var dlls = msg.ListOfDll;
+			string content = message.AsString;
+			int position = 0;
+			string guidName = "";
+			while (position < content.Length)
+			{
+				if (Char.IsSeparator(content[position]))
+				{
+					Guid guid = new Guid(guidName);
+					namesOfIntellects.Add(guid);
+					guidName = "";
+					continue;
+				}
+				guidName += content[position++];
+			}
+			// 
+			msg.ID = new Guid();
+			msg.ListOfDlls = namesOfIntellects;
+
+			return msg;
+		}
+
+
+		private List<TeamIntellectList> getIntellects(Message msg)
+		{
+			List<Guid> namesOfIntellects = msg.ListOfDlls;
+			List<byte[]> intellects = new List<byte[]>();
+
+			// получаем список интеллектов как список массивов байтов
+			foreach (var name in namesOfIntellects)
+			{
+				Storage.Storage storage = new Storage.Storage();
+				intellects.Add(storage.DownloadIntellect(name));
+			}
+
+			// а вот тут надо переделать
 			List<TeamIntellectList> listIntellect = new List<TeamIntellectList>();
 			TeamIntellectList teamIntellectList = new TeamIntellectList();
 
-			foreach (var dll in dlls)
+			foreach (var dll in intellects)
 			{
-				teamIntellectList.Members.Add(ParseIntellect(GetIntellect(dll)));
+				teamIntellectList.Members.Add(ParseIntellect(dll));
 				listIntellect.Add(teamIntellectList);
 			}
-			MemoryStreamer(listIntellect);
-			*/ 
+			return listIntellect;
 		}
 
 		public static IBeingInterface ParseIntellect(byte[] dll)
@@ -147,7 +139,7 @@ namespace WarSpot.Cloud.MatchComputer
 						referencedAssembly.Version.Minor == Assembly.GetExecutingAssembly().GetName().Version.Minor)
 					{
 						floudIntellect = true;
-						
+
 					}
 					break;
 				}
@@ -189,9 +181,7 @@ namespace WarSpot.Cloud.MatchComputer
 				}
 				if (msg != null)
 				{
-					// calculate in matchcomputer
-					//msg.
-					//MemoryStreamer();
+					MemoryStreamer(getIntellects(ParseMessage(msg)));
 					continue;
 				}
 
