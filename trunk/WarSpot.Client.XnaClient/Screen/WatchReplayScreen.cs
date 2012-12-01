@@ -10,6 +10,8 @@ namespace WarSpot.Client.XnaClient.Screen
 {
 	internal class WatchReplayScreen : GameScreen
 	{
+		// Size of every single sprite
+		private const int _sizeOfSprite = 32;
 		private Texture2D _creature;
 		private Texture2D _grass;
 		private Texture2D _hedge;
@@ -19,14 +21,15 @@ namespace WarSpot.Client.XnaClient.Screen
 		// temporary default value
 		private string _replayPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
 			"replay_2012.11.25_21.05.02.out");
-
 		// temporary constants
 		private int _worldWidth = 20;
 		private int _wordlHeight = 15;
-
 		// Array which contains world's size and ci of every single piece of world
 		private WorldCell[][] _worldMap;
-
+		// Scaled sizes of sprites for prevention of calculating this constant every Draw(),
+		// because all sprites've got the same size
+		private int _scaledWidth;
+		private int _scaledHeight;
 		// define a scale of drawable sprites
 		private float _widthScaling;
 		private float _heightScaling;
@@ -37,6 +40,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public override void LoadContent()
 		{
+			// Size of all sprites is 32x32
 			_creature = ContentManager.Load<Texture2D>("Textures/GameSprites/creature");
 			_grass = ContentManager.Load<Texture2D>("Textures/GameSprites/grass");
 			_hedge = ContentManager.Load<Texture2D>("Textures/GameSprites/hedge");
@@ -51,6 +55,21 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void Draw(GameTime gameTime)
 		{
 			SpriteBatch.Begin();
+			for (int i = 0; i < _wordlHeight; i++)
+			{
+				for (int j = 0; j < _worldWidth; j++)
+				{
+					SpriteBatch.Draw(_grass, new Rectangle(j * _scaledWidth, i * _scaledHeight,
+						j * _scaledWidth + _scaledWidth, i * _scaledHeight + _scaledHeight), Color.White);
+				}
+			}
+
+			// TODO: update
+			foreach (var creature in _listOfCreatures)
+			{
+				SpriteBatch.Draw(_creature, new Rectangle(), Color.White);
+			}
+
 			SpriteBatch.End();
 		}
 
@@ -64,13 +83,6 @@ namespace WarSpot.Client.XnaClient.Screen
 				WarSpotEvent WSEvent = _listOfEvents[i++];
 				switch (WSEvent.EventType)
 				{
-					case EventTypes.SystemEventWorldCreated:
-						{
-							var tmp = WSEvent as SystemEventWorldCreated;
-							SetWorldSize(tmp.Width, tmp.Height);
-							_listOfEvents.Remove(tmp);
-							break;
-						}
 					case EventTypes.SystemEventTurnStarted:
 						{
 							// It stops events processing after end of zero-turn
@@ -81,6 +93,15 @@ namespace WarSpot.Client.XnaClient.Screen
 								flag = false;
 							break;
 						}
+
+					case EventTypes.SystemEventWorldCreated:
+						{
+							var tmp = WSEvent as SystemEventWorldCreated;
+							SetWorldSize(tmp.Width, tmp.Height);
+							_listOfEvents.Remove(tmp);
+							break;
+						}
+			
 					case EventTypes.GameEventBirth:
 						{
 							var tmp = WSEvent as GameEventBirth;
@@ -109,17 +130,16 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void SetWorldSize(int x, int y)
 		{
 			// TODO: test this.
-
-			/*	for (int i = 0; i < y; i++)
+			for (int i = 0; i < y; i++)
+			{
+				for (int j = 0; j < x; j++)
 				{
-					for (int j = 0; j < x; j++)
-					{
-						_worldMap[i][j] = new WorldCell(j, i);
-					}
+					_worldMap[i][j] = new WorldCell(j, i);
 				}
-				_worldWidth = _worldMap[0].Length;
-				_wordlHeight = _worldMap.Length;
-			 */
+			}
+			_worldWidth = x;
+			_wordlHeight = y;
+			 
 		}
 
 		///<summary>
@@ -138,6 +158,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			// Temporary
 			_widthScaling = _worldWidth / width;
 			_heightScaling = _wordlHeight / height;
+			_scaledWidth = (int)Math.Round(_widthScaling * _sizeOfSprite);
+			_scaledHeight = (int)Math.Round(_heightScaling * _sizeOfSprite);
 		}
 
 		/// <summary>
