@@ -20,6 +20,9 @@ using System.Xml.Serialization;
 #region Метаданные связи EDM
 
 [assembly: EdmRelationshipAttribute("DBModel", "AccountIntellect", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Intellect), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "AccountGame", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Game), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "GameGameIntellect", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Game), "GameIntellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.GameIntellect), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "IntellectGameIntellect", "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Intellect), "GameIntellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.GameIntellect), true)]
 
 #endregion
 
@@ -102,6 +105,38 @@ namespace WarSpot.Cloud.Storage
             }
         }
         private ObjectSet<Intellect> _Intellect;
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        public ObjectSet<Game> Game
+        {
+            get
+            {
+                if ((_Game == null))
+                {
+                    _Game = base.CreateObjectSet<Game>("Game");
+                }
+                return _Game;
+            }
+        }
+        private ObjectSet<Game> _Game;
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        public ObjectSet<GameIntellect> GameIntellectНабор
+        {
+            get
+            {
+                if ((_GameIntellectНабор == null))
+                {
+                    _GameIntellectНабор = base.CreateObjectSet<GameIntellect>("GameIntellectНабор");
+                }
+                return _GameIntellectНабор;
+            }
+        }
+        private ObjectSet<GameIntellect> _GameIntellectНабор;
 
         #endregion
 
@@ -121,6 +156,22 @@ namespace WarSpot.Cloud.Storage
         public void AddToIntellect(Intellect intellect)
         {
             base.AddObject("Intellect", intellect);
+        }
+    
+        /// <summary>
+        /// Устаревший метод для добавления новых объектов в набор EntitySet Game. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
+        /// </summary>
+        public void AddToGame(Game game)
+        {
+            base.AddObject("Game", game);
+        }
+    
+        /// <summary>
+        /// Устаревший метод для добавления новых объектов в набор EntitySet GameIntellectНабор. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
+        /// </summary>
+        public void AddToGameIntellectНабор(GameIntellect gameIntellect)
+        {
+            base.AddObject("GameIntellectНабор", gameIntellect);
         }
 
         #endregion
@@ -258,6 +309,341 @@ namespace WarSpot.Cloud.Storage
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Intellect>("DBModel.AccountIntellect", "Intellect", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountGame", "Game")]
+        public EntityCollection<Game> Game
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Game>("DBModel.AccountGame", "Game");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("DBModel.AccountGame", "Game", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// Нет доступной документации по метаданным.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="Game")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Game : EntityObject
+    {
+        #region Фабричный метод
+    
+        /// <summary>
+        /// Создание нового объекта Game.
+        /// </summary>
+        /// <param name="game_ID">Исходное значение свойства Game_ID.</param>
+        /// <param name="accountAccount_ID">Исходное значение свойства AccountAccount_ID.</param>
+        public static Game CreateGame(global::System.Guid game_ID, global::System.Guid accountAccount_ID)
+        {
+            Game game = new Game();
+            game.Game_ID = game_ID;
+            game.AccountAccount_ID = accountAccount_ID;
+            return game;
+        }
+
+        #endregion
+
+        #region Свойства-примитивы
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Game_ID
+        {
+            get
+            {
+                return _Game_ID;
+            }
+            set
+            {
+                if (_Game_ID != value)
+                {
+                    OnGame_IDChanging(value);
+                    ReportPropertyChanging("Game_ID");
+                    _Game_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Game_ID");
+                    OnGame_IDChanged();
+                }
+            }
+        }
+        private global::System.Guid _Game_ID;
+        partial void OnGame_IDChanging(global::System.Guid value);
+        partial void OnGame_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid AccountAccount_ID
+        {
+            get
+            {
+                return _AccountAccount_ID;
+            }
+            set
+            {
+                OnAccountAccount_IDChanging(value);
+                ReportPropertyChanging("AccountAccount_ID");
+                _AccountAccount_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AccountAccount_ID");
+                OnAccountAccount_IDChanged();
+            }
+        }
+        private global::System.Guid _AccountAccount_ID;
+        partial void OnAccountAccount_IDChanging(global::System.Guid value);
+        partial void OnAccountAccount_IDChanged();
+
+        #endregion
+
+    
+        #region Свойства навигации
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountGame", "Account")]
+        public Account Account
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountGame", "Account").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountGame", "Account").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Account> AccountReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountGame", "Account");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Account>("DBModel.AccountGame", "Account", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameGameIntellect", "GameIntellect")]
+        public EntityCollection<GameIntellect> GameIntellect
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GameIntellect>("DBModel.GameGameIntellect", "GameIntellect");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameIntellect>("DBModel.GameGameIntellect", "GameIntellect", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// Нет доступной документации по метаданным.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="GameIntellect")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class GameIntellect : EntityObject
+    {
+        #region Фабричный метод
+    
+        /// <summary>
+        /// Создание нового объекта GameIntellect.
+        /// </summary>
+        /// <param name="gameGame_ID">Исходное значение свойства GameGame_ID.</param>
+        /// <param name="intellectIntellect_ID">Исходное значение свойства IntellectIntellect_ID.</param>
+        public static GameIntellect CreateGameIntellect(global::System.Guid gameGame_ID, global::System.Guid intellectIntellect_ID)
+        {
+            GameIntellect gameIntellect = new GameIntellect();
+            gameIntellect.GameGame_ID = gameGame_ID;
+            gameIntellect.IntellectIntellect_ID = intellectIntellect_ID;
+            return gameIntellect;
+        }
+
+        #endregion
+
+        #region Свойства-примитивы
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid GameGame_ID
+        {
+            get
+            {
+                return _GameGame_ID;
+            }
+            set
+            {
+                if (_GameGame_ID != value)
+                {
+                    OnGameGame_IDChanging(value);
+                    ReportPropertyChanging("GameGame_ID");
+                    _GameGame_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("GameGame_ID");
+                    OnGameGame_IDChanged();
+                }
+            }
+        }
+        private global::System.Guid _GameGame_ID;
+        partial void OnGameGame_IDChanging(global::System.Guid value);
+        partial void OnGameGame_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid IntellectIntellect_ID
+        {
+            get
+            {
+                return _IntellectIntellect_ID;
+            }
+            set
+            {
+                if (_IntellectIntellect_ID != value)
+                {
+                    OnIntellectIntellect_IDChanging(value);
+                    ReportPropertyChanging("IntellectIntellect_ID");
+                    _IntellectIntellect_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("IntellectIntellect_ID");
+                    OnIntellectIntellect_IDChanged();
+                }
+            }
+        }
+        private global::System.Guid _IntellectIntellect_ID;
+        partial void OnIntellectIntellect_IDChanging(global::System.Guid value);
+        partial void OnIntellectIntellect_IDChanged();
+
+        #endregion
+
+    
+        #region Свойства навигации
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameGameIntellect", "Game")]
+        public Game Game
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("DBModel.GameGameIntellect", "Game").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("DBModel.GameGameIntellect", "Game").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Game> GameReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("DBModel.GameGameIntellect", "Game");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Game>("DBModel.GameGameIntellect", "Game", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "IntellectGameIntellect", "Intellect")]
+        public Intellect Intellect
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Intellect>("DBModel.IntellectGameIntellect", "Intellect").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Intellect>("DBModel.IntellectGameIntellect", "Intellect").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Intellect> IntellectReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Intellect>("DBModel.IntellectGameIntellect", "Intellect");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Intellect>("DBModel.IntellectGameIntellect", "Intellect", value);
                 }
             }
         }
@@ -409,6 +795,28 @@ namespace WarSpot.Cloud.Storage
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Account>("DBModel.AccountIntellect", "Account", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "IntellectGameIntellect", "GameIntellect")]
+        public EntityCollection<GameIntellect> GameIntellect
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<GameIntellect>("DBModel.IntellectGameIntellect", "GameIntellect");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameIntellect>("DBModel.IntellectGameIntellect", "GameIntellect", value);
                 }
             }
         }

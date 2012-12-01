@@ -8,9 +8,23 @@
   <EntityContainer Name="DBModelStoreContainer">
     <EntitySet Name="Account" EntityType="DBModel.Store.Account" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Intellect" EntityType="DBModel.Store.Intellect" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Game" EntityType="DBModel.Store.Game" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GameIntellectНабор" EntityType="DBModel.Store.GameIntellectНабор" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="AccountIntellect" Association="DBModel.Store.AccountIntellect">
       <End Role="Account" EntitySet="Account" />
       <End Role="Intellect" EntitySet="Intellect" />
+    </AssociationSet>
+    <AssociationSet Name="AccountGame" Association="DBModel.Store.AccountGame">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="GameGameIntellect" Association="DBModel.Store.GameGameIntellect">
+      <End Role="Game" EntitySet="Game" />
+      <End Role="GameIntellect" EntitySet="GameIntellectНабор" />
+    </AssociationSet>
+    <AssociationSet Name="IntellectGameIntellect" Association="DBModel.Store.IntellectGameIntellect">
+      <End Role="Intellect" EntitySet="Intellect" />
+      <End Role="GameIntellect" EntitySet="GameIntellectНабор" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Account">
@@ -29,6 +43,21 @@
     <Property Name="Intellect_Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="AccountAccount_ID" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
+  <EntityType Name="Game">
+    <Key>
+      <PropertyRef Name="Game_ID" />
+    </Key>
+    <Property Name="Game_ID" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountAccount_ID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GameIntellectНабор">
+    <Key>
+      <PropertyRef Name="GameGame_ID" />
+      <PropertyRef Name="IntellectIntellect_ID" />
+    </Key>
+    <Property Name="GameGame_ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="IntellectIntellect_ID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
   <Association Name="AccountIntellect">
     <End Role="Account" Type="DBModel.Store.Account" Multiplicity="1" />
     <End Role="Intellect" Type="DBModel.Store.Intellect" Multiplicity="*" />
@@ -38,6 +67,42 @@
       </Principal>
       <Dependent Role="Intellect">
         <PropertyRef Name="AccountAccount_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccountGame">
+    <End Role="Account" Type="DBModel.Store.Account" Multiplicity="1" />
+    <End Role="Game" Type="DBModel.Store.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Account_ID" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="AccountAccount_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GameGameIntellect">
+    <End Role="Game" Type="DBModel.Store.Game" Multiplicity="1" />
+    <End Role="GameIntellect" Type="DBModel.Store.GameIntellectНабор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="Game_ID" />
+      </Principal>
+      <Dependent Role="GameIntellect">
+        <PropertyRef Name="GameGame_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IntellectGameIntellect">
+    <End Role="Intellect" Type="DBModel.Store.Intellect" Multiplicity="1" />
+    <End Role="GameIntellect" Type="DBModel.Store.GameIntellectНабор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Intellect">
+        <PropertyRef Name="Intellect_ID" />
+      </Principal>
+      <Dependent Role="GameIntellect">
+        <PropertyRef Name="IntellectIntellect_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -52,6 +117,20 @@
             <End Role="Account" EntitySet="Account" />
             <End Role="Intellect" EntitySet="Intellect" />
           </AssociationSet>
+          <EntitySet Name="Game" EntityType="DBModel.Game" />
+          <AssociationSet Name="AccountGame" Association="DBModel.AccountGame">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Game" EntitySet="Game" />
+          </AssociationSet>
+          <AssociationSet Name="GameGameIntellect" Association="DBModel.GameGameIntellect">
+            <End EntitySet="Game" Role="Game" />
+            <End EntitySet="GameIntellectНабор" Role="GameIntellect" />
+          </AssociationSet>
+          <AssociationSet Name="IntellectGameIntellect" Association="DBModel.IntellectGameIntellect">
+            <End EntitySet="Intellect" Role="Intellect" />
+            <End EntitySet="GameIntellectНабор" Role="GameIntellect" />
+          </AssociationSet>
+          <EntitySet Name="GameIntellectНабор" EntityType="DBModel.GameIntellect" />
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -61,6 +140,7 @@
           <Property Type="String" Name="Account_Name" Nullable="false" />
           <Property Type="String" Name="Account_Password" Nullable="false" />
           <NavigationProperty Name="Intellect" Relationship="DBModel.AccountIntellect" FromRole="Account" ToRole="Intellect" />
+          <NavigationProperty Name="Game" Relationship="DBModel.AccountGame" FromRole="Account" ToRole="Game" />
         </EntityType>
         <EntityType Name="Intellect">
           <Key>
@@ -70,6 +150,7 @@
           <Property Type="String" Name="Intellect_Name" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="DBModel.AccountIntellect" FromRole="Intellect" ToRole="Account" />
           <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
+          <NavigationProperty Name="GameIntellect" Relationship="DBModel.IntellectGameIntellect" FromRole="Intellect" ToRole="GameIntellect" />
         </EntityType>
         <Association Name="AccountIntellect">
           <End Type="DBModel.Account" Role="Account" Multiplicity="1" />
@@ -80,6 +161,61 @@
             </Principal>
             <Dependent Role="Intellect">
               <PropertyRef Name="AccountAccount_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="Game_ID" />
+          </Key>
+          <Property Type="Guid" Name="Game_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Account" Relationship="DBModel.AccountGame" FromRole="Game" ToRole="Account" />
+          <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
+          <NavigationProperty Name="GameIntellect" Relationship="DBModel.GameGameIntellect" FromRole="Game" ToRole="GameIntellect" />
+        </EntityType>
+        <EntityType Name="GameIntellect">
+          <Key>
+            <PropertyRef Name="GameGame_ID" />
+            <PropertyRef Name="IntellectIntellect_ID" />
+          </Key>
+          <NavigationProperty Name="Game" Relationship="DBModel.GameGameIntellect" FromRole="GameIntellect" ToRole="Game" />
+          <Property Name="GameGame_ID" Nullable="false" Type="Guid" />
+          <NavigationProperty Name="Intellect" Relationship="DBModel.IntellectGameIntellect" FromRole="GameIntellect" ToRole="Intellect" />
+          <Property Name="IntellectIntellect_ID" Nullable="false" Type="Guid" />
+        </EntityType>
+        <Association Name="AccountGame">
+          <End Type="DBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="DBModel.Game" Role="Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Account_ID" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="AccountAccount_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GameGameIntellect">
+          <End Type="DBModel.Game" Multiplicity="1" Role="Game" />
+          <End Type="DBModel.GameIntellect" Multiplicity="*" Role="GameIntellect" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="Game_ID" />
+            </Principal>
+            <Dependent Role="GameIntellect">
+              <PropertyRef Name="GameGame_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IntellectGameIntellect">
+          <End Type="DBModel.Intellect" Multiplicity="1" Role="Intellect" />
+          <End Type="DBModel.GameIntellect" Multiplicity="*" Role="GameIntellect" />
+          <ReferentialConstraint>
+            <Principal Role="Intellect">
+              <PropertyRef Name="Intellect_ID" />
+            </Principal>
+            <Dependent Role="GameIntellect">
+              <PropertyRef Name="IntellectIntellect_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -107,6 +243,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Game">
+      <EntityTypeMapping TypeName="IsTypeOf(DBModel.Game)">
+        <MappingFragment StoreEntitySet="Game">
+          <ScalarProperty Name="Game_ID" ColumnName="Game_ID" />
+          <ScalarProperty Name="AccountAccount_ID" ColumnName="AccountAccount_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GameIntellectНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(DBModel.GameIntellect)">
+        <MappingFragment StoreEntitySet="GameIntellectНабор">
+          <ScalarProperty Name="GameGame_ID" ColumnName="GameGame_ID" />
+          <ScalarProperty Name="IntellectIntellect_ID" ColumnName="IntellectIntellect_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -131,8 +283,22 @@
         <EntityTypeShape EntityType="DBModel.Account" Width="2.75" PointX="0.875" PointY="1.375" Height="1.787985026041667" />
         <EntityTypeShape EntityType="DBModel.Intellect" Width="2.625" PointX="5.25" PointY="1.375" Height="1.787985026041667" />
         <AssociationConnector Association="DBModel.AccountIntellect">
-          <ConnectorPoint PointX="3.625" PointY="2.2689925130208337" />
-          <ConnectorPoint PointX="5.25" PointY="2.2689925130208337" />
+          <ConnectorPoint PointX="3.625" PointY="2.3651432291666667" />
+          <ConnectorPoint PointX="5.25" PointY="2.3651432291666667" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DBModel.Game" Width="2.375" PointX="1.625" PointY="4.125" Height="1.7879850260416657" />
+        <EntityTypeShape EntityType="DBModel.GameIntellect" PointX="5.625" PointY="4.125" Width="1.5" Height="1.7879850260416657" />
+        <AssociationConnector Association="DBModel.AccountGame">
+          <ConnectorPoint PointX="2.625" PointY="3.3552864583333331" />
+          <ConnectorPoint PointX="2.625" PointY="4.125" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBModel.GameGameIntellect">
+          <ConnectorPoint PointX="4" PointY="5.0189925130208328" />
+          <ConnectorPoint PointX="5.625" PointY="5.0189925130208328" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBModel.IntellectGameIntellect">
+          <ConnectorPoint PointX="6.375" PointY="3.3552864583333331" />
+          <ConnectorPoint PointX="6.375" PointY="4.125" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>
