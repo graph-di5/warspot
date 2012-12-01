@@ -12,7 +12,17 @@ namespace WarSpot.Client.XnaClient.Network
 		private static ConnectionManager _localInstance;
 		public static ConnectionManager Instance
 		{
-			get { return _localInstance ?? (_localInstance = new ConnectionManager()); }
+			get { return _localInstance; }
+		}
+
+		static ConnectionManager()
+		{
+			_localInstance = new ConnectionManager();
+		}
+
+		private ConnectionManager()
+		{
+			// Nothing to do here
 		}
 
 		private IWarSpotService _service;

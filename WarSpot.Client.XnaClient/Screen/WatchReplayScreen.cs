@@ -20,7 +20,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Contains path to replay, selected in SelectReplayScreen (or in new Game) 
 		// temporary default value
 		private string _replayPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
-			"replay_2012.11.25_21.05.02.out");
+			"replay_2012.12.01_23.02.28.out");
 		// temporary constants
 		private int _worldWidth = 20;
 		private int _wordlHeight = 15;
@@ -170,24 +170,19 @@ namespace WarSpot.Client.XnaClient.Screen
 			_listOfEvents = Deserializator.Deserialize(_replayPath);
 		}
 
-		/// <summary>
-		/// Public function for passing current replay's path to WatchReplayScreen object
-		/// </summary>
-		/// <param name="replayPath"> determine path for rendered replay </param>
-		public void SetReplayPath(string replayPath)
-		{
-			_replayPath = replayPath;
-		}
 
 		/// <summary>
 		/// Initialize all basic data like scalings, started inGameObjects and other
 		/// </summary>
 		public void PrepareScreen()
 		{
-			// Initializing of event list
+			// Initialization replay path
+			_replayPath = Utils.ScreenHelper.Instance.ReplayPath;
+
+			// Initialization of event list
 			this.InitializeReplay();
 
-			// Initializing of initial inGameObjects and world map
+			// Initialization of initial inGameObjects and world map
 			this.CreateGameObjects();
 			
 			// Prepare args for drawing

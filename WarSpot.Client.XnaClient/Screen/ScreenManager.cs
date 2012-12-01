@@ -165,12 +165,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			_activeScreen.UseTexts(dict);
 		}
 
-		public void SetReplayPath(string path)
-		{
-			var tmp = _screens[ScreenEnum.WatchReplayScreen] as WatchReplayScreen;
-			tmp.SetReplayPath(path);
-		}
-
 		public void PreapareReplayScreen()
 		{
 			var tmp = _screens[ScreenEnum.WatchReplayScreen] as WatchReplayScreen;
