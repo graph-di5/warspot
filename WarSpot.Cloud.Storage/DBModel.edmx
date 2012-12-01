@@ -124,13 +124,13 @@
           </AssociationSet>
           <AssociationSet Name="GameGameIntellect" Association="DBModel.GameGameIntellect">
             <End EntitySet="Game" Role="Game" />
-            <End EntitySet="GameIntellectНабор" Role="GameIntellect" />
+            <End EntitySet="GameIntellect" Role="GameIntellect" />
           </AssociationSet>
           <AssociationSet Name="IntellectGameIntellect" Association="DBModel.IntellectGameIntellect">
             <End EntitySet="Intellect" Role="Intellect" />
-            <End EntitySet="GameIntellectНабор" Role="GameIntellect" />
+            <End EntitySet="GameIntellect" Role="GameIntellect" />
           </AssociationSet>
-          <EntitySet Name="GameIntellectНабор" EntityType="DBModel.GameIntellect" />
+          <EntitySet Name="GameIntellect" EntityType="DBModel.GameIntellect" />
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -251,7 +251,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="GameIntellectНабор">
+    <EntitySetMapping Name="GameIntellect">
       <EntityTypeMapping TypeName="IsTypeOf(DBModel.GameIntellect)">
         <MappingFragment StoreEntitySet="GameIntellectНабор">
           <ScalarProperty Name="GameGame_ID" ColumnName="GameGame_ID" />

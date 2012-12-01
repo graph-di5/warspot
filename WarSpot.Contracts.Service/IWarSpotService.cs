@@ -24,10 +24,12 @@ namespace WarSpot.Contracts.Service
         ErrorCode DeleteIntellect(string name);
 
 		[OperationContract]
-		Replay SendReplay(string name);
+		Replay DownloadReplay(Guid game);
 
         [OperationContract]
         Guid? StartGame(List<Guid> intellects);
+
+
 
     }
 }

@@ -125,18 +125,18 @@ namespace WarSpot.Cloud.Storage
         /// <summary>
         /// Нет доступной документации по метаданным.
         /// </summary>
-        public ObjectSet<GameIntellect> GameIntellectНабор
+        public ObjectSet<GameIntellect> GameIntellect
         {
             get
             {
-                if ((_GameIntellectНабор == null))
+                if ((_GameIntellect == null))
                 {
-                    _GameIntellectНабор = base.CreateObjectSet<GameIntellect>("GameIntellectНабор");
+                    _GameIntellect = base.CreateObjectSet<GameIntellect>("GameIntellect");
                 }
-                return _GameIntellectНабор;
+                return _GameIntellect;
             }
         }
-        private ObjectSet<GameIntellect> _GameIntellectНабор;
+        private ObjectSet<GameIntellect> _GameIntellect;
 
         #endregion
 
@@ -167,11 +167,11 @@ namespace WarSpot.Cloud.Storage
         }
     
         /// <summary>
-        /// Устаревший метод для добавления новых объектов в набор EntitySet GameIntellectНабор. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
+        /// Устаревший метод для добавления новых объектов в набор EntitySet GameIntellect. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
         /// </summary>
-        public void AddToGameIntellectНабор(GameIntellect gameIntellect)
+        public void AddToGameIntellect(GameIntellect gameIntellect)
         {
-            base.AddObject("GameIntellectНабор", gameIntellect);
+            base.AddObject("GameIntellect", gameIntellect);
         }
 
         #endregion

@@ -18,9 +18,15 @@ namespace WarSpot.Cloud.UserService
 			_storage = new Storage.Storage();
 			_loggedIn = false;
 		}
-		public Guid? StartGame(List<Guid> tmp)
+		public Guid? StartGame(List<Guid> intellects)
 		{
-			return null;
+            if (!_loggedIn)
+            {
+                return null;
+            }
+
+            return _storage.CreateGame(intellects, _userID);
+ 
 		}
 		#region login and registration
 		public ErrorCode Register(string username, string pass)
@@ -94,10 +100,15 @@ namespace WarSpot.Cloud.UserService
 		#endregion intellect's stuff
 
 		#region replay's stuff
-		public Replay SendReplay(string name)
+		public Replay DownloadReplay(Guid game)
 		{
-			// TODO: all
-			return new Replay();
+            if (!_loggedIn)
+            {
+                return null;
+            }
+
+            return _storage.GetReplay(game);
+
 		}
 		#endregion replay's stuff
 
