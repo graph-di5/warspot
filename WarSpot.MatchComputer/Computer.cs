@@ -73,6 +73,8 @@ namespace WarSpot.MatchComputer
 					center.Add(new Tuple<int, int>(i, j));
 			RandomShuffle(center);
 
+            _eventsHistory.Add(new SystemEventWorldCreated(_world.Width, _world.Height));
+
 			int curNum = 0;
 
 			foreach (TeamIntellectList team in listIntellect)
