@@ -55,7 +55,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void Draw(GameTime gameTime)
 		{
 			SpriteBatch.Begin();
-			for (int i = 0; i < _wordlHeight; i++)
+		/*	for (int i = 0; i < _wordlHeight; i++)
 			{
 				for (int j = 0; j < _worldWidth; j++)
 				{
@@ -68,7 +68,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			foreach (var creature in _listOfCreatures)
 			{
 				SpriteBatch.Draw(_creature, new Rectangle(), Color.White);
-			}
+			}*/
 
 			SpriteBatch.End();
 		}
@@ -123,7 +123,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// <summary>
 		/// Define a size of world. Must be used before any 
 		/// actions over sprites, scaling etc.
-		/// Use only in gameobject in gameo bjects initialization!
+		/// Use only in gameobject initialization!
 		/// </summary>
 		/// <param name="x"> world's width </param>
 		/// <param name="y"> world's height </param>
@@ -177,7 +177,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		public void PrepareScreen()
 		{
 			// Initialization replay path
-			_replayPath = Utils.ScreenHelper.Instance.ReplayPath;
+			//_replayPath = Utils.ScreenHelper.Instance.ReplayPath;
 
 			// Initialization of event list
 			this.InitializeReplay();
