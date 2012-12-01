@@ -115,8 +115,8 @@ namespace WarSpot.MatchComputer
 		/// </summary>
 		public World()
 		{
-			Width = 100;
-			Height = 70;
+			Width = 32;
+			Height = 24;
 			Map = new WorldCell[Width, Height];
 			for (var i = 0; i < Width; i++)
 			{
