@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System;
 
 namespace WarSpot.Contracts.Service
 {
@@ -9,8 +10,14 @@ namespace WarSpot.Contracts.Service
 	public class Replay
 	{
 		[DataMember]
-		public string name;
+		public Guid id;
 		[DataMember]
 		public byte[] data;
+
+        public Replay(Guid _id, byte[] _data)
+        {
+            this.id = _id;
+            this.data = _data;
+        }
 	}
 }

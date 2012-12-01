@@ -61,7 +61,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (_loggedIn)
 			{
-				_storage.Upload(_userID, name, intellect);
+				_storage.UploadIntellect(_userID, name, intellect);
 				return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
 			}
 			else
@@ -97,19 +97,41 @@ namespace WarSpot.Cloud.UserService
 				return new ErrorCode(ErrorType.BadFileType, "No intellect with that name");
 
 		}
+
+        public byte[] DownloadIntellect(string name)
+        {
+            if (!_loggedIn)
+            {
+                return null;
+            }
+
+            return _storage.DownloadIntellect(name, _userID);
+        }
 		#endregion intellect's stuff
 
 		#region replay's stuff
-		public Replay DownloadReplay(Guid game)
+		public Replay DownloadReplay(Guid gameID)
 		{
             if (!_loggedIn)
             {
                 return null;
             }
 
-            return _storage.GetReplay(game);
+            return _storage.GetReplay(gameID);
 
 		}
+
+        public ErrorCode UploadReplay(byte[] replay, Guid gameID)
+        {
+            if (!_loggedIn)
+            {
+                return new ErrorCode(ErrorType.WrongLoginOrPassword, "You are not logged in.");
+            }
+
+            _storage.UploadReplay(replay, gameID);
+            return new ErrorCode(ErrorType.Ok, "Replay has been uploaded.");
+        }
+
 		#endregion replay's stuff
 
 
