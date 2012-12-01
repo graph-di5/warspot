@@ -21,18 +21,21 @@ namespace WarSpot.Client.XnaClient.OfflineMatcher
 	{		
 		public Guid Id { get; private set; }
 		public GameObjectType Type { get; private set; }
-		public int Team { get; private set; }
 		public int X { get; set; }
 		public int Y { get; set; }
-		public bool isAlive;
+		public int Team { get; private set; }
+		public float CurrentHealth { get; private set; }
 		public float Ci { get; private set; }
+		public bool isAlive;
 
-		public Creature(Guid id, int x, int y, int team)
+		public Creature(Guid id, int x, int y, int team, float currHP, float currCi)
 		{
 			Id = id;
-			Team = team;
 			X = x;
 			Y = y;
+			Team = team;
+			CurrentHealth = currHP;
+			Ci = currCi;
 			isAlive = true;
 		}
 	}

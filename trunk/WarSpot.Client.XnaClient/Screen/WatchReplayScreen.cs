@@ -21,8 +21,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			"replay_2012.11.25_21.05.02.out");
 
 		// temporary constants
-		private int _worldWidth = 100;
-		private int _wordlHeight = 75;
+		private int _worldWidth = 20;
+		private int _wordlHeight = 15;
 
 		// Array which contains world's size and ci of every single piece of world
 		private WorldCell[][] _worldMap;
@@ -40,7 +40,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			_creature = ContentManager.Load<Texture2D>("Textures/GameSprites/creature");
 			_grass = ContentManager.Load<Texture2D>("Textures/GameSprites/grass");
 			_hedge = ContentManager.Load<Texture2D>("Textures/GameSprites/hedge");
-	
 		}
 
 		// TODO: correct game state updating (using timer?)
@@ -55,16 +54,48 @@ namespace WarSpot.Client.XnaClient.Screen
 			SpriteBatch.End();
 		}
 
-		// TODO: add worldCell initializing
+		// Process all initial states
 		private void CreateGameObjects()
 		{
+			bool flag = true;
 			int i = 0;
-			// Temporary, incorrect for random replay
-			while (_listOfEvents[i++] is GameEventBirth)
+			while(flag)
 			{
-				var tmp = _listOfEvents[i] as GameEventBirth;
-				_listOfCreatures.Add(new Creature(tmp.SubjectId, tmp.Newborn.X, tmp.Newborn.Y, tmp.Newborn.Team));
-				_listOfEvents.Remove(tmp);
+				WarSpotEvent WSEvent = _listOfEvents[i++];
+				switch (WSEvent.EventType)
+				{
+					case EventTypes.SystemEventWorldCreated:
+						{
+							var tmp = WSEvent as SystemEventWorldCreated;
+							SetWorldSize(tmp.Width, tmp.Height);
+							_listOfEvents.Remove(tmp);
+							break;
+						}
+					case EventTypes.SystemEventTurnStarted:
+						{
+							// It stops events processing after end of zero-turn
+							var tmp = WSEvent as SystemEventTurnStarted;
+							if (tmp.Number == 0)
+								_listOfEvents.Remove(tmp);
+							else
+								flag = false;
+							break;
+						}
+					case EventTypes.GameEventBirth:
+						{
+							var tmp = WSEvent as GameEventBirth;
+							_listOfCreatures.Add(new Creature(tmp.SubjectId, tmp.Newborn.X, tmp.Newborn.Y,
+								tmp.Newborn.Team, tmp.Newborn.Health, tmp.Newborn.Ci));
+							_listOfEvents.Remove(tmp);
+							break;
+						}
+					case EventTypes.GameEventWorldCiChanged:
+						{
+							var tmp = WSEvent as GameEventWorldCiChanged;
+							_worldMap[tmp.Y][tmp.X].changeCi(tmp.Ci);
+							break;
+						}
+				}
 			}
 		}
 
