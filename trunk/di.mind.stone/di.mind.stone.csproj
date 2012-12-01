@@ -31,7 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Loafer.cs" />
     <Compile Include="Stone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
