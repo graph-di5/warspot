@@ -8,6 +8,7 @@ using System.Reflection;
 using WarSpot.Contracts.Intellect;
 using System.IO;
 using WarSpot.MatchComputer;
+using WarSpot.Cloud.Common;
 
 namespace WarSpot.Cloud.MatchComputer
 {
@@ -57,7 +58,7 @@ namespace WarSpot.Cloud.MatchComputer
 			return dll;
 		}
 
-		public void AddBeing(byte[] dll)
+		public static void AddBeing(byte[] dll)
 		{
 			List<IBeingInterface> _objects = new List<IBeingInterface>();
 			Assembly assembly = Assembly.Load(dll);
@@ -103,14 +104,27 @@ namespace WarSpot.Cloud.MatchComputer
 			#endregion
 		}
 
-		private void MemoryStreamer()
+		private static void MemoryStreamer(List<TeamIntellectList> listIntellect)
 		{
 			Stream stream = new MemoryStream();
-			List<TeamIntellectList> listIntellect = new List<TeamIntellectList>();
 
 			WarSpot.MatchComputer.Computer computer = new WarSpot.MatchComputer.Computer(listIntellect, stream);
 		}
 
+		private static void ParseMessage(Message msg)
+		{
+			var ID = msg.ID; // надо ли нам знать ID сообщения?
+			var dlls = msg.ListOfDll;
+			List<TeamIntellectList> listIntellect = new List<TeamIntellectList>();
+			TeamIntellectList teamIntellectList = new TeamIntellectList();
+
+			foreach (var dll in dlls)
+			{
+				teamIntellectList.Members.Add(ParseIntellect(GetIntellect(dll)));
+				listIntellect.Add(teamIntellectList);
+			}
+			MemoryStreamer(listIntellect);
+		}
 
 		public static IBeingInterface ParseIntellect(byte[] dll)
 		{
@@ -127,6 +141,7 @@ namespace WarSpot.Cloud.MatchComputer
 						referencedAssembly.Version.Minor == Assembly.GetExecutingAssembly().GetName().Version.Minor)
 					{
 						floudIntellect = true;
+						
 					}
 					break;
 				}
