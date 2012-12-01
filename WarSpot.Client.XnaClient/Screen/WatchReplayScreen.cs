@@ -43,6 +43,12 @@ namespace WarSpot.Client.XnaClient.Screen
 	
 		}
 
+		// TODO: correct game state updating (using timer?)
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+		}
+
 		public override void Draw(GameTime gameTime)
 		{
 			SpriteBatch.Begin();

@@ -87,10 +87,10 @@ namespace WarSpot.Client.XnaClient.Network
 			try
 			{
 				// TODO: test this
-				Replay tmp;
-				tmp = _service.SendReplay(name);
-				string path = FoldersController.FoldersController.GetReplayPath();
-				File.WriteAllBytes(Path.Combine(path, tmp.name + ".log"), tmp.data);
+			//	Replay tmp;
+				//tmp = _service.SendReplay(name);
+				//string path = FoldersController.FoldersController.GetReplayPath();
+				//File.WriteAllBytes(Path.Combine(path, tmp.name + ".log"), tmp.data);
 			}
 			catch (Exception e)
 			{
