@@ -40,9 +40,25 @@ namespace WarSpot.MatchComputer
 		/// <param name="x">Координата X центральной точки области.</param>
 		/// <param name="y">Координата Y центральной точки области.</param>
 		/// <param name="radius">Количество точек видимости в каждую сторону.</param>
-		private IWorldCell[,] ProcessWorld(int x, int y, int radius)
+		private WorldInfo ProcessWorld(int x, int y, int radius)
 		{
-			var res = new IWorldCell[radius * 2 + 1, radius * 2 + 1];
+			var res = new WorldInfo(radius);
+			for (int dx = -radius, i = 0; dx <= radius; dx++, i++)
+				for (int dy = -radius, j = 0; dy <= radius; dy++, j++)
+				{
+					var w = _world[(x + dx) % _world.Height, (y + dy) % _world.Width];
+					res[i, j] = new WorldCellInfo
+					            	{
+													Ci = w.Ci,
+													BeingCharacteristics = (w.BeingValue==null)?null:w.BeingValue.Characteristics
+					            	};
+				}
+			return res;
+		}
+
+		private WorldCell[,] GetWorldPart(int x, int y, int radius)
+		{
+			var res = new WorldCell[radius * 2 + 1, radius * 2 + 1];
 			for (int dx = -radius, i = 0; dx <= radius; dx++, i++)
 				for (int dy = -radius, j = 0; dy <= radius; dy++, j++)
 					res[i, j] = _world[(x + dx) % _world.Height, (y + dy) % _world.Width];
@@ -255,7 +271,7 @@ namespace WarSpot.MatchComputer
 					distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
 
 					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0)
-						&& (_world[actor.Characteristics.X, actor.Characteristics.Y].Being.Equals(null))
+						&& (_world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue.Equals(null))
 						&& (distance <= actor.Characteristics.MaxStep))
 					{
 						actor.Characteristics.X += moveAction.ShiftX;
@@ -309,11 +325,9 @@ namespace WarSpot.MatchComputer
 						+ (offspring.Characteristics.MaxSeeDistance / 2.0f) * (offspring.Characteristics.MaxSeeDistance / 2.0f);//Стоимость дистанции видимости
 
 					var emptyEnvirons = new List<WorldCell>();
-					var environs = ProcessWorld(actor.Characteristics.X, actor.Characteristics.Y, 1);//Собираем информацию об окресностях.
+					var environs = GetWorldPart(actor.Characteristics.X, actor.Characteristics.Y, 1);//Собираем информацию об окресностях.
 
-					emptyEnvirons.Clear(); //ToDo: Нужно ли?
-
-					emptyEnvirons.AddRange(from WorldCell c in environs where c.Being.Equals(null) select c);
+					emptyEnvirons.AddRange(from WorldCell c in environs where c.BeingValue.Equals(null) select c);
 
 					if (emptyEnvirons.Count() > 0)
 					{
