@@ -43,11 +43,11 @@ namespace WarSpot.MatchComputer
 		private WorldInfo ProcessWorld(int x, int y, int radius)
 		{
 			var res = new WorldInfo(radius);
-			for (int dx = -radius, i = 0; dx <= radius; dx++, i++)
-				for (int dy = -radius, j = 0; dy <= radius; dy++, j++)
+			for (int dx = -radius; dx <= radius; dx++)
+				for (int dy = -radius; dy <= radius; dy++)
 				{
-					var w = _world[(x + dx) % _world.Height, (y + dy) % _world.Width];
-					res[i, j] = new WorldCellInfo
+					var w = _world[x + dx, y + dy];
+					res[dx, dy] = new WorldCellInfo
 					            	{
 													Ci = w.Ci,
 													BeingCharacteristics = (w.BeingValue==null)?null:w.BeingValue.Characteristics
