@@ -190,19 +190,26 @@ namespace WarSpot.MatchComputer
 						break;
 					}
 					actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
-					target = _objects.Find(a => a.Characteristics.Id == atackAction.TargetId);
 					cost = 0.2f * actor.Characteristics.MaxHealth + atackAction.Damage;
-					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
+                    distance = Math.Abs(atackAction.X) + Math.Abs(atackAction.Y);
 
-					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
-					{
-						actor.Characteristics.Ci -= cost;//применяем изменения
-						target.Characteristics.Health -= atackAction.Damage;
+                    _eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));//В любом случае отнимаем энергию.
 
-						_eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));//пишем историю
-						_eventsHistory.Add(new GameEventHealthChange(atackAction.TargetId, target.Characteristics.Health));
-					}
+                    if (_world[actor.Characteristics.X + atackAction.X, actor.Characteristics.Y + atackAction.Y].BeingValue != null)
+                    {
+                        target = _objects.Find(a => a.Characteristics.Id == _world[actor.Characteristics.X + atackAction.X, actor.Characteristics.Y + atackAction.Y].BeingValue.Characteristics.Id);
 
+
+                        if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
+                        {
+                            actor.Characteristics.Ci -= cost;//применяем изменения
+                            target.Characteristics.Health -= atackAction.Damage;
+
+
+                            _eventsHistory.Add(new GameEventHealthChange(target.Characteristics.Id, target.Characteristics.Health));
+                        }
+                    }
+     
 					break;
 				#endregion
 				#region GameActionEat
