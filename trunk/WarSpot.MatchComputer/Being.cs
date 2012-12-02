@@ -35,7 +35,7 @@ namespace WarSpot.MatchComputer
 		/// <param name="characteristics">Updated characteristics of the being.</param>
 		/// <param name="area">Array of IWorldCell around the being describes visible part of the world. Array is (MaxSeeDistance*2+1)^2, with the being in central cell</param>
 		/// <returns>Decided action of the being. May be NULL.</returns>
-		public GameAction Think(ulong turnNumber, BeingCharacteristics characteristics, IWorldCell[,] area)
+		public GameAction Think(ulong turnNumber, BeingCharacteristics characteristics, WorldInfo area)
 		{
 			// todo add here catch(){}
 			return Me.Think(turnNumber, characteristics, area); 

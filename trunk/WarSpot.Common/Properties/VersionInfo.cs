@@ -8,9 +8,9 @@ using System.Reflection;
 //        Major Version
 //        Minor Version 
 // (Auto) Revision
-// (Auto) Date stamp
+// (Auto) Build number
 // 
 // Warning: last to fileds are autoupdatable. DO NOT CHANGE them manualy
 
-[assembly: AssemblyVersion("1.3.328.137")]
-[assembly: AssemblyFileVersion("1.3.328.137")]
+[assembly: AssemblyVersion("1.4.328.148")]
+[assembly: AssemblyFileVersion("1.4.328.148")]

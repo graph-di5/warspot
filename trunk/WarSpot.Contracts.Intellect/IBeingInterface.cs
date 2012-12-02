@@ -22,6 +22,6 @@ namespace WarSpot.Contracts.Intellect
 		/// <param name="characteristics">Updated characteristics of the being.</param>
 		/// <param name="area">Array of IWorldCell around the being describes visible part of the world. Array is (MaxSeeDistance*2+1)^2, with the being in central cell</param>
 		/// <returns>Decided action of the being. May be NULL.</returns>
-		GameAction Think(ulong step, BeingCharacteristics characteristics, IWorldCell[,] area);
+		GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area);
 	}
 }

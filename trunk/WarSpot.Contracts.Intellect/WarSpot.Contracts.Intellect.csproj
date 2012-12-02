@@ -63,7 +63,7 @@
     <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs " />
     <Compile Include="BeingCharacteristics.cs" />
     <Compile Include="IBeingInterface.cs" />
-    <Compile Include="IWorldCell.cs" />
+    <Compile Include="WorldInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
