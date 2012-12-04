@@ -40,9 +40,9 @@ namespace di.minds.Loafer
 
             int seeDistance = (memoryRadius - 1) / 4;
 
-            for (int a = 0; a < seeDistance*2+1; a++)//Дописываем в память увиденное в этом ходу.
+						for (int a = -seeDistance; a <= seeDistance; a++)//Дописываем в память увиденное в этом ходу.
             {
-                for (int b = 0; b < seeDistance * 2 + 1; b++)
+							for (int b = -seeDistance; b <= seeDistance; b++)
                 {
                     tempArea[a + seeDistance, b + seeDistance] = area[a, b].Ci;
                 }
