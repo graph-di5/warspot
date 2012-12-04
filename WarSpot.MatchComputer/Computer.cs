@@ -283,7 +283,9 @@ namespace WarSpot.MatchComputer
 					{
 						actor.Characteristics.X += moveAction.ShiftX;
 						actor.Characteristics.Y += moveAction.ShiftY;
+                        actor.Characteristics.Ci -= cost;
 
+                        _eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
 						_eventsHistory.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
 					}
 
