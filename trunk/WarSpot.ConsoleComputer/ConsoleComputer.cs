@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.IO;
 using WarSpot.Client.XnaClient.OfflineMatcher;
@@ -37,9 +38,13 @@ namespace WarSpot.ConsoleComputer
 			var outFileName = String.Format("replay_{0}.out", DateTime.Now.ToString("yyyy.MM.dd_HH.mm.ss"));
 			var fs = new FileStream(outFileName, FileMode.CreateNew);
 			var computer = new Computer(listIntellect, fs);
+			var sw = new Stopwatch();
+			sw.Start();
 			computer.Compute();
+			sw.Stop();
 			fs.Close();
-			Console.WriteLine("Done.");
+			Console.WriteLine("Done: {0}.", sw.Elapsed);
+			Console.ReadLine();
 #if true
 			var list = Deserializator.Deserialize(outFileName);
 #endif
