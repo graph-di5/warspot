@@ -7,9 +7,10 @@ namespace di.minds.Loafer
     class Loafer : IBeingInterface
     {
         public float[,] MemorizedArea;//Для запоминания количества энергии вокруг.
-        private int PreX;//Для запоминания, где мы были
-        private int PreY;
-        private int DesiredX;//Куда хочем пойти
+        private int LastShiftX;//Для запоминания, куда пытался идти.
+        private int LastShiftY;
+        private float PreCi;//Для проверки, шагнул ли.
+        private int DesiredX;//Куда хочем пойти.
         private int DesiredY;
 
         private void MemoryUpdate(IWorldCell[,] area, int shiftX, int shiftY)
@@ -17,9 +18,9 @@ namespace di.minds.Loafer
             int memoryRadius = MemorizedArea.GetLength(0);
             var tempArea = new float[memoryRadius, memoryRadius];
             #region Если двинулись, сдвигаем соответственно запомненную карту
-            if ((shiftX !=0) & (shiftY !=0))//Если двинулись
+            if ((shiftX !=0) & (shiftY !=0))//Если двинулся
             {
-                for (int a = 0; a < memoryRadius; a++)//Сдвигаем запомненную карту.
+                for (int a = 0; a < memoryRadius; a++)//Сдвигает запомненную карту.
                 {
                     for (int b = 0; b < memoryRadius; b++)
                     {
@@ -52,8 +53,9 @@ namespace di.minds.Loafer
 
         public BeingCharacteristics Construct(ulong step, float ci)
         {
-            PreX = -1;
-            PreY = -1;
+            LastShiftX = 0;
+            LastShiftY = 0;
+            PreCi = 0.0f;
             DesiredX = 0;
             DesiredY = 0;
 
@@ -90,25 +92,36 @@ namespace di.minds.Loafer
 
             MemoryUpdate(area, characteristics.X - PreX, characteristics.Y - PreY);//Обновляем карту памяти.
 
-            DesiredX -= characteristics.X - PreX;
-            DesiredY -= characteristics.Y - PreY;
+            if (((DesiredX != 0) | (DesiredY != 0)) & (characteristics.Ci - PreCi <= characteristics.MaxHealth * (Math.Abs(ShiftX) + Math.Abs(ShiftY)) / 100))
+            {//Если получилось шагнуть (энергия за хождение снялась), значит сместились. Желаемые координаты стали ближе.
+                DesiredX -= characteristics.X - LastShiftX;
+                DesiredY -= characteristics.Y - LastShiftY;
+                PreCi = characteristics.Ci;
+                LastShiftX = 0;
+                LastShiftY = 0;
+            }
+
+            /*План действий:
+            Если может, рожает.
+            Иначе, если хотел куда-то идти--идёт туда.
+            Если не хотел, и есть, что поесть--ест.
+            Если и поесть нечего--ищет, куда бы пойти.*/
 
             if (characteristics.Ci >= characteristics.MaxHealth * 0.97f)
-            {
-                PreX = characteristics.X;//Не сдвигаемся. Пишем координаты для использования в следующем году.
-                PreY = characteristics.Y;
+            {//Если кто-то объелся, ему ничего не хочется, только отложить личинку. В прямом смысле.
+                LastShiftX = 0;
+                LastShiftY = 0;
+                DesiredX = 0;
+                DesiredY = 0;
 
                 return new GameActionMakeOffspring(characteristics.Id, characteristics.MaxHealth * 0.95f);
             }
-            
+
             else if ((DesiredX == 0) & (DesiredY == 0) & (area[0,0].Ci != 0))
             {
                 return new GameActionEat(characteristics.Id);
             }
-
-            DesiredX = 0;
-            DesiredY = 0;
-
+            
             #region Обновление карты интереса. Поиск самой интересной точки.
             
             float maxInterest = 0;
@@ -122,35 +135,39 @@ namespace di.minds.Loafer
                     if(MapOfInterest[a, b] > maxInterest)
                     {
                         maxInterest = MapOfInterest[a, b];
-                        DesiredX = a;//Пишем пока сюда.
-                        DesiredY = b;
+                        DesiredX = a - (characteristics.MaxSeeDistance * 2 + 1);//Куда хочется пойти относительно текущего положения.
+                        DesiredY = b - (characteristics.MaxSeeDistance * 2 + 1);
                     }
                 }
             }
-
-            DesiredX -= characteristics.MaxSeeDistance * 2 - 1;
-            DesiredY -= characteristics.MaxSeeDistance * 2 - 1;//Переписываем в относительные координаты.
             #endregion
             #region Идём к интересной точке
-            PreX = characteristics.X;
-            PreY = characteristics.Y;
+
+            PreCi = characteristics.Ci;//Запоминает, сколько было энергии, чтобы знать, шаглул ли.
 
             if (Math.Abs(DesiredX) < characteristics.MaxStep)
             {
                 
                 if (characteristics.MaxStep - Math.Abs(DesiredX) >= Math.Abs(DesiredY))
                 {
-                    return new GameActionMove(characteristics.Id, DesiredX, DesiredY);
+                    LastShiftX = DesiredX;
+                    LastShiftY = DesiredY;
                 }
+
                 else
                 {
-                    return new GameActionMove(characteristics.Id, DesiredX, ((int)characteristics.MaxStep - Math.Abs(DesiredX)) * Math.Sign(DesiredY));
+                    LastShiftX = DesiredX;
+                    LastShiftY = ((int)characteristics.MaxStep - Math.Abs(DesiredX)) * Math.Sign(DesiredY);
                 }
             }
+
             else
             {
-                return new GameActionMove(characteristics.Id, Math.Sign(DesiredX)*(int)characteristics.MaxStep, 0);
+                LastShiftX = Math.Sign(DesiredX)*(int)characteristics.MaxStep;
+                LastShiftY = 0;
             }
+
+            return new GameActionMove(characteristics.Id, LastShiftX, LastShiftY);
             #endregion
         }
     }
