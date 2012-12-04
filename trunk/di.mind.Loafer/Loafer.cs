@@ -13,7 +13,7 @@ namespace di.minds.Loafer
         private int DesiredX;//Куда хочем пойти.
         private int DesiredY;
 
-        private void MemoryUpdate(IWorldCell[,] area, int shiftX, int shiftY)
+        private void MemoryUpdate(WorldInfo area, int shiftX, int shiftY)
         {
             int memoryRadius = MemorizedArea.GetLength(0);
             var tempArea = new float[memoryRadius, memoryRadius];
@@ -85,14 +85,14 @@ namespace di.minds.Loafer
             }
         }
 
-        public GameAction Think(ulong step, BeingCharacteristics characteristics, IWorldCell[,] area)
+        public GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
         {
             float[,] MapOfInterest = new float[characteristics.MaxSeeDistance * 4 + 1, characteristics.MaxSeeDistance * 4 + 1];//Будем думать, куда лучше пойти.
             MapOfInterest.Initialize();
 
-            MemoryUpdate(area, characteristics.X - PreX, characteristics.Y - PreY);//Обновляем карту памяти.
+            MemoryUpdate(area, LastShiftX, LastShiftY);//Обновляем карту памяти.
 
-            if (((DesiredX != 0) | (DesiredY != 0)) & (characteristics.Ci - PreCi <= characteristics.MaxHealth * (Math.Abs(ShiftX) + Math.Abs(ShiftY)) / 100))
+            if (((DesiredX != 0) | (DesiredY != 0)) & (characteristics.Ci - PreCi <= characteristics.MaxHealth * (Math.Abs(LastShiftX) + Math.Abs(LastShiftY)) / 100))
             {//Если получилось шагнуть (энергия за хождение снялась), значит сместились. Желаемые координаты стали ближе.
                 DesiredX -= characteristics.X - LastShiftX;
                 DesiredY -= characteristics.Y - LastShiftY;
