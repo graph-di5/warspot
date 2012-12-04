@@ -35,8 +35,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="WarSpot.Contracts.Intellect">
+    <Reference Include="WarSpot.Contracts.Intellect, Version=1.2.318.136, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\redistr\WarSpot.Contracts.Intellect.dll</HintPath>
     </Reference>
   </ItemGroup>
