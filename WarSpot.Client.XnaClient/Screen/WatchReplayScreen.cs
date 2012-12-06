@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using WarSpot.MatchComputer;
 using System.Collections.Generic;
 using WarSpot.Client.XnaClient.OfflineMatcher;
@@ -65,10 +66,10 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 
 			// TODO: update
-			foreach (var creature in _listOfCreatures)
+	/*		foreach (var creature in _listOfCreatures)
 			{
 				SpriteBatch.Draw(_creature, new Rectangle(), Color.White);
-			}
+			}*/
 
 			SpriteBatch.End();
 		}
@@ -151,15 +152,10 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void SetScaling()
 		{
 			// Refatcor this if there apperas any necessity in frames (for turn/statictics e.g.)
-			int width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-			int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-			// Use after adding world's size event
-			//_widthScaling = _worldMap[0].Length / width;
-			//_heightScaling = _worldMap.Length / height;
-
-			// Temporary
-			_widthScaling = _worldWidth / width;
-			_heightScaling = _wordlHeight / height;
+			int width = WarSpotGame.Instance.GraphicsDevice.Viewport.Width;
+			int height = WarSpotGame.Instance.GraphicsDevice.Viewport.Height;
+			_widthScaling = (float)_worldWidth / (float)width;
+			_heightScaling = (float)_wordlHeight / (float)height;
 			_scaledWidth = (int)Math.Round(_widthScaling * _sizeOfSprite);
 			_scaledHeight = (int)Math.Round(_heightScaling * _sizeOfSprite);
 		}
