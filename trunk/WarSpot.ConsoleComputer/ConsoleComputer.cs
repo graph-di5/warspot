@@ -39,6 +39,7 @@ namespace WarSpot.ConsoleComputer
 			var fs = new FileStream(outFileName, FileMode.CreateNew);
 			var computer = new Computer(listIntellect, fs);
 			var sw = new Stopwatch();
+			Console.WriteLine("Game started: {0}", listIntellect.Count);
 			sw.Start();
 			computer.Compute();
 			sw.Stop();
@@ -56,7 +57,7 @@ namespace WarSpot.ConsoleComputer
 			Assembly assembly = Assembly.LoadFrom(fullPath);//вытаскиваем библиотеку
 			var referencedAssemblies = assembly.GetReferencedAssemblies();
 			// LOOOOOOOOOOOOL
-			var floudIntellect = false;
+			var foundIntellect = false;
 			foreach (var referencedAssembly in referencedAssemblies)
 			{
 				if(referencedAssembly.Name == "WarSpot.Contracts.Intellect")
@@ -65,12 +66,12 @@ namespace WarSpot.ConsoleComputer
 					if (referencedAssembly.Version.Major == Assembly.GetExecutingAssembly().GetName().Version.Major &&
 						referencedAssembly.Version.Minor == Assembly.GetExecutingAssembly().GetName().Version.Minor)
 					{
-						floudIntellect = true;
+						foundIntellect = true;
 					}
 					break;
 				}
 			}
-			if(!floudIntellect)
+			if(!foundIntellect)
 				return null;
 
 			string iMyInterfaceName = typeof(IBeingInterface).ToString();
