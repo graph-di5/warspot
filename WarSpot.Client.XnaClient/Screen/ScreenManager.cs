@@ -134,9 +134,14 @@ namespace WarSpot.Client.XnaClient.Screen
 			foreach (string screen in Enum.GetNames(typeof(ScreenEnum)))
 			{
 				// TODO: rewrite/refactor this hell
-				RegisterScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), screen),
-					(GameScreen)Type.GetType("WarSpot.Client.XnaClient.Screen." + screen)
-					.GetConstructor(new Type[0]).Invoke(new object[0]));
+				var type = Type.GetType("WarSpot.Client.XnaClient.Screen." + screen);
+				if (type != null)
+				{
+					var constructorInfo = type.GetConstructor(new Type[0]);
+					if (constructorInfo != null)
+						RegisterScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), screen),
+						               (GameScreen)constructorInfo.Invoke(new object[0]));
+				}
 			}
 
 			foreach (var gameScreen in _screens.Values)

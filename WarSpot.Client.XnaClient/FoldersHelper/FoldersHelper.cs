@@ -3,7 +3,6 @@ using System.IO;
 
 namespace WarSpot.Client.XnaClient.FoldersHelper
 {
-	// TODO: refactor as singleton?
 	static class FoldersHelper
 	{
 		private static readonly string WarSpotPath;
