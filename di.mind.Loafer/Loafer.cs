@@ -165,26 +165,25 @@ namespace di.minds.Loafer
                 }
             }
             #endregion
-            #region 4.Идёт к интересной точке
-            else
+            #region 4.Идёт к интересной точке            
+            LastShiftX = 0;
+            LastShiftY = 0;
+            PreCi = characteristics.Ci;//Запоминает, сколько было энергии, чтобы знать, шаглул ли.
+
+            if ((characteristics.MaxStep >= 1) & (characteristics.Ci > characteristics.MaxHealth * 0.01f))
             {
-                PreCi = characteristics.Ci;//Запоминает, сколько было энергии, чтобы знать, шаглул ли.
-
-                if ((characteristics.MaxStep >= 1) & (characteristics.Ci > characteristics.MaxHealth * 0.01f))
-                {
-                    LastShiftX = Math.Sign(DesiredX);
-                }
-
-                if ((characteristics.MaxStep - Math.Abs(DesiredX) >= 1) & (characteristics.Ci > (1.0f + Math.Abs(DesiredX)) * characteristics.MaxHealth * 0.01f))
-                {
-                    LastShiftY = Math.Sign(DesiredY);
-                }          
-
-                return new GameActionMove(characteristics.Id, LastShiftX, LastShiftY);
+                LastShiftX = Math.Sign(DesiredX);
             }
-            #endregion
 
-            return new GameActionEat(characteristics.Id);//Если что-то пошло не так--ест.
+            if ((characteristics.MaxStep - Math.Abs(DesiredX) >= 1) & (characteristics.Ci > (1.0f + Math.Abs(DesiredX)) * characteristics.MaxHealth * 0.01f))
+            {
+                LastShiftY = Math.Sign(DesiredY);
+            }          
+
+            return new GameActionMove(characteristics.Id, LastShiftX, LastShiftY);           
+            #endregion
+            
+            //return new GameActionEat(characteristics.Id);//Если что-то пошло не так--ест.
         }
     }
 }
