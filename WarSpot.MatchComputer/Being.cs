@@ -1,3 +1,4 @@
+using System;
 using WarSpot.Contracts.Intellect;
 using WarSpot.Contracts.Intellect.Actions;
 
@@ -18,14 +19,23 @@ namespace WarSpot.MatchComputer
 		/// </summary>
 		public IBeingInterface Me { private set; get; }
 
+		public Type TypeOfMe { get; private set; }
+	
+
 		/// <summary>
 		/// Ctor
 		/// </summary>
 		/// <param name="me">Reference to the custom object</param>
 		/// <param name="team"> </param>
-		public Being(IBeingInterface me, int team)
+		public Being(Type typeOfMe, int team)
 		{
-			Me = me;		
+			TypeOfMe = typeOfMe;
+			var defaultCtor = typeOfMe.GetConstructor(new Type[0]);
+			if (defaultCtor != null)
+			{
+				var inst = defaultCtor.Invoke(new Type[0]);
+				Me = inst as IBeingInterface;
+			}
 		}
 
 		/// <summary>

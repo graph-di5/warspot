@@ -124,7 +124,7 @@ namespace WarSpot.Cloud.MatchComputer
 			return listIntellect;
 		}
 
-		public static IBeingInterface ParseIntellect(byte[] dll)
+		public static Type ParseIntellect(byte[] dll)
 		{
 			Assembly assembly = Assembly.Load(dll);//вытаскиваем библиотеку
 			var referencedAssemblies = assembly.GetReferencedAssemblies();
@@ -152,12 +152,15 @@ namespace WarSpot.Cloud.MatchComputer
 			{
 				if (t.GetInterface(iMyInterfaceName) != null)
 				{
+					return t;
+#if false
 					var defaultCtor = t.GetConstructor(new Type[0]);
 					if (defaultCtor != null)
 					{
 						var inst = defaultCtor.Invoke(new Type[0]);
 						return inst as IBeingInterface;
 					}
+#endif
 				}
 			}
 			return null;

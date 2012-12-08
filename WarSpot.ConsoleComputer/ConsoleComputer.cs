@@ -52,7 +52,7 @@ namespace WarSpot.ConsoleComputer
 		}
 
 
-		public static IBeingInterface ParseIntellect(string fullPath)
+		public static Type ParseIntellect(string fullPath)
 		{
 			Assembly assembly = Assembly.LoadFrom(fullPath);//вытаскиваем библиотеку
 			var referencedAssemblies = assembly.GetReferencedAssemblies();
@@ -79,12 +79,15 @@ namespace WarSpot.ConsoleComputer
 			{
 				if (t.GetInterface(iMyInterfaceName) != null)
 				{
+					return t;
+#if false
 					var defaultCtor = t.GetConstructor(new Type[0]);
 					if (defaultCtor != null)
 					{
 						var inst = defaultCtor.Invoke(new Type[0]);
 						return inst as IBeingInterface;
 					}
+#endif
 				}
 			}
 			return null;
