@@ -12,6 +12,7 @@ namespace di.minds.Loafer
         private float PreCi;//Для проверки, шагнул ли.
         private int DesiredX;//Куда хочем пойти.
         private int DesiredY;
+        private bool Semental;//Будет ли рожать мощнее себя, или ограничится меньшими. 
 
         private void MemoryUpdate(WorldInfo area, int shiftX, int shiftY)
         {
@@ -58,11 +59,21 @@ namespace di.minds.Loafer
             PreCi = 0.0f;
             DesiredX = 0;
             DesiredY = 0;
+            Random _rnd = new Random();
+
+            if (_rnd.Next(5) < 2) //2 из 6 будут рождать существ мощнее себя.
+            {
+                Semental = true;
+            }
+            else
+            {
+                Semental = false;
+            }
 
             if (ci<10)
             {//Не родится--и фиг с ним.
                 MemorizedArea = new float[5,5];//Помним больше, чем видим.
-                MemorizedArea.Initialize();
+                MemorizedArea.Initialize();                
                 return new BeingCharacteristics(Guid.NewGuid(), (ci - 1.25f) / 0.8f, 1.0f, 1);
             }
             else if (ci < 30)
@@ -103,12 +114,13 @@ namespace di.minds.Loafer
 
             /*План действий:
             Если может, рожает.
-            Иначе, если хотел куда-то идти--идёт туда.
-            Если не хотел, и есть, что поесть--ест.
-            Если и поесть нечего--ищет, куда бы пойти.*/
+            Если дошёл, куда хотел, и есть, что поесть--ест.
+            Если и поесть нечего--ищет, куда бы пойти.
+            Иначе, если хотел куда-то идти--идёт туда.*/
 
-            if (characteristics.Ci >= characteristics.MaxHealth * 0.97f)
-            {//Если кто-то объелся, ему ничего не хочется, только отложить личинку. В прямом смысле.
+            #region 1.Рожает, если может
+            if ((Semental == true) & (characteristics.Ci >= characteristics.MaxHealth * 0.97f))
+            {
                 LastShiftX = 0;
                 LastShiftY = 0;
                 DesiredX = 0;
@@ -117,46 +129,62 @@ namespace di.minds.Loafer
                 return new GameActionMakeOffspring(characteristics.Id, characteristics.MaxHealth * 0.95f);
             }
 
-            else if ((DesiredX == 0) & (DesiredY == 0) & (area[0,0].Ci != 0))
+            else if ((Semental == false) & (characteristics.Ci >= characteristics.MaxHealth * 0.6f))
+            {
+                LastShiftX = 0;
+                LastShiftY = 0;
+                DesiredX = 0;
+                DesiredY = 0;
+
+                return new GameActionMakeOffspring(characteristics.Id, characteristics.MaxHealth * 0.5f);
+            }
+            #endregion
+            #region 2.Если дошёл, и есть, что поесть--ест.
+            else if ((DesiredX == 0) & (DesiredY == 0) & (area[0, 0].Ci != 0))
             {
                 return new GameActionEat(characteristics.Id);
             }
-            
-            #region Обновление карты интереса. Поиск самой интересной точки.
-            
-            float maxInterest = 0;
-
-            for (int a = 0; a < characteristics.MaxSeeDistance * 4 + 1; a++)
+            #endregion
+            #region 3.Обновление карты интереса. Поиск самой интересной точки.    
+            else if ((DesiredX == 0) & (DesiredY == 0))
             {
-                for (int b = 0; b < characteristics.MaxSeeDistance * 4 + 1; b++)
-                {//Считаем проффит: энергия в клетке - трудозатраты на достижение клетки.
-                    MapOfInterest[a, b] = MemorizedArea[a, b] - characteristics.MaxStep * characteristics.MaxHealth / 100 * 
-                        (Math.Abs(a - (characteristics.MaxSeeDistance*2+1))+Math.Abs(b - (characteristics.MaxSeeDistance*2+1)));//Расстояние считается до центральной клетки.
-                    if(MapOfInterest[a, b] > maxInterest)
-                    {
-                        maxInterest = MapOfInterest[a, b];
-                        DesiredX = a - (characteristics.MaxSeeDistance * 2 + 1);//Куда хочется пойти относительно текущего положения.
-                        DesiredY = b - (characteristics.MaxSeeDistance * 2 + 1);
+                for (int a = 0; a < characteristics.MaxSeeDistance * 4 + 1; a++)
+                {
+                    float _maxInterest = 0;
+                    for (int b = 0; b < characteristics.MaxSeeDistance * 4 + 1; b++)
+                    {//Считаем проффит: энергия в клетке - трудозатраты на достижение клетки.
+                        MapOfInterest[a, b] = MemorizedArea[a, b] - characteristics.MaxStep * characteristics.MaxHealth / 100 * 
+                            (Math.Abs(a - (characteristics.MaxSeeDistance*2+1))+Math.Abs(b - (characteristics.MaxSeeDistance*2+1)));//Расстояние считается до центральной клетки.
+                        if(MapOfInterest[a, b] > _maxInterest)
+                        {
+                            _maxInterest = MapOfInterest[a, b];
+                            DesiredX = a - (characteristics.MaxSeeDistance * 2 + 1);//Куда хочется пойти относительно текущего положения.
+                            DesiredY = b - (characteristics.MaxSeeDistance * 2 + 1);
+                        }
                     }
                 }
             }
             #endregion
-            #region Идём к интересной точке
-
-            PreCi = characteristics.Ci;//Запоминает, сколько было энергии, чтобы знать, шаглул ли.
-
-            if ((characteristics.MaxStep >= 1) & (characteristics.Ci > characteristics.MaxHealth * 0.01f))
+            #region 4.Идёт к интересной точке
+            else
             {
-                LastShiftX = Math.Sign(DesiredX);
+                PreCi = characteristics.Ci;//Запоминает, сколько было энергии, чтобы знать, шаглул ли.
+
+                if ((characteristics.MaxStep >= 1) & (characteristics.Ci > characteristics.MaxHealth * 0.01f))
+                {
+                    LastShiftX = Math.Sign(DesiredX);
+                }
+
+                if ((characteristics.MaxStep - Math.Abs(DesiredX) >= 1) & (characteristics.Ci > (1.0f + Math.Abs(DesiredX)) * characteristics.MaxHealth * 0.01f))
+                {
+                    LastShiftY = Math.Sign(DesiredY);
+                }          
+
+                return new GameActionMove(characteristics.Id, LastShiftX, LastShiftY);
             }
-
-            if ((characteristics.MaxStep - Math.Abs(DesiredX) >= 1) & (characteristics.Ci > (1.0f + Math.Abs(DesiredX)) * characteristics.MaxHealth * 0.01f))
-            {
-                LastShiftY = Math.Sign(DesiredY);
-            }          
-
-            return new GameActionMove(characteristics.Id, LastShiftX, LastShiftY);
             #endregion
+
+            return new GameActionEat(characteristics.Id);//Если что-то пошло не так--ест.
         }
     }
 }
