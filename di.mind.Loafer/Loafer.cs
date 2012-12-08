@@ -145,27 +145,15 @@ namespace di.minds.Loafer
 
             PreCi = characteristics.Ci;//Запоминает, сколько было энергии, чтобы знать, шаглул ли.
 
-            if (Math.Abs(DesiredX) < characteristics.MaxStep)
+            if ((characteristics.MaxStep >= 1) & (characteristics.Ci > characteristics.MaxHealth * 0.01f))
             {
-                
-                if (characteristics.MaxStep - Math.Abs(DesiredX) >= Math.Abs(DesiredY))
-                {
-                    LastShiftX = DesiredX;
-                    LastShiftY = DesiredY;
-                }
-
-                else
-                {
-                    LastShiftX = DesiredX;
-                    LastShiftY = ((int)characteristics.MaxStep - Math.Abs(DesiredX)) * Math.Sign(DesiredY);
-                }
+                LastShiftX = Math.Sign(DesiredX);
             }
 
-            else
+            if ((characteristics.MaxStep - Math.Abs(DesiredX) >= 1) & (characteristics.Ci > (1.0f + Math.Abs(DesiredX)) * characteristics.MaxHealth * 0.01f))
             {
-                LastShiftX = Math.Sign(DesiredX)*(int)characteristics.MaxStep;
-                LastShiftY = 0;
-            }
+                LastShiftY = Math.Sign(DesiredY);
+            }          
 
             return new GameActionMove(characteristics.Id, LastShiftX, LastShiftY);
             #endregion
