@@ -15,7 +15,7 @@ namespace WarSpot.Cloud.Storage
     public class Storage
     {
         #region BLOB SECTION VAR 
-        private const string CONNECTIONSTRING = "UseDevelopmentStorage=true";
+        private const string CONNECTIONSTRING = "DataConnectionString";
 
         private static bool storageInitialized = false;
         private static object gate = new object();
