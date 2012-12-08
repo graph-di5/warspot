@@ -124,7 +124,7 @@ namespace WarSpot.MatchComputer
 						continue;
 					}
 					var newBeing = new Being(team.Members[i], team.Number);
-					newBeing.Construct(0, 100);
+					newBeing.Construct(0, 60);
 					newBeing.Characteristics.Team = team.Number;
 					newBeing.Characteristics.X = pos[i].Item1;
 					newBeing.Characteristics.Y = pos[i].Item2;
@@ -278,7 +278,7 @@ namespace WarSpot.MatchComputer
 					distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
 
 					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0)
-						&& (_world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue.Equals(null))
+						&& (_world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue == null)
 						&& (distance <= actor.Characteristics.MaxStep))
 					{
 						actor.Characteristics.X += moveAction.ShiftX;
@@ -324,7 +324,7 @@ namespace WarSpot.MatchComputer
 						break;
 					}
 					actor = _objects.Find(a => a.Characteristics.Id == birthAcrion.SenderId);
-					var offspring = new Being(actor.Me, actor.Characteristics.Team);
+					var offspring = new Being(actor.TypeOfMe, actor.Characteristics.Team);
 					// //!! todo understand what is happening here with team number
 					offspring.Construct(_turnNumber, birthAcrion.Ci);//Вызываем пользовательский конструктор.
 
