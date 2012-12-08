@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 12/01/2012 14:23:49
--- Generated from EDMX file: D:\sem4\warspot\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 12/08/2012 18:04:31
+-- Generated from EDMX file: C:\warspot\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -74,8 +74,8 @@ CREATE TABLE [dbo].[Game] (
 );
 GO
 
--- Creating table 'GameIntellectÕ‡·Ó'
-CREATE TABLE [dbo].[GameIntellectÕ‡·Ó] (
+-- Creating table 'GameIntellect'
+CREATE TABLE [dbo].[GameIntellect] (
     [GameGame_ID] uniqueidentifier  NOT NULL,
     [IntellectIntellect_ID] uniqueidentifier  NOT NULL
 );
@@ -103,9 +103,9 @@ ADD CONSTRAINT [PK_Game]
     PRIMARY KEY CLUSTERED ([Game_ID] ASC);
 GO
 
--- Creating primary key on [GameGame_ID], [IntellectIntellect_ID] in table 'GameIntellectÕ‡·Ó'
-ALTER TABLE [dbo].[GameIntellectÕ‡·Ó]
-ADD CONSTRAINT [PK_GameIntellectÕ‡·Ó]
+-- Creating primary key on [GameGame_ID], [IntellectIntellect_ID] in table 'GameIntellect'
+ALTER TABLE [dbo].[GameIntellect]
+ADD CONSTRAINT [PK_GameIntellect]
     PRIMARY KEY NONCLUSTERED ([GameGame_ID], [IntellectIntellect_ID] ASC);
 GO
 
@@ -141,8 +141,8 @@ ON [dbo].[Game]
     ([AccountAccount_ID]);
 GO
 
--- Creating foreign key on [GameGame_ID] in table 'GameIntellectÕ‡·Ó'
-ALTER TABLE [dbo].[GameIntellectÕ‡·Ó]
+-- Creating foreign key on [GameGame_ID] in table 'GameIntellect'
+ALTER TABLE [dbo].[GameIntellect]
 ADD CONSTRAINT [FK_GameGameIntellect]
     FOREIGN KEY ([GameGame_ID])
     REFERENCES [dbo].[Game]
@@ -150,8 +150,8 @@ ADD CONSTRAINT [FK_GameGameIntellect]
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [IntellectIntellect_ID] in table 'GameIntellectÕ‡·Ó'
-ALTER TABLE [dbo].[GameIntellectÕ‡·Ó]
+-- Creating foreign key on [IntellectIntellect_ID] in table 'GameIntellect'
+ALTER TABLE [dbo].[GameIntellect]
 ADD CONSTRAINT [FK_IntellectGameIntellect]
     FOREIGN KEY ([IntellectIntellect_ID])
     REFERENCES [dbo].[Intellect]
@@ -160,7 +160,7 @@ ADD CONSTRAINT [FK_IntellectGameIntellect]
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_IntellectGameIntellect'
 CREATE INDEX [IX_FK_IntellectGameIntellect]
-ON [dbo].[GameIntellectÕ‡·Ó]
+ON [dbo].[GameIntellect]
     ([IntellectIntellect_ID]);
 GO
 
