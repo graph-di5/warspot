@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.EntityClient;
 using System.Linq;
 using System.Text;
 using System.IO;
 using System.Net;
 using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
 using System.Data.Entity;
 using System.Collections;
@@ -16,6 +18,7 @@ namespace WarSpot.Cloud.Storage
     {
         #region BLOB SECTION VAR 
         private const string CONNECTIONSTRING = "DataConnectionString";
+        private const string DBCONNECTIONSTRING = "DBConnectionString";
 
         private static bool storageInitialized = false;
         private static object gate = new object();
@@ -31,8 +34,7 @@ namespace WarSpot.Cloud.Storage
 
         public Storage()
         {
-            this.InitializeStorage(); // инициализируем BLOB-хранилище
-            db = new DBContext(); // инициализируем базу данных
+            this.InitializeStorage();
         }
 
         #region BLOB METHODS 
@@ -51,10 +53,11 @@ namespace WarSpot.Cloud.Storage
                     return;
                 }
 
-                try
+                try  // инициализируем BLOB-хранилище
                 {
                     // read account configuration settings
                     var storageAccount = CloudStorageAccount.FromConfigurationSetting(CONNECTIONSTRING);
+                    
 
                     // create blob container for images
                     blobStorage = storageAccount.CreateCloudBlobClient();
@@ -72,6 +75,16 @@ namespace WarSpot.Cloud.Storage
                        + "Check your storage account configuration settings. If running locally, "
                        + "ensure that the Development Storage service is running.");
                 }
+
+                try
+                {
+                    db = new DBContext(new EntityConnection(RoleEnvironment.GetConfigurationSettingValue(DBCONNECTIONSTRING))); // инициализируем базу данных
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                
 
                 storageInitialized = true;
             }
@@ -126,23 +139,29 @@ namespace WarSpot.Cloud.Storage
                         where b.Account_Name == username
                         select b).ToList<Account>();
 
-            if (test.Count() == 0)
-                return false; 
-            else
+            if (test.Any())
+                return false;
+            try
             {
-                db.AddToAccount(Account.CreateAccount(new System.Guid(), username, password));
+                var acc = Account.CreateAccount(Guid.NewGuid(), username, password);
+                db.AddToAccount(acc);
                 db.SaveChanges();
-                return true;
             }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+
+            
+            return true;
         }
 
         public bool Login(string username, string password)
         {
-            var test = (from b in db.Account
-                        where b.Account_Name == username
-                        select b).FirstOrDefault();
-
-            return test.Account_Password == password;
+            return (from b in db.Account
+                        where b.Account_Name == username && b.Account_Password == password
+                        select b).Any();
         }
 
         public string[] GetListOfIntellects(Guid userID)

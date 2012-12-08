@@ -8,6 +8,7 @@
     </LocalResources>
     <ConfigurationSettings>
       <Setting name="DataConnectionString" />
+      <Setting name="DBConnectionString" />
     </ConfigurationSettings>
   </WorkerRole>
   <WorkerRole name="WarSpot.Cloud.UserService" vmsize="Small">
@@ -19,6 +20,7 @@
     </Endpoints>
     <ConfigurationSettings>
       <Setting name="DataConnectionString" />
+      <Setting name="DBConnectionString" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>
