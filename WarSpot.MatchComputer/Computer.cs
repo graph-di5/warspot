@@ -336,7 +336,7 @@ namespace WarSpot.MatchComputer
 					var emptyEnvirons = new List<WorldCell>();
 					var environs = GetWorldPart(actor.Characteristics.X, actor.Characteristics.Y, 1);//Собираем информацию об окресностях.
 
-					emptyEnvirons.AddRange(from WorldCell c in environs where c.BeingValue.Equals(null) select c);
+					emptyEnvirons.AddRange(from WorldCell c in environs where c.BeingValue == null select c);
 
 					if (emptyEnvirons.Count() > 0)
 					{
