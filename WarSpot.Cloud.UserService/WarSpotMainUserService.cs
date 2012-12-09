@@ -1,15 +1,15 @@
-﻿using System.Linq;
-using WarSpot.Contracts.Service;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using WarSpot.Contracts.Service;
 
 namespace WarSpot.Cloud.UserService
 {
-	
+
 	public class WarSpotMainUserService : IWarSpotService
 	{
 		private bool _loggedIn;
-		private System.Guid _userID;
+		private Guid _userID;
 
 		private readonly Storage.Storage _storage;
 
@@ -18,26 +18,27 @@ namespace WarSpot.Cloud.UserService
 			_storage = new Storage.Storage();
 			_loggedIn = false;
 		}
+
 		public Guid? StartGame(List<Guid> intellects)
 		{
-            if (!_loggedIn)
-            {
-                return null;
-            }
+			if (!_loggedIn)
+			{
+				return null;
+			}
 
-            return _storage.CreateGame(intellects, _userID);
- 
+			return _storage.CreateGame(intellects, _userID);
+
 		}
 
-        public List<Guid> GetListOfGames()
-        {
-            if (!_loggedIn)
-            {
-                return null;
-            }
+		public List<Guid> GetListOfGames()
+		{
+			if (!_loggedIn)
+			{
+				return null;
+			}
 
-            return _storage.GetListOfGames(_userID);
-        }
+			return _storage.GetListOfGames(_userID);
+		}
 
 
 		#region login and registration
@@ -66,7 +67,7 @@ namespace WarSpot.Cloud.UserService
 			}
 
 		}
-	#endregion login and registration
+		#endregion login and registration
 
 		#region intellect's stuff
 		public ErrorCode UploadIntellect(byte[] intellect, string name)
@@ -115,17 +116,17 @@ namespace WarSpot.Cloud.UserService
 		#region replay's stuff
 		public Replay DownloadReplay(Guid gameID)
 		{
-            if (!_loggedIn)
-            {
-                return null;
-            }
+			if (!_loggedIn)
+			{
+				return null;
+			}
 
-            return _storage.GetReplay(gameID);
+			return _storage.GetReplay(gameID);
 
 		}
 
 		#endregion replay's stuff
 
 
-    }
+	}
 }
