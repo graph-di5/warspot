@@ -21,23 +21,11 @@ namespace WarSpot.Client.XnaClient.AIManager
 		private string GetName(byte[] byteDll)
 		{
 			//Didn't test yet.
-			try
-			{
-				Assembly assembly = Assembly.Load(byteDll);
-				Type[] types = assembly.GetTypes();
-				foreach (Type type in types)
-				{
-					if (type.IsClass && type.GetInterface("IBeingInterface") != null)
-					{
-						return type.ToString();
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Trace.WriteLine(e);
-			}
-			return "BadFile" + Path.GetHashCode() % 1000;
+			AppDomain appDomain = AppDomain.CreateDomain("tmp");
+			Assembly assembly = appDomain.Load(byteDll);
+			string name = assembly.GetName().ToString();
+			AppDomain.Unload(appDomain);
+			return name;
 		}
 	}
 }
