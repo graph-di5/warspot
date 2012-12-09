@@ -7,32 +7,33 @@ namespace di.minds.Loafer
     class Loafer : IBeingInterface
     {
         public float[,] MemorizedArea;//Для запоминания количества энергии вокруг.
-        private int LastShiftX;//Для запоминания, куда пытался идти.
-        private int LastShiftY;
-        private float PreCi;//Для проверки, шагнул ли.
+        private int PreX;
+        private int PreY;
         private int DesiredX;//Куда хочем пойти.
         private int DesiredY;
         private bool Semental;//Будет ли рожать мощнее себя, или ограничится меньшими. 
 
-        private void MemoryUpdate(WorldInfo area, int shiftX, int shiftY)
+        private void MemoryUpdate(WorldInfo area, int x, int y)
         {
             int memoryRadius = MemorizedArea.GetLength(0);
             var tempArea = new float[memoryRadius, memoryRadius];
             #region Если двинулись, сдвигаем соответственно запомненную карту
-            if ((shiftX !=0) & (shiftY !=0))//Если двинулся
+            if ((PreX != x) & (PreY != y))//Если двинулся
             {
+                int _shiftX = x - PreX;
+                int _shiftY = y - PreY;
                 for (int a = 0; a < memoryRadius; a++)//Сдвигает запомненную карту.
                 {
                     for (int b = 0; b < memoryRadius; b++)
                     {
 
-                        if ((a + shiftX > memoryRadius) | (a + shiftX < 0) | (b + shiftY > memoryRadius) | (b + shiftY < 0))
+                        if ((a + _shiftX > memoryRadius) | (a + _shiftX < 0) | (b + _shiftY > memoryRadius) | (b + _shiftY < 0))
                         {
                             tempArea[a, b] = 0;
                         }
                         else
                         {
-                            tempArea[a, b] = MemorizedArea[a + shiftX, a + shiftY];
+                            tempArea[a, b] = MemorizedArea[a + _shiftX, a + _shiftY];
                         }
                     }
                 }
@@ -54,9 +55,8 @@ namespace di.minds.Loafer
 
         public BeingCharacteristics Construct(ulong step, float ci)
         {
-            LastShiftX = 0;
-            LastShiftY = 0;
-            PreCi = 0.0f;
+            PreX = -1;//Пока не знаю, что с ними делать в таком случае.
+            PreY = -1;
             DesiredX = 0;
             DesiredY = 0;
             Random _rnd = new Random();
@@ -101,15 +101,18 @@ namespace di.minds.Loafer
             float[,] MapOfInterest = new float[characteristics.MaxSeeDistance * 4 + 1, characteristics.MaxSeeDistance * 4 + 1];//Будем думать, куда лучше пойти.
             MapOfInterest.Initialize();
 
-            MemoryUpdate(area, LastShiftX, LastShiftY);//Обновляем карту памяти.
+            if ((PreX == -1) & (PreY == -1))
+            {
+                PreX = characteristics.X;
+                PreY = characteristics.Y;
+            }
+          
+            MemoryUpdate(area, characteristics.X, characteristics.Y);//Обновляем карту памяти.            
 
-            if (((DesiredX != 0) | (DesiredY != 0)) & (characteristics.Ci - PreCi <= characteristics.MaxHealth * (Math.Abs(LastShiftX) + Math.Abs(LastShiftY)) / 100))
-            {//Если получилось шагнуть (энергия за хождение снялась), значит сместились. Желаемые координаты стали ближе.
-                DesiredX -= characteristics.X - LastShiftX;
-                DesiredY -= characteristics.Y - LastShiftY;
-                PreCi = characteristics.Ci;
-                LastShiftX = 0;
-                LastShiftY = 0;
+            if ((DesiredX != characteristics.X) | (DesiredY != characteristics.Y))
+            {
+                PreX = characteristics.X;
+                PreY = characteristics.Y;
             }
 
             /*План действий:
@@ -121,32 +124,28 @@ namespace di.minds.Loafer
             #region 1.Рожает, если может
             if ((Semental == true) & (characteristics.Ci >= characteristics.MaxHealth * 0.97f))
             {
-                LastShiftX = 0;
-                LastShiftY = 0;
-                DesiredX = 0;
-                DesiredY = 0;
+                DesiredX = characteristics.X;
+                DesiredY = characteristics.Y;
 
                 return new GameActionMakeOffspring(characteristics.Id, characteristics.MaxHealth * 0.95f);
             }
 
             else if ((Semental == false) & (characteristics.Ci >= characteristics.MaxHealth * 0.6f))
             {
-                LastShiftX = 0;
-                LastShiftY = 0;
-                DesiredX = 0;
-                DesiredY = 0;
+                DesiredX = characteristics.X;
+                DesiredY = characteristics.Y;
 
                 return new GameActionMakeOffspring(characteristics.Id, characteristics.MaxHealth * 0.5f);
             }
             #endregion
             #region 2.Если дошёл, и есть, что поесть--ест.
-            else if ((DesiredX == 0) & (DesiredY == 0) & (area[0, 0].Ci != 0))
+            else if ((DesiredX == characteristics.X) & (DesiredY == characteristics.Y) & (area[0, 0].Ci != 0))
             {
                 return new GameActionEat(characteristics.Id);
             }
             #endregion
             #region 3.Обновление карты интереса. Поиск самой интересной точки.    
-            else if ((DesiredX == 0) & (DesiredY == 0))
+            else if ((DesiredX == characteristics.X) & (DesiredY == characteristics.Y))
             {
                 for (int a = 0; a < characteristics.MaxSeeDistance * 4 + 1; a++)
                 {
@@ -158,32 +157,39 @@ namespace di.minds.Loafer
                         if(MapOfInterest[a, b] > _maxInterest)
                         {
                             _maxInterest = MapOfInterest[a, b];
-                            DesiredX = a - (characteristics.MaxSeeDistance * 2 + 1);//Куда хочется пойти относительно текущего положения.
-                            DesiredY = b - (characteristics.MaxSeeDistance * 2 + 1);
+                            DesiredX = a - (characteristics.MaxSeeDistance * 2 + 1) + characteristics.X;//Куда хочется пойти.
+                            DesiredY = b - (characteristics.MaxSeeDistance * 2 + 1) + characteristics.Y;
                         }
                     }
                 }
             }
             #endregion
             #region 4.Идёт к интересной точке            
-            LastShiftX = 0;
-            LastShiftY = 0;
-            PreCi = characteristics.Ci;//Запоминает, сколько было энергии, чтобы знать, шаглул ли.
+            PreX = characteristics.X;
+            PreY = characteristics.Y;
 
-            if ((characteristics.MaxStep >= 1) & (characteristics.Ci > characteristics.MaxHealth * 0.01f))
+            //Если Х совпадает, идёт по Y. Если нет, пытается по обоим. Не получается--идёт по Y. Если совсем всё плохо--ест.
+           
+            if ((DesiredX == characteristics.X) & (characteristics.MaxStep >= 1) & (characteristics.Ci > characteristics.MaxHealth * 0.01f))
             {
-                LastShiftX = Math.Sign(DesiredX);
+                return new GameActionMove(characteristics.Id, 0, Math.Sign(DesiredY - characteristics.Y)); 
             }
 
-            if ((characteristics.MaxStep - Math.Abs(DesiredX) >= 1) & (characteristics.Ci > (1.0f + Math.Abs(DesiredX)) * characteristics.MaxHealth * 0.01f))
+            else if ((characteristics.MaxStep >= 2) & (characteristics.Ci > 2.0f * characteristics.MaxHealth * 0.01f))
             {
-                LastShiftY = Math.Sign(DesiredY);
-            }          
+                return new GameActionMove(characteristics.Id, Math.Sign(DesiredX - characteristics.X), Math.Sign(DesiredY - characteristics.Y));  
+            }
 
-            return new GameActionMove(characteristics.Id, LastShiftX, LastShiftY);           
+            else if ((characteristics.MaxStep >= 1) & (characteristics.Ci > characteristics.MaxHealth * 0.01f))
+            {
+                return new GameActionMove(characteristics.Id, Math.Sign(DesiredX - characteristics.X), 0);  
+            }
+
+            else
+            {
+                return new GameActionEat(characteristics.Id);
+            }
             #endregion
-            
-            //return new GameActionEat(characteristics.Id);//Если что-то пошло не так--ест.
         }
     }
 }
