@@ -20,7 +20,7 @@ namespace WarSpot.Cloud.UserService
 			ServiceHost host = new ServiceHost(typeof(WarSpotMainUserService),
 																				 new Uri(prefix + address.IPEndpoint.ToString()));
             var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
-            behaviour.InstanceContextMode = InstanceContextMode.Single;
+            behaviour.InstanceContextMode = InstanceContextMode.PerSession;
 			host.Open();
 
 			while (true)
