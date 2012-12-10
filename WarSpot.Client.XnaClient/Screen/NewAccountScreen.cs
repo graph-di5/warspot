@@ -175,8 +175,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			Desktop.Children.Add(_backButton);
 			Desktop.Children.Add(_registerButton);
 
-	//		ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
-	//		ScreenManager.Instance.Controller.AddListener(_registerButton, RegisterButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_registerButton, RegisterButtonPressed);
 		}
 
 		private void RegisterButtonPressed(object sender, EventArgs args)
@@ -256,7 +256,7 @@ namespace WarSpot.Client.XnaClient.Screen
 										new UniScalar(0.8f, 0),
 										new UniScalar(0.3f, 10),
 										new UniScalar(0.07f, 0));*/
-			//Desktop.Children.Clear();
+			Desktop.Children.Clear();
 			this.CreateControls();
 			this.InitializeControls();
 		}

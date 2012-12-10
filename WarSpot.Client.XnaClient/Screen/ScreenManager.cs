@@ -177,6 +177,9 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				screen.OnResize();
 			}
+
+			string current = GetActiveScreen().GetType().Name;
+			SetActiveScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), current));
 		}
 		public void PreapareReplayScreen()
 		{
