@@ -51,27 +51,37 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			_nameLabel = new LabelControl("Enter your name:")
 			{
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.1f, -70), 100, 30)
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100),
+							new UniScalar(0.1f, -70), 100, 30)
 			};
 
 			_surNameLabel = new LabelControl("Enter your surname:")
 			{
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.25f, -70), 100, 30)
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100), 
+							new UniScalar(0.25f, -70), 100, 30)
 			};
 
 			_emailLabel = new LabelControl("Enter your e-mail:")
 			{
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.4f, -70), 100, 30)
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100), 
+							new UniScalar(0.4f, -70), 100, 30)
 			};
 
 			_nicknameLabel = new LabelControl("Enter your nickname:")
 			{
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.55f, -70), 100, 30)
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100), 
+							new UniScalar(0.55f, -70), 100, 30)
 			};
 
 			_passwordLabel = new LabelControl("Enter your password:")
 			{
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100), new UniScalar(0.7f, -70), 100, 30)
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100),
+							new UniScalar(0.7f, -70), 100, 30)
 			};
 
 
@@ -79,7 +89,9 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				Name = "name",
 				IsHidden = false,
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.1f, -45), 200, 30),
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100f),
+							new UniScalar(0.1f, -45), 200, 30),
 				Text = ""
 			};
 
@@ -87,7 +99,9 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				Name = "surname",
 				IsHidden = false,
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.25f, -45), 200, 30),
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100f), 
+							new UniScalar(0.25f, -45), 200, 30),
 				Text = ""
 			};
 
@@ -95,7 +109,9 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				Name = "email",
 				IsHidden = false,
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.4f, -45), 200, 30),
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100f),
+							new UniScalar(0.4f, -45), 200, 30),
 				Text = ""
 			};
 
@@ -103,7 +119,9 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				Name = "nickname",
 				IsHidden = false,
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.55f, -45), 200, 30),
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100f), 
+							new UniScalar(0.55f, -45), 200, 30),
 				Text = ""
 			};
 
@@ -111,7 +129,9 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				Name = "password",
 				IsHidden = true,
-				Bounds = new UniRectangle(new UniScalar(0.5f, -100f), new UniScalar(0.7f, -45), 200, 30),
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -100f), 
+							new UniScalar(0.7f, -45), 200, 30),
 				Text = ""
 			};
 
@@ -120,10 +140,10 @@ namespace WarSpot.Client.XnaClient.Screen
 				Text = "Back",
 				Bounds =
 						new UniRectangle(
-								new UniScalar(0.35f, -5),
-								new UniScalar(0.8f, 0),
-								new UniScalar(0.3f, 10),
-								new UniScalar(0.07f, 0)),
+							new UniScalar(0.35f, -5),
+							new UniScalar(0.8f, 0),
+							new UniScalar(0.3f, 10),
+							new UniScalar(0.07f, 0)),
 			};
 
 			_registerButton = new ButtonControl
@@ -131,10 +151,10 @@ namespace WarSpot.Client.XnaClient.Screen
 				Text = "Register",
 				Bounds =
 						new UniRectangle(
-								new UniScalar(0.35f, -5),
-								new UniScalar(0.7f, 0),
-								new UniScalar(0.3f, 10),
-								new UniScalar(0.07f, 0)),
+							new UniScalar(0.35f, -5),
+							new UniScalar(0.7f, 0),
+							new UniScalar(0.3f, 10),
+							new UniScalar(0.07f, 0)),
 			};
 		}
 
@@ -155,17 +175,17 @@ namespace WarSpot.Client.XnaClient.Screen
 			Desktop.Children.Add(_backButton);
 			Desktop.Children.Add(_registerButton);
 
-			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_registerButton, RegisterButtonPressed);
+	//		ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
+	//		ScreenManager.Instance.Controller.AddListener(_registerButton, RegisterButtonPressed);
 		}
 
 		private void RegisterButtonPressed(object sender, EventArgs args)
 		{
 			bool checker = InputValidator.CheckText(_nameBox.RealText) &&
-			InputValidator.CheckText(_surNameBox.RealText) &&
-			InputValidator.CheckEmail(_emailBox.RealText) &&
-			InputValidator.CheckText(_nicknameBox.RealText) &&
-			InputValidator.CheckText(_passwordBox.RealText);
+				InputValidator.CheckText(_surNameBox.RealText) &&
+				InputValidator.CheckEmail(_emailBox.RealText) &&
+				InputValidator.CheckText(_nicknameBox.RealText) &&
+				InputValidator.CheckText(_passwordBox.RealText);
 			if (!checker)
 			{
 				MessageBox.Show("Incorrect input", ScreenManager.ScreenEnum.NewAccountScreen);
@@ -188,6 +208,57 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void BackButtonPressed(object sender, EventArgs args)
 		{
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
+		}
+
+		public override void OnResize()
+		{
+			base.OnResize();
+
+		/*	_nameLabel.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100),
+										new UniScalar(0.1f, -70), 100, 30);
+			_surNameLabel.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100), 
+										new UniScalar(0.25f, -70), 100, 30);
+			_emailLabel.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100), 
+										new UniScalar(0.4f, -70), 100, 30);
+			_nicknameLabel.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100), 
+										new UniScalar(0.55f, -70), 100, 30);
+			_passwordLabel.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100),
+										new UniScalar(0.7f, -70), 100, 30);
+
+			_nameBox.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100f),
+										new UniScalar(0.1f, -45), 200, 30);
+			_surNameBox.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100f), 
+										new UniScalar(0.25f, -45), 200, 30);
+			_emailBox.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100f),
+										new UniScalar(0.4f, -45), 200, 30);
+			_nicknameBox.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100f), 
+										new UniScalar(0.55f, -45), 200, 30);
+			_passwordBox.Bounds = new UniRectangle(
+										new UniScalar(0.5f, -100f), 
+										new UniScalar(0.7f, -45), 200, 30);
+
+			_registerButton.Bounds = new UniRectangle(
+										new UniScalar(0.35f, -5),
+										new UniScalar(0.7f, 0),
+										new UniScalar(0.3f, 10),
+										new UniScalar(0.07f, 0));
+			_backButton.Bounds = 	new UniRectangle(
+										new UniScalar(0.35f, -5),
+										new UniScalar(0.8f, 0),
+										new UniScalar(0.3f, 10),
+										new UniScalar(0.07f, 0));*/
+			//Desktop.Children.Clear();
+			this.CreateControls();
+			this.InitializeControls();
 		}
 	}
 }
