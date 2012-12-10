@@ -131,7 +131,7 @@ namespace WarSpot.Client.XnaClient
 					System.Windows.Forms.FormBorderStyle.FixedDialog;
 			}
 			_graphics.ApplyChanges();
-			ScreenManager.Instance.ReloadContent();
+			ScreenManager.Instance.Resize();
 		}
 
 		public Rectangle GetScreenBounds()

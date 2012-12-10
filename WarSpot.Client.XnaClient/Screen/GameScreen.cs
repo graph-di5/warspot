@@ -37,15 +37,14 @@ namespace WarSpot.Client.XnaClient.Screen
 		public bool IsActive { get; set; }
 
 		/// <summary>
-		/// Загрузка контента, необходимого
-		/// для отображения экрана 
+		/// Loading of necessary content for current screen
 		/// </summary>
 		public virtual void LoadContent()
 		{
 		}
 
 		/// <summary>
-		/// Уничтожение экрана, освобождение всех ресурсов
+		/// Unloading all stuff after screen disposing
 		/// </summary>
 		public virtual void Destroy()
 		{
@@ -65,7 +64,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		}
 
 		/// <summary>
-		/// Вызывается перед отображением экрана
+		/// Call before showing screen
 		/// </summary>
 		public virtual void OnShow()
 		{
@@ -73,11 +72,18 @@ namespace WarSpot.Client.XnaClient.Screen
 		}
 
 		/// <summary>
-		/// Вызывается при скрытии экрана
+		/// Call before hiding
 		/// </summary>
 		public virtual void OnHide()
 		{
 
+		}
+
+		/// <summary>
+		/// Calls when window is resized
+		/// </summary>
+		public virtual void OnResize()
+		{
 		}
 
 		public Dictionary<string, string> GetTexts()
@@ -85,6 +91,10 @@ namespace WarSpot.Client.XnaClient.Screen
 			return (from control in Desktop.Children where control.GetType() == typeof (InputControl) select control as InputControl into ic where ic != null && ic.Name != null select ic).ToDictionary(ic => ic.Name, ic => ic.RealText);
 		}
 
+		/// <summary>
+		/// some linq magic 
+		/// </summary>
+		/// <param name="dict"></param>
 		public void UseTexts(Dictionary<string, string> dict)
 		{
 			foreach (var ic in from control in Desktop.Children where control.GetType() == typeof (InputControl) select control as InputControl into ic where ic != null && dict.ContainsKey(ic.Name) select ic)

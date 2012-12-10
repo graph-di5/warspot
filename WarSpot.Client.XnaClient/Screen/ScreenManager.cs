@@ -168,12 +168,21 @@ namespace WarSpot.Client.XnaClient.Screen
 			LoadContent();
 			SetActiveScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), current));
 			_activeScreen.UseTexts(dict);
-		}   
+		}
 
+
+		public void Resize()
+		{
+			foreach (var screen in _screens.Values)
+			{
+				screen.OnResize();
+			}
+		}
 		public void PreapareReplayScreen()
 		{
 			var tmp = _screens[ScreenEnum.WatchReplayScreen] as WatchReplayScreen;
 			tmp.PrepareScreen();
 		}
+
 	}
 }

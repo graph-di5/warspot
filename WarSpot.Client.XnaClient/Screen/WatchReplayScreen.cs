@@ -55,6 +55,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public override void Draw(GameTime gameTime)
 		{
+			WarSpotGame.Instance.GraphicsDevice.Clear(Color.CornflowerBlue);
 			SpriteBatch.Begin();
 			for (int i = 0; i < _wordlHeight; i++)
 			{
@@ -184,6 +185,12 @@ namespace WarSpot.Client.XnaClient.Screen
 			this.CreateGameObjects();
 			
 			// Prepare args for drawing
+			this.SetScaling();
+		}
+
+		public override void OnResize()
+		{
+			base.OnResize();
 			this.SetScaling();
 		}
 	}
