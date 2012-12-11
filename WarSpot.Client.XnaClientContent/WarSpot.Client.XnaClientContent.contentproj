@@ -109,8 +109,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\GameSprites\creature.png">
-      <Name>creature</Name>
+    <Compile Include="Textures\GameSprites\creature_1.png">
+      <Name>creature_1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -126,8 +126,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\GameSprites\nyan_1.png">
-      <Name>nyan_1</Name>
+    <Compile Include="Textures\GameSprites\creature_2.png">
+      <Name>creature_2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
