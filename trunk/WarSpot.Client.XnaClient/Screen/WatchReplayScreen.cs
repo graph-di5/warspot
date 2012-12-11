@@ -30,8 +30,8 @@ namespace WarSpot.Client.XnaClient.Screen
 		private WorldCell[][] _worldMap;
 		// Scaled sizes of sprites for prevention of calculating this constant every Draw(),
 		// because all sprites've got the same size
-		private int _scaledWidth;
-		private int _scaledHeight;
+		private int _scaledSpriteWidth;
+		private int _scaledSpriteHeight;
 		// Define a scale of drawable sprites
 		private float _widthScaling;
 		private float _heightScaling;
@@ -63,17 +63,12 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				for (int j = 0; j < _worldWidth; j++)
 				{
-					SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(j * _scaledWidth, i * _scaledHeight,
-						_scaledWidth, _scaledHeight), Color.White);
+					SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(j * _scaledSpriteWidth, i * _scaledSpriteHeight,
+						_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
 				}
 			}
 
-			// TODO: update
-	/*		foreach (var creature in _listOfCreatures)
-			{
-				SpriteBatch.Draw(_creature, new Rectangle(), Color.White);
-			}*/
-
+			
 			SpriteBatch.End();
 		}
 
@@ -152,15 +147,15 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// Uses size of game world and calculate scaling according to screen resolution
 		/// it's needed for correct drawing of whole world
 		/// </summary>		
-		private void SetScaling()
+		private void SetScalings()
 		{
 			// Refatcor this if there apperas any necessity in frames (for turn/statictics e.g.)
 			int width = WarSpotGame.Instance.GraphicsDevice.Viewport.Width;
 			int height = WarSpotGame.Instance.GraphicsDevice.Viewport.Height;
 			_widthScaling = (float)width / (float)(_worldWidth * _sizeOfSprite);
 			_heightScaling = (float)height / (float)(_wordlHeight * _sizeOfSprite);
-			_scaledWidth = (int)Math.Round(_widthScaling * _sizeOfSprite);
-			_scaledHeight = (int)Math.Round(_heightScaling * _sizeOfSprite);
+			_scaledSpriteWidth = (int)Math.Round(_widthScaling * _sizeOfSprite);
+			_scaledSpriteHeight = (int)Math.Round(_heightScaling * _sizeOfSprite);
 		}
 
 		/// <summary>
@@ -177,7 +172,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// </summary>
 		public void PrepareScreen()
 		{
-			// Initialization replay path
 			//_replayPath = Utils.ScreenHelper.Instance.ReplayPath;
 
 			// Initialization of event list
@@ -187,13 +181,13 @@ namespace WarSpot.Client.XnaClient.Screen
 			this.CreateGameObjects();
 			
 			// Prepare args for drawing
-			this.SetScaling();
+			this.SetScalings();
 		}
 
 		public override void OnResize()
 		{
 			base.OnResize();
-			this.SetScaling();
+			this.SetScalings();
 		}
 	}
 }
