@@ -13,7 +13,8 @@ namespace WarSpot.Client.XnaClient.Screen
 	{
 		// Size of every single sprite
 		private const int _sizeOfSprite = 32;
-		private Texture2D _creature;
+		private Texture2D _creatureOfFirstTeam;
+		private Texture2D _creatureOfSecondTeam;
 		private Texture2D _grass;
 		private Texture2D _hedge;
 		private List<WarSpotEvent> _listOfEvents = new List<WarSpotEvent>();
@@ -23,15 +24,15 @@ namespace WarSpot.Client.XnaClient.Screen
 		private string _replayPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
 			"replay_2012.12.02_01.07.32.out");
 		// temporary constants
-		private int _worldWidth = 20;
-		private int _wordlHeight = 15;
+		private int _worldWidth = 40;
+		private int _wordlHeight = 30;
 		// Array which contains world's size and ci of every single piece of world
 		private WorldCell[][] _worldMap;
 		// Scaled sizes of sprites for prevention of calculating this constant every Draw(),
 		// because all sprites've got the same size
 		private int _scaledWidth;
 		private int _scaledHeight;
-		// define a scale of drawable sprites
+		// Define a scale of drawable sprites
 		private float _widthScaling;
 		private float _heightScaling;
 
@@ -42,8 +43,9 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void LoadContent()
 		{
 			// Size of all sprites is 32x32
-			_creature = ContentManager.Load<Texture2D>("Textures/GameSprites/creature");
-			_grass = ContentManager.Load<Texture2D>("Textures/GameSprites/nyan_1");
+			_creatureOfFirstTeam = ContentManager.Load<Texture2D>("Textures/GameSprites/creature_1");
+			_creatureOfSecondTeam = ContentManager.Load<Texture2D>("Textures/GameSprites/creature_2");
+			_grass = ContentManager.Load<Texture2D>("Textures/GameSprites/grass");
 			_hedge = ContentManager.Load<Texture2D>("Textures/GameSprites/hedge");
 		}
 
@@ -61,8 +63,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				for (int j = 0; j < _worldWidth; j++)
 				{
-					SpriteBatch.Draw(_grass, new Rectangle(j * _scaledWidth, i * _scaledHeight,
-						j * _scaledWidth + _scaledWidth, i * _scaledHeight + _scaledHeight), Color.White);
+					SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(j * _scaledWidth, i * _scaledHeight,
+						_scaledWidth, _scaledHeight), Color.White);
 				}
 			}
 
@@ -155,8 +157,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			// Refatcor this if there apperas any necessity in frames (for turn/statictics e.g.)
 			int width = WarSpotGame.Instance.GraphicsDevice.Viewport.Width;
 			int height = WarSpotGame.Instance.GraphicsDevice.Viewport.Height;
-			_widthScaling = (float)_worldWidth / (float)width;
-			_heightScaling = (float)_wordlHeight / (float)height;
+			_widthScaling = (float)width / (float)(_worldWidth * _sizeOfSprite);
+			_heightScaling = (float)height / (float)(_wordlHeight * _sizeOfSprite);
 			_scaledWidth = (int)Math.Round(_widthScaling * _sizeOfSprite);
 			_scaledHeight = (int)Math.Round(_heightScaling * _sizeOfSprite);
 		}
