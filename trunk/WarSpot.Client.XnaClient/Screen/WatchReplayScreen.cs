@@ -43,7 +43,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			// Size of all sprites is 32x32
 			_creature = ContentManager.Load<Texture2D>("Textures/GameSprites/creature");
-			_grass = ContentManager.Load<Texture2D>("Textures/GameSprites/grass");
+			_grass = ContentManager.Load<Texture2D>("Textures/GameSprites/nyan_1");
 			_hedge = ContentManager.Load<Texture2D>("Textures/GameSprites/hedge");
 		}
 
