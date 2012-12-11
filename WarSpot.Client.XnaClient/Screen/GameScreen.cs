@@ -84,6 +84,8 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// </summary>
 		public virtual void OnResize()
 		{
+			this.Height = WarSpotGame.Instance.GraphicsDevice.Viewport.Height;
+			this.Width = WarSpotGame.Instance.GraphicsDevice.Viewport.Width;
 		}
 
 		public Dictionary<string, string> GetTexts()
