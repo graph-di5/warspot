@@ -32,5 +32,8 @@ namespace WarSpot.Contracts.Service
         [OperationContract]
         List<Guid> GetListOfGames();
 
+		[OperationContract]
+		void KeepAlive();
+
     }
 }

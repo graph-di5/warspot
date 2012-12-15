@@ -111,5 +111,18 @@ namespace WarSpot.Client.XnaClient.Network
 		}
 
 		#endregion
+
+		public void KeepAlive()
+		{
+			InitializeConnection();
+			try
+			{
+				_service.KeepAlive();
+			}
+			catch (Exception e)
+			{
+				Trace.WriteLine(e);
+			}
+		}
 	}
 }

@@ -16,6 +16,8 @@ namespace WarSpot.Client.XnaClient
 		public static WarSpotGame Instance { get; private set; }
 		public bool IsFullScreen { get; private set; }
 
+		int timeSinceLastApealinMS = 0;
+
 		public WarSpotGame()
 		{
 			Instance = this;
@@ -85,6 +87,12 @@ namespace WarSpot.Client.XnaClient
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
+			timeSinceLastApealinMS += gameTime.ElapsedGameTime.Milliseconds;
+			if (timeSinceLastApealinMS >= 30000)
+			{
+				timeSinceLastApealinMS = 0;
+				Network.ConnectionManager.Instance.KeepAlive();
+			}
 			base.Update(gameTime);
 		}
 
