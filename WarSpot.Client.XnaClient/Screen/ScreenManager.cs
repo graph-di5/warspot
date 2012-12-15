@@ -134,7 +134,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 			foreach (string screen in Enum.GetNames(typeof(ScreenEnum)))
 			{
-				// TODO: rewrite/refactor this hell
+				// TODO: rewrite/refactor
 				var type = Type.GetType("WarSpot.Client.XnaClient.Screen." + screen);
 				if (type != null)
 				{
