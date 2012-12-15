@@ -127,6 +127,8 @@ namespace WarSpot.Cloud.UserService
 
 		#endregion replay's stuff
 
-
+		public void KeepAlive()
+		{
+		}
 	}
 }
