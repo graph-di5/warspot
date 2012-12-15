@@ -71,6 +71,14 @@ namespace WarSpot.Client.XnaClient.Screen
 								var tmpEvent = WSEvent as GameEventCiChange;
 								var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
 								tmp.CurrentCi = tmpEvent.Ci;
+								foreach (var i in _listOfCreatures)
+								{
+									if (i.Id == tmpEvent.SubjectId)
+									{
+										int x = 0;
+									}
+								}
+
 								_listOfEvents.Remove(WSEvent);
 								break;
 							}
