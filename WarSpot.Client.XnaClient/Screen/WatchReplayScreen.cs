@@ -6,6 +6,7 @@ using WarSpot.MatchComputer;
 using System.Collections.Generic;
 using WarSpot.Client.XnaClient.OfflineMatcher;
 using WarSpot.Contracts.Intellect;
+using System.Linq;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -31,14 +32,12 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Define a scale of drawable sprites
 		private float _widthScaling;
 		private float _heightScaling;
-		// Variable for contolling game pause
+		// Variable for contolling game pause by user
 		private bool _globalPause = false;
-		// Index of current position in gameEventList
-		
+		// Controls update for preventing from too fast replay speed
+		private bool _localPause = false;
+		private int _timeSinceLastTurn = 0; 
 
-		public WatchReplayScreen()
-		{
-		}
 
 		public override void LoadContent()
 		{
@@ -49,10 +48,58 @@ namespace WarSpot.Client.XnaClient.Screen
 			_hedge = ContentManager.Load<Texture2D>("Textures/GameSprites/hedge");
 		}
 
-		// TODO: correct game state updating (using timer?)
 		public override void Update(GameTime gameTime)
 		{
-			
+			if (!_globalPause)
+			{
+				if (!_localPause)
+				{
+					var WSEvent = _listOfEvents[0];
+
+					switch (WSEvent.EventType)
+					{
+						case EventTypes.GameEventHealthChange:
+							{
+								var tmpEvent = WSEvent as GameEventHealthChange;
+								var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
+								tmp.CurrentHealth = tmpEvent.Health;
+								_listOfEvents.Remove(WSEvent);
+								break;
+							}
+						case EventTypes.GameEventCiChange:
+							{
+								var tmpEvent = WSEvent as GameEventCiChange;
+								var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
+								tmp.CurrentCi = tmpEvent.Ci;
+								_listOfEvents.Remove(WSEvent);
+								break;
+							}
+						case EventTypes.GameEventMove:
+							{
+								_localPause = true;
+								var tmpEvent = WSEvent as GameEventMove;
+								var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
+								tmp.X += tmpEvent.ShiftX;
+								tmp.Y += tmpEvent.ShiftY;
+								_listOfEvents.Remove(WSEvent);
+								break;
+							}
+						default:
+							_listOfEvents.RemoveAt(0);
+							break;
+					}
+				}
+				else
+				{
+					// Checks time per unit game action
+					_timeSinceLastTurn += gameTime.ElapsedGameTime.Milliseconds;
+					if (_timeSinceLastTurn > 3000)
+					{
+						_localPause = false;
+						_timeSinceLastTurn = 0;
+					}
+				}
+			}
 		}
 
 		public override void Draw(GameTime gameTime)
@@ -82,6 +129,7 @@ namespace WarSpot.Client.XnaClient.Screen
 						{
 							SpriteBatch.Draw(_creatureOfFirstTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight,
 								_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
+							//float HPpercent = gameObject.CurrentHealth / gameObject.MaxHealth;
 							break;
 						}
 					case 2:
