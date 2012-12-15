@@ -19,10 +19,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		private Texture2D _hedge;
 		private List<WarSpotEvent> _listOfEvents = new List<WarSpotEvent>();
 		private List<Creature> _listOfCreatures = new List<Creature>();
-		// Contains path to replay, selected in SelectReplayScreen (or in new Game) 
-		// temporary default value
-		private string _replayPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(),
-			"replay_2012.12.02_01.07.32.out");
 		// temporary constants
 		private int _worldWidth = 40;
 		private int _wordlHeight = 30;
@@ -35,6 +31,8 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Define a scale of drawable sprites
 		private float _widthScaling;
 		private float _heightScaling;
+		// Variable for contolling game pause
+		private bool _globalPause = false;
 
 		public WatchReplayScreen()
 		{
@@ -70,6 +68,13 @@ namespace WarSpot.Client.XnaClient.Screen
 
 			
 			SpriteBatch.End();
+		}
+
+		public override void OnShow()
+		{
+			base.OnShow();
+			_listOfEvents = Utils.ScreenHelper.Instance.replayEvents;
+			this.PrepareScreen();
 		}
 
 		// Process all initial states
@@ -159,24 +164,10 @@ namespace WarSpot.Client.XnaClient.Screen
 		}
 
 		/// <summary>
-		/// Initialize list of events
-		/// </summary>
-		private void InitializeReplay()
-		{
-			_listOfEvents = Deserializator.Deserialize(_replayPath);
-		}
-
-
-		/// <summary>
 		/// Initialize all basic data like scalings, started inGameObjects and other
 		/// </summary>
 		public void PrepareScreen()
 		{
-			//_replayPath = Utils.ScreenHelper.Instance.ReplayPath;
-
-			// Initialization of event list
-			this.InitializeReplay();
-
 			// Initialization of initial inGameObjects and world map
 			this.CreateGameObjects();
 			
