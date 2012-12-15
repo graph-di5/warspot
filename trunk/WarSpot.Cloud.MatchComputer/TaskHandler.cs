@@ -81,13 +81,14 @@ namespace WarSpot.Cloud.MatchComputer
 			string content = message.AsString;
 			int position = 0;
 			string guidName = "";
-			while (position < content.Length)
+			while (position <= content.Length)
 			{
-				if (Char.IsSeparator(content[position]))
+				if (position == content.Length || Char.IsSeparator(content[position]))
 				{
 					Guid guid = new Guid(guidName);
 					namesOfIntellects.Add(guid);
 					guidName = "";
+					position++;
 					continue;
 				}
 				guidName += content[position++];
@@ -98,7 +99,6 @@ namespace WarSpot.Cloud.MatchComputer
 
 			return msg;
 		}
-
 
 		private List<TeamIntellectList> getIntellects(Message msg)
 		{
@@ -175,6 +175,8 @@ namespace WarSpot.Cloud.MatchComputer
 			while (true)
 			{
 				CloudQueueMessage msg = queue.GetMessage();
+				//CloudQueueMessage msg = new CloudQueueMessage("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4 936DA01F-9ABD-4d9d-80C7-02AF85C822A8");
+			
 				_are.WaitOne(0);
 
 				if (_are.WaitOne(1))
