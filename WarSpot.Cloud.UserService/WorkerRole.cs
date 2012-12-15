@@ -19,8 +19,10 @@ namespace WarSpot.Cloud.UserService
 			var prefix = address.Protocol == "tcp" ? "net.tcp://" : "http://";
 			ServiceHost host = new ServiceHost(typeof(WarSpotMainUserService),
 																				 new Uri(prefix + address.IPEndpoint.ToString()));
-            var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
+#if !false
+			var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
             behaviour.InstanceContextMode = InstanceContextMode.PerSession;
+#endif
 			host.Open();
 
 			while (true)

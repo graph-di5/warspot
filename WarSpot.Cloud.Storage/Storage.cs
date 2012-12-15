@@ -20,15 +20,15 @@ namespace WarSpot.Cloud.Storage
         private const string CONNECTIONSTRING = "DataConnectionString";
         private const string DBCONNECTIONSTRING = "DBConnectionString";
 
-        private static bool storageInitialized = false;
-        private static object gate = new object();
-        private static CloudBlobClient blobStorage;
-        private static CloudBlobContainer container;
+        private  bool storageInitialized = false;
+        private  object gate = new object();
+        private  CloudBlobClient blobStorage;
+        private  CloudBlobContainer container;
 
         #endregion BLOB SECTION END
 
         #region DATABASE SECTION VAR 
-        public DBContext db;
+				public DBContext db;
         #endregion DATABASE SECTION END
 
 
