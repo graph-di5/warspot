@@ -20,12 +20,7 @@ namespace WarSpot.Client.XnaClient.AIManager
 
 		private string GetName(string path)
 		{
-			//Didn't test yet.
-			AppDomain appDomain = AppDomain.CreateDomain("tmp");
-			Assembly assembly = appDomain.Load(path);
-			string name = assembly.GetName().ToString();
-			AppDomain.Unload(appDomain);
-			return name;
+			return System.IO.Path.GetFileNameWithoutExtension(path);
 		}
 	}
 }
