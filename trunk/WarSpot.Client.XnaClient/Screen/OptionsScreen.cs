@@ -40,14 +40,14 @@ namespace WarSpot.Client.XnaClient.Screen
 			_titleLabel = new LabelControl("Options")
 			{
 				Bounds = new UniRectangle(new UniScalar(0.5f, -SpriteFont.MeasureString("Options").X / 4),
-	0, 0, 0)
+						0, 0, 0)
 			};
 
 			_fullscreenLabel = new LabelControl("FullScreen: ")
 			{
 				Bounds =
-	new UniRectangle(new UniScalar(0.5f, -SpriteFont.MeasureString("FullScreen: ").X / 4 - 10),
-		new UniScalar(0.1f, 0), 0, 20)
+					new UniRectangle(new UniScalar(0.5f, -SpriteFont.MeasureString("FullScreen: ").X / 4 - 10),
+					new UniScalar(0.1f, 0), 0, 20)
 			};
 
 			_fullscreenButton = new OptionControl

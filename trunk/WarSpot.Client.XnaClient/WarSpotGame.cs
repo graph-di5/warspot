@@ -36,7 +36,6 @@ namespace WarSpot.Client.XnaClient
 				_graphics.PreferredBackBufferHeight = rect.Height;
 				System.Windows.Forms.Form.FromHandle(Window.Handle).FindForm().FormBorderStyle =
 					System.Windows.Forms.FormBorderStyle.None;
-				//_graphics.IsFullScreen = true;
 				break;
 			}
 
@@ -68,7 +67,6 @@ namespace WarSpot.Client.XnaClient
 			// Create a new SpriteBatch, which can be used to draw textures.
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			// TODO: use this.Content to load your game content here
 		}
 
 		/// <summary>
@@ -77,7 +75,7 @@ namespace WarSpot.Client.XnaClient
 		/// </summary>
 		protected override void UnloadContent()
 		{
-			// TODO: Unload any non ContentManager content here
+			
 		}
 
 		/// <summary>
@@ -87,12 +85,6 @@ namespace WarSpot.Client.XnaClient
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
-			// Allows the game to exit
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-				this.Exit();
-
-			// TODO: Add your update logic here
-
 			base.Update(gameTime);
 		}
 
@@ -103,15 +95,11 @@ namespace WarSpot.Client.XnaClient
 		protected override void Draw(GameTime gameTime)
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
-
-			// TODO: Add your drawing code here
-
 			base.Draw(gameTime);
 		}
 
 		public void ToggleFullScreen()
 		{
-			////_graphics.ToggleFullScreen();
 			IsFullScreen = !IsFullScreen;
 			Settings.Default.FullScreenSelected = IsFullScreen;
 			Settings.Default.Save();

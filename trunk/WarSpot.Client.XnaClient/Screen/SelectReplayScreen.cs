@@ -106,9 +106,8 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			//string selectedReplay = _replaysBox.Items[_replaysBox.SelectedItems[0]];
 			//string path = Path.Combine(FoldersHelper.FoldersHelper.GetReplayPath(), selectedReplay);
-			//Utils.ScreenHelper.Instance.ReplayPath = path;
-			ScreenManager.Instance.PreapareReplayScreen();
-			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
+			Utils.ScreenHelper.Instance.ReplayPath = "replay_2012.12.15_14.42.51.out";
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoadingScreen);
 		}
 
 		private void deleteButtonPressed(object sender, EventArgs e)

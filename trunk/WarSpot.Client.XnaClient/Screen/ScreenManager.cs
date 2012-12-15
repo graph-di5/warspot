@@ -20,7 +20,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			OptionsScreen,
 			MessageBox,
 			WatchReplayScreen,
-			SelectReplayScreen
+			SelectReplayScreen,
+			LoadingScreen
 		}
 
 		private static ScreenManager _instance;
@@ -40,7 +41,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			Game.Components.Add(_gui);
 			Game.Components.Add(_inputManager);
 
-			Controller = new KeyboardAndMouse(_inputManager);
+			Controller = new InputHandler(_inputManager);
 		}
 
 		public static ScreenManager Instance
