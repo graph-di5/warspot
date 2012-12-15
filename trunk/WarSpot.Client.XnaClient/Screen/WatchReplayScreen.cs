@@ -33,6 +33,8 @@ namespace WarSpot.Client.XnaClient.Screen
 		private float _heightScaling;
 		// Variable for contolling game pause
 		private bool _globalPause = false;
+		// Index of current position in gameEventList
+		
 
 		public WatchReplayScreen()
 		{
@@ -50,7 +52,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		// TODO: correct game state updating (using timer?)
 		public override void Update(GameTime gameTime)
 		{
-			base.Update(gameTime);
+			
 		}
 
 		public override void Draw(GameTime gameTime)
@@ -61,11 +63,35 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				for (int j = 0; j < _worldWidth; j++)
 				{
-					SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(j * _scaledSpriteWidth, i * _scaledSpriteHeight,
+					SpriteBatch.Draw(_grass, new Rectangle(j * _scaledSpriteWidth, i * _scaledSpriteHeight,
 						_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
 				}
 			}
 
+			foreach (var gameObject in _listOfCreatures)
+			{
+				switch (gameObject.Team)
+				{
+					case 0:
+						{
+							SpriteBatch.Draw(_hedge, new Rectangle(gameObject.Y * _scaledSpriteWidth, gameObject.X * _scaledSpriteHeight,
+								_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
+							break;
+						}
+					case 1:
+						{
+							SpriteBatch.Draw(_creatureOfFirstTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight,
+								_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
+							break;
+						}
+					case 2:
+						{
+							SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight,
+								_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
+							break;
+						}
+				}
+			}
 			
 			SpriteBatch.End();
 		}
@@ -81,10 +107,9 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void CreateGameObjects()
 		{
 			bool flag = true;
-			int i = 0;
 			while(flag)
 			{
-				WarSpotEvent WSEvent = _listOfEvents[i++];
+				WarSpotEvent WSEvent = _listOfEvents[0];
 				switch (WSEvent.EventType)
 				{
 					case EventTypes.SystemEventTurnStarted:
@@ -110,7 +135,7 @@ namespace WarSpot.Client.XnaClient.Screen
 						{
 							var tmp = WSEvent as GameEventBirth;
 							_listOfCreatures.Add(new Creature(tmp.SubjectId, tmp.Newborn.X, tmp.Newborn.Y,
-								tmp.Newborn.Team, tmp.Newborn.Health, tmp.Newborn.Ci));
+								tmp.Newborn.Team, tmp.Newborn.MaxHealth, tmp.Newborn.Health, tmp.Newborn.Ci));
 							_listOfEvents.Remove(tmp);
 							break;
 						}
@@ -118,6 +143,7 @@ namespace WarSpot.Client.XnaClient.Screen
 						{
 							var tmp = WSEvent as GameEventWorldCiChanged;
 							_worldMap[tmp.Y][tmp.X].changeCi(tmp.Ci);
+							_listOfEvents.Remove(tmp);
 							break;
 						}
 				}
