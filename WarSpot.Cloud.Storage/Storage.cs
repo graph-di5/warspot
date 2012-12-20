@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.EntityClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -92,9 +93,12 @@ namespace WarSpot.Cloud.Storage
 
         public void UploadIntellect(Guid Account_ID, string name, byte[] data)
         {
-            
-            string uniqueBlobName = string.Format("{0}/{1}", Account_ID.ToString(), name);
-            db.AddToIntellect(Intellect.CreateIntellect(new System.Guid(), name, Account_ID));
+            if(db.Intellect == null)
+            {
+							Trace.WriteLine("db.Intellect == null");
+            }
+        	string uniqueBlobName = string.Format("{0}/{1}", Account_ID.ToString(), name);
+            db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID));
             db.SaveChanges();            
             CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);           
             blob.UploadByteArray(data);
@@ -208,7 +212,7 @@ namespace WarSpot.Cloud.Storage
 
         public Guid? CreateGame(List<Guid> intellects, Guid userID)
         {
-            Guid gameID = new System.Guid();
+            Guid gameID = Guid.NewGuid();
 
             db.AddToGame(Game.CreateGame(gameID, userID));
 
