@@ -94,7 +94,7 @@ namespace WarSpot.Cloud.MatchComputer
 				guidName += content[position++];
 			}
 			// 
-			msg.ID = new Guid();
+			msg.ID = Guid.NewGuid();
 			msg.ListOfDlls = namesOfIntellects;
 
 			return msg;

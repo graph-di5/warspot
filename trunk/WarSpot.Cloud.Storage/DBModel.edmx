@@ -146,7 +146,7 @@
           <Key>
             <PropertyRef Name="Intellect_ID" />
           </Key>
-          <Property Type="Guid" Name="Intellect_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Guid" Name="Intellect_ID" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Type="String" Name="Intellect_Name" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="DBModel.AccountIntellect" FromRole="Intellect" ToRole="Account" />
           <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
