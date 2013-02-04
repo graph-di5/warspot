@@ -13,4 +13,4 @@
 [https://docs.google.com/drawings/d/1YocuYqPeSOuHyqLwuM5HVuVPWDyiBbSdcH7me9hvqKM/pub?w=1273&amp;h=731&n=th.png]
 
 ==Технологии==
-В качестве платформы для разработки используется .NET 4.0 и связанные с ней Windows Azure и XNA.
+В качестве платформы для разработки используется .NET Framework 40 и связанные с ней Windows Azure, WCF и XNA (DirectX).
