@@ -67,8 +67,9 @@ namespace WarSpot.Cloud.MatchComputer
 		private static void MemoryStreamer(List<TeamIntellectList> listIntellect)
 		{
 			Stream stream = new MemoryStream();
-
+            // todo: вынести stream из конструктора в параметр метода
 			WarSpot.MatchComputer.Computer computer = new WarSpot.MatchComputer.Computer(listIntellect, stream);
+            computer.Compute();
 		}
 
 		private static Message ParseMessage(CloudQueueMessage message)
