@@ -10,7 +10,7 @@
 Ближайшими аналогами проекта является проект «Синдикаты» Математико-Механического факультета СПбГУ, а также Проект Хошими, некогда бывший дисциплиной конкурса Microsoft Imagine Cup. 
 
 ==Архитектура==
-https://docs.google.com/drawings/d/1YocuYqPeSOuHyqLwuM5HVuVPWDyiBbSdcH7me9hvqKM/edit?usp=sharing
+[https://docs.google.com/drawings/d/1YocuYqPeSOuHyqLwuM5HVuVPWDyiBbSdcH7me9hvqKM/pub?w=1273&amp;h=731&n=th.png]
 
 ==Технологии==
 В качестве платформы для разработки используется .NET 4.0 и связанные с ней Windows Azure и XNA.
