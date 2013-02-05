@@ -188,7 +188,7 @@ namespace di.minds.Loafer
             else
             {
 							return new GameActionMove(characteristics.Id, 1, 1);
-							return new GameActionEat(characteristics.Id);
+							//return new GameActionEat(characteristics.Id);
             }
             #endregion
         }
