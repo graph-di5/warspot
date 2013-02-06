@@ -21,7 +21,7 @@ namespace WarSpot.Cloud.UserService
 																				 new Uri(prefix + address.IPEndpoint.ToString()));
 #if !false
 			var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
-            behaviour.InstanceContextMode = InstanceContextMode.PerSession;
+			behaviour.InstanceContextMode = InstanceContextMode.PerSession;
 #endif
 			host.Open();
 

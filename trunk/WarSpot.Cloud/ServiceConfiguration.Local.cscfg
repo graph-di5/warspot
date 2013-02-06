@@ -5,7 +5,7 @@
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
       <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="DBConnectionString" value="metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=localhost;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework&quot;" />
+      <Setting name="DBConnectionString" value="metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=localhost\SQLEXPRESS;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework&quot;" />
     </ConfigurationSettings>
   </Role>
   <Role name="WarSpot.Cloud.UserService">
@@ -13,7 +13,7 @@
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
       <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="DBConnectionString" value="metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=localhost;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework&quot;" />
+      <Setting name="DBConnectionString" value="metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=localhost\SQLEXPRESS;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework&quot;" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

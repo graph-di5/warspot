@@ -114,10 +114,13 @@ namespace WarSpot.Client.XnaClient.Network
 
 		public void KeepAlive()
 		{
-			InitializeConnection();
+			//InitializeConnection();
 			try
 			{
-				_service.KeepAlive();
+				if(_service != null)
+				{
+					_service.KeepAlive();
+				}
 			}
 			catch (Exception e)
 			{

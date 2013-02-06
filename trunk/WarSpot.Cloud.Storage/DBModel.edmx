@@ -280,17 +280,17 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="DBModel" >
-        <EntityTypeShape EntityType="DBModel.Account" Width="2.75" PointX="0.875" PointY="1.375" Height="1.787985026041667" />
+        <EntityTypeShape EntityType="DBModel.Account" Width="2.75" PointX="1" PointY="1.375" Height="1.8694466145833331" />
         <EntityTypeShape EntityType="DBModel.Intellect" Width="2.625" PointX="5.25" PointY="1.375" Height="1.787985026041667" />
         <AssociationConnector Association="DBModel.AccountIntellect">
-          <ConnectorPoint PointX="3.625" PointY="2.3651432291666667" />
-          <ConnectorPoint PointX="5.25" PointY="2.3651432291666667" />
+          <ConnectorPoint PointX="3.75" PointY="2.3097233072916667" />
+          <ConnectorPoint PointX="5.25" PointY="2.3097233072916667" />
         </AssociationConnector>
         <EntityTypeShape EntityType="DBModel.Game" Width="2.375" PointX="1.625" PointY="4.125" Height="1.7879850260416657" />
         <EntityTypeShape EntityType="DBModel.GameIntellect" PointX="5.625" PointY="4.125" Width="1.5" Height="1.7879850260416657" />
         <AssociationConnector Association="DBModel.AccountGame">
-          <ConnectorPoint PointX="2.625" PointY="3.3552864583333331" />
-          <ConnectorPoint PointX="2.625" PointY="4.125" />
+          <ConnectorPoint PointX="2.6875" PointY="3.2444466145833331" />
+          <ConnectorPoint PointX="2.6875" PointY="4.125" />
         </AssociationConnector>
         <AssociationConnector Association="DBModel.GameGameIntellect">
           <ConnectorPoint PointX="4" PointY="5.0189925130208328" />
