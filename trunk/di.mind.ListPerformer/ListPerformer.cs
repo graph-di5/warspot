@@ -24,7 +24,7 @@ namespace di.mind.ListPerformer
 
         public GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
         {
-            if (taskNumber == 6)
+            if (taskNumber == 9)
             {
                 taskNumber = 1;
             }
@@ -37,23 +37,22 @@ namespace di.mind.ListPerformer
             {
                 case 1:
                     return new GameActionMakeOffspring(characteristics.Id, 10.0f);
-                    break;
                 case 2:
                     return new GameActionEat(characteristics.Id);
-                    break;
                 case 3:
                     return new GameActionMove(characteristics.Id, 1, 0);
-                    break;
                 case 4:
                     return new GameActionMove(characteristics.Id, 0, 1);
-                    break;
                 case 5:
                     return new GameActionMove(characteristics.Id, -1, 0);
-                    break;
                 case 6:
                     return new GameActionMove(characteristics.Id, 0, -1);
-                    break;
-
+                case 7:
+                    return new GameActionAttack(characteristics.Id, 0, 0, 1.0f);
+                case 8:
+                    return new GameActionTreat(characteristics.Id, characteristics.Id, 3.0f);
+                case 9:
+                    return new GameActionGiveCi(characteristics.Id, characteristics.Id, 1.0f);
             }
             return new GameActionEat(characteristics.Id);
         }
