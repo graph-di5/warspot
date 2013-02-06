@@ -36,7 +36,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private bool _globalPause = false;
 		// Controls update for preventing from too fast replay speed
 		private bool _localPause = false;
-		private int _timeSinceLastTurn = 0; 
+		private int _timeSinceLastTurn = 0;
 
 
 		public override void LoadContent()
@@ -48,53 +48,74 @@ namespace WarSpot.Client.XnaClient.Screen
 			_hedge = ContentManager.Load<Texture2D>("Textures/GameSprites/hedge");
 		}
 
+		private int curEventStep = 0;
 		public override void Update(GameTime gameTime)
 		{
 			if (!_globalPause)
 			{
 				if (!_localPause)
 				{
-					var WSEvent = _listOfEvents[0];
-
-					switch (WSEvent.EventType)
+					if (curEventStep >= _listOfEvents.Count)
 					{
-						case EventTypes.GameEventHealthChange:
-							{
-								var tmpEvent = WSEvent as GameEventHealthChange;
-								var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
-								tmp.CurrentHealth = tmpEvent.Health;
-								_listOfEvents.Remove(WSEvent);
-								break;
-							}
-						case EventTypes.GameEventCiChange:
-							{
-								var tmpEvent = WSEvent as GameEventCiChange;
-								var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
-								tmp.CurrentCi = tmpEvent.Ci;
-								foreach (var i in _listOfCreatures)
-								{
-									if (i.Id == tmpEvent.SubjectId)
-									{
-										int x = 0;
-									}
-								}
+						// todo: ckeck this if we need to change some flags
+						return;
+					}
+					WarSpotEvent wsEvent = _listOfEvents[curEventStep++];
 
-								_listOfEvents.Remove(WSEvent);
-								break;
-							}
-						case EventTypes.GameEventMove:
-							{
-								_localPause = true;
-								var tmpEvent = WSEvent as GameEventMove;
-								var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
-								tmp.X += tmpEvent.ShiftX;
-								tmp.Y += tmpEvent.ShiftY;
-								_listOfEvents.Remove(WSEvent);
-								break;
-							}
-						default:
-							_listOfEvents.RemoveAt(0);
+					switch (wsEvent.EventType)
+					{
+					case EventTypes.GameEventHealthChange:
+						{
+							var tmpEvent = wsEvent as GameEventHealthChange;
+							var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
+							tmp.CurrentHealth = tmpEvent.Health;
+							//_listOfEvents.Remove(WSEvent);
 							break;
+						}
+					case EventTypes.GameEventCiChange:
+						{
+							var tmpEvent = wsEvent as GameEventCiChange;
+							var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
+							tmp.CurrentCi = tmpEvent.Ci;
+							foreach (var i in _listOfCreatures)
+							{
+								if (i.Id == tmpEvent.SubjectId)
+								{
+									int x = 0;
+								}
+							}
+
+							//_listOfEvents.Remove(WSEvent);
+							break;
+						}
+					case EventTypes.GameEventMove:
+						{
+							_localPause = true;
+							var tmpEvent = wsEvent as GameEventMove;
+							var tmp = (from creatures in _listOfCreatures where creatures.Id == tmpEvent.SubjectId select creatures).First();
+							tmp.X += tmpEvent.ShiftX;
+							tmp.Y += tmpEvent.ShiftY;
+							//_listOfEvents.Remove(WSEvent);
+							break;
+						}
+					case EventTypes.GameEventBirth:
+						{
+							var tmp = wsEvent as GameEventBirth;
+							_listOfCreatures.Add(new Creature(tmp.SubjectId, tmp.Newborn.X, tmp.Newborn.Y,
+								tmp.Newborn.Team, tmp.Newborn.MaxHealth, tmp.Newborn.Health, tmp.Newborn.Ci));
+							//_listOfEvents.Remove(tmp);
+							break;
+						}
+					case EventTypes.GameEventWorldCiChanged:
+						{
+							var tmp = wsEvent as GameEventWorldCiChanged;
+							_worldMap[tmp.Y][tmp.X].changeCi(tmp.Ci);
+							//_listOfEvents.Remove(tmp);
+							break;
+						}
+					default:
+						//_listOfEvents.RemoveAt(0);
+						break;
 					}
 				}
 				else
@@ -127,28 +148,28 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				switch (gameObject.Team)
 				{
-					case 0:
-						{
-							SpriteBatch.Draw(_hedge, new Rectangle(gameObject.Y * _scaledSpriteWidth, gameObject.X * _scaledSpriteHeight,
-								_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
-							break;
-						}
-					case 1:
-						{
-							SpriteBatch.Draw(_creatureOfFirstTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight,
-								_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
-							//float HPpercent = gameObject.CurrentHealth / gameObject.MaxHealth;
-							break;
-						}
-					case 2:
-						{
-							SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight,
-								_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
-							break;
-						}
+				case 0:
+					{
+						SpriteBatch.Draw(_hedge, new Rectangle(gameObject.Y * _scaledSpriteWidth, gameObject.X * _scaledSpriteHeight,
+							_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
+						break;
+					}
+				case 1:
+					{
+						SpriteBatch.Draw(_creatureOfFirstTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight,
+							_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
+						//float HPpercent = gameObject.CurrentHealth / gameObject.MaxHealth;
+						break;
+					}
+				case 2:
+					{
+						SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight,
+							_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
+						break;
+					}
 				}
 			}
-			
+
 			SpriteBatch.End();
 		}
 
@@ -162,47 +183,66 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Process all initial states
 		private void CreateGameObjects()
 		{
+			curEventStep = 0;
 			bool flag = true;
-			while(flag)
+			while (flag)
 			{
-				WarSpotEvent WSEvent = _listOfEvents[0];
-				switch (WSEvent.EventType)
+				WarSpotEvent wsEvent = _listOfEvents[curEventStep++];
+				if (wsEvent.EventType == EventTypes.SystemEventWorldCreated)
 				{
-					case EventTypes.SystemEventTurnStarted:
-						{
-							// It stops events processing after end of zero-turn
-							var tmp = WSEvent as SystemEventTurnStarted;
-							if (tmp.Number == 0)
-								_listOfEvents.Remove(tmp);
-							else
-								flag = false;
-							break;
-						}
-
-					case EventTypes.SystemEventWorldCreated:
-						{
-							var tmp = WSEvent as SystemEventWorldCreated;
-							SetWorldSize(tmp.Width, tmp.Height);
-							_listOfEvents.Remove(tmp);
-							break;
-						}
-			
-					case EventTypes.GameEventBirth:
-						{
-							var tmp = WSEvent as GameEventBirth;
-							_listOfCreatures.Add(new Creature(tmp.SubjectId, tmp.Newborn.X, tmp.Newborn.Y,
-								tmp.Newborn.Team, tmp.Newborn.MaxHealth, tmp.Newborn.Health, tmp.Newborn.Ci));
-							_listOfEvents.Remove(tmp);
-							break;
-						}
-					case EventTypes.GameEventWorldCiChanged:
-						{
-							var tmp = WSEvent as GameEventWorldCiChanged;
-							_worldMap[tmp.Y][tmp.X].changeCi(tmp.Ci);
-							_listOfEvents.Remove(tmp);
-							break;
-						}
+					var tmp = wsEvent as SystemEventWorldCreated;
+					SetWorldSize(tmp.Width, tmp.Height);
+					//_listOfEvents.Remove(tmp);
+					flag = false;
+					break;//todo delete while 'cause unused 
 				}
+				// all other event will be proceded in update
+#if false
+				switch (wsEvent.EventType)
+				{
+				case EventTypes.SystemEventTurnStarted:
+					{
+						// It stops events processing after end of zero-turn
+						var tmp = wsEvent as SystemEventTurnStarted;
+						if (tmp.Number == 0)
+						{
+							if (curEventStep > 0)
+							{
+								// this is step backward, because this event is needed for update functon
+								curEventStep--;
+							}
+							//_listOfEvents.Remove(tmp);
+						}
+						else
+							flag = false;
+						break;
+					}
+
+				case EventTypes.SystemEventWorldCreated:
+					{
+						var tmp = wsEvent as SystemEventWorldCreated;
+						SetWorldSize(tmp.Width, tmp.Height);
+						//_listOfEvents.Remove(tmp);
+						break;
+					}
+
+				case EventTypes.GameEventBirth:
+					{
+						var tmp = wsEvent as GameEventBirth;
+						_listOfCreatures.Add(new Creature(tmp.SubjectId, tmp.Newborn.X, tmp.Newborn.Y,
+							tmp.Newborn.Team, tmp.Newborn.MaxHealth, tmp.Newborn.Health, tmp.Newborn.Ci));
+						//_listOfEvents.Remove(tmp);
+						break;
+					}
+				case EventTypes.GameEventWorldCiChanged:
+					{
+						var tmp = wsEvent as GameEventWorldCiChanged;
+						_worldMap[tmp.Y][tmp.X].changeCi(tmp.Ci);
+						//_listOfEvents.Remove(tmp);
+						break;
+					}
+				}
+#endif
 			}
 		}
 
@@ -227,7 +267,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 			_worldWidth = x;
 			_wordlHeight = y;
-			 
+
 		}
 
 		///<summary>
@@ -252,7 +292,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			// Initialization of initial inGameObjects and world map
 			this.CreateGameObjects();
-			
+
 			// Prepare args for drawing
 			this.SetScalings();
 		}
