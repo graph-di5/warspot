@@ -1,19 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using WarSpot.MatchComputer;
-using System.Collections.Generic;
 using WarSpot.Client.XnaClient.OfflineMatcher;
-using WarSpot.Contracts.Intellect;
-using System.Linq;
+using WarSpot.MatchComputer;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
 	internal class WatchReplayScreen : GameScreen
 	{
 		// Size of every single sprite
-		private const int _sizeOfSprite = 32;
+		private const int SizeOfSprite = 32;
 		private Texture2D _creatureOfFirstTeam;
 		private Texture2D _creatureOfSecondTeam;
 		private Texture2D _grass;
@@ -279,10 +277,10 @@ namespace WarSpot.Client.XnaClient.Screen
 			// Refatcor this if there apperas any necessity in frames (for turn/statictics e.g.)
 			int width = WarSpotGame.Instance.GraphicsDevice.Viewport.Width;
 			int height = WarSpotGame.Instance.GraphicsDevice.Viewport.Height;
-			_widthScaling = (float)width / (float)(_worldWidth * _sizeOfSprite);
-			_heightScaling = (float)height / (float)(_wordlHeight * _sizeOfSprite);
-			_scaledSpriteWidth = (int)Math.Round(_widthScaling * _sizeOfSprite);
-			_scaledSpriteHeight = (int)Math.Round(_heightScaling * _sizeOfSprite);
+			_widthScaling = (float)width / (float)(_worldWidth * SizeOfSprite);
+			_heightScaling = (float)height / (float)(_wordlHeight * SizeOfSprite);
+			_scaledSpriteWidth = (int)Math.Round(_widthScaling * SizeOfSprite);
+			_scaledSpriteHeight = (int)Math.Round(_heightScaling * SizeOfSprite);
 		}
 
 		/// <summary>
