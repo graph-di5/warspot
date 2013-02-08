@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "di.mind.stone", "di.mind.st
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "di.mind.Loafer", "di.mind.Loafer\di.mind.Loafer.csproj", "{88E8AEB7-07A3-4EC0-8A43-B6EA552EAE69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "di.mind.zergling", "di.mind.zergling\di.mind.zergling.csproj", "{28358D9D-E034-4803-8A85-1990BB6D691F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "di.mind.ListPerformer", "di.mind.ListPerformer\di.mind.ListPerformer.csproj", "{D6535DA5-D396-4B5F-8C7B-26C3547A368E}"
 EndProject
 Global
