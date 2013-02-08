@@ -1,12 +1,6 @@
-﻿using System;
+﻿using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Nuclex.UserInterface;
-using Nuclex.UserInterface.Controls;
-using Nuclex.UserInterface.Controls.Desktop;
-using InputControl = WarSpot.Client.XnaClient.Input.InputControl;
-using WarSpot.Contracts.Service;
-using System.Threading;
 
 
 namespace WarSpot.Client.XnaClient.Screen
@@ -14,16 +8,16 @@ namespace WarSpot.Client.XnaClient.Screen
 	class LoadingScreen : GameScreen
 	{
 		// Bool reference type
-		class objBool
+		class ObjBool
 		{
-			public bool isReplayDeserialized;
-			public objBool()
+			public bool IsReplayDeserialized;
+			public ObjBool()
 			{
-				isReplayDeserialized = false;
+				IsReplayDeserialized = false;
 			}
 		}
 		private Texture2D _texture;
-		private objBool checker = new objBool();
+		private readonly ObjBool _checker = new ObjBool();
 
 		public LoadingScreen()
 		{
@@ -40,11 +34,11 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			lock (checker)
+			lock (_checker)
 			{
-				if (checker.isReplayDeserialized)
+				if (_checker.IsReplayDeserialized)
 				{
-					checker.isReplayDeserialized = false;
+					_checker.IsReplayDeserialized = false;
 					ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
 				}
 			}
@@ -69,8 +63,10 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			string path = Utils.ScreenHelper.Instance.ReplayPath;
 			Utils.ScreenHelper.Instance.replayEvents = OfflineMatcher.Deserializator.Deserialize(path);
-			lock (checker)
-				checker.isReplayDeserialized = true;
+			lock (_checker)
+			{
+				_checker.IsReplayDeserialized = true;
+			}
 		}
 	}
 }
