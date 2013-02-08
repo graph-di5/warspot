@@ -22,7 +22,7 @@ namespace WarSpot.Cloud.Storage
         private const string DBCONNECTIONSTRING = "DBConnectionString";
 
         private  bool storageInitialized = false;
-        private  object gate = new object();
+        private  object gate = new Object();
         private  CloudBlobClient blobStorage;
         private  CloudBlobContainer container;
 
@@ -81,9 +81,9 @@ namespace WarSpot.Cloud.Storage
                 {
                     db = new DBContext(new EntityConnection(RoleEnvironment.GetConfigurationSettingValue(DBCONNECTIONSTRING))); // инициализируем базу данных
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    throw e;
+                    throw new Exception("Error with creating DBContext.");
                 }
                 
 
@@ -97,11 +97,15 @@ namespace WarSpot.Cloud.Storage
             {
 							Trace.WriteLine("db.Intellect == null");
             }
-        	string uniqueBlobName = string.Format("{0}/{1}", Account_ID.ToString(), name);
+
+        	string uniqueBlobName = string.Format("intellects/{0}/{1}", Account_ID.ToString(), name);
+
             db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID));
             db.SaveChanges();            
-            CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);           
+
+            CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);  
             blob.UploadByteArray(data);
+
 
         }
 
@@ -122,7 +126,7 @@ namespace WarSpot.Cloud.Storage
                                   where b.Account_ID == test.First<Intellect>().AccountAccount_ID
                                   select b).ToList<Account>();
 
-            string neededname = string.Format("{0}/{1}", temp.First<Account>().Account_Name, test.First<Intellect>().Intellect_Name);
+            string neededname = string.Format("intellects/{0}/{1}", temp.First<Account>().Account_Name, test.First<Intellect>().Intellect_Name);
             CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
             return blob.DownloadByteArray();
         }
@@ -152,8 +156,7 @@ namespace WarSpot.Cloud.Storage
                 db.SaveChanges();
             }
             catch (Exception)
-            {
-                
+            {                
                 throw;
             }
 
@@ -196,7 +199,7 @@ namespace WarSpot.Cloud.Storage
 
             if (result != null)
             {
-                string neededname = string.Format("{0}/{1}", userID.ToString(), name);
+                string neededname = string.Format("intellects/{0}/{1}", userID.ToString(), name);
                 CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
                 blob.Delete();                    
 
