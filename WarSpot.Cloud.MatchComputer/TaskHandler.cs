@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using Microsoft.WindowsAzure.StorageClient;
 using Microsoft.WindowsAzure;
@@ -70,13 +71,37 @@ namespace WarSpot.Cloud.MatchComputer
             // todo: вынести stream из конструктора в параметр метода
 			WarSpot.MatchComputer.Computer computer = new WarSpot.MatchComputer.Computer(listIntellect, stream);
             computer.Compute();
+            WarSpot.Cloud.Storage.Storage storage = new Storage.Storage();
+
+            Guid gameID = Guid.NewGuid();
+            storage.UploadReplay(ReadFully(stream), gameID);
+
+		    stream.Dispose();
 		}
+
+        public static byte[] ReadFully(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+            }
+        }
+
+
 
 		private static Message ParseMessage(CloudQueueMessage message)
 		{
 			Message msg = new Message();
+		    Stream stream = new MemoryStream(message.AsBytes);
+
+		    var bf = new BinaryFormatter();
+		    msg = (Message) bf.Deserialize(stream);
+
+            #region oldVersion// old version. to delete
+            /*
 			// получаем из сообщения из очереди имена интеллектов
-			// надо разделять имена интеллектов в сообщении каким-то стандартным сепаратором, например пробелом
+			// надо разделять имена интеллектов в сообщении каким-то стандартным сепаратором, например, пробелом
 			List<Guid> namesOfIntellects = new List<Guid>();
 
 			string content = message.AsString;
@@ -97,6 +122,8 @@ namespace WarSpot.Cloud.MatchComputer
 			// 
 			msg.ID = Guid.NewGuid();
 			msg.ListOfDlls = namesOfIntellects;
+            */
+#endregion
 
 			return msg;
 		}
