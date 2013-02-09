@@ -1,6 +1,6 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Contracts.Intellect", "WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj", "{218A447E-8808-4987-B665-A8B1FB107022}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FA906681-9071-4D80-9FE7-7AF85FCFB573} = {FA906681-9071-4D80-9FE7-7AF85FCFB573}
@@ -50,6 +50,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.ConsoleComputer", "WarSpot.ConsoleComputer\WarSpot.ConsoleComputer.csproj", "{370D26D4-BA08-4F4F-A23E-94FA7C52ACAE}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -104,9 +108,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
