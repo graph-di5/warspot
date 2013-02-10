@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Data.EntityClient;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.IO;
 using System.Net;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
-using System.Data.Entity;
-using System.Collections;
 using WarSpot.Contracts.Service;
 
 namespace WarSpot.Cloud.Storage
