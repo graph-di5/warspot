@@ -37,7 +37,7 @@ namespace WarSpot.Cloud.Storage
 				public static DBContext db;
         #endregion DATABASE SECTION END      
 
-        public static Warehouse()
+        static Warehouse()
         {
             InitializeStorage();
         }

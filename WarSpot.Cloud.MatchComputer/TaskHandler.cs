@@ -71,7 +71,6 @@ namespace WarSpot.Cloud.MatchComputer
             // todo: вынести stream из конструктора в параметр метода
 			WarSpot.MatchComputer.Computer computer = new WarSpot.MatchComputer.Computer(listIntellect, stream);
             computer.Compute();
-            Warehouse.Start();
 
             Guid gameID = Guid.NewGuid();
             Warehouse.UploadReplay(ReadFully(stream), gameID);
@@ -136,7 +135,6 @@ namespace WarSpot.Cloud.MatchComputer
 			// получаем список интеллектов как список массивов байтов
 			foreach (var name in namesOfIntellects)
 			{
-                Warehouse.Start();
 				intellects.Add(Warehouse.DownloadIntellect(name));
 			}
 
