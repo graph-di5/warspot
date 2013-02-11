@@ -18,7 +18,7 @@ namespace WarSpot.Client.WebFace.Controllers
 	[InitializeSimpleMembership]
 	public class AccountController : Controller
 	{
-		public static Storage _storage;
+		
 		static private bool logedIn;
 		//
 		// GET: /Account/Login
@@ -41,7 +41,7 @@ namespace WarSpot.Client.WebFace.Controllers
 
 			if (ModelState.IsValid)
 			{
-				logedIn = _storage.Login(model.UserName, model.Password);
+				logedIn = Warehouse.Login(model.UserName, model.Password);
 				if (logedIn) //WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
 				{
 					return RedirectToLocal(returnUrl);
@@ -92,8 +92,8 @@ namespace WarSpot.Client.WebFace.Controllers
 				try
 				{
 #if true
-					_storage.Register(model.UserName, model.Password);
-					logedIn = _storage.Login(model.UserName, model.Password);
+					Warehouse.Register(model.UserName, model.Password);
+					logedIn = Warehouse.Login(model.UserName, model.Password);
 					//if(!logedIn)
 					//{
 					//  return 
