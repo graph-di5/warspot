@@ -3,6 +3,21 @@ using WarSpot.Contracts.Intellect.Actions;
 
 namespace WarSpot.SampleIntellect
 {
+	/// <summary>
+	/// This is sample intellect for simple being. 
+	/// -------------------------------------------------------------------------
+	/// You can change the behavior of this intelligence, 
+	/// if this will not break the rules WarSpot.
+	/// You can use all algorithms in this class as you what.
+	/// WarSpot team is not responsible for any damage caused by using the 
+	/// algorithms used in the class.
+	/// -------------------------------------------------------------------------
+	/// 
+	/// ! DEBUG !
+	/// You can debug your class very simple by creating breakpoints 
+	/// where you need, and then use Debug->Run and step debugging.
+	/// 
+	/// </summary>
 	public class MainIntellectClass : IBeingInterface
 	{
 		// Here you can place your own varables, constants or functions.
