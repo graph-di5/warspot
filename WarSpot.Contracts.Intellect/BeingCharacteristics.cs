@@ -80,13 +80,12 @@ namespace WarSpot.Contracts.Intellect
 		/// <summary>
 		/// Ctor for new object.
 		/// </summary>
-		/// <param name="id">Unique id of the object.</param>
 		/// <param name="maxHealth">Maximum available health for the object.</param>
 		/// <param name="maxStep">Maximum available step length.</param>
 		/// <param name="maxSeeDistance">Half of the visible square edge.</param>
-		public BeingCharacteristics(Guid id, float maxHealth, float maxStep, int maxSeeDistance)
+		public BeingCharacteristics(float maxHealth, float maxStep, int maxSeeDistance)
 		{
-			Id = id;
+			Id = Guid.NewGuid();
 			MaxHealth = maxHealth;
 			MaxStep = maxStep;
 			MaxSeeDistance = maxSeeDistance;
