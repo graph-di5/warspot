@@ -37,7 +37,7 @@ namespace WarSpot.Cloud.Storage
 				public static DBContext db;
         #endregion DATABASE SECTION END      
 
-        public static void Start()
+        public static Warehouse()
         {
             InitializeStorage();
         }
@@ -218,7 +218,7 @@ namespace WarSpot.Cloud.Storage
             }
         }
 
-        public static Guid? CreateGame(List<Guid> intellects, Guid userID)
+        public static Guid? BeginMatch(List<Guid> intellects, Guid userID)
         {
             Guid gameID = Guid.NewGuid();
 
