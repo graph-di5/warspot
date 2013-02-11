@@ -7,18 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "di.mind.Loafer", "di.mind.L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "di.mind.ListPerformer", "di.mind.ListPerformer\di.mind.ListPerformer.csproj", "{D6535DA5-D396-4B5F-8C7B-26C3547A368E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.SampleIntellect", "WarSpot.SampleIntellect\WarSpot.SampleIntellect.csproj", "{BD7B161E-5FE9-4C80-89A5-E2921EC40362}"
-EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28358D9D-E034-4803-8A85-1990BB6D691F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28358D9D-E034-4803-8A85-1990BB6D691F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28358D9D-E034-4803-8A85-1990BB6D691F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28358D9D-E034-4803-8A85-1990BB6D691F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E711265-354A-4421-A552-FBF810ABC3DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E711265-354A-4421-A552-FBF810ABC3DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E711265-354A-4421-A552-FBF810ABC3DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,13 +29,6 @@ Global
 		{D6535DA5-D396-4B5F-8C7B-26C3547A368E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6535DA5-D396-4B5F-8C7B-26C3547A368E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6535DA5-D396-4B5F-8C7B-26C3547A368E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BD7B161E-5FE9-4C80-89A5-E2921EC40362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD7B161E-5FE9-4C80-89A5-E2921EC40362}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD7B161E-5FE9-4C80-89A5-E2921EC40362}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD7B161E-5FE9-4C80-89A5-E2921EC40362}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = di.mind.stone\di.mind.stone.csproj
@@ -180,5 +171,16 @@ Global
 		$25.NamingStyle = PascalCase
 		$25.IncludeInstanceMembers = True
 		$25.IncludeStaticEntities = True
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
