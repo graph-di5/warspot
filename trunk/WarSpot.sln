@@ -49,8 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Cloud.Common", "War
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.ConsoleComputer", "WarSpot.ConsoleComputer\WarSpot.ConsoleComputer.csproj", "{370D26D4-BA08-4F4F-A23E-94FA7C52ACAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Client.WebFace", "WarSpot.Client.WebFace\WarSpot.Client.WebFace.csproj", "{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}"
-EndProject
+#Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Client.WebFace", "WarSpot.Client.WebFace\WarSpot.Client.WebFace.csproj", "{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}"
+#EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WarSpot.Client.Setup", "WarSpot.ClientSetup\WarSpot.ClientSetup.vdproj", "{B57059E9-CCA5-406C-82E4-871511D273B4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8E6F7189-150C-4E93-B98F-28A1CC200D79} = {8E6F7189-150C-4E93-B98F-28A1CC200D79}
