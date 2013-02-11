@@ -37,14 +37,6 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WarSpot.Client.WebFace\WarSpot.Client.WebFace.csproj">
-      <Name>WarSpot.Client.WebFace</Name>
-      <Project>{6d1feb8a-3bac-4401-876d-571f31d5bb34}</Project>
-      <Private>True</Private>
-      <RoleType>Web</RoleType>
-      <RoleName>WarSpot.Client.WebFace</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
-    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Cloud.MatchComputer\WarSpot.Cloud.MatchComputer.csproj">
       <Name>WarSpot.Cloud.MatchComputer</Name>
       <Project>{06d57bae-127c-45d7-9d6d-f65b0d71abed}</Project>
