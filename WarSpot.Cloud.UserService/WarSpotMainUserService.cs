@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using WarSpot.Contracts.Service;
+using WarSpot.Cloud.Storage;
 
 namespace WarSpot.Cloud.UserService
 {
 
+   
 	public class WarSpotMainUserService : IWarSpotService
 	{
 		private bool _loggedIn;
-		private Guid _userID;
-
-		private readonly Storage.Storage _storage;
+		private Guid _userID;       
+		
 
 		public WarSpotMainUserService()
 		{
-			_storage = new Storage.Storage();
+            Warehouse.Start();
 			_loggedIn = false;
 		}
 
@@ -26,7 +27,8 @@ namespace WarSpot.Cloud.UserService
 				return null;
 			}
 
-			return _storage.CreateGame(intellects, _userID);
+
+			return Warehouse.CreateGame(intellects, _userID);
 
 		}
 
@@ -37,14 +39,14 @@ namespace WarSpot.Cloud.UserService
 				return null;
 			}
 
-			return _storage.GetListOfGames(_userID);
+			return Warehouse.GetListOfGames(_userID);
 		}
 
 
 		#region login and registration
 		public ErrorCode Register(string username, string pass)
 		{
-			if (_storage.Register(username, pass))
+			if (Warehouse.Register(username, pass))
 				return new ErrorCode(ErrorType.Ok, "New account has been successfully created.");
 			else
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Existed account with same name.");
@@ -52,10 +54,10 @@ namespace WarSpot.Cloud.UserService
 
 		public ErrorCode Login(string username, string pass)
 		{
-			if (_storage.Login(username, pass))
+			if (Warehouse.Login(username, pass))
 			{
 				_loggedIn = true;
-				_userID = (from b in _storage.db.Account
+				_userID = (from b in Warehouse.db.Account
 									 where b.Account_Name == username
 									 select b).First().Account_ID;
 
@@ -74,7 +76,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (_loggedIn)
 			{
-				_storage.UploadIntellect(_userID, name, intellect);
+				Warehouse.UploadIntellect(_userID, name, intellect);
 				return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
 			}
 			else
@@ -90,7 +92,7 @@ namespace WarSpot.Cloud.UserService
 				return (new string[1] { "Not logged in yet." });
 			}
 
-			return _storage.GetListOfIntellects(_userID);
+			return Warehouse.GetListOfIntellects(_userID);
 		}
 
 		public ErrorCode DeleteIntellect(string name)
@@ -102,7 +104,7 @@ namespace WarSpot.Cloud.UserService
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
 			}
 
-			if (_storage.DeleteIntellect(name, _userID))
+            if (Warehouse.DeleteIntellect(name, _userID))
 			{
 				return new ErrorCode(ErrorType.Ok, "Intellect has been deleted.");
 			}
@@ -121,7 +123,7 @@ namespace WarSpot.Cloud.UserService
 				return null;
 			}
 
-			return _storage.GetReplay(gameID);
+            return Warehouse.GetReplay(gameID);
 
 		}
 
