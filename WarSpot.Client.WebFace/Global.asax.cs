@@ -28,7 +28,7 @@ namespace WarSpot.Client.WebFace
 			CloudStorageAccount.SetConfigurationSettingPublisher(
 										(a, b) => b(RoleEnvironment.GetConfigurationSettingValue(a)));
 
-			AccountController._storage = new Storage();
+			//AccountController._storage = new Storage();
 	
 		}
 	}
