@@ -1,5 +1,4 @@
-﻿using System;
-using WarSpot.Contracts.Intellect;
+﻿using WarSpot.Contracts.Intellect;
 using WarSpot.Contracts.Intellect.Actions;
 
 namespace di.mind.stone
@@ -8,7 +7,7 @@ namespace di.mind.stone
 	{
 		public BeingCharacteristics Construct(ulong step, float ci)
 		{
-			return new BeingCharacteristics(Guid.NewGuid(), 100.0f, 5.0f, 1);
+			return new BeingCharacteristics(100.0f, 5.0f, 1);
 		}
 
 		public GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)

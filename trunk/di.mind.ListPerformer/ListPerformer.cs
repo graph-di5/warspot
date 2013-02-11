@@ -14,11 +14,11 @@ namespace di.mind.ListPerformer
 
             if (ci >= 100)
             {
-                return new BeingCharacteristics(Guid.NewGuid(), 100.0f, 5.0f, 1);
+                return new BeingCharacteristics(100.0f, 5.0f, 1);
             }
             else
             {
-                return new BeingCharacteristics(Guid.NewGuid(), 1.0f, 1.0f, 1);
+                return new BeingCharacteristics(1.0f, 1.0f, 1);
             }
         }
 
