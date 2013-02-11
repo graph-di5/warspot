@@ -27,7 +27,7 @@ namespace WarSpot.Contracts.Service
 		Replay DownloadReplay(Guid game);
 
 		[OperationContract]
-		Guid? StartGame(List<Guid> intellects);
+		Guid? BeginMatch(List<Guid> intellects);
 
 		[OperationContract]
 		List<Guid> GetListOfGames();

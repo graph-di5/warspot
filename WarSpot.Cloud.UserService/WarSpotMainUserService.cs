@@ -16,11 +16,10 @@ namespace WarSpot.Cloud.UserService
 
 		public WarSpotMainUserService()
 		{
-            Warehouse.Start();
 			_loggedIn = false;
 		}
 
-		public Guid? StartGame(List<Guid> intellects)
+		public Guid? BeginMatch(List<Guid> intellects)
 		{
 			if (!_loggedIn)
 			{
@@ -28,7 +27,7 @@ namespace WarSpot.Cloud.UserService
 			}
 
 
-			return Warehouse.CreateGame(intellects, _userID);
+			return Warehouse.BeginMatch(intellects, _userID);
 
 		}
 
