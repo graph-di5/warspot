@@ -130,19 +130,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_592C89A8F4426BD992A5384474718256"
+        "OwnerKey" = "8:_AAC278537E3B4F63AED3FE5ECE1A5C2C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E758D3582BAD4EF4B961A1B6E42476F7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AAC278537E3B4F63AED3FE5ECE1A5C2C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -185,6 +179,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B9840E659560C6A9406DFEEE8FC83E02"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_592C89A8F4426BD992A5384474718256"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -368,7 +368,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:WarSpot.Contracts.Intellect, Version=1.5.422.202, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:WarSpot.Contracts.Intellect, Version=1.5.422.203, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_592C89A8F4426BD992A5384474718256"
@@ -492,7 +492,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:WarSpot.Contracts.Service, Version=1.5.422.202, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:WarSpot.Contracts.Service, Version=1.5.422.203, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_B9840E659560C6A9406DFEEE8FC83E02"
@@ -523,7 +523,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:WarSpot.MatchComputer, Version=1.5.422.202, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:WarSpot.MatchComputer, Version=1.5.422.203, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_F8ADEF3D725461F52AE2EBC6DCCE88F4"
@@ -618,7 +618,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WarSpot.Client"
         "ProductCode" = "8:{3DBAA375-8C97-4909-B513-45C54213DC45}"
-        "PackageCode" = "8:{7711539D-31EA-4600-A906-4A8B2CC68F90}"
+        "PackageCode" = "8:{24508289-7DF1-4779-889D-C2122BF597A3}"
         "UpgradeCode" = "8:{4E35A4C4-51A4-406A-88A6-DF53CCC81713}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
