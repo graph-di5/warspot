@@ -74,25 +74,25 @@ namespace di.minds.Loafer
             {//Не родится--и фиг с ним.
                 MemorizedArea = new float[5,5];//Помним больше, чем видим.
                 MemorizedArea.Initialize();                
-                return new BeingCharacteristics(Guid.NewGuid(), (ci - 1.25f) / 0.8f, 1.0f, 1);
+                return new BeingCharacteristics((ci - 1.25f) / 0.8f, 1.0f, 1);
             }
             else if (ci < 30)
             {//4 на ход, 1 на зрение
                 MemorizedArea = new float[9, 9];
                 MemorizedArea.Initialize();
-                return new BeingCharacteristics(Guid.NewGuid(), (ci - 5.0f) / 0.8f , 2.0f, 2);
+                return new BeingCharacteristics((ci - 5.0f) / 0.8f , 2.0f, 2);
             }
             else if (ci < 70)
             {//9 на ход, 4 на зрение
                 MemorizedArea = new float[17, 17];
                 MemorizedArea.Initialize();
-                return new BeingCharacteristics(Guid.NewGuid(), (ci - 13.0f) / 0.8f, 3.0f, 4);
+                return new BeingCharacteristics((ci - 13.0f) / 0.8f, 3.0f, 4);
             }
             else
             {//16 на ход, 9 на зрение
                 MemorizedArea = new float[25, 25];
                 MemorizedArea.Initialize();
-                return new BeingCharacteristics(Guid.NewGuid(), (ci - 13.0f) / 0.8f, 4.0f, 6);
+                return new BeingCharacteristics((ci - 13.0f) / 0.8f, 4.0f, 6);
             }
         }
 
