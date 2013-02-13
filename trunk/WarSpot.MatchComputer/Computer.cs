@@ -451,6 +451,9 @@ namespace WarSpot.MatchComputer
 		/// </summary>
 		public void PullOut()
 		{
+            Version _version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+
+            _formatter.Serialize(_stream, _version);//Пишем версию сборки.
 			_formatter.Serialize(_stream, _eventsHistory);//Отдаём всё, что успело накопиться в истории событий с последнего вызова этого метода.
 			_eventsHistory.Clear();//Очищаем историю.
 
