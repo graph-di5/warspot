@@ -11,6 +11,7 @@
 "SccLocalPath" = "8:"
 "SccAuxPath" = "8:"
 "SccProvider" = "8:"
+"BackwardsCompatibleGUIDGeneration" = "8:TRUE"
     "Hierarchy"
     {
         "Entry"
@@ -22,7 +23,7 @@
         "Entry"
         {
         "MsmKey" = "8:_2B670F3BF0B3EEB0CA99168AD7378681"
-        "OwnerKey" = "8:_AAC278537E3B4F63AED3FE5ECE1A5C2C"
+        "OwnerKey" = "8:_3A4551E5C26614661A8B341643BA08A4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -34,7 +35,7 @@
         "Entry"
         {
         "MsmKey" = "8:_2B670F3BF0B3EEB0CA99168AD7378681"
-        "OwnerKey" = "8:_3A4551E5C26614661A8B341643BA08A4"
+        "OwnerKey" = "8:_AAC278537E3B4F63AED3FE5ECE1A5C2C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -125,6 +126,12 @@
         {
         "MsmKey" = "8:_F8ADEF3D725461F52AE2EBC6DCCE88F4"
         "OwnerKey" = "8:_E758D3582BAD4EF4B961A1B6E42476F7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F9E4E0A12BF54274BAC316E7927678F4"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -368,7 +375,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:WarSpot.Contracts.Intellect, Version=1.5.422.203, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:WarSpot.Contracts.Intellect, Version=1.5.422.222, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_592C89A8F4426BD992A5384474718256"
@@ -492,7 +499,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:WarSpot.Contracts.Service, Version=1.5.422.203, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:WarSpot.Contracts.Service, Version=1.5.422.222, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_B9840E659560C6A9406DFEEE8FC83E02"
@@ -523,7 +530,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:WarSpot.MatchComputer, Version=1.5.422.203, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:WarSpot.MatchComputer, Version=1.5.422.222, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_F8ADEF3D725461F52AE2EBC6DCCE88F4"
@@ -550,6 +557,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F9E4E0A12BF54274BAC316E7927678F4"
+            {
+            "SourcePath" = "8:..\\WarSpot.SampleIntellect\\WarSpot.SampleIntellect.sln"
+            "TargetName" = "8:WarSpot.SampleIntellect.sln"
+            "Tag" = "8:"
+            "Folder" = "8:_2A83FEA74B9F4E478A4998C0BED53122"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -565,6 +592,17 @@
             "Property" = "8:AppDataFolder"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_2A83FEA74B9F4E478A4998C0BED53122"
+                    {
+                    "Name" = "8:WarSpot"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_58D2A99F545C4542B1DCB7E7A24E7247"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_611E2D6B752E4528A66B432A02E0B710"
@@ -617,15 +655,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WarSpot.Client"
-        "ProductCode" = "8:{3DBAA375-8C97-4909-B513-45C54213DC45}"
-        "PackageCode" = "8:{24508289-7DF1-4779-889D-C2122BF597A3}"
+        "ProductCode" = "8:{73638A81-1288-45B6-85D1-FF213F0C3E42}"
+        "PackageCode" = "8:{2444B05C-A478-4301-84D4-E099B453F84E}"
         "UpgradeCode" = "8:{4E35A4C4-51A4-406A-88A6-DF53CCC81713}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8:WarSpot"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
