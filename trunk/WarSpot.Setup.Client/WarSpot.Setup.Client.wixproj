@@ -65,6 +65,7 @@
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>
     <PreBuildEvent>cd $(SolutionDir)
+set WIXBIN="$(WIX)bin\"
 afterbuild.bat</PreBuildEvent>
   </PropertyGroup>
   <!--
