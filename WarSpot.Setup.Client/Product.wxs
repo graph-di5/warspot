@@ -2,10 +2,10 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?define ProductBaseName="WarSpot"?>
   <?define ProductName="WarSpot.Client" ?>
-  <?define ProductVersion="1.0.0.1" ?>
   <!--
-  <?define ProductVersion="!(bind.FileVersion.WarSpotCommon)" ?>
+  <?define ProductVersion="1.0.0.1" ?>
 -->
+  <?define ProductVersion="!(bind.FileVersion.WarSpot.Common.dll)" ?>
   <?define ProductCode="b7bc7c6f-9a4e-4973-be84-eca8e3427c97"?>
   <?define UpgradeCode="48dbcab5-ca21-47d5-b0d6-970d5bd70082"?>
   <?define Manufacturer="WarSpot"?>
@@ -28,19 +28,19 @@
 
 		<Feature Id="ProductFeature" Title="WarSpot.Client" Level="1">
       <!-- 
-      <ComponentRef Id="ProductComponent"/>
-      <ComponentRef Id="ProductContents"/>
       <ComponentRef Id="Content"/>
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentRef Id="ConsoleComputer" />
+      <ComponentRef Id="ProductContents"/>
+      <ComponentRef Id="ProductComponent"/>
         -->
       <ComponentGroupRef Id="XNAClient" />
     </Feature>
 
-    <!-- 
-    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" ></Property>
-      <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
-    <UIRef Id="WixUI_InstallDir"/>
+  <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" ></Property>
+  <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
+  <UIRef Id="WixUI_InstallDir"/>
+  <!-- 
         -->
 
   </Product>
@@ -52,22 +52,11 @@
           <Directory Id="XNAClient">
           </Directory>
           <!-- 
-          <Directory Id="ContentDir" Name="Contents">
-            <Component Id="ProductContents" Guid="{7A6ADB36-C73B-4E17-9CAC-A89305497136}">
-              <File Id="menufont" Name="menufont.xnb"
-                    Source="$(var.WarSpot.Common.TargetDir)\Content\Textures\menufont.xnb"></File>
-            </Component>
-          </Directory>
-            <Component Id="ProductComponent" Guid="{b11556a2-e066-4393-af5c-9c9210187eb2}">
-            <File Id="WarSpotCommon" Name="WarSpot.Contracts.Intellect.dll" 
-                  Source="$(var.WarSpot.Common.TargetDir)"></File>
-            
-            -->
-            <!-- 
-            <File Id='WarSpot.Contracts.Intellect' 
-                  DiskId='1' 
-                  Source='WarSpot.Contracts.Intellect.dll'/>
-                </Component>
+          <Component Id="ProductComponent" Guid="{b11556a2-e066-4393-af5c-9c9210187eb2}">
+            <File Id="WarSpotCommon" 
+                  Source="$(var.WarSpot.ConsoleComputer.TargetPath)"></File>
+          </Component>
+
           <Component Id="XNAClient" Guid="{7E71FBA0-BDB5-43D2-B71F-518D11062AF0}">
             <File Source="$(var.WarSpot.Client.XnaClient.TargetPath)" />
           </Component>
@@ -93,15 +82,5 @@
         -->
 
   </Fragment>
-
-  <!-- 
-	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-        <ComponentRef Id="ProductComponent"/>
-        <ComponentRef Id="ProductContents"/>
-      
-      </ComponentGroup>
-	</Fragment>
-  -->
 
 </Wix>
