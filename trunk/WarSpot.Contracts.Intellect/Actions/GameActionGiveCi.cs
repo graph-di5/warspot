@@ -4,17 +4,18 @@ namespace WarSpot.Contracts.Intellect.Actions
 {
 	public class GameActionGiveCi : GameAction
 	{
-		public float Ci;
-
-		public Guid TargetId { get; private set; }
+		public int X { get; private set; }
+        public int Y { get; private set; }
+        public float Ci { set; get; }
 
 		/// <summary>
-		/// Give target Ci energy
+        /// Give target being Ci energy targeting to cell (relatively to actor).
 		/// </summary>
-		public GameActionGiveCi(Guid senderId, Guid targetId, float ci) : base(senderId)
+		public GameActionGiveCi(Guid senderId, int x, int y, float ci) : base(senderId)
 		{
 			ActionType = ActionTypes.GameActionGiveCi;
-			TargetId = targetId;
+			X = x;
+            Y = y;
 			Ci = ci;
 		}
 	}

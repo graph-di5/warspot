@@ -250,17 +250,26 @@ namespace WarSpot.MatchComputer
 					}
 
 					actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
-					target = _objects.Find(a => a.Characteristics.Id == giveCiAction.TargetId);
 					cost = 0.1f * actor.Characteristics.MaxHealth + giveCiAction.Ci;
-					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
+					distance = Math.Abs(giveCiAction.X) + Math.Abs(giveCiAction.Y);
 
 					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
 					{
-						actor.Characteristics.Ci -= cost;
-						target.Characteristics.Ci += giveCiAction.Ci;
+						actor.Characteristics.Ci -= cost;//В любом случае отнимаем энергию
+                        _eventsHistory.Add(new GameEventCiChange(giveCiAction.SenderId, actor.Characteristics.Ci));
 
-						_eventsHistory.Add(new GameEventCiChange(giveCiAction.SenderId, actor.Characteristics.Ci));
-						_eventsHistory.Add(new GameEventCiChange(giveCiAction.TargetId, target.Characteristics.Ci));
+                        if (_world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].BeingValue != null)
+                        {
+                            target = _objects.Find(a => a.Characteristics.Id == _world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].BeingValue.Characteristics.Id);
+                            target.Characteristics.Ci += giveCiAction.Ci;
+                            _eventsHistory.Add(new GameEventCiChange(target.Characteristics.Id, target.Characteristics.Ci));
+                        }
+
+                        else//Если в клетке никого, энергия скидывается в клетку.
+                        {
+                            _world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].Ci += giveCiAction.Ci;
+                            _eventsHistory.Add(new GameEventWorldCiChanged(actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y, giveCiAction.Ci));
+                        }												
 					}
 
 					break;
@@ -301,13 +310,14 @@ namespace WarSpot.MatchComputer
 					}
 
 					actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
-					target = _objects.Find(a => a.Characteristics.Id == treatAction.TargetId);
 					cost = treatAction.UsingCi;
-					distance = Math.Abs(actor.Characteristics.X - target.Characteristics.X) + Math.Abs(actor.Characteristics.Y - target.Characteristics.Y);
+                    distance = Math.Abs(treatAction.X) + Math.Abs(treatAction.Y);
 
-					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3) && (cost <= actor.Characteristics.Ci * 0.6f))
-					{
+                    if ((_world[actor.Characteristics.X + treatAction.X, actor.Characteristics.Y + treatAction.Y].BeingValue != null)
+                        && (actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3) && (cost <= actor.Characteristics.Ci * 0.6f))
+					{//Если в клетке никого нет, ничего не происходит
 						actor.Characteristics.Ci -= cost;
+                        target = _objects.Find(a => a.Characteristics.Id == _world[actor.Characteristics.X + treatAction.X, actor.Characteristics.Y + treatAction.Y].BeingValue.Characteristics.Id);
 						target.Characteristics.Health += cost / 3;
 
 						_eventsHistory.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
