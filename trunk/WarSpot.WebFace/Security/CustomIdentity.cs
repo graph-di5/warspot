@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web.Security;
 using WarSpot.Cloud.Storage;
+using WarSpot.Common.Utils;
 
 namespace MvcFormsAuth.Security
 {
@@ -20,19 +21,7 @@ namespace MvcFormsAuth.Security
 		public static CustomIdentity GetCustomIdentity(string userName, string password)
 		{
 			CustomIdentity identity = new CustomIdentity();
-#if true
-			var md5 = MD5.Create();
-			var sBuilder = new StringBuilder();
-			byte[] data = md5.ComputeHash(Encoding.Default.GetBytes(password));
-
-			for (int i = 0; i < data.Length; i++)
-			{
-				sBuilder.Append(data[i].ToString("x2"));
-			}
-			if (Warehouse.Login(userName, sBuilder.ToString()))
-#else
-				if (Membership.ValidateUser(userName, password))
-#endif
+			if (Warehouse.Login(userName, HashHelper.GetMd5Hash(password)))
 			{
 				identity.IsAuthenticated = true;
 				identity.Name = userName;

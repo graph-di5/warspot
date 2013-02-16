@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace WarSpot.Client.XnaClient.Utils
+namespace WarSpot.Common.Utils
 {
 	public class HashHelper
 	{
