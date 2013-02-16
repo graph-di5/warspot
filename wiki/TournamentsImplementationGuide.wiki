@@ -24,7 +24,7 @@
 
 Примерная структура базы данных:
 
-http://warspot.googlecode.com/files/Drawing1.png
+http://warspot.googlecode.com/files/Drawing2.png
 
 == Объектная модель турнира ==
 
