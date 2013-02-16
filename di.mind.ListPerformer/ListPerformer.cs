@@ -50,9 +50,9 @@ namespace di.mind.ListPerformer
                 case 7:
                     return new GameActionAttack(characteristics.Id, 0, 0, 1.0f);
                 case 8:
-                    return new GameActionTreat(characteristics.Id, characteristics.Id, 3.0f);
+                    return new GameActionTreat(characteristics.Id, 0, 0, 3.0f);
                 case 9:
-                    return new GameActionGiveCi(characteristics.Id, characteristics.Id, 1.0f);
+                    return new GameActionGiveCi(characteristics.Id, 0, 0, 1.0f);
             }
             return new GameActionEat(characteristics.Id);
         }
