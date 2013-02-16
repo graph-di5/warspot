@@ -62,7 +62,11 @@ namespace WarSpot.Cloud.Storage
                 try  // инициализируем BLOB-хранилище
                 {
                     // read account configuration settings
-                    var storageAccount = CloudStorageAccount.FromConfigurationSetting(CONNECTIONSTRING);
+
+                    // раньше connectionString парсилась RoleEnviroment.GetConfiguration, но парсилась как-то.. 
+                    // плохо. временно заменяю на прямое указание!
+                    var storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
+
                     
 
                     // create blob container for images
@@ -82,14 +86,10 @@ namespace WarSpot.Cloud.Storage
                        + "ensure that the Development Storage service is running.");
                 }
 
-                try
-                {
-                    db = new DBContext(new EntityConnection(RoleEnvironment.GetConfigurationSettingValue(DBCONNECTIONSTRING))); // инициализируем базу данных
-                }
-                catch (Exception)
-                {
-                    throw new Exception("Error with creating DBContext.");
-                }
+                // раньше DbconnectionString для EntityConnection парсилась RoleEnviroment.GetConfiguration, но парсилась как-то.. 
+                // плохо. временно заменяю на прямое указание!
+                db = new DBContext(new EntityConnection(@"metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string='data source=localhost\SQLEXPRESS;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework'")); // инициализируем базу данных
+                
                 
 
                 storageInitialized = true;
@@ -149,14 +149,16 @@ namespace WarSpot.Cloud.Storage
         public static bool Register(string username, string password)
         {
             List<Account> test = (from b in db.Account
-                        where b.Account_Name == username
-                        select b).ToList<Account>();
+                      where b.Account_Name == username
+                   select b).ToList<Account>();
+
+
 
             if (test.Any())
                 return false;
             try
             {
-                var acc = Account.CreateAccount(Guid.NewGuid(), username, password);
+                Account acc = Account.CreateAccount(Guid.NewGuid(), username, password);
                 db.AddToAccount(acc);
                 db.SaveChanges();
             }
