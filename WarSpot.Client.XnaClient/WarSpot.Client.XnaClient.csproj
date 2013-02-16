@@ -129,9 +129,9 @@
     <Compile Include="OfflineMatcher\InGameObjects.cs" />
     <Compile Include="Screen\LoadingScreen.cs" />
     <Compile Include="Screen\SelectReplayScreen.cs" />
+    <Compile Include="Screen\Utils\InputValidator.cs" />
     <Compile Include="Screen\Utils\ScreenHelper.cs" />
     <Compile Include="Screen\WatchReplayScreen.cs" />
-    <Compile Include="Screen\Utils\InputValidator.cs" />
     <Compile Include="Input\InputHandler.cs" />
     <Compile Include="Network\ConnectionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,7 +144,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Screen\Utils\HashHelper.cs" />
     <Compile Include="WarSpotGame.cs" />
     <Compile Include="Screen\GameScreen.cs" />
     <Compile Include="Screen\LoginScreen.cs" />
@@ -158,6 +157,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Common\WarSpot.Common.csproj">
+      <Project>{FA906681-9071-4D80-9FE7-7AF85FCFB573}</Project>
+      <Name>WarSpot.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj">
       <Project>{218A447E-8808-4987-B665-A8B1FB107022}</Project>
       <Name>WarSpot.Contracts.Intellect</Name>

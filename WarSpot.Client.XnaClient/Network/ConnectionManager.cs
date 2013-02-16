@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.ServiceModel;
 using WarSpot.Client.XnaClient.Utils;
+using WarSpot.Common.Utils;
 using WarSpot.Contracts.Service;
 using System.IO;
 
