@@ -51,8 +51,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.ConsoleComputer", "
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "WarSpot.Setup.Client", "WarSpot.Setup.Client\WarSpot.Setup.Client.wixproj", "{56861FFE-C501-4B35-AA4C-DC1C74EECF09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Client.WebFace", "WarSpot.Client.WebFace\WarSpot.Client.WebFace.csproj", "{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.WebFace", "WarSpot.WebFace\WarSpot.WebFace.csproj", "{B350D6A7-9DE0-4145-9EEA-055D7B0A08A6}"
 EndProject
 Global
@@ -260,21 +258,6 @@ Global
 		{56861FFE-C501-4B35-AA4C-DC1C74EECF09}.Release|Mixed Platforms.Build.0 = Release|x86
 		{56861FFE-C501-4B35-AA4C-DC1C74EECF09}.Release|x86.ActiveCfg = Release|x86
 		{56861FFE-C501-4B35-AA4C-DC1C74EECF09}.Release|x86.Build.0 = Release|x86
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.DebugCloud|Any CPU.ActiveCfg = DebugCloud|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.DebugCloud|Any CPU.Build.0 = DebugCloud|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.DebugCloud|Mixed Platforms.ActiveCfg = DebugCloud|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.DebugCloud|Mixed Platforms.Build.0 = DebugCloud|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.DebugCloud|x86.ActiveCfg = DebugCloud|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{6D1FEB8A-3BAC-4401-876D-571F31D5BB34}.Release|x86.ActiveCfg = Release|Any CPU
 		{B350D6A7-9DE0-4145-9EEA-055D7B0A08A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B350D6A7-9DE0-4145-9EEA-055D7B0A08A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B350D6A7-9DE0-4145-9EEA-055D7B0A08A6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
