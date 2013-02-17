@@ -23,6 +23,10 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("DBModel", "AccountGame", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Game), true)]
 [assembly: EdmRelationshipAttribute("DBModel", "GameGameIntellect", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Game), "GameIntellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.GameIntellect), true)]
 [assembly: EdmRelationshipAttribute("DBModel", "IntellectGameIntellect", "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Intellect), "GameIntellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.GameIntellect), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "AccountUserRole", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "UserRole", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.UserRole), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "AccountTournament", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Tournament), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "TournamentTournamentPlayer", "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Tournament), "TournamentPlayer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.TournamentPlayer), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "AccountTournamentPlayer", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "TournamentPlayer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.TournamentPlayer), true)]
 
 #endregion
 
@@ -137,6 +141,54 @@ namespace WarSpot.Cloud.Storage
             }
         }
         private ObjectSet<GameIntellect> _GameIntellect;
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        public ObjectSet<UserRole> UserRole
+        {
+            get
+            {
+                if ((_UserRole == null))
+                {
+                    _UserRole = base.CreateObjectSet<UserRole>("UserRole");
+                }
+                return _UserRole;
+            }
+        }
+        private ObjectSet<UserRole> _UserRole;
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        public ObjectSet<Tournament> Tournament
+        {
+            get
+            {
+                if ((_Tournament == null))
+                {
+                    _Tournament = base.CreateObjectSet<Tournament>("Tournament");
+                }
+                return _Tournament;
+            }
+        }
+        private ObjectSet<Tournament> _Tournament;
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        public ObjectSet<TournamentPlayer> TournamentPlayers
+        {
+            get
+            {
+                if ((_TournamentPlayers == null))
+                {
+                    _TournamentPlayers = base.CreateObjectSet<TournamentPlayer>("TournamentPlayers");
+                }
+                return _TournamentPlayers;
+            }
+        }
+        private ObjectSet<TournamentPlayer> _TournamentPlayers;
 
         #endregion
 
@@ -172,6 +224,30 @@ namespace WarSpot.Cloud.Storage
         public void AddToGameIntellect(GameIntellect gameIntellect)
         {
             base.AddObject("GameIntellect", gameIntellect);
+        }
+    
+        /// <summary>
+        /// Устаревший метод для добавления новых объектов в набор EntitySet UserRole. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
+        /// </summary>
+        public void AddToUserRole(UserRole userRole)
+        {
+            base.AddObject("UserRole", userRole);
+        }
+    
+        /// <summary>
+        /// Устаревший метод для добавления новых объектов в набор EntitySet Tournament. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
+        /// </summary>
+        public void AddToTournament(Tournament tournament)
+        {
+            base.AddObject("Tournament", tournament);
+        }
+    
+        /// <summary>
+        /// Устаревший метод для добавления новых объектов в набор EntitySet TournamentPlayers. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
+        /// </summary>
+        public void AddToTournamentPlayers(TournamentPlayer tournamentPlayer)
+        {
+            base.AddObject("TournamentPlayers", tournamentPlayer);
         }
 
         #endregion
@@ -331,6 +407,72 @@ namespace WarSpot.Cloud.Storage
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("DBModel.AccountGame", "Game", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountUserRole", "UserRole")]
+        public EntityCollection<UserRole> UserRole
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<UserRole>("DBModel.AccountUserRole", "UserRole");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<UserRole>("DBModel.AccountUserRole", "UserRole", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountTournament", "Tournament")]
+        public EntityCollection<Tournament> Tournaments
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Tournament>("DBModel.AccountTournament", "Tournament");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Tournament>("DBModel.AccountTournament", "Tournament", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountTournamentPlayer", "TournamentPlayer")]
+        public EntityCollection<TournamentPlayer> TournamentPlayers
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TournamentPlayer>("DBModel.AccountTournamentPlayer", "TournamentPlayer");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TournamentPlayer>("DBModel.AccountTournamentPlayer", "TournamentPlayer", value);
                 }
             }
         }
@@ -817,6 +959,597 @@ namespace WarSpot.Cloud.Storage
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<GameIntellect>("DBModel.IntellectGameIntellect", "GameIntellect", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// Нет доступной документации по метаданным.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="Tournament")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Tournament : EntityObject
+    {
+        #region Фабричный метод
+    
+        /// <summary>
+        /// Создание нового объекта Tournament.
+        /// </summary>
+        /// <param name="tournament_ID">Исходное значение свойства Tournament_ID.</param>
+        /// <param name="maxPlayers">Исходное значение свойства MaxPlayers.</param>
+        /// <param name="when">Исходное значение свойства When.</param>
+        /// <param name="creator_ID">Исходное значение свойства Creator_ID.</param>
+        /// <param name="tournament_Name">Исходное значение свойства Tournament_Name.</param>
+        public static Tournament CreateTournament(global::System.Guid tournament_ID, global::System.Int64 maxPlayers, global::System.String when, global::System.Guid creator_ID, global::System.String tournament_Name)
+        {
+            Tournament tournament = new Tournament();
+            tournament.Tournament_ID = tournament_ID;
+            tournament.MaxPlayers = maxPlayers;
+            tournament.When = when;
+            tournament.Creator_ID = creator_ID;
+            tournament.Tournament_Name = tournament_Name;
+            return tournament;
+        }
+
+        #endregion
+
+        #region Свойства-примитивы
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Tournament_ID
+        {
+            get
+            {
+                return _Tournament_ID;
+            }
+            set
+            {
+                if (_Tournament_ID != value)
+                {
+                    OnTournament_IDChanging(value);
+                    ReportPropertyChanging("Tournament_ID");
+                    _Tournament_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Tournament_ID");
+                    OnTournament_IDChanged();
+                }
+            }
+        }
+        private global::System.Guid _Tournament_ID;
+        partial void OnTournament_IDChanging(global::System.Guid value);
+        partial void OnTournament_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 MaxPlayers
+        {
+            get
+            {
+                return _MaxPlayers;
+            }
+            set
+            {
+                OnMaxPlayersChanging(value);
+                ReportPropertyChanging("MaxPlayers");
+                _MaxPlayers = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MaxPlayers");
+                OnMaxPlayersChanged();
+            }
+        }
+        private global::System.Int64 _MaxPlayers;
+        partial void OnMaxPlayersChanging(global::System.Int64 value);
+        partial void OnMaxPlayersChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String When
+        {
+            get
+            {
+                return _When;
+            }
+            set
+            {
+                OnWhenChanging(value);
+                ReportPropertyChanging("When");
+                _When = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("When");
+                OnWhenChanged();
+            }
+        }
+        private global::System.String _When;
+        partial void OnWhenChanging(global::System.String value);
+        partial void OnWhenChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Creator_ID
+        {
+            get
+            {
+                return _Creator_ID;
+            }
+            set
+            {
+                OnCreator_IDChanging(value);
+                ReportPropertyChanging("Creator_ID");
+                _Creator_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Creator_ID");
+                OnCreator_IDChanged();
+            }
+        }
+        private global::System.Guid _Creator_ID;
+        partial void OnCreator_IDChanging(global::System.Guid value);
+        partial void OnCreator_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Tournament_Name
+        {
+            get
+            {
+                return _Tournament_Name;
+            }
+            set
+            {
+                OnTournament_NameChanging(value);
+                ReportPropertyChanging("Tournament_Name");
+                _Tournament_Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Tournament_Name");
+                OnTournament_NameChanged();
+            }
+        }
+        private global::System.String _Tournament_Name;
+        partial void OnTournament_NameChanging(global::System.String value);
+        partial void OnTournament_NameChanged();
+
+        #endregion
+
+    
+        #region Свойства навигации
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountTournament", "Account")]
+        public Account Account
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountTournament", "Account").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountTournament", "Account").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Account> AccountReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountTournament", "Account");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Account>("DBModel.AccountTournament", "Account", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "TournamentTournamentPlayer", "TournamentPlayer")]
+        public EntityCollection<TournamentPlayer> TournamentPlayers
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TournamentPlayer>("DBModel.TournamentTournamentPlayer", "TournamentPlayer");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TournamentPlayer>("DBModel.TournamentTournamentPlayer", "TournamentPlayer", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// Нет доступной документации по метаданным.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="TournamentPlayer")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TournamentPlayer : EntityObject
+    {
+        #region Фабричный метод
+    
+        /// <summary>
+        /// Создание нового объекта TournamentPlayer.
+        /// </summary>
+        /// <param name="tournamentPlayer_ID">Исходное значение свойства TournamentPlayer_ID.</param>
+        /// <param name="tournamentTournament_ID">Исходное значение свойства TournamentTournament_ID.</param>
+        /// <param name="accountAccount_ID">Исходное значение свойства AccountAccount_ID.</param>
+        public static TournamentPlayer CreateTournamentPlayer(global::System.Guid tournamentPlayer_ID, global::System.Guid tournamentTournament_ID, global::System.Guid accountAccount_ID)
+        {
+            TournamentPlayer tournamentPlayer = new TournamentPlayer();
+            tournamentPlayer.TournamentPlayer_ID = tournamentPlayer_ID;
+            tournamentPlayer.TournamentTournament_ID = tournamentTournament_ID;
+            tournamentPlayer.AccountAccount_ID = accountAccount_ID;
+            return tournamentPlayer;
+        }
+
+        #endregion
+
+        #region Свойства-примитивы
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid TournamentPlayer_ID
+        {
+            get
+            {
+                return _TournamentPlayer_ID;
+            }
+            set
+            {
+                if (_TournamentPlayer_ID != value)
+                {
+                    OnTournamentPlayer_IDChanging(value);
+                    ReportPropertyChanging("TournamentPlayer_ID");
+                    _TournamentPlayer_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("TournamentPlayer_ID");
+                    OnTournamentPlayer_IDChanged();
+                }
+            }
+        }
+        private global::System.Guid _TournamentPlayer_ID;
+        partial void OnTournamentPlayer_IDChanging(global::System.Guid value);
+        partial void OnTournamentPlayer_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid TournamentTournament_ID
+        {
+            get
+            {
+                return _TournamentTournament_ID;
+            }
+            set
+            {
+                OnTournamentTournament_IDChanging(value);
+                ReportPropertyChanging("TournamentTournament_ID");
+                _TournamentTournament_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TournamentTournament_ID");
+                OnTournamentTournament_IDChanged();
+            }
+        }
+        private global::System.Guid _TournamentTournament_ID;
+        partial void OnTournamentTournament_IDChanging(global::System.Guid value);
+        partial void OnTournamentTournament_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid AccountAccount_ID
+        {
+            get
+            {
+                return _AccountAccount_ID;
+            }
+            set
+            {
+                OnAccountAccount_IDChanging(value);
+                ReportPropertyChanging("AccountAccount_ID");
+                _AccountAccount_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AccountAccount_ID");
+                OnAccountAccount_IDChanged();
+            }
+        }
+        private global::System.Guid _AccountAccount_ID;
+        partial void OnAccountAccount_IDChanging(global::System.Guid value);
+        partial void OnAccountAccount_IDChanged();
+
+        #endregion
+
+    
+        #region Свойства навигации
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "TournamentTournamentPlayer", "Tournament")]
+        public Tournament Tournament
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tournament>("DBModel.TournamentTournamentPlayer", "Tournament").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tournament>("DBModel.TournamentTournamentPlayer", "Tournament").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Tournament> TournamentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tournament>("DBModel.TournamentTournamentPlayer", "Tournament");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Tournament>("DBModel.TournamentTournamentPlayer", "Tournament", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountTournamentPlayer", "Account")]
+        public Account Account
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountTournamentPlayer", "Account").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountTournamentPlayer", "Account").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Account> AccountReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountTournamentPlayer", "Account");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Account>("DBModel.AccountTournamentPlayer", "Account", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// Нет доступной документации по метаданным.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="UserRole")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class UserRole : EntityObject
+    {
+        #region Фабричный метод
+    
+        /// <summary>
+        /// Создание нового объекта UserRole.
+        /// </summary>
+        /// <param name="role_ID">Исходное значение свойства Role_ID.</param>
+        /// <param name="until">Исходное значение свойства Until.</param>
+        /// <param name="accountAccount_ID">Исходное значение свойства AccountAccount_ID.</param>
+        /// <param name="role_Code">Исходное значение свойства Role_Code.</param>
+        public static UserRole CreateUserRole(global::System.Int16 role_ID, global::System.String until, global::System.Guid accountAccount_ID, global::System.Int16 role_Code)
+        {
+            UserRole userRole = new UserRole();
+            userRole.Role_ID = role_ID;
+            userRole.Until = until;
+            userRole.AccountAccount_ID = accountAccount_ID;
+            userRole.Role_Code = role_Code;
+            return userRole;
+        }
+
+        #endregion
+
+        #region Свойства-примитивы
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int16 Role_ID
+        {
+            get
+            {
+                return _Role_ID;
+            }
+            set
+            {
+                if (_Role_ID != value)
+                {
+                    OnRole_IDChanging(value);
+                    ReportPropertyChanging("Role_ID");
+                    _Role_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Role_ID");
+                    OnRole_IDChanged();
+                }
+            }
+        }
+        private global::System.Int16 _Role_ID;
+        partial void OnRole_IDChanging(global::System.Int16 value);
+        partial void OnRole_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Until
+        {
+            get
+            {
+                return _Until;
+            }
+            set
+            {
+                OnUntilChanging(value);
+                ReportPropertyChanging("Until");
+                _Until = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Until");
+                OnUntilChanged();
+            }
+        }
+        private global::System.String _Until;
+        partial void OnUntilChanging(global::System.String value);
+        partial void OnUntilChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid AccountAccount_ID
+        {
+            get
+            {
+                return _AccountAccount_ID;
+            }
+            set
+            {
+                OnAccountAccount_IDChanging(value);
+                ReportPropertyChanging("AccountAccount_ID");
+                _AccountAccount_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AccountAccount_ID");
+                OnAccountAccount_IDChanged();
+            }
+        }
+        private global::System.Guid _AccountAccount_ID;
+        partial void OnAccountAccount_IDChanging(global::System.Guid value);
+        partial void OnAccountAccount_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int16 Role_Code
+        {
+            get
+            {
+                return _Role_Code;
+            }
+            set
+            {
+                OnRole_CodeChanging(value);
+                ReportPropertyChanging("Role_Code");
+                _Role_Code = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Role_Code");
+                OnRole_CodeChanged();
+            }
+        }
+        private global::System.Int16 _Role_Code;
+        partial void OnRole_CodeChanging(global::System.Int16 value);
+        partial void OnRole_CodeChanged();
+
+        #endregion
+
+    
+        #region Свойства навигации
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountUserRole", "Account")]
+        public Account Account
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountUserRole", "Account").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountUserRole", "Account").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Account> AccountReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountUserRole", "Account");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Account>("DBModel.AccountUserRole", "Account", value);
                 }
             }
         }
