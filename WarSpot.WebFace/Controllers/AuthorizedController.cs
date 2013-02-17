@@ -1,9 +1,9 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using MvcFormsAuth.Security;
+using WarSpot.WebFace.Security;
 
-namespace MvcFormsAuth.Controllers
+namespace WarSpot.WebFace.Controllers
 {
 	[Authorize]
 	public class AuthorizedController : Controller

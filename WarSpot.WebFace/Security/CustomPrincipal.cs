@@ -3,15 +3,13 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
 
-namespace MvcFormsAuth.Security
+namespace WarSpot.WebFace.Security
 {
 	public class CustomPrincipal : ICustomPrincipal
 	{
-		private CustomPrincipal() { }
-
 		private CustomPrincipal(ICustomIdentity identity)
 		{
-			this.Identity = identity;
+			Identity = identity;
 		}
 
 		public IIdentity Identity { get; private set; }

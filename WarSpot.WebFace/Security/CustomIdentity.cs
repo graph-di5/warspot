@@ -2,13 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
-using System.Security.Cryptography;
 using System.Text;
-using System.Web.Security;
 using WarSpot.Cloud.Storage;
 using WarSpot.Common.Utils;
 
-namespace MvcFormsAuth.Security
+namespace WarSpot.WebFace.Security
 {
 	public class CustomIdentity : ICustomIdentity
 	{

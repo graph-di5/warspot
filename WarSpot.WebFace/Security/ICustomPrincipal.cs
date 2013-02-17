@@ -1,9 +1,9 @@
 ﻿using System.Security.Principal;
 
-namespace MvcFormsAuth.Security
+namespace WarSpot.WebFace.Security
 {
-    public interface ICustomPrincipal : IPrincipal
-    {
+	public interface ICustomPrincipal : IPrincipal
+	{
 
-    }
+	}
 }
