@@ -1,4 +1,6 @@
-﻿namespace WarSpot.WebFace.Security
+﻿using System;
+
+namespace WarSpot.WebFace.Security
 {
 	/// <summary>
 	/// Private members have short names to preserve space using json serialization
@@ -29,6 +31,13 @@
 		{
 			get { return r; }
 			set { r = value; }
+		}
+
+		private string id;
+		public string Id
+		{
+			get { return id; }
+			set { id = value; }
 		}
 		// ReSharper restore InconsistentNaming
 		// ReSharper restore ConvertToAutoProperty

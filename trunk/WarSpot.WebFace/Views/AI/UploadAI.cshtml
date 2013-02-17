@@ -1,0 +1,15 @@
+﻿@model dynamic
+
+@{
+}
+
+@using (Html.BeginForm("UploadAI", "AI", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+{ 
+<div>Please select some files</div>
+
+	<input name="file" type="file" />
+
+<input type="submit" />            
+
+}

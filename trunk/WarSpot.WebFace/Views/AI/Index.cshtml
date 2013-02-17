@@ -1,8 +1,33 @@
-﻿@model dynamic
+﻿@model IEnumerable<string> 
 
 @{
-	ViewBag.Title = "AI Title";
+	ViewBag.Title = "Интеллекты ваших существ";
 }
 
-<h2>AI Список</h2>
 
+@Html.ActionLink("Загрузить интеллект", "UploadAI") 
+<h3>Список загруженных интеллектов</h3>
+<!-- 
+<form name="ui_upload" method="POST" enctype="multipart/form-data" action="AI/UploadAI">
+	
+<div class="editor-label">
+		<input type="text" class="editor-field" name="name"/>
+	</div>
+	<div class="editor-label">
+		<input type="file" class="editor-field" name="content"/>
+	</div>
+	<p>
+  	<input type="submit" value="Загрузить" />
+	</p>
+</form>
+-->
+@using (Html.BeginForm())
+{
+}
+	<table>
+	<tr><td><b>Имя</b></td></tr>
+	@foreach (var i in Model)
+ {
+		<tr><td>i</td></tr>
+	}
+</table>

@@ -1,4 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System.Data.Objects;
+using System.IO;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using WarSpot.Cloud.Storage;
+using WarSpot.WebFace.Security;
+
 
 namespace WarSpot.WebFace.Controllers
 {
@@ -9,9 +17,35 @@ namespace WarSpot.WebFace.Controllers
 
 		public ActionResult Index()
 		{
+			string[] names = new string[] {};
+			var customIdentity = User.Identity as CustomIdentity;
+			if (customIdentity != null) 
+				names = Warehouse.GetListOfIntellects(customIdentity.Id);
+
+			return View(names);
+		}
+
+		public ActionResult UploadAI()
+		{
 			return View();
 		}
 
+		[HttpPost]
+		public ActionResult UploadAI(HttpPostedFileBase file)
+		{
+			// todo 
+			var customIdentity = User.Identity as CustomIdentity;
+			if (customIdentity == null)
+			{
+				return View();
+			}
+			MemoryStream target = new MemoryStream();
+			file.InputStream.CopyTo(target);
+			Warehouse.UploadIntellect(customIdentity.Id, file.FileName, target.ToArray());
+			return RedirectToAction("Index");
+		}
+
+#if false
 		//
 		// GET: /AI/Details/5
 
@@ -97,5 +131,6 @@ namespace WarSpot.WebFace.Controllers
 				return View();
 			}
 		}
+#endif
 	}
 }
