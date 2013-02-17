@@ -1,6 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.Data.Objects;
 using System.Linq;
+using System;
+using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using WarSpot.Cloud.Storage;
@@ -23,6 +24,10 @@ namespace WarSpot.WebFace.Security
 			{
 				identity.IsAuthenticated = true;
 				identity.Name = userName;
+				identity.Id = (from b in Warehouse.db.Account
+											 where b.Account_Name == userName
+											 select b).First().Account_ID;
+				// todo: get this list of roles from Warehouse
 				var roles = System.Web.Security.Roles.GetRolesForUser(userName);
 				identity.Roles = roles;
 				return identity;
@@ -36,6 +41,8 @@ namespace WarSpot.WebFace.Security
 		{
 			get { return "Custom"; }
 		}
+
+		public Guid Id { get; private set; }
 
 		public bool IsAuthenticated { get; private set; }
 
@@ -63,7 +70,8 @@ namespace WarSpot.WebFace.Security
 			{
 				IsAuthenticated = this.IsAuthenticated,
 				Name = this.Name,
-				Roles = string.Join("|", this.Roles)
+				Roles = string.Join("|", this.Roles),
+				Id = this.Id.ToString()
 			};
 			DataContractJsonSerializer jsonSerializer =
 					new DataContractJsonSerializer(typeof(IdentityRepresentation));
@@ -98,7 +106,8 @@ namespace WarSpot.WebFace.Security
 				IsAuthenticated = serializedIdentity.IsAuthenticated,
 				Name = serializedIdentity.Name,
 				Roles = serializedIdentity.Roles
-						.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries)
+						.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries),
+				Id = Guid.Parse(serializedIdentity.Id)
 			};
 			return identity;
 		}
