@@ -3,7 +3,7 @@ using System.Web.Routing;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
-namespace MvcFormsAuth
+namespace WarSpot.WebFace
 {
 	// Note: For instructions on enabling IIS6 or IIS7 classic mode, 
 	// visit http://go.microsoft.com/?LinkId=9394801
@@ -13,6 +13,7 @@ namespace MvcFormsAuth
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
 			filters.Add(new HandleErrorAttribute());
+			filters.Add(new AuthorizeAttribute());
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)
