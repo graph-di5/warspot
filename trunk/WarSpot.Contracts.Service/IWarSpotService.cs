@@ -35,5 +35,32 @@ namespace WarSpot.Contracts.Service
 		[OperationContract]
 		void KeepAlive();
 
+        [OperationContract]
+        bool IsUserAdmin(Guid user);
+
+        [OperationContract]
+        ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers);
+
+        [OperationContract]
+        ErrorCode SetUserRole(Guid user, Guid roleID);
+
+        [OperationContract]
+        List<Guid> GetUserRole(Guid user);
+
+        [OperationContract]
+        List<Guid> GetMyTournamets();
+
+        [OperationContract]
+        ErrorCode DeleteTournament(Guid tournamentID);
+
+        [OperationContract]
+        List<Guid> GetAvailableTournaments();
+
+        [OperationContract]
+        ErrorCode JoinTournament(Guid tournamentID);
+
+        [OperationContract]
+        ErrorCode LeaveTournament(Guid tournamentID);
+
 	}
 }
