@@ -1,10 +1,10 @@
 ﻿using System.Security.Principal;
 
-namespace MvcFormsAuth.Security
+namespace WarSpot.WebFace.Security
 {
-    public interface ICustomIdentity : IIdentity
-    {
-        bool IsInRole(string role);
-        string ToJson();
-    }
+	public interface ICustomIdentity : IIdentity
+	{
+		bool IsInRole(string role);
+		string ToJson();
+	}
 }

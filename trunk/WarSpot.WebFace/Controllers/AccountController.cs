@@ -1,11 +1,10 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
-using MvcFormsAuth.Models;
-using MvcFormsAuth.Security;
 using WarSpot.Cloud.Storage;
+using WarSpot.WebFace.Models;
+using WarSpot.WebFace.Security;
 
-namespace MvcFormsAuth.Controllers
+namespace WarSpot.WebFace.Controllers
 {
 	public class AccountController : Controller
 	{

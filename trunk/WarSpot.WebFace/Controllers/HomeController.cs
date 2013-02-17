@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace MvcFormsAuth.Controllers
+namespace WarSpot.WebFace.Controllers
 {
 	public class HomeController : AuthorizedController
 	{
