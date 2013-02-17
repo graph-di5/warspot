@@ -10,12 +10,8 @@ using WarSpot.Contracts.Service;
 
 namespace WarSpot.Cloud.Storage
 {
-
-
 	public static class Warehouse
 	{
-
-
 
 		#region BLOB SECTION VAR
 		private const string CONNECTIONSTRING = "DataConnectionString";
@@ -36,7 +32,6 @@ namespace WarSpot.Cloud.Storage
 		{
 			InitializeStorage();
 		}
-
 
 		#region BLOB METHODS
 		private static void InitializeStorage()
@@ -231,7 +226,6 @@ namespace WarSpot.Cloud.Storage
 			return gameID;
 		}
 		#endregion
-
 
 		public static List<Guid> GetListOfGames(Guid _userID)
 		{
