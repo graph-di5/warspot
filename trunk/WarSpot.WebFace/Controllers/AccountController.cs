@@ -11,7 +11,7 @@ namespace WarSpot.WebFace.Controllers
 
 		//
 		// GET: /Account/LogOn
-
+		[AllowAnonymous]
 		public ActionResult LogOn()
 		{
 			return View();
@@ -20,6 +20,7 @@ namespace WarSpot.WebFace.Controllers
 		//
 		// POST: /Account/LogOn
 
+		[AllowAnonymous]
 		[HttpPost]
 		public ActionResult LogOn(LogOnModel model, string returnUrl)
 		{
@@ -50,6 +51,7 @@ namespace WarSpot.WebFace.Controllers
 		//
 		// GET: /Account/LogOff
 
+		[AllowAnonymous]
 		public ActionResult LogOff()
 		{
 			CustomPrincipal.Logout();
@@ -60,6 +62,7 @@ namespace WarSpot.WebFace.Controllers
 		//
 		// GET: /Account/Register
 
+		[AllowAnonymous]
 		public ActionResult Register()
 		{
 			return View();
@@ -68,6 +71,7 @@ namespace WarSpot.WebFace.Controllers
 		//
 		// POST: /Account/Register
 
+		[AllowAnonymous]
 		[HttpPost]
 		public ActionResult Register(RegisterModel model)
 		{
@@ -103,7 +107,6 @@ namespace WarSpot.WebFace.Controllers
 		//
 		// GET: /Account/ChangePassword
 
-		[Authorize]
 		public ActionResult ChangePassword()
 		{
 			return View();
@@ -114,7 +117,6 @@ namespace WarSpot.WebFace.Controllers
 
 		// todo rewrite this
 #if false
-		[Authorize]
 		[HttpPost]
 		public ActionResult ChangePassword(ChangePasswordModel model)
 		{
