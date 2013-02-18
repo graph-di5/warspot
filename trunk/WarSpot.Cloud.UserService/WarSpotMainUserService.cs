@@ -212,7 +212,7 @@ namespace WarSpot.Cloud.UserService
         }
 
 
-        public ErrorCode SetUserRole(Guid userID, short rolecode, string until)
+        public ErrorCode SetUserRole(Guid userID, int rolecode, string until)
         {
             if (!_loggedIn)
             {
