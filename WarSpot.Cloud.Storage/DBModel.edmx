@@ -84,7 +84,7 @@
     <Property Name="Role_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Until" Type="nvarchar(max)" Nullable="false" />
     <Property Name="AccountAccount_ID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Role_Code" Type="smallint" Nullable="false" />
+    <Property Name="Role_Code" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Tournament">
     <Key>
@@ -343,7 +343,7 @@
           <Property Type="String" Name="Until" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="DBModel.AccountUserRole" FromRole="UserRole" ToRole="Account" />
           <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
-          <Property Type="Int16" Name="Role_Code" Nullable="false" />
+          <Property Type="Int32" Name="Role_Code" Nullable="false" />
         </EntityType>
         <Association Name="AccountUserRole">
           <End Type="DBModel.Account" Role="Account" Multiplicity="1" />

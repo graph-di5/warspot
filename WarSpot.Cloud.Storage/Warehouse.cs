@@ -458,7 +458,7 @@ namespace WarSpot.Cloud.Storage
             }
         }
 
-        public static ErrorCode SetUserRole(short rolecode, Guid userID, String until)
+        public static ErrorCode SetUserRole(int rolecode, Guid userID, String until)
         {
             List<UserRole> thatroleofuser = (from r in db.UserRole
                  where r.AccountAccount_ID == userID && r.Role_Code == rolecode
