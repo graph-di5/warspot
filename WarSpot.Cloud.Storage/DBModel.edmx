@@ -81,7 +81,7 @@
     <Key>
       <PropertyRef Name="Role_ID" />
     </Key>
-    <Property Name="Role_ID" Type="smallint" Nullable="false" />
+    <Property Name="Role_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Until" Type="nvarchar(max)" Nullable="false" />
     <Property Name="AccountAccount_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Role_Code" Type="smallint" Nullable="false" />
@@ -339,7 +339,7 @@
           <Key>
             <PropertyRef Name="Role_ID" />
           </Key>
-          <Property Type="Int16" Name="Role_ID" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="Guid" Name="Role_ID" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Type="String" Name="Until" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="DBModel.AccountUserRole" FromRole="UserRole" ToRole="Account" />
           <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />

@@ -42,7 +42,7 @@ namespace WarSpot.Contracts.Service
         ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers);
 
         [OperationContract]
-        ErrorCode SetUserRole(Guid user, Guid roleID);
+        ErrorCode SetUserRole(Guid user, short rolecode, string until);
 
         [OperationContract]
         List<Guid> GetUserRole(Guid user);

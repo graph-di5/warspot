@@ -141,27 +141,23 @@ namespace WarSpot.Cloud.Storage
 
         public static bool Register(string username, string password)
         {
-            List<Account> test = (from b in db.Account
-                                  where b.Account_Name == username
-                                  select b).ToList<Account>();
+            List<Account> test;
 
-
-
-            if (test.Any())
+            if ((test = (from b in db.Account
+                         where b.Account_Name == username
+                         select b).ToList<Account>()).Any())
                 return false;
             try
-            {
-                Account acc = Account.CreateAccount(Guid.NewGuid(), username, password);
-                db.AddToAccount(acc);
+            { 
+                db.AddToAccount(Account.CreateAccount(Guid.NewGuid(), username, password));
                 db.SaveChanges();
+
+                return true;
             }
             catch (Exception)
             {
                 throw;
             }
-
-
-            return true;
         }
 
         public static bool Login(string username, string password)
@@ -271,7 +267,7 @@ namespace WarSpot.Cloud.Storage
             }
 
             try
-            {
+            { 
                 db.AddToTournament(Tournament.CreateTournament(Guid.NewGuid(), maxplayers, startdate, userID, title));
                 db.SaveChanges();
 
@@ -450,17 +446,80 @@ namespace WarSpot.Cloud.Storage
 
         public static bool IsUserAdmin(Guid userID)
         {
-            throw new NotImplementedException();
+            if (DateTime.Compare(DateTime.Parse((from r in db.UserRole
+                                                 where r.AccountAccount_ID == userID && r.Role_Code == 1
+                                                 select r).FirstOrDefault<UserRole>().Until), DateTime.Now) >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public static ErrorCode SetUserRole(Guid guid, Guid role, Guid username)
+        public static ErrorCode SetUserRole(short rolecode, Guid userID, String until)
         {
-            throw new NotImplementedException();
+            List<UserRole> thatroleofuser = (from r in db.UserRole
+                 where r.AccountAccount_ID == userID && r.Role_Code == rolecode
+                 select r).ToList<UserRole>();
+
+            if (thatroleofuser.Any<UserRole>())
+            {
+                if (DateTime.Compare(DateTime.Parse(until), DateTime.Now) <= 0)
+                {
+                    return new ErrorCode(ErrorType.UnknownException, "Datetime is in past");
+                }
+                else
+                {
+                    try
+                    {
+
+                        db.UserRole.DeleteObject(thatroleofuser.First<UserRole>());
+                        db.UserRole.AddObject(UserRole.CreateUserRole(new Guid(), until, userID, rolecode));
+                        db.SaveChanges();
+                        return new ErrorCode(ErrorType.Ok, "Role has been given.");
+
+                    }
+                    catch (Exception e)
+                    {
+                        return new ErrorCode(ErrorType.UnknownException, "Database problems: " + e.ToString());
+                    }
+
+                }
+            }
+            else
+            {
+                try
+                {
+                    db.UserRole.AddObject(UserRole.CreateUserRole(new Guid(), until, userID, rolecode));
+
+                    db.SaveChanges();
+
+                    return new ErrorCode(ErrorType.Ok, "Role has been given.");
+                }
+                catch (Exception e)
+                {
+                    return new ErrorCode(ErrorType.UnknownException, "Database problems: " + e.ToString());
+                }
+            }
+
         }
 
-        public static List<Guid> GetUserRole(Guid user)
+        public static List<Guid> GetUserRole(Guid userID)
         {
-            throw new NotImplementedException();
+            List<Guid> roleslist;
+            if ((roleslist = (from r in db.UserRole
+                              where r.AccountAccount_ID == userID
+                              select r.Role_ID).ToList<Guid>()).Any<Guid>())
+            {
+                return roleslist;
+            }
+            else
+            {
+                // User didn't have any roles. (IS IT POSSIBLE?)
+                return null;
+            }
         }
 
         #endregion

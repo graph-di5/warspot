@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 02/18/2013 00:57:15
+-- Date Created: 02/18/2013 22:05:33
 -- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\Warspot\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
@@ -104,7 +104,7 @@ GO
 
 -- Creating table 'UserRole'
 CREATE TABLE [dbo].[UserRole] (
-    [Role_ID] smallint  NOT NULL,
+    [Role_ID] uniqueidentifier  NOT NULL,
     [Until] nvarchar(max)  NOT NULL,
     [AccountAccount_ID] uniqueidentifier  NOT NULL,
     [Role_Code] smallint  NOT NULL
