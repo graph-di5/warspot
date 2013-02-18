@@ -212,16 +212,16 @@ namespace WarSpot.Cloud.UserService
         }
 
 
-
-        public ErrorCode SetUserRole(Guid username, Guid role)
+        public ErrorCode SetUserRole(Guid userID, short rolecode, string until)
         {
             if (!_loggedIn)
             {
                 return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
             }
 
-            return Warehouse.SetUserRole(this._userID, role, username);
+            return Warehouse.SetUserRole(rolecode, userID, until);
         }
+
 
         public List<Guid> GetUserRole(Guid user)
         {

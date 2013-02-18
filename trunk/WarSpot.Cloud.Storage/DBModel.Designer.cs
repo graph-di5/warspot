@@ -1398,7 +1398,7 @@ namespace WarSpot.Cloud.Storage
         /// <param name="until">Исходное значение свойства Until.</param>
         /// <param name="accountAccount_ID">Исходное значение свойства AccountAccount_ID.</param>
         /// <param name="role_Code">Исходное значение свойства Role_Code.</param>
-        public static UserRole CreateUserRole(global::System.Int16 role_ID, global::System.String until, global::System.Guid accountAccount_ID, global::System.Int16 role_Code)
+        public static UserRole CreateUserRole(global::System.Guid role_ID, global::System.String until, global::System.Guid accountAccount_ID, global::System.Int16 role_Code)
         {
             UserRole userRole = new UserRole();
             userRole.Role_ID = role_ID;
@@ -1417,7 +1417,7 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int16 Role_ID
+        public global::System.Guid Role_ID
         {
             get
             {
@@ -1435,8 +1435,8 @@ namespace WarSpot.Cloud.Storage
                 }
             }
         }
-        private global::System.Int16 _Role_ID;
-        partial void OnRole_IDChanging(global::System.Int16 value);
+        private global::System.Guid _Role_ID;
+        partial void OnRole_IDChanging(global::System.Guid value);
         partial void OnRole_IDChanged();
     
         /// <summary>
