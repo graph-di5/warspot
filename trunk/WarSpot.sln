@@ -53,11 +53,9 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "WarSpot.Setup.Client", "War
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.WebFace", "WarSpot.WebFace\WarSpot.WebFace.csproj", "{B350D6A7-9DE0-4145-9EEA-055D7B0A08A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Cloud.Tournament", "WarSpot.Cloud.Tournament\WarSpot.Cloud.Tournament.csproj", "{D8459A80-3490-4D4C-8E60-0991A7B464D1}"
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -273,8 +271,27 @@ Global
 		{B350D6A7-9DE0-4145-9EEA-055D7B0A08A6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B350D6A7-9DE0-4145-9EEA-055D7B0A08A6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B350D6A7-9DE0-4145-9EEA-055D7B0A08A6}.Release|x86.ActiveCfg = Release|Any CPU
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Debug|x86.ActiveCfg = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Debug|x86.Build.0 = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.DebugCloud|Any CPU.ActiveCfg = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.DebugCloud|Mixed Platforms.ActiveCfg = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.DebugCloud|Mixed Platforms.Build.0 = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.DebugCloud|x86.ActiveCfg = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.DebugCloud|x86.Build.0 = Debug|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Release|Any CPU.ActiveCfg = Release|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Release|x86.ActiveCfg = Release|x86
+		{D8459A80-3490-4D4C-8E60-0991A7B464D1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
