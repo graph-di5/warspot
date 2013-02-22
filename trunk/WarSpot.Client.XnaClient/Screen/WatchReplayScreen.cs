@@ -101,6 +101,7 @@ namespace WarSpot.Client.XnaClient.Screen
 							var tmp = wsEvent as GameEventBirth;
 							_listOfCreatures.Add(new Creature(tmp.SubjectId, tmp.Newborn.X, tmp.Newborn.Y,
 								tmp.Newborn.Team, tmp.Newborn.MaxHealth, tmp.Newborn.Health, tmp.Newborn.Ci));
+							_localPause = true;
 							_listOfEvents.Remove(tmp);
 							break;
 						}
@@ -205,7 +206,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		}
 
 		// Process all initial states
-		private void CreateGameObjects()
+		private void CreateWorld()
 		{
 			if (_listOfEvents.Count != 0)
 			{
@@ -263,7 +264,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		public void PrepareScreen()
 		{
 			// Initialization of initial inGameObjects and world map
-			this.CreateGameObjects();
+			this.CreateWorld();
 
 			// Prepare args for drawing
 			this.SetScalings();
