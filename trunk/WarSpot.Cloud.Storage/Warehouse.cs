@@ -458,6 +458,16 @@ namespace WarSpot.Cloud.Storage
             }
         }
 
+        public static bool IsUser(int rolecode, Guid userID)
+        {
+            if ((from r in db.UserRole
+                 where r.AccountAccount_ID == userID && r.Role_Code == rolecode
+                 select r).Any())
+                return true;
+            else
+                return false;
+        }
+
         public static ErrorCode SetUserRole(int rolecode, Guid userID, String until)
         {
             List<UserRole> thatroleofuser = (from r in db.UserRole
