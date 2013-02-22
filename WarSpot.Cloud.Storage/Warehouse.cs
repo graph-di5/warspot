@@ -86,7 +86,7 @@ namespace WarSpot.Cloud.Storage
             }
         }
 
-        public static void UploadIntellect(Guid Account_ID, string name, byte[] data)
+        public static bool UploadIntellect(Guid Account_ID, string name, byte[] data)
         {
             if (db.Intellect == null)
             {
@@ -95,12 +95,18 @@ namespace WarSpot.Cloud.Storage
 
             string uniqueBlobName = string.Format("intellects/{0}/{1}", Account_ID.ToString(), name);
 
+            if ((from i in db.Intellect
+                 where i.Intellect_Name == name
+                 select i).Any())
+                return false;
+
             db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID));
             db.SaveChanges();
 
             CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
             blob.UploadByteArray(data);
 
+            return true;
 
         }
 
@@ -220,17 +226,24 @@ namespace WarSpot.Cloud.Storage
 
         public static Guid? BeginMatch(List<Guid> intellects, Guid userID)
         {
+            
+
             Guid gameID = Guid.NewGuid();
 
-            db.AddToGame(Game.CreateGame(gameID, userID));
+
+
+            db.Game.AddObject(Game.CreateGame(gameID, userID));
+
+            db.SaveChanges();
 
             foreach (Guid intellect in intellects)
             {
                 db.AddToGameIntellect(GameIntellect.CreateGameIntellect(gameID, intellect));
+
+                db.SaveChanges();
             }
-
-            db.SaveChanges();
-
+            
+            
             return gameID;
         }
 
@@ -446,9 +459,11 @@ namespace WarSpot.Cloud.Storage
 
         public static bool IsUserAdmin(Guid userID)
         {
-            if (DateTime.Compare(DateTime.Parse((from r in db.UserRole
-                                                 where r.AccountAccount_ID == userID && r.Role_Code == 1
-                                                 select r).FirstOrDefault<UserRole>().Until), DateTime.Now) >= 0)
+            var needed = (from r in db.UserRole
+                                   where r.AccountAccount_ID == userID && r.Role_Code == 1
+                                   select r).ToList();
+
+            if (DateTime.Compare(DateTime.Parse(needed.FirstOrDefault().Until), DateTime.Now) >= 0)
             {
                 return true;
             }

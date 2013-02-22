@@ -75,8 +75,10 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (_loggedIn)
 			{
-				Warehouse.UploadIntellect(_userID, name, intellect);
-				return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
+                if (Warehouse.UploadIntellect(_userID, name, intellect))
+                    return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
+                else
+                    return new ErrorCode(ErrorType.BadFileType, "Inttellect with the same name is already existed");
 			}
 			else
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
