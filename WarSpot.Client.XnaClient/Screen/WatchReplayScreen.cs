@@ -133,8 +133,11 @@ namespace WarSpot.Client.XnaClient.Screen
 					case EventTypes.SystemEventMatchEnd:
 						{
 							var tmp = wsEvent as SystemEventMatchEnd;
+							_listOfCreatures = null;
+							_listOfEvents = null;
+							_creatureOfFirstTeam = null;
+							_creatureOfSecondTeam = null;
 							ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.SelectReplayScreen);
-							_listOfEvents.Remove(tmp);
 							break;
 						}
 					default:

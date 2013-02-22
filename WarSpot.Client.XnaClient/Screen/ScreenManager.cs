@@ -171,7 +171,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			_activeScreen.UseTexts(dict);
 		}
 
-
 		public void Resize()
 		{
 			foreach (var screen in _screens.Values)
@@ -182,7 +181,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			string current = GetActiveScreen().GetType().Name;
 			SetActiveScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), current));
 		}
-		public void PreapareReplayScreen()
+
+		public void PrepareReplayScreen()
 		{
 			var tmp = _screens[ScreenEnum.WatchReplayScreen] as WatchReplayScreen;
 			tmp.PrepareScreen();
