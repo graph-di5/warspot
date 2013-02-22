@@ -1,82 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace WarSpot.Cloud.Tournament
 {
-    public enum StageTypes {Duel, Deathmatch, Labyrinth};
+	public enum StageTypes { Duel, Deathmatch, Labyrinth };
 
-    public enum TournamentStatus {Idle, Working, Finished}
+	public enum TournamentStatus { Idle, Working, Finished }
 
-    class Tournament
-    {
-        Guid Id;
+	class Tournament
+	{
+		Guid Id;
 
-        TournamentStatus Status;
+		TournamentStatus Status;
 
-        List<Guid> StagesList;
+		List<Guid> StagesList;
 
-        List<Player> Players;
+		List<Player> Players;
 
-        public Tournament(Guid id)
-        {
-            Id = id;
-            Status = TournamentStatus.Idle;
-            //Остальное подтягиваем из баз.
-        }
+		public Tournament(Guid id)
+		{
+			Id = id;
+			Status = TournamentStatus.Idle;
+			//Остальное подтягиваем из баз.
+		}
 
-    }
+	}
 
-    class Stage
-    {
-        Guid StageId { private set; public get; }
+	class Stage
+	{
+		public Guid StageId { private set; get; }
 
-        StageTypes Type {private set; public get; }
+		public StageTypes Type { private set; get; }
 
-        List<Player> Players;
+		List<Player> Players;
 
-        List<Match> Matches;
+		List<Match> Matches;
 
-        public Stage(StageTypes type)
-        {
-            StageId = new Guid();
-            Type = type;
-        }
-    }
+		public Stage(StageTypes type)
+		{
+			StageId = new Guid();
+			Type = type;
+		}
+	}
 
-    class Player//Для хранения данных об игроке в этапе
-    {
-        public Player(Guid id, Guid intellectId)
-        {
-            Id = id;
-            IntellectID = intellectId;
-            StageScore = 0;
-            Points = 0;
-        }
+	class Player//Для хранения данных об игроке в этапе
+	{
+		public Player(Guid id, Guid intellectId)
+		{
+			Id = id;
+			IntellectID = intellectId;
+			StageScore = 0;
+			Points = 0;
+		}
 
-        Guid Id { private set; public get; }
+		public Guid Id { private set; get; }
 
-        Guid IntellectID { private set; public get; }
+		public Guid IntellectID { private set; get; }
 
-        int StageScore { set; get; }//Полученные внутренние очки этапа.
+		public int StageScore { set; get; }//Полученные внутренние очки этапа.
 
-        int Points { set; get; }//Полученные очки турнира (в этом этапе).
-    }
+		public int Points { set; get; }//Полученные очки турнира (в этом этапе).
+	}
 
-    class Match
-    {
-        List<Player> Players { private set; public get; }
-        StageTypes Type { private set; public get; }
-        DateTime StartTime { set; get; }
-        bool HasResult { private set; public get; }
+	class Match
+	{
+		public List<Player> Players { private set;  get; }
+		public StageTypes Type { private set; get; }
+		public DateTime StartTime { set; get; }
+		public bool HasResult { private set; get; }
 
-        Match(List<Player> players, StageTypes type)
-        {
-            Players = players;
-            Type = type;
-            StartTime = DateTime.MaxValue;//Вроде зануления.
-            HasResult = false;
-        }
-    }
+		Match(List<Player> players, StageTypes type)
+		{
+			Players = players;
+			Type = type;
+			StartTime = DateTime.MaxValue;//Вроде зануления.
+			HasResult = false;
+		}
+	}
 }
