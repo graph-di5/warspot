@@ -17,6 +17,9 @@ namespace WarSpot.Contracts.Service
 		[OperationContract]
 		ErrorCode UploadIntellect(byte[] intellect, string name);
 
+        [OperationContract]
+        byte[] DownloadIntellect(Guid intellectID);
+
 		[OperationContract]
 		string[] GetListOfIntellects();
 
