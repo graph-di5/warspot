@@ -39,10 +39,13 @@ namespace WarSpot.Contracts.Service
         bool IsUserAdmin(Guid user);
 
         [OperationContract]
+        bool IsUser(string role, Guid user);
+
+        [OperationContract]
         ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers);
 
         [OperationContract]
-        ErrorCode SetUserRole(Guid user, int rolecode, string until);
+        ErrorCode SetUserRole(Guid user, string role, string until);
 
         [OperationContract]
         List<Guid> GetUserRole(Guid user);

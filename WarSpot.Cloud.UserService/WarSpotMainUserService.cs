@@ -211,15 +211,24 @@ namespace WarSpot.Cloud.UserService
             return Warehouse.IsUserAdmin(userID);
         }
 
+        public bool IsUser(string role, Guid user)
+        {
+            if (!_loggedIn)
+            {
+                return false;
+            }
 
-        public ErrorCode SetUserRole(Guid userID, int rolecode, string until)
+            return Warehouse.IsUser(Role.GetRoleCode(role), user);
+        }
+
+        public ErrorCode SetUserRole(Guid userID, string role, string until)
         {
             if (!_loggedIn)
             {
                 return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
             }
 
-            return Warehouse.SetUserRole(rolecode, userID, until);
+            return Warehouse.SetUserRole(Role.GetRoleCode(role), userID, until);
         }
 
 
