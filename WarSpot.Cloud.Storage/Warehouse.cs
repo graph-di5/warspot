@@ -546,8 +546,11 @@ namespace WarSpot.Cloud.Storage
 
         }
 
-        public static List<Guid> GetUserRole(Guid userID)
+        public static string[] GetUserRoles(Guid userID)
         {
+#if true
+        	return null;
+#else
             List<Guid> roleslist;
             if ((roleslist = (from r in db.UserRole
                               where r.AccountAccount_ID == userID
@@ -560,6 +563,7 @@ namespace WarSpot.Cloud.Storage
                 // User didn't have any roles. (IS IT POSSIBLE?)
                 return null;
             }
+#endif
         }
 
         #endregion

@@ -1,5 +1,4 @@
-﻿using System.Data.Objects;
-using System.Linq;
+﻿using System.Linq;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
@@ -27,9 +26,7 @@ namespace WarSpot.WebFace.Security
 				identity.Id = (from b in Warehouse.db.Account
 											 where b.Account_Name == userName
 											 select b).First().Account_ID;
-				// todo: get this list of roles from Warehouse
-				var roles = System.Web.Security.Roles.GetRolesForUser(userName);
-				identity.Roles = roles;
+				identity.Roles = Warehouse.GetUserRoles(identity.Id);
 				return identity;
 			}
 			return identity;

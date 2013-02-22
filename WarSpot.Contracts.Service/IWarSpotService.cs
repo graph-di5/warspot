@@ -54,7 +54,7 @@ namespace WarSpot.Contracts.Service
         ErrorCode SetUserRole(Guid user, string role, string until);
 
         [OperationContract]
-        List<Guid> GetUserRole(Guid user);
+        string[] GetUserRoles(Guid user);
 
         [OperationContract]
         List<Guid> GetMyTournamets();
