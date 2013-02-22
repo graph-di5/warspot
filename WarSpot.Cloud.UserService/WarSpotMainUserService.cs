@@ -91,13 +91,13 @@ namespace WarSpot.Cloud.UserService
                 return Warehouse.DownloadIntellect(intellectID);
         }
 
-		public string[] GetListOfIntellects()
+		public List<KeyValuePair<Guid,string>> GetListOfIntellects()
 		{
 			// TODO: получать список всех интеллектов пользователя и возвращать их массивом
 
 			if (!_loggedIn)
 			{
-				return (new string[1] { "Not logged in yet." });
+                return null;
 			}
 
 			return Warehouse.GetListOfIntellects(_userID);

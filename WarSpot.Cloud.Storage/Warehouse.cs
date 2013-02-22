@@ -192,10 +192,10 @@ namespace WarSpot.Cloud.Storage
         #endregion
 
         #region intellects
-        public static string[] GetListOfIntellects(Guid userID)
+        public static List<KeyValuePair<Guid,string>> GetListOfIntellects(Guid userID)
         {
 
-            List<string> result = new List<string>();
+            List<KeyValuePair<Guid, string>> result = new List<KeyValuePair<Guid, string>>();
 
             var test = (from b in db.Intellect
                         where b.AccountAccount_ID == userID
@@ -203,10 +203,10 @@ namespace WarSpot.Cloud.Storage
 
             foreach (Intellect i in test)
             {
-                result.Add(i.Intellect_Name);
+                result.Add(new KeyValuePair<Guid, string> ( i.Intellect_ID, i.Intellect_Name ));
             }
 
-            return result.ToArray();
+            return result;
         }
 
         public static bool DeleteIntellect(string name, Guid userID)
