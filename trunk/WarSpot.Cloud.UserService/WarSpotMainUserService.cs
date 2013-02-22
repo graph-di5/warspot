@@ -249,14 +249,14 @@ namespace WarSpot.Cloud.UserService
 			return Warehouse.SetUserRole(Role.GetRoleCode(role), userID, until);
 		}
 
-		public List<Guid> GetUserRole(Guid user)
+		public string[] GetUserRoles(Guid user)
 		{
 			if (!_loggedIn)
 			{
 				return null;
 			}
 
-			return Warehouse.GetUserRole(user);
+			return Warehouse.GetUserRoles(user);
 		}
 
 		#endregion

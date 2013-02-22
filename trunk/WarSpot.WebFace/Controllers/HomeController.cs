@@ -8,7 +8,7 @@ namespace WarSpot.WebFace.Controllers
 		[AllowAnonymous]
 		public ActionResult Index()
 		{
-			ViewBag.Message = "Welcome to ASP.NET MVC!";
+			ViewBag.Message = "Welcome to WarSpot!";
 
 			return View();
 		}
