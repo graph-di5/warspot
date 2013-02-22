@@ -29,6 +29,9 @@ namespace WarSpot.Contracts.Service
 		[OperationContract]
 		Replay DownloadReplay(Guid game);
 
+        [OperationContract]
+        ErrorCode UploadReplay(Guid game, byte[] replay);
+
 		[OperationContract]
 		Guid? BeginMatch(List<Guid> intellects);
 
