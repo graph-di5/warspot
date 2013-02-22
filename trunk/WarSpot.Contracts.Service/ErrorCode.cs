@@ -61,6 +61,11 @@ namespace WarSpot.Contracts.Service
 			Type = type;
 			Message = message;
 		}
+
+        public override string ToString()
+        {
+            return this.Type.ToString() + this.Message;
+        }
 	}
 
 }
