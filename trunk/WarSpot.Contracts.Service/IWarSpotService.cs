@@ -21,8 +21,8 @@ namespace WarSpot.Contracts.Service
         byte[] DownloadIntellect(Guid intellectID);
 
 		[OperationContract]
-		string[] GetListOfIntellects();
-
+		List<KeyValuePair<Guid, string>> GetListOfIntellects();
+        
 		[OperationContract]
 		ErrorCode DeleteIntellect(string name);
 
