@@ -17,20 +17,20 @@ namespace WarSpot.Contracts.Service
 		[OperationContract]
 		ErrorCode UploadIntellect(byte[] intellect, string name);
 
-        [OperationContract]
-        byte[] DownloadIntellect(Guid intellectID);
+		[OperationContract]
+		byte[] DownloadIntellect(Guid intellectID);
 
 		[OperationContract]
 		List<KeyValuePair<Guid, string>> GetListOfIntellects();
-        
+
 		[OperationContract]
 		ErrorCode DeleteIntellect(string name);
 
 		[OperationContract]
 		Replay DownloadReplay(Guid game);
 
-        [OperationContract]
-        ErrorCode UploadReplay(Guid game, byte[] replay);
+		[OperationContract]
+		ErrorCode UploadReplay(Guid game, byte[] replay);
 
 		[OperationContract]
 		Guid? BeginMatch(List<Guid> intellects);
@@ -41,35 +41,35 @@ namespace WarSpot.Contracts.Service
 		[OperationContract]
 		void KeepAlive();
 
-        [OperationContract]
-        bool IsUserAdmin(Guid user);
+		[OperationContract]
+		bool IsUserAdmin(Guid user);
 
-        [OperationContract]
-        bool IsUser(string role, Guid user);
+		[OperationContract]
+		bool IsUser(string role, Guid user);
 
-        [OperationContract]
-        ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers);
+		[OperationContract]
+		ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers);
 
-        [OperationContract]
-        ErrorCode SetUserRole(Guid user, string role, string until);
+		[OperationContract]
+		ErrorCode SetUserRole(Guid user, string role, string until);
 
-        [OperationContract]
-        string[] GetUserRoles(Guid user);
+		[OperationContract]
+		string[] GetUserRoles(Guid user);
 
-        [OperationContract]
-        List<Guid> GetMyTournamets();
+		[OperationContract]
+		List<Guid> GetMyTournamets();
 
-        [OperationContract]
-        ErrorCode DeleteTournament(Guid tournamentID);
+		[OperationContract]
+		ErrorCode DeleteTournament(Guid tournamentID);
 
-        [OperationContract]
-        List<Guid> GetAvailableTournaments();
+		[OperationContract]
+		List<Guid> GetAvailableTournaments();
 
-        [OperationContract]
-        ErrorCode JoinTournament(Guid tournamentID);
+		[OperationContract]
+		ErrorCode JoinTournament(Guid tournamentID);
 
-        [OperationContract]
-        ErrorCode LeaveTournament(Guid tournamentID);
+		[OperationContract]
+		ErrorCode LeaveTournament(Guid tournamentID);
 
 	}
 }

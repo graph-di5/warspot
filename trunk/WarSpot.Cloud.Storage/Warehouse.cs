@@ -96,8 +96,9 @@ namespace WarSpot.Cloud.Storage
             string uniqueBlobName = string.Format("intellects/{0}/{1}", Account_ID.ToString(), name);
 
             if ((from i in db.Intellect
-                 where i.Intellect_Name == name
+                 where i.Intellect_Name == name && i.AccountAccount_ID == Account_ID
                  select i).Any())
+							// todo report an error
                 return false;
 
             db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID));
@@ -549,7 +550,15 @@ namespace WarSpot.Cloud.Storage
         public static string[] GetUserRoles(Guid userID)
         {
 #if true
-        	return null;
+        	var codes = (from r in db.UserRole
+        	               where r.AccountAccount_ID == userID
+        	               select r.Role_Code);
+					var res = new List<string>();
+        	foreach (var code in codes)
+        	{
+        		res.Add(Role.GetRoleName(code));
+        	}
+        	return res.ToArray();
 #else
             List<Guid> roleslist;
             if ((roleslist = (from r in db.UserRole
