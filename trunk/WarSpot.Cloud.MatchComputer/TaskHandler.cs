@@ -97,33 +97,6 @@ namespace WarSpot.Cloud.MatchComputer
 		    var bf = new BinaryFormatter();
 		    msg = (Message) bf.Deserialize(stream);
 
-            #region oldVersion// old version. to delete
-            /*
-			// получаем из сообщения из очереди имена интеллектов
-			// надо разделять имена интеллектов в сообщении каким-то стандартным сепаратором, например, пробелом
-			List<Guid> namesOfIntellects = new List<Guid>();
-
-			string content = message.AsString;
-			int position = 0;
-			string guidName = "";
-			while (position <= content.Length)
-			{
-				if (position == content.Length || Char.IsSeparator(content[position]))
-				{
-					Guid guid = new Guid(guidName);
-					namesOfIntellects.Add(guid);
-					guidName = "";
-					position++;
-					continue;
-				}
-				guidName += content[position++];
-			}
-			// 
-			msg.ID = Guid.NewGuid();
-			msg.ListOfDlls = namesOfIntellects;
-            */
-#endregion
-
 			return msg;
 		}
 
