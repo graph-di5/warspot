@@ -119,16 +119,22 @@ namespace WarSpot.Cloud.Storage
 
         public static byte[] DownloadIntellect(Guid intellectID)
         {
-            List<Intellect> test = (from b in db.Intellect
+            string name1 = (from b in db.Intellect
                                     where b.Intellect_ID == intellectID
-                                    select b).ToList<Intellect>();
+                                    select b.Intellect_Name).First<string>();
 
-            List<Account> temp = (from b in db.Account
-                                  where b.Account_ID == test.First<Intellect>().AccountAccount_ID
-                                  select b).ToList<Account>();
+            Guid name2 = (from a in db.Account
+                            where a.Account_ID == ((from b in db.Intellect
+                                                    where b.Intellect_ID == intellectID
+                                                    select b.AccountAccount_ID).FirstOrDefault<Guid>())
+                            select a.Account_ID).First<Guid>();
 
-            string neededname = string.Format("intellects/{0}/{1}", temp.First<Account>().Account_Name, test.First<Intellect>().Intellect_Name);
+
+            string neededname = string.Format("intellects/{0}/{1}", name2.ToString(), name1);
             CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
+
+
+
             return blob.DownloadByteArray();
         }
 
@@ -226,8 +232,6 @@ namespace WarSpot.Cloud.Storage
 
         public static Guid? BeginMatch(List<Guid> intellects, Guid userID)
         {
-            
-
             Guid gameID = Guid.NewGuid();
 
 
@@ -242,9 +246,10 @@ namespace WarSpot.Cloud.Storage
 
                 db.SaveChanges();
             }
-            
-            
+
+
             return gameID;
+
         }
 
         public static List<Guid> GetListOfGames(Guid _userID)
@@ -406,7 +411,7 @@ namespace WarSpot.Cloud.Storage
                     }
                     catch (Exception e)
                     {
-                        return new ErrorCode(ErrorType.UnknownException, "Database problems: " + e.ToString());
+                        return new ErrorCode(ErrorType.UnknownException, "Database problems: \n" + e.ToString());
                     }
                 }
 

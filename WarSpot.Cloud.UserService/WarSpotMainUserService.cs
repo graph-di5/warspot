@@ -84,6 +84,16 @@ namespace WarSpot.Cloud.UserService
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
 		}
 
+        public byte[] DownloadIntellect(Guid intellectID)
+        {
+            if (!_loggedIn)
+            {
+                return null;
+            }
+            else
+                return Warehouse.DownloadIntellect(intellectID);
+        }
+
 		public string[] GetListOfIntellects()
 		{
 			// TODO: получать список всех интеллектов пользователя и возвращать их массивом
