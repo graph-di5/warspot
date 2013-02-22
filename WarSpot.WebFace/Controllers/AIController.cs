@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using WarSpot.Cloud.Storage;
@@ -16,19 +18,11 @@ namespace WarSpot.WebFace.Controllers
 		public ActionResult Index()
 		{
 			// HttpContext.Current.User
-			string[] names = new string[] {};
+			List<KeyValuePair<Guid, string>> names = new List<KeyValuePair<Guid, string>> {};
 			var customIdentity = User.Identity as CustomIdentity;
 			if (customIdentity != null)
 			{
 				names = Warehouse.GetListOfIntellects(customIdentity.Id);
-				if(customIdentity.IsInRole("Developer"))
-				{
-					string[] ids = new string[]{};
-					(from i in Warehouse.db.Intellect
-					 where i.AccountAccount_ID == customIdentity.Id
-					 select i).ToString();
-					//Warehouse.Db.Intellect.Where(i => i.AccountAccount_ID == customIdentity.Id);
-				}
 			}
 
 			return View(names);
