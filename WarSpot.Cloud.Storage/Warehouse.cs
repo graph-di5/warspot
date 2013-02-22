@@ -25,7 +25,7 @@ namespace WarSpot.Cloud.Storage
         #endregion BLOB SECTION END
 
         #region DATABASE SECTION VAR
-        public static DBContext db;
+        public static DBContext Db;
         #endregion DATABASE SECTION END
 
         static Warehouse()
@@ -78,7 +78,7 @@ namespace WarSpot.Cloud.Storage
 
                 // раньше DbconnectionString для EntityConnection парсилась RoleEnviroment.GetConfiguration, но парсилась как-то.. 
                 // плохо. временно заменяю на прямое указание!
-                db = new DBContext(new EntityConnection(@"metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string='data source=localhost\SQLEXPRESS;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework'")); // инициализируем базу данных
+                Db = new DBContext(new EntityConnection(@"metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string='data source=localhost\SQLEXPRESS;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework'")); // инициализируем базу данных
 
 
 
@@ -88,20 +88,20 @@ namespace WarSpot.Cloud.Storage
 
         public static bool UploadIntellect(Guid Account_ID, string name, byte[] data)
         {
-            if (db.Intellect == null)
+            if (Db.Intellect == null)
             {
                 Trace.WriteLine("db.Intellect == null");
             }
 
             string uniqueBlobName = string.Format("intellects/{0}/{1}", Account_ID.ToString(), name);
 
-            if ((from i in db.Intellect
+            if ((from i in Db.Intellect
                  where i.Intellect_Name == name
                  select i).Any())
                 return false;
 
-            db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID));
-            db.SaveChanges();
+            Db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID));
+            Db.SaveChanges();
 
             CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
             blob.UploadByteArray(data);
@@ -119,12 +119,12 @@ namespace WarSpot.Cloud.Storage
 
         public static byte[] DownloadIntellect(Guid intellectID)
         {
-            string name1 = (from b in db.Intellect
+            string name1 = (from b in Db.Intellect
                                     where b.Intellect_ID == intellectID
                                     select b.Intellect_Name).First<string>();
 
-            Guid name2 = (from a in db.Account
-                            where a.Account_ID == ((from b in db.Intellect
+            Guid name2 = (from a in Db.Account
+                            where a.Account_ID == ((from b in Db.Intellect
                                                     where b.Intellect_ID == intellectID
                                                     select b.AccountAccount_ID).FirstOrDefault<Guid>())
                             select a.Account_ID).First<Guid>();
@@ -151,18 +151,20 @@ namespace WarSpot.Cloud.Storage
 
         #region register & login
 
+			// todo extend this by another user data
         public static bool Register(string username, string password)
         {
             List<Account> test;
 
-            if ((test = (from b in db.Account
+            if ((test = (from b in Db.Account
                          where b.Account_Name == username
                          select b).ToList<Account>()).Any())
                 return false;
             try
             { 
-                db.AddToAccount(Account.CreateAccount(Guid.NewGuid(), username, password));
-                db.SaveChanges();
+                Db.AddToAccount(Account.CreateAccount(Guid.NewGuid(), username, password));
+							// todo assign role to the user
+                Db.SaveChanges();
 
                 return true;
             }
@@ -174,7 +176,7 @@ namespace WarSpot.Cloud.Storage
 
         public static bool Login(string username, string password)
         {
-            return (from b in db.Account
+            return (from b in Db.Account
                     where b.Account_Name == username && b.Account_Password == password
                     select b).Any();
         }
@@ -187,7 +189,7 @@ namespace WarSpot.Cloud.Storage
 
             List<string> result = new List<string>();
 
-            var test = (from b in db.Intellect
+            var test = (from b in Db.Intellect
                         where b.AccountAccount_ID == userID
                         select b).ToList<Intellect>();
 
@@ -202,7 +204,7 @@ namespace WarSpot.Cloud.Storage
         public static bool DeleteIntellect(string name, Guid userID)
         {
 
-            var test = (from b in db.Intellect
+            var test = (from b in Db.Intellect
                         where b.AccountAccount_ID == userID
                         select b).ToList<Intellect>();
 
@@ -214,8 +216,8 @@ namespace WarSpot.Cloud.Storage
                 CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
                 blob.Delete();
 
-                db.Intellect.DeleteObject(result);
-                db.SaveChanges();
+                Db.Intellect.DeleteObject(result);
+                Db.SaveChanges();
                 return true;
             }
             else
@@ -236,15 +238,15 @@ namespace WarSpot.Cloud.Storage
 
 
 
-            db.Game.AddObject(Game.CreateGame(gameID, userID));
+            Db.Game.AddObject(Game.CreateGame(gameID, userID));
 
-            db.SaveChanges();
+            Db.SaveChanges();
 
             foreach (Guid intellect in intellects)
             {
-                db.AddToGameIntellect(GameIntellect.CreateGameIntellect(gameID, intellect));
+                Db.AddToGameIntellect(GameIntellect.CreateGameIntellect(gameID, intellect));
 
-                db.SaveChanges();
+                Db.SaveChanges();
             }
 
 
@@ -254,7 +256,7 @@ namespace WarSpot.Cloud.Storage
 
         public static List<Guid> GetListOfGames(Guid _userID)
         {
-            List<Game> test = (from b in db.Game
+            List<Game> test = (from b in Db.Game
                                where b.AccountAccount_ID == _userID
                                select b).ToList<Game>();
 
@@ -274,7 +276,7 @@ namespace WarSpot.Cloud.Storage
 
         public static ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers, Guid userID)
         {
-            if ((from t in db.Tournament
+            if ((from t in Db.Tournament
                  where t.Tournament_Name == title && t.Creator_ID == userID
                  select t).ToList<Tournament>().Any<Tournament>())
                 return new ErrorCode(ErrorType.BadFileType, "Bad tournament title. User has already created tournament with the same name = " + title);
@@ -286,8 +288,8 @@ namespace WarSpot.Cloud.Storage
 
             try
             { 
-                db.AddToTournament(Tournament.CreateTournament(Guid.NewGuid(), maxplayers, startdate, userID, title));
-                db.SaveChanges();
+                Db.AddToTournament(Tournament.CreateTournament(Guid.NewGuid(), maxplayers, startdate, userID, title));
+                Db.SaveChanges();
 
                 return new ErrorCode(ErrorType.Ok, "Tournament has been created");
             }
@@ -300,7 +302,7 @@ namespace WarSpot.Cloud.Storage
         public static List<Guid> GetMyTournaments(Guid userID)
         {
             List<Guid> tournamentlist;
-            if ((tournamentlist = (from t in db.Tournament
+            if ((tournamentlist = (from t in Db.Tournament
                                    where t.Creator_ID == userID
                                    select t.Tournament_ID).ToList<Guid>()).Any<Guid>())
             {
@@ -318,24 +320,24 @@ namespace WarSpot.Cloud.Storage
         {
             Tournament needed;
 
-            if ((needed = (from t in db.Tournament
+            if ((needed = (from t in Db.Tournament
                            where t.Creator_ID == userID && t.Tournament_ID == tournamentID
                            select t).FirstOrDefault<Tournament>()) != null)
             {
                 try
                 {
-                    foreach (TournamentPlayer p in (from tp in db.TournamentPlayers
+                    foreach (TournamentPlayer p in (from tp in Db.TournamentPlayers
                                                     where tp.TournamentTournament_ID == needed.Tournament_ID
                                                     select tp).ToList<TournamentPlayer>())
                     {
 
-                        db.TournamentPlayers.DeleteObject(p);
+                        Db.TournamentPlayers.DeleteObject(p);
 
                     }
 
-                    db.Tournament.DeleteObject(needed);
+                    Db.Tournament.DeleteObject(needed);
 
-                    db.SaveChanges();
+                    Db.SaveChanges();
 
                     return new ErrorCode(ErrorType.Ok, "Tournament with title " + needed.Tournament_Name + " was deleted.");
                 }
@@ -345,7 +347,7 @@ namespace WarSpot.Cloud.Storage
                 }
             }
             else
-                return new ErrorCode(ErrorType.BadFileType, "User " + (from u in db.Account
+                return new ErrorCode(ErrorType.BadFileType, "User " + (from u in Db.Account
                                                                        where u.Account_ID == userID
                                                                        select u.Account_Name) + " didn't create that tournament. ");
         }
@@ -354,11 +356,11 @@ namespace WarSpot.Cloud.Storage
         {
             List<Tournament> actualtournaments;
 
-            if ((actualtournaments = (from t in db.Tournament
+            if ((actualtournaments = (from t in Db.Tournament
                                       where DateTime.Compare(DateTime.Parse(t.When), DateTime.Now) >= 0
                                       select t).ToList<Tournament>()).Any<Tournament>())
             {
-                List<Guid> currentusertournaments = (from t in db.TournamentPlayers
+                List<Guid> currentusertournaments = (from t in Db.TournamentPlayers
                                                      where t.AccountAccount_ID == userID
                                                      select t.TournamentTournament_ID).ToList<Guid>();
 
@@ -386,11 +388,11 @@ namespace WarSpot.Cloud.Storage
 
         public static ErrorCode JoinTournament(Guid tournamentID, Guid userID)
         {
-            if ((from t in db.Tournament
+            if ((from t in Db.Tournament
                  where t.Tournament_ID == tournamentID
                  select t).ToList<Tournament>().Any<Tournament>())
             {
-                if ((from tp in db.TournamentPlayers
+                if ((from tp in Db.TournamentPlayers
                      where tp.AccountAccount_ID == userID && tp.TournamentTournament_ID == tournamentID
                      select tp).Any<TournamentPlayer>())
                 {
@@ -400,11 +402,11 @@ namespace WarSpot.Cloud.Storage
                 {
                     try
                     {
-                        db.TournamentPlayers.AddObject(TournamentPlayer.CreateTournamentPlayer(new Guid(), tournamentID, userID));
+                        Db.TournamentPlayers.AddObject(TournamentPlayer.CreateTournamentPlayer(new Guid(), tournamentID, userID));
 
-                        db.SaveChanges();
+                        Db.SaveChanges();
 
-                        return new ErrorCode(ErrorType.Ok, "User " + (from u in db.Account
+                        return new ErrorCode(ErrorType.Ok, "User " + (from u in Db.Account
                                                                       where u.Account_ID == userID
                                                                       select u.Account_Name) + " joined to tournament.");
 
@@ -424,21 +426,21 @@ namespace WarSpot.Cloud.Storage
 
         public static ErrorCode LeaveTournament(Guid tournamentID, Guid userID)
         {
-            if ((from t in db.Tournament
+            if ((from t in Db.Tournament
                  where t.Tournament_ID == tournamentID
                  select t).ToList<Tournament>().Any<Tournament>())
             {
                 TournamentPlayer needed;
-                if ((needed = (from tp in db.TournamentPlayers
+                if ((needed = (from tp in Db.TournamentPlayers
                                where tp.AccountAccount_ID == userID && tp.TournamentTournament_ID == tournamentID
                                select tp).ToList<TournamentPlayer>().FirstOrDefault<TournamentPlayer>()) != null)
                 {
                     try
                     {
-                        db.TournamentPlayers.DeleteObject(needed);
-                        db.SaveChanges();
+                        Db.TournamentPlayers.DeleteObject(needed);
+                        Db.SaveChanges();
 
-                        return new ErrorCode(ErrorType.Ok, "User " + (from u in db.Account
+                        return new ErrorCode(ErrorType.Ok, "User " + (from u in Db.Account
                                                                       where u.Account_ID == userID
                                                                       select u.Account_Name) + " leaved the tournament.");
                     }
@@ -464,7 +466,7 @@ namespace WarSpot.Cloud.Storage
 
         public static bool IsUserAdmin(Guid userID)
         {
-            var needed = (from r in db.UserRole
+            var needed = (from r in Db.UserRole
                                    where r.AccountAccount_ID == userID && r.Role_Code == 1
                                    select r).ToList();
 
@@ -480,7 +482,7 @@ namespace WarSpot.Cloud.Storage
 
         public static bool IsUser(int rolecode, Guid userID)
         {
-            if ((from r in db.UserRole
+            if ((from r in Db.UserRole
                  where r.AccountAccount_ID == userID && r.Role_Code == rolecode
                  select r).Any())
                 return true;
@@ -490,7 +492,7 @@ namespace WarSpot.Cloud.Storage
 
         public static ErrorCode SetUserRole(int rolecode, Guid userID, String until)
         {
-            List<UserRole> thatroleofuser = (from r in db.UserRole
+            List<UserRole> thatroleofuser = (from r in Db.UserRole
                  where r.AccountAccount_ID == userID && r.Role_Code == rolecode
                  select r).ToList<UserRole>();
 
@@ -505,9 +507,9 @@ namespace WarSpot.Cloud.Storage
                     try
                     {
 
-                        db.UserRole.DeleteObject(thatroleofuser.First<UserRole>());
-                        db.UserRole.AddObject(UserRole.CreateUserRole(new Guid(), until, userID, rolecode));
-                        db.SaveChanges();
+                        Db.UserRole.DeleteObject(thatroleofuser.First<UserRole>());
+                        Db.UserRole.AddObject(UserRole.CreateUserRole(new Guid(), until, userID, rolecode));
+                        Db.SaveChanges();
                         return new ErrorCode(ErrorType.Ok, "Role has been given.");
 
                     }
@@ -522,9 +524,9 @@ namespace WarSpot.Cloud.Storage
             {
                 try
                 {
-                    db.UserRole.AddObject(UserRole.CreateUserRole(new Guid(), until, userID, rolecode));
+                    Db.UserRole.AddObject(UserRole.CreateUserRole(new Guid(), until, userID, rolecode));
 
-                    db.SaveChanges();
+                    Db.SaveChanges();
 
                     return new ErrorCode(ErrorType.Ok, "Role has been given.");
                 }
@@ -539,7 +541,7 @@ namespace WarSpot.Cloud.Storage
         public static List<Guid> GetUserRole(Guid userID)
         {
             List<Guid> roleslist;
-            if ((roleslist = (from r in db.UserRole
+            if ((roleslist = (from r in Db.UserRole
                               where r.AccountAccount_ID == userID
                               select r.Role_ID).ToList<Guid>()).Any<Guid>())
             {

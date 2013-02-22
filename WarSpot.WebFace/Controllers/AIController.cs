@@ -1,26 +1,32 @@
-﻿using System.Data.Objects;
-using System.IO;
+﻿using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using WarSpot.Cloud.Storage;
 using WarSpot.WebFace.Security;
 
 
 namespace WarSpot.WebFace.Controllers
 {
-	public class AIController : Controller
+	public class AIController : AuthorizedController
 	{
 		//
 		// GET: /AI/
-
+		//[Authorize(Roles = "User")]
+		//[Authorize]
 		public ActionResult Index()
 		{
+			// HttpContext.Current.User
 			string[] names = new string[] {};
 			var customIdentity = User.Identity as CustomIdentity;
-			if (customIdentity != null) 
+			if (customIdentity != null)
+			{
 				names = Warehouse.GetListOfIntellects(customIdentity.Id);
+				if(customIdentity.IsInRole("Developer"))
+				{
+					string[] ids = new string[]{};
+
+				}
+			}
 
 			return View(names);
 		}
