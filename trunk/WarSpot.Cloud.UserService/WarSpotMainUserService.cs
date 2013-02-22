@@ -6,27 +6,24 @@ using WarSpot.Cloud.Storage;
 
 namespace WarSpot.Cloud.UserService
 {
-
-   
 	public class WarSpotMainUserService : IWarSpotService
 	{
 		private bool _loggedIn;
-		private Guid _userID;       
-		
+		private Guid _userID;
 
 		public WarSpotMainUserService()
 		{
 			_loggedIn = false;
 		}
 
-        #region match's stuff
-        public Guid? BeginMatch(List<Guid> intellects)
+		#region match's stuff
+		public Guid? BeginMatch(List<Guid> intellects)
 		{
 			if (!_loggedIn)
 			{
 				return null;
 			}
-            
+
 			return Warehouse.BeginMatch(intellects, _userID);
 
 		}
@@ -40,10 +37,10 @@ namespace WarSpot.Cloud.UserService
 
 			return Warehouse.GetListOfGames(_userID);
 		}
-        #endregion
+		#endregion
 
-        #region login and registration
-        public ErrorCode Register(string username, string pass)
+		#region login and registration
+		public ErrorCode Register(string username, string pass)
 		{
 			if (Warehouse.Register(username, pass))
 				return new ErrorCode(ErrorType.Ok, "New account has been successfully created.");
@@ -56,7 +53,7 @@ namespace WarSpot.Cloud.UserService
 			if (Warehouse.Login(username, pass))
 			{
 				_loggedIn = true;
-				_userID = (from b in Warehouse.db.Account
+				_userID = (from b in Warehouse.Db.Account
 									 where b.Account_Name == username
 									 select b).First().Account_ID;
 
@@ -75,10 +72,10 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (_loggedIn)
 			{
-                if (Warehouse.UploadIntellect(_userID, name, intellect))
-                    return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
-                else
-                    return new ErrorCode(ErrorType.BadFileType, "Inttellect with the same name is already existed");
+				if (Warehouse.UploadIntellect(_userID, name, intellect))
+					return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
+				else
+					return new ErrorCode(ErrorType.BadFileType, "Inttellect with the same name is already existed");
 			}
 			else
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
@@ -115,7 +112,7 @@ namespace WarSpot.Cloud.UserService
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
 			}
 
-            if (Warehouse.DeleteIntellect(name, _userID))
+			if (Warehouse.DeleteIntellect(name, _userID))
 			{
 				return new ErrorCode(ErrorType.Ok, "Intellect has been deleted.");
 			}
@@ -134,130 +131,127 @@ namespace WarSpot.Cloud.UserService
 				return null;
 			}
 
-            return Warehouse.GetReplay(gameID);
+			return Warehouse.GetReplay(gameID);
 
 		}
 
 		#endregion replay's stuff
 
-        #region tournament stuff
-        public ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers)
-        {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
-            }
+		#region tournament stuff
+		public ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers)
+		{
+			if (!_loggedIn)
+			{
+				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+			}
 
-            return Warehouse.CreateTournament(title, startdate, maxplayers, this._userID);            
-        }
-
-
-        public List<Guid> GetMyTournamets()
-        {
-            if (!_loggedIn)
-            {
-                return null;
-            }
-
-            return Warehouse.GetMyTournaments(this._userID);
-        }
+			return Warehouse.CreateTournament(title, startdate, maxplayers, this._userID);
+		}
 
 
-        public ErrorCode DeleteTournament(Guid tournamentID)
-        {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
-            }
+		public List<Guid> GetMyTournamets()
+		{
+			if (!_loggedIn)
+			{
+				return null;
+			}
 
-            return Warehouse.DeleteTournament(tournamentID, this._userID);
-
-        }
-
-
-        public List<Guid> GetAvailableTournaments()
-        {
-            if (!_loggedIn)
-            {
-                return null;
-            }
-
-            return Warehouse.GetAvailableTournaments(this._userID);
-
-        }
+			return Warehouse.GetMyTournaments(this._userID);
+		}
 
 
-        public ErrorCode JoinTournament(Guid tournamentID)
-        {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
-            }
+		public ErrorCode DeleteTournament(Guid tournamentID)
+		{
+			if (!_loggedIn)
+			{
+				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+			}
 
-            return Warehouse.JoinTournament(tournamentID, this._userID);
-        }
+			return Warehouse.DeleteTournament(tournamentID, this._userID);
 
-
-        public ErrorCode LeaveTournament(Guid tournamentID)
-        {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
-            }
-
-            return Warehouse.LeaveTournament(tournamentID, this._userID);
-
-        }
-        #endregion
-
-        #region role's stuff
+		}
 
 
-        public bool IsUserAdmin(Guid userID)
-        {
-            if (!_loggedIn)
-            {
-                return false;
-            }
+		public List<Guid> GetAvailableTournaments()
+		{
+			if (!_loggedIn)
+			{
+				return null;
+			}
 
-            return Warehouse.IsUserAdmin(userID);
-        }
+			return Warehouse.GetAvailableTournaments(this._userID);
 
-        public bool IsUser(string role, Guid user)
-        {
-            if (!_loggedIn)
-            {
-                return false;
-            }
-
-            return Warehouse.IsUser(Role.GetRoleCode(role), user);
-        }
-
-        public ErrorCode SetUserRole(Guid userID, string role, string until)
-        {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
-            }
-
-            return Warehouse.SetUserRole(Role.GetRoleCode(role), userID, until);
-        }
+		}
 
 
-        public List<Guid> GetUserRole(Guid user)
-        {
-            if (!_loggedIn)
-            {
-                return null;
-            }
+		public ErrorCode JoinTournament(Guid tournamentID)
+		{
+			if (!_loggedIn)
+			{
+				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+			}
 
-            return Warehouse.GetUserRole(user);
-        }
+			return Warehouse.JoinTournament(tournamentID, this._userID);
+		}
 
 
-        #endregion 
+		public ErrorCode LeaveTournament(Guid tournamentID)
+		{
+			if (!_loggedIn)
+			{
+				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+			}
 
-        public void KeepAlive()
+			return Warehouse.LeaveTournament(tournamentID, this._userID);
+
+		}
+		#endregion
+
+		#region role's stuff
+
+		public bool IsUserAdmin(Guid userID)
+		{
+			if (!_loggedIn)
+			{
+				return false;
+			}
+
+			return Warehouse.IsUserAdmin(userID);
+		}
+
+		public bool IsUser(string role, Guid user)
+		{
+			if (!_loggedIn)
+			{
+				return false;
+			}
+
+			return Warehouse.IsUser(Role.GetRoleCode(role), user);
+		}
+
+		public ErrorCode SetUserRole(Guid userID, string role, string until)
+		{
+			if (!_loggedIn)
+			{
+				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+			}
+
+			return Warehouse.SetUserRole(Role.GetRoleCode(role), userID, until);
+		}
+
+		public List<Guid> GetUserRole(Guid user)
+		{
+			if (!_loggedIn)
+			{
+				return null;
+			}
+
+			return Warehouse.GetUserRole(user);
+		}
+
+		#endregion
+
+		public void KeepAlive()
 		{
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 using WarSpot.Cloud.Storage;
+using WarSpot.Common.Utils;
 using WarSpot.WebFace.Models;
 using WarSpot.WebFace.Security;
 
@@ -78,11 +79,7 @@ namespace WarSpot.WebFace.Controllers
 			if (ModelState.IsValid)
 			{
 				// Attempt to register the user
-				//MembershipCreateStatus createStatus;
-				//Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
-
-
-				if (Warehouse.Register(model.UserName, model.Password))
+				if (Warehouse.Register(model.UserName, HashHelper.GetMd5Hash(model.Password)))
 				{
 					if (CustomPrincipal.Login(model.UserName, model.Password, false))
 					{
