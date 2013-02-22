@@ -10,7 +10,8 @@ namespace WarSpot.Cloud.Storage
 			User = 0x0,
 			Admin = 0x1,
 			MetaAdmin = 0x2,
-			Developer = 0x4
+			Developer = 0x4,
+			NoUser = 0x1000000,
 		}
 
 		public static int GetRoleCode(string role)
@@ -25,6 +26,24 @@ namespace WarSpot.Cloud.Storage
 				return (int)EnumRoleType.User;
 			default:
 				return -1;
+			}
+		}
+
+		public static string GetRoleName(int id)
+		{
+			switch ((EnumRoleType)id)
+			{
+			case EnumRoleType.User:
+				return EnumRoleType.User.ToString();
+			case EnumRoleType.Admin:
+				return EnumRoleType.Admin.ToString();
+			case EnumRoleType.MetaAdmin:
+				return EnumRoleType.MetaAdmin.ToString();
+			case EnumRoleType.Developer:
+				return EnumRoleType.Developer.ToString();
+			default:
+				return EnumRoleType.NoUser.ToString();
+
 			}
 		}
 	}
