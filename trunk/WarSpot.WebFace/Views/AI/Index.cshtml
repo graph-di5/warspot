@@ -1,4 +1,5 @@
-﻿@model IEnumerable<string> 
+﻿@using WarSpot.WebFace.Security
+@model List<KeyValuePair<Guid, string>>
 
 @{
 	ViewBag.Title = "Интеллекты ваших существ";
@@ -28,6 +29,11 @@
 	<tr><td><b>Имя</b></td></tr>
 	@foreach (var i in Model)
  {
-		<tr><td>@i</td></tr>
+ 	<tr><td>@i.Value</td>
+		@if((User.Identity as CustomIdentity).IsInRole("Developer"))
+				{
+		<td>@i.Key</td>
+        }
+    </tr>
 	}
 </table>
