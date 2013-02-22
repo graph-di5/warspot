@@ -53,7 +53,7 @@ namespace WarSpot.Cloud.UserService
 			if (Warehouse.Login(username, pass))
 			{
 				_loggedIn = true;
-				_userID = (from b in Warehouse.Db.Account
+				_userID = (from b in Warehouse.db.Account
 									 where b.Account_Name == username
 									 select b).First().Account_ID;
 
