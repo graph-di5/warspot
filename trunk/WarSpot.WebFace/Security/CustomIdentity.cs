@@ -24,7 +24,7 @@ namespace WarSpot.WebFace.Security
 			{
 				identity.IsAuthenticated = true;
 				identity.Name = userName;
-				identity.Id = (from b in Warehouse.Db.Account
+				identity.Id = (from b in Warehouse.db.Account
 											 where b.Account_Name == userName
 											 select b).First().Account_ID;
 				// todo: get this list of roles from Warehouse

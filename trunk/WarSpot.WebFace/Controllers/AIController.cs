@@ -24,7 +24,10 @@ namespace WarSpot.WebFace.Controllers
 				if(customIdentity.IsInRole("Developer"))
 				{
 					string[] ids = new string[]{};
-
+					(from i in Warehouse.db.Intellect
+					 where i.AccountAccount_ID == customIdentity.Id
+					 select i).ToString();
+					//Warehouse.Db.Intellect.Where(i => i.AccountAccount_ID == customIdentity.Id);
 				}
 			}
 

@@ -69,7 +69,7 @@ namespace WarSpot.Cloud.MatchComputer
 		{
 			Stream stream = new MemoryStream();
             // todo: вынести stream из конструктора в параметр метода
-			WarSpot.MatchComputer.Computer computer = new WarSpot.MatchComputer.Computer(listIntellect, stream);
+			Computer computer = new Computer(listIntellect, stream);
             computer.Compute();
 
             Guid gameID = Guid.NewGuid();
