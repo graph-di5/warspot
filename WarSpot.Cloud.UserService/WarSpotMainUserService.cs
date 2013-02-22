@@ -135,6 +135,16 @@ namespace WarSpot.Cloud.UserService
 
 		}
 
+        public ErrorCode UploadReplay(Guid gameID, byte[] replay)
+        {
+            if (!_loggedIn)
+            {
+                return null;
+            }
+
+            return Warehouse.UploadReplay(replay, gameID);
+        }
+
 		#endregion replay's stuff
 
 		#region tournament stuff
