@@ -570,10 +570,12 @@ namespace WarSpot.Cloud.Storage
 
 		public static string[] GetUserRoles(Guid userID)
 		{
-			return (from r in db.UserRole
-			        where r.AccountAccount_ID == userID
-			        select ((RoleType) r.Role_Code).ToString()).ToArray();
 
+            return (from r in db.UserRole
+                       where r.AccountAccount_ID == userID
+                       select r.Role_Code).ToList().
+                           Select(x=>
+                               Enum.GetName(typeof(RoleType), (RoleType)x)).ToArray();
 		}
 
 		#endregion
