@@ -236,7 +236,7 @@ namespace WarSpot.Cloud.UserService
 				return false;
 			}
 
-			return Warehouse.IsUser(Role.GetRoleCode(role), user);
+			return Warehouse.IsUser((RoleType)Enum.Parse(typeof(RoleType),role), user);
 		}
 
 		public ErrorCode SetUserRole(Guid userID, string role, string until)
@@ -246,7 +246,7 @@ namespace WarSpot.Cloud.UserService
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
 			}
 
-			return Warehouse.SetUserRole(Role.GetRoleCode(role), userID, until);
+			return Warehouse.SetUserRole((RoleType)Enum.Parse(typeof(RoleType), role), userID, until);
 		}
 
 		public string[] GetUserRoles(Guid user)
