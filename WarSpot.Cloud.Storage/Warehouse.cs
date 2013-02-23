@@ -101,11 +101,11 @@ namespace WarSpot.Cloud.Storage
 							// todo report an error
                 return false;
 
-            db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID));
-            db.SaveChanges();
-
             CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
             blob.UploadByteArray(data);
+
+					db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID));
+						db.SaveChanges();
 
             return true;
 

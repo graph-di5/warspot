@@ -2,28 +2,28 @@
 
 namespace WarSpot.Cloud.Storage
 {
+	[Flags]
+	public enum RoleType : int
+	{
+		User = 0x0,
+		Admin = 0x1,
+		MetaAdmin = 0x2,
+		Developer = 0x4,
+		NoUser = 0x1000000,
+	}
 	public static class Role
 	{
-		[Flags]
-		public enum EnumRoleType : int
-		{
-			User = 0x0,
-			Admin = 0x1,
-			MetaAdmin = 0x2,
-			Developer = 0x4,
-			NoUser = 0x1000000,
-		}
 
 		public static int GetRoleCode(string role)
 		{
 			switch (role)
 			{
 			case "MetaAdmin":
-				return (int)EnumRoleType.MetaAdmin;
+				return (int)RoleType.MetaAdmin;
 			case "Admin":
-				return (int)EnumRoleType.Admin;
+				return (int)RoleType.Admin;
 			case "User":
-				return (int)EnumRoleType.User;
+				return (int)RoleType.User;
 			default:
 				return -1;
 			}
@@ -31,18 +31,20 @@ namespace WarSpot.Cloud.Storage
 
 		public static string GetRoleName(int id)
 		{
-			switch ((EnumRoleType)id)
+			return ((RoleType) id).ToString();
+
+			switch ((RoleType)id)
 			{
-			case EnumRoleType.User:
-				return EnumRoleType.User.ToString();
-			case EnumRoleType.Admin:
-				return EnumRoleType.Admin.ToString();
-			case EnumRoleType.MetaAdmin:
-				return EnumRoleType.MetaAdmin.ToString();
-			case EnumRoleType.Developer:
-				return EnumRoleType.Developer.ToString();
+			case RoleType.User:
+				return RoleType.User.ToString();
+			case RoleType.Admin:
+				return RoleType.Admin.ToString();
+			case RoleType.MetaAdmin:
+				return RoleType.MetaAdmin.ToString();
+			case RoleType.Developer:
+				return RoleType.Developer.ToString();
 			default:
-				return EnumRoleType.NoUser.ToString();
+				return RoleType.NoUser.ToString();
 
 			}
 		}

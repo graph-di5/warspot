@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.ServiceModel;
 using WarSpot.Client.XnaClient.Utils;
 using WarSpot.Common.Utils;
@@ -80,13 +82,7 @@ namespace WarSpot.Client.XnaClient.Network
 
 		public string[] GetListOfIntellects()
 		{
-			// todo rewrite this
-#warning todo rewrite this
-#if true
-			return null;
-#else
-			return _service == null ? new string[0] : _service.GetListOfIntellects();
-#endif
+			return _service == null ? new string[0] : _service.GetListOfIntellects().Select(re => re.Value).ToArray();
 		}
 
 		public ErrorCode DeleteIntellect(string name)
