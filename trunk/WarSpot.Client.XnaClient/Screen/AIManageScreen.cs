@@ -36,7 +36,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			_pathDialog = new OpenFileDialog();
 			CreateControls();
 			InitializeControls();
-			LoadIntellects();
 		}
 
 		private void LoadIntellects()
