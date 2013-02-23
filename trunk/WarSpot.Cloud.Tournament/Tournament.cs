@@ -20,7 +20,7 @@ namespace WarSpot.Cloud.Tournament
 		public Tournament(Guid id)
 		{
 			Id = id;
-			Status = TournamentStatus.Idle;
+			Status = TournamentStatus.Working;//Объект создаётся в момент начала турнира.
 			//Остальное подтягиваем из баз.
 		}
 
@@ -45,14 +45,6 @@ namespace WarSpot.Cloud.Tournament
 
 	class Player//Для хранения данных об игроке в этапе
 	{
-		public Player(Guid id, Guid intellectId)
-		{
-			Id = id;
-			IntellectID = intellectId;
-			StageScore = 0;
-			Points = 0;
-		}
-
 		public Guid Id { private set; get; }
 
 		public Guid IntellectID { private set; get; }
@@ -60,6 +52,14 @@ namespace WarSpot.Cloud.Tournament
 		public int StageScore { set; get; }//Полученные внутренние очки этапа.
 
 		public int Points { set; get; }//Полученные очки турнира (в этом этапе).
+
+        public Player(Guid id, Guid intellectId)
+        {
+            Id = id;
+            IntellectID = intellectId;
+            StageScore = 0;
+            Points = 0;
+        }
 	}
 
 	class Match
