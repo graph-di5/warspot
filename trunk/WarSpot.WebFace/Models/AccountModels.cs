@@ -59,4 +59,28 @@ namespace WarSpot.WebFace.Models
 		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
 		public string ConfirmPassword { get; set; }
 	}
+
+	public class ViewAccountModel
+	{
+		[Display(Name = "Id пользователя")]
+		public string Id { get; set; }
+
+		[Display(Name = "Логин")]
+		public string UserName { get; set; }
+
+		// todo add expirayion date for every role
+
+		[Display(Name = "Пользователь")]
+		public bool IsUser { get; set; }
+		[Display(Name = "Администратор турниров")]
+		public bool IsAdminTournaments { get; set; }
+	}
+
+	// todo delete
+#if false
+	public class ViewAccountListModel
+	{
+		public List<ViewAccountModel> Accounts { get; set; }
+	}
+#endif
 }
