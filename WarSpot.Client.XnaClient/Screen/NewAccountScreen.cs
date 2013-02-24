@@ -6,7 +6,7 @@ using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using InputControl = WarSpot.Client.XnaClient.Input.InputControl;
 using WarSpot.Contracts.Service;
-using WarSpot.Client.XnaClient.Utils;
+using WarSpot.Client.XnaClient.Screen;
 
 namespace WarSpot.Client.XnaClient.Screen
 {

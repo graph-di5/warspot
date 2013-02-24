@@ -62,7 +62,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void Deserialize()
 		{
 			string path = Utils.ScreenHelper.Instance.ReplayPath;
-			Utils.ScreenHelper.Instance.replayEvents = OfflineMatcher.Deserializator.Deserialize(path);
+			Utils.ScreenHelper.Instance.replayEvents = Utils.Deserializator.Deserialize(path);
 			lock (_checker)
 			{
 				_checker.IsReplayDeserialized = true;

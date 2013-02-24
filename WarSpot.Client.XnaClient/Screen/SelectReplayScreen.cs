@@ -116,7 +116,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			try
 			{
 				string forDelete = _replaysBox.Items[_replaysBox.SelectedItems[0]];
-				File.Delete(Path.Combine(FoldersHelper.FoldersHelper.GetReplayPath(), forDelete));
+				File.Delete(Path.Combine(Utils.FoldersHelper.GetReplayPath(), forDelete));
 				UpdataReplaysList();
 			}
 			catch
@@ -129,7 +129,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void UpdataReplaysList()
 		{
 			// TODO: test this
-			DirectoryInfo tmp = new DirectoryInfo(FoldersHelper.FoldersHelper.GetReplayPath());
+			DirectoryInfo tmp = new DirectoryInfo(Utils.FoldersHelper.GetReplayPath());
 			var replays = tmp.GetFiles();
 			foreach (var replay in replays)
 			{

@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace WarSpot.Client.XnaClient.Utils
+namespace WarSpot.Client.XnaClient.Screen
 {
 	static class InputValidator
 	{

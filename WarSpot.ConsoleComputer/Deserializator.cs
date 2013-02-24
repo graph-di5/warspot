@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using WarSpot.MatchComputer;
 using Events = WarSpot.MatchComputer;
 
-namespace WarSpot.Client.XnaClient.OfflineMatcher
+namespace WarSpot.Client.XnaClient.Screen
 {
 	static class Deserializator
 	{
@@ -15,7 +15,8 @@ namespace WarSpot.Client.XnaClient.OfflineMatcher
 		{
 			var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 			var bf = new BinaryFormatter();
-            System.Version _version = (System.Version)bf.Deserialize(fs);//ToDo: Надо сравнивать с System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+			//TODO: Надо сравнивать с System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            System.Version wsVersion = (System.Version)bf.Deserialize(fs);
             var deserializedActions = (List<WarSpotEvent>)bf.Deserialize(fs);
 			fs.Close();
 			return deserializedActions;

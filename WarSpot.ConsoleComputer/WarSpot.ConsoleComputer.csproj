@@ -62,13 +62,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\WarSpot.Client.XnaClient\OfflineMatcher\Deserializator.cs">
-      <Link>Deserializator.cs</Link>
-    </Compile>
     <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs">
       <Link>VersionInfo.cs</Link>
     </Compile>
     <Compile Include="ConsoleComputer.cs" />
+    <Compile Include="Deserializator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

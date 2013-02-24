@@ -21,9 +21,9 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 				_replayPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), value);
 			}
 		}
-		private static ScreenHelper _instance;
 		public List<WarSpotEvent> replayEvents;
-
+		public Version CurrReplayVersion { get; set; }
+		private static ScreenHelper _instance;
 		public static ScreenHelper Instance
 		{
 			get { return _instance; }
