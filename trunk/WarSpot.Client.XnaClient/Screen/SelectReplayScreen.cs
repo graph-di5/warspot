@@ -106,7 +106,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			//string selectedReplay = _replaysBox.Items[_replaysBox.SelectedItems[0]];
 			//string path = Path.Combine(FoldersHelper.FoldersHelper.GetReplayPath(), selectedReplay);
-			Utils.ScreenHelper.Instance.ReplayPath = "replay_test.out";
+			Utils.ReplayHelper.Instance.ReplayPath = "replay_test.out";
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoadingScreen);
 		}
 

@@ -18,6 +18,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		}
 		private Texture2D _texture;
 		private readonly ObjBool _checker = new ObjBool();
+		bool isCorrect = false;
 
 		public LoadingScreen()
 		{
@@ -38,8 +39,13 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				if (_checker.IsReplayDeserialized)
 				{
-					_checker.IsReplayDeserialized = false;
-					ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
+					if (isCorrect)
+					{
+						_checker.IsReplayDeserialized = false;
+						ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
+					}
+					else
+						MessageBox.Show("Wrong version", ScreenManager.ScreenEnum.SelectReplayScreen);
 				}
 			}
 		}
@@ -61,8 +67,8 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void Deserialize()
 		{
-			string path = Utils.ScreenHelper.Instance.ReplayPath;
-			Utils.ScreenHelper.Instance.replayEvents = Utils.Deserializator.Deserialize(path);
+			string path = Utils.ReplayHelper.Instance.ReplayPath;
+			isCorrect = Utils.Deserializator.Deserialize(path);
 			lock (_checker)
 			{
 				_checker.IsReplayDeserialized = true;

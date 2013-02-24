@@ -7,7 +7,7 @@ using WarSpot.MatchComputer;
 namespace WarSpot.Client.XnaClient.Screen.Utils
 {
 	// Helper for passing arguments through screens without direct methods
-	class ScreenHelper
+	class ReplayHelper
 	{
 		private string _replayPath;
 		public string ReplayPath
@@ -23,18 +23,18 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 		}
 		public List<WarSpotEvent> replayEvents;
 		public Version CurrReplayVersion { get; set; }
-		private static ScreenHelper _instance;
-		public static ScreenHelper Instance
+		private static ReplayHelper _instance;
+		public static ReplayHelper Instance
 		{
 			get { return _instance; }
 		}
 
-		static ScreenHelper()
+		static ReplayHelper()
 		{
-			_instance = new ScreenHelper();
+			_instance = new ReplayHelper();
 		}
 
-		private ScreenHelper()
+		private ReplayHelper()
 		{
 		}
 	}
