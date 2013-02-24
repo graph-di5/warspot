@@ -1,0 +1,25 @@
+﻿@model WarSpot.WebFace.Models.ViewAccountModel
+
+@{
+}
+
+		<div>
+			@Html.DisplayNameForModel()  
+		</div>
+@using (Html.BeginForm())
+{
+	<fieldset>
+		<div class="editor-label">@Html.LabelFor(m => m.Id)</div>
+		<div class="editor-field">@Html.DisplayFor(m => m.Id)</div>
+		<div class="editor-label">@Html.LabelFor(m => m.UserName)</div>
+		<div class="editor-field">@Html.TextBoxFor(m => m.UserName)</div>
+		<div class="editor-label">@Html.LabelFor(m => m.IsUser)</div>
+		<div class="editor-field">@Html.CheckBoxFor(m => m.IsUser)</div>
+		<div class="editor-label">@Html.LabelFor(m => m.IsAdminTournaments)</div>
+		<div class="editor-field">@Html.CheckBoxFor(m => m.IsAdminTournaments)</div>
+<input type="submit" value="Сохранить" />
+<!--    Html.ActionLink("Удалить", "Delete") -->
+    @Html.ActionLink("Назад", "Index")
+    
+	</fieldset>
+}

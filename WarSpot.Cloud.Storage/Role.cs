@@ -9,6 +9,7 @@ namespace WarSpot.Cloud.Storage
 		Admin = 0x1,
 		MetaAdmin = 0x2,
 		Developer = 0x4,
-		NoUser = 0x1000000,
+		TournamentsAdmin = 0x8,
+		NoUser = 0x100000,
 	}
 }

@@ -1,0 +1,38 @@
+﻿@using WarSpot.WebFace.Models
+@model IEnumerable<WarSpot.WebFace.Models.ViewAccountModel>
+
+@{
+}
+
+
+<h3>
+Список пользователей			  
+</h3>
+
+	<div>
+		<table>
+			<tr>
+				@{var t = new ViewAccountModel();
+				<td>@Html.LabelFor(m => t.UserName)</td>			
+				<td>U</td>			
+				<td>TA</td>			
+      }
+			</tr>
+			@{foreach (var acc in Model)
+     {
+					<tr>
+					
+						<td>
+							@Html.ActionLink(acc.UserName, "Edit", new { acc.Id })
+						</td>				
+						<td>
+							@Html.DisplayFor(m => acc.IsUser)
+						</td>				
+						<td>
+							@Html.DisplayFor(m => acc.IsAdminTournaments)
+						</td>				
+					</tr>
+				}
+			}
+		</table>
+	</div>

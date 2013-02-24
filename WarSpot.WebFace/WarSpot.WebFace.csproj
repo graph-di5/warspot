@@ -107,6 +107,7 @@
     <Compile Include="Controllers\AIController.cs" />
     <Compile Include="Controllers\AuthorizedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -206,12 +207,22 @@
       <Project>{FA906681-9071-4D80-9FE7-7AF85FCFB573}</Project>
       <Name>WarSpot.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj">
+      <Project>{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}</Project>
+      <Name>WarSpot.Contracts.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\AI\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\AI\UploadAI.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Users\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Users\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

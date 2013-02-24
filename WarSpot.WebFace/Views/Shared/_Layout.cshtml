@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using WarSpot.WebFace.Security
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
@@ -19,7 +20,16 @@
             <nav>
                 <ul id="menu">
 									<li>@Html.ActionLink("Home", "Index", "Home")</li>
+                  @{ var identity = (User.Identity as CustomIdentity);
+                  if (identity != null && identity.IsInRole("User"))
+                  {
                   <li>@Html.ActionLink("AI manage", "Index", "AI")</li>
+                  }
+                  if (identity != null && identity.IsInRole("MetaAdmin"))
+                  {
+                  <li>@Html.ActionLink("Пользователи", "Index", "Users")</li>
+                  }
+									}
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
             </nav>
