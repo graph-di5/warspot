@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WarSpot.Cloud.Storage;
+using WarSpot.WebFace.Models;
 using WarSpot.WebFace.Security;
-
 
 namespace WarSpot.WebFace.Controllers
 {
+	[Authorize(Roles = "User")]
 	public class AIController : AuthorizedController
 	{
 		//
 		// GET: /AI/
-		//[Authorize(Roles = "User")]
-		//[Authorize]
 		public ActionResult Index()
 		{
-			// HttpContext.Current.User
 			List<KeyValuePair<Guid, string>> names = new List<KeyValuePair<Guid, string>> {};
 			var customIdentity = User.Identity as CustomIdentity;
 			if (customIdentity != null)
@@ -48,18 +47,30 @@ namespace WarSpot.WebFace.Controllers
 			return RedirectToAction("Index");
 		}
 
-#if false
 		//
-		// GET: /AI/Details/5
+		// GET: /AI/Details/<GUID>
 
-		public ActionResult Details(int id)
+		public ActionResult Details(Guid id)
 		{
-			return View();
+			var res = new List<GameModel>();
+			var ii = Warehouse.db.Intellect.First(i => i.Intellect_ID == id);
+			var games = ii.Games;
+			foreach (var game in games)
+			{
+				res.Add(new GameModel()
+				        	{
+										Id = game.Game_ID,
+				        		AccountID = game.AccountAccount_ID,
+										Replay = game.Replay
+				        	});
+			}
+			return View(res);
 		}
 
 		//
 		// GET: /AI/Create
 
+#if false
 		public ActionResult Create()
 		{
 			return View();
@@ -111,7 +122,9 @@ namespace WarSpot.WebFace.Controllers
 
 		//
 		// GET: /AI/Delete/5
-
+#endif
+		// todo enable deletion of intellects
+#if false
 		public ActionResult Delete(int id)
 		{
 			return View();

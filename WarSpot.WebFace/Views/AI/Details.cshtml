@@ -1,0 +1,42 @@
+﻿@using WarSpot.WebFace.Security
+@model IEnumerable<WarSpot.WebFace.Models.GameModel>
+
+@if (!Model.Any())
+{
+<h3>Игры с этим интеллектом отсутствуют.</h3>
+}
+else
+{
+	<h3>Список игр с участием этого интеллекта:</h3>
+<table>
+
+	@foreach (var m in Model)
+ {
+		<tr>
+			<td>
+				@m.Id
+			</td>
+			<td>
+			
+				@{
+   var customIdentity = User.Identity as CustomIdentity;
+				}
+				@if (customIdentity != null && m.AccountID == customIdentity.Id)
+    {
+					<input type="checkbox" readonly checked/>
+    }
+    else
+    {
+					<input type="checkbox" readonly="readonly" />
+    }
+			</td>
+			<td>
+				@m.Replay
+			</td>
+		</tr>	
+ }
+</table>
+}
+
+
+
