@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace WarSpot.Client.XnaClient.FoldersHelper
+namespace WarSpot.Client.XnaClient.Screen.Utils
 {
 	static class FoldersHelper
 	{

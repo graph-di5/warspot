@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceModel;
-using WarSpot.Client.XnaClient.Utils;
+using WarSpot.Client.XnaClient.Screen;
 using WarSpot.Common.Utils;
 using WarSpot.Contracts.Service;
 using System.IO;

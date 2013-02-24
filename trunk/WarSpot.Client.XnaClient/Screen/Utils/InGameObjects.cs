@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace WarSpot.Client.XnaClient.OfflineMatcher
+namespace WarSpot.Client.XnaClient.Screen.Utils
 {
 	internal enum GameObjectType
 	{

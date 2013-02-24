@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using WarSpot.Client.XnaClient.OfflineMatcher;
+using WarSpot.Client.XnaClient.Screen.Utils;
 using WarSpot.MatchComputer;
 
 namespace WarSpot.Client.XnaClient.Screen
@@ -66,14 +66,6 @@ namespace WarSpot.Client.XnaClient.Screen
 							var tmpEvent = wsEvent as GameEventCiChange;
 							var tmp = _listOfCreatures.Where(creture => creture.Id == tmpEvent.SubjectId).First();
 							tmp.CurrentCi = tmpEvent.Ci;
-							foreach (var i in _listOfCreatures)
-							{
-								if (i.Id == tmpEvent.SubjectId)
-								{
-									int x = 0;
-								}
-							}
-
 							_listOfEvents.Remove(wsEvent);
 							break;
 						}
@@ -133,10 +125,8 @@ namespace WarSpot.Client.XnaClient.Screen
 					case EventTypes.SystemEventMatchEnd:
 						{
 							var tmp = wsEvent as SystemEventMatchEnd;
-							_listOfCreatures = null;
-							_listOfEvents = null;
-							_creatureOfFirstTeam = null;
-							_creatureOfSecondTeam = null;
+							_listOfCreatures = new List<Creature>();
+							_listOfEvents = new List<WarSpotEvent>();
 							ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.SelectReplayScreen);
 							break;
 						}
