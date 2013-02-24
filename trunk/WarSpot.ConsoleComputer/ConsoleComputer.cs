@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.IO;
 using WarSpot.Client.XnaClient.Screen;
+using WarSpot.Common.Utils;
 using WarSpot.Contracts.Intellect;
 using WarSpot.MatchComputer;
 
@@ -62,9 +63,8 @@ namespace WarSpot.ConsoleComputer
 			{
 				if(referencedAssembly.Name == "WarSpot.Contracts.Intellect")
 				{
-
-					if (referencedAssembly.Version.Major == Assembly.GetExecutingAssembly().GetName().Version.Major &&
-						referencedAssembly.Version.Minor == Assembly.GetExecutingAssembly().GetName().Version.Minor)
+					// todo rewrite this to CheckVersion
+					if(VersionHelper.CheckVersion(referencedAssembly.Version))
 					{
 						foundIntellect = true;
 					}

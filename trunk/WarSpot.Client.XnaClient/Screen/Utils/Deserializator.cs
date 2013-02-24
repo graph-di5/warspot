@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using WarSpot.Common.Utils;
 using WarSpot.MatchComputer;
 using Events = WarSpot.MatchComputer;
+using WarSpot.Common;
 
 namespace WarSpot.Client.XnaClient.Screen.Utils
 {
@@ -15,7 +17,7 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 		{
 			var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 			var bf = new BinaryFormatter();
-			var checker = WarSpot.Common.VersionHelper.CheckVersionFromStream(fs, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+			var checker = VersionHelper.CheckVersionFromStream(fs);
 			if (checker)
 			{
 				ReplayHelper.Instance.replayEvents = (List<WarSpotEvent>)bf.Deserialize(fs);
