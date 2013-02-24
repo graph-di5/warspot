@@ -130,7 +130,7 @@
     <Compile Include="Screen\LoadingScreen.cs" />
     <Compile Include="Screen\SelectReplayScreen.cs" />
     <Compile Include="Screen\Utils\InputValidator.cs" />
-    <Compile Include="Screen\Utils\ScreenHelper.cs" />
+    <Compile Include="Screen\Utils\ReplayHelper.cs" />
     <Compile Include="Screen\WatchReplayScreen.cs" />
     <Compile Include="Input\InputHandler.cs" />
     <Compile Include="Network\ConnectionManager.cs" />
