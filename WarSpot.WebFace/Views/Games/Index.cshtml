@@ -1,0 +1,28 @@
+﻿@model List<WarSpot.WebFace.Models.GameModel>
+@{
+}
+<table border="0"><td>@Html.ActionLink("Новая игра", "Create")</td></table>
+@if (!Model.Any())
+{
+  <h3>
+    Игры отсутствуют.</h3>
+}
+else
+{
+  <h3>
+    Список игр:</h3>
+  <table>
+    @foreach (var m in Model)
+    {
+      string s = m.Replay ?? "Ожидает результата...";
+      <tr>
+        <td>
+          @Html.ActionLink(m.Id.ToString(), "Details", new {id = m.Id})
+        </td>
+        <td>
+					@s
+				</td>
+      </tr>	
+    }
+  </table>
+}

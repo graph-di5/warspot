@@ -1,0 +1,27 @@
+﻿@model WarSpot.WebFace.Models.NewGameModel
+
+@{
+}
+
+@using (Html.BeginForm())
+{
+	<div class="editor-label">Первый ителлект</div>
+	<div class="editor-field">
+		
+  	@Html.DropDownList("intellect01", Model.Intellects.Select(i => new SelectListItem()
+{
+  Text = i.Value,
+  Value = i.Key.ToString()
+}))
+	</div>
+  <div class="editor-label">Второй ителлект</div>
+
+	<div class="editor-field">
+  	@Html.DropDownList("intellect02", Model.Intellects.Select(i => new SelectListItem()
+{
+  Text = i.Value,
+  Value = i.Key.ToString()
+}))
+	</div>
+<p><input type="submit" value="Запустить матч"/></p>
+}
