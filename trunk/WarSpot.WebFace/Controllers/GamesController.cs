@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using WarSpot.Cloud.Storage;
+using WarSpot.WebFace.Models;
+using WarSpot.WebFace.Security;
 
 namespace WarSpot.WebFace.Controllers
 {
@@ -13,23 +16,61 @@ namespace WarSpot.WebFace.Controllers
 
 		public ActionResult Index()
 		{
-			return View();
+			var res = new List<GameModel>();
+			var customIdentity = User.Identity as CustomIdentity;
+			if (customIdentity != null)
+			{
+				var games = (from b in Warehouse.db.Game
+                               where b.AccountAccount_ID == customIdentity.Id
+                               select b).ToList<Game>();
+				res.AddRange(games.Select(game => new GameModel()
+				                                  	{
+				                                  		Id = game.Game_ID, AccountID = game.AccountAccount_ID, Replay = game.Replay
+				                                  	}));
+			}
+			return View(res);
 		}
 
 		//
-		// GET: /Games/Details/5
+		// GET: /Games/Details/<GUID>
 
-		public ActionResult Details(int id)
+		public ActionResult Details(Guid id)
 		{
-			return View();
+			var res = new GameModel();
+			var game = (from g in Warehouse.db.Game
+										where g.Game_ID == id
+										select g).FirstOrDefault();
+			if(game != null)
+			{
+				res.Id = game.Game_ID;
+				res.Replay = game.Replay;
+				res.AccountID = game.AccountAccount_ID;
+			}
+			return View(res);
 		}
+
+		// GET: /Games/Download/<GUID>
+		public FileResult Download(Guid id)
+		{
+			return new FileContentResult(Warehouse.GetReplay(id).data, "application/")
+			{
+				// todo get date here
+				FileDownloadName = "replay_"+id+".out"
+			};
+		}
+
 
 		//
 		// GET: /Games/Create
 
 		public ActionResult Create()
 		{
-			return View();
+			var m = new NewGameModel();
+			foreach (var i in Warehouse.db.Intellect)
+			{
+				m.Intellects.Add(new KeyValuePair<Guid, string>(i.Intellect_ID, i.Intellect_Name));
+			}
+			return View(m);
 		}
 
 		//
@@ -40,8 +81,18 @@ namespace WarSpot.WebFace.Controllers
 		{
 			try
 			{
-				// TODO: Add insert logic here
-
+				// TODO: rewrite this to right IDs of the form filed
+				var intellects = new List<Guid>
+				                 	{
+				                 		Guid.Parse(collection["intellect01"]), 
+														Guid.Parse(collection["intellect02"])
+				                 	};
+				var customIdentity = User.Identity as CustomIdentity;
+				Guid? res = null;
+				if (customIdentity != null)
+				{
+					res = Warehouse.BeginMatch(intellects, customIdentity.Id);
+				}
 				return RedirectToAction("Index");
 			}
 			catch
@@ -49,33 +100,7 @@ namespace WarSpot.WebFace.Controllers
 				return View();
 			}
 		}
-
-		//
-		// GET: /Games/Edit/5
-
-		public ActionResult Edit(int id)
-		{
-			return View();
-		}
-
-		//
-		// POST: /Games/Edit/5
-
-		[HttpPost]
-		public ActionResult Edit(int id, FormCollection collection)
-		{
-			try
-			{
-				// TODO: Add update logic here
-
-				return RedirectToAction("Index");
-			}
-			catch
-			{
-				return View();
-			}
-		}
-
+#if false
 		//
 		// GET: /Games/Delete/5
 
@@ -101,5 +126,6 @@ namespace WarSpot.WebFace.Controllers
 				return View();
 			}
 		}
+#endif
 	}
 }
