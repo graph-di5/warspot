@@ -100,6 +100,13 @@ namespace WarSpot.WebFace.Controllers
 				return View();
 			}
 		}
+
+		// GET: /Games/Play/<Guid>
+		public ActionResult Play(Guid id)
+		{
+			return View();
+		}
+
 #if false
 		//
 		// GET: /Games/Delete/5
