@@ -34,6 +34,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Controls update for preventing from too fast replay speed
 		private bool _localPause = false;
 		private int _timeSinceLastTurn = 0;
+		private bool _isPrepared = false;
 
 		public override void LoadContent()
 		{
@@ -125,8 +126,7 @@ namespace WarSpot.Client.XnaClient.Screen
 					case EventTypes.SystemEventMatchEnd:
 						{
 							var tmp = wsEvent as SystemEventMatchEnd;
-							_listOfCreatures = new List<Creature>();
-							ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.SelectReplayScreen);
+							exitReplay();
 							break;
 						}
 					default:
@@ -197,7 +197,13 @@ namespace WarSpot.Client.XnaClient.Screen
 			this.PrepareScreen();
 		}
 
-		// Process all initial states
+		public override void OnResize()
+		{
+			base.OnResize();
+			this.SetScalings();
+		}
+
+		// Define a world's size
 		private void CreateWorld()
 		{
 			if (_listOfEvents.Count != 0)
@@ -241,7 +247,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		/// </summary>		
 		private void SetScalings()
 		{
-			// Refatcor this if there apperas any necessity in frames (for turn/statictics e.g.)
 			int width = WarSpotGame.Instance.GraphicsDevice.Viewport.Width;
 			int height = WarSpotGame.Instance.GraphicsDevice.Viewport.Height;
 			_widthScaling = (float)width / (float)(_worldWidth * SizeOfSprite);
@@ -257,15 +262,46 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			// Initialization of initial inGameObjects and world map
 			this.CreateWorld();
-
 			// Prepare args for drawing
 			this.SetScalings();
+			// Resize screen for preventing rounding errors
+			if (!_isPrepared)
+			{
+				this.ResizeScreenByRequirements();
+			}
 		}
 
-		public override void OnResize()
+		private void ResizeScreenByRequirements()
 		{
-			base.OnResize();
-			this.SetScalings();
+			_isPrepared = true;
+			Rectangle rect = WarSpotGame.Instance.GetScreenBounds();
+			int w = SizeForWidth();
+			int h = SizeForHeight();
+			if (w != rect.Width || h != rect.Height)
+			{
+				WarSpotGame.Instance.SetScreenSize(w, h);
+			}
 		}
+
+		private int SizeForWidth()
+		{
+			return _worldWidth * _scaledSpriteWidth;
+		}
+
+		private int SizeForHeight()
+		{
+			return _wordlHeight * _scaledSpriteHeight;
+		}
+
+		private void exitReplay()
+		{
+			_listOfCreatures = new List<Creature>();
+			_isPrepared = false;
+			_worldMap = null;
+			_globalPause = false;
+			WarSpotGame.Instance.SetScreenSize(800, 600);
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.SelectReplayScreen);
+		}
+
 	}
 }
