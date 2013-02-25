@@ -12,10 +12,8 @@ namespace WarSpot.Client.XnaClient
 	{
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
-
-		public static WarSpotGame Instance { get; private set; }
 		public bool IsFullScreen { get; private set; }
-
+		public static WarSpotGame Instance { get; private set; }
 		int timeSinceLastApealinMS = 0;
 
 		public WarSpotGame()
@@ -23,24 +21,8 @@ namespace WarSpot.Client.XnaClient
 			Instance = this;
 			_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
-			IsFullScreen = Settings.Default.FullScreenSelected;
-			switch (IsFullScreen)
-			{
-			case false:
-				{
-					_graphics.PreferredBackBufferWidth = 800;
-					_graphics.PreferredBackBufferHeight = 600;
-				}
-				break;
-			case true:
-				System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
-				_graphics.PreferredBackBufferWidth = rect.Width;
-				_graphics.PreferredBackBufferHeight = rect.Height;
-				System.Windows.Forms.Form.FromHandle(Window.Handle).FindForm().FormBorderStyle =
-					System.Windows.Forms.FormBorderStyle.None;
-				break;
-			}
-
+			_graphics.PreferredBackBufferWidth = 800;
+			_graphics.PreferredBackBufferHeight = 600;	
 			IsMouseVisible = true;
 		}
 
@@ -106,10 +88,10 @@ namespace WarSpot.Client.XnaClient
 			base.Draw(gameTime);
 		}
 
+
 		public void ToggleFullScreen()
 		{
 			IsFullScreen = !IsFullScreen;
-			Settings.Default.FullScreenSelected = IsFullScreen;
 			Settings.Default.Save();
 			if (IsFullScreen)
 			{
@@ -128,6 +110,21 @@ namespace WarSpot.Client.XnaClient
 			}
 			_graphics.ApplyChanges();
 			ScreenManager.Instance.Resize();
+		}
+
+		public void SetScreenSize(int Width, int Height)
+		{
+			System.Drawing.Rectangle rect = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+			if (Width <= rect.Width && Height <= rect.Height)
+			{
+				_graphics.PreferredBackBufferWidth = Width;
+				_graphics.PreferredBackBufferHeight = Height;
+				System.Windows.Forms.Form.FromHandle(Window.Handle).FindForm().FormBorderStyle =
+					System.Windows.Forms.FormBorderStyle.FixedDialog;
+				_graphics.ApplyChanges();
+				ScreenManager.Instance.Resize();
+			}
+			else throw new System.Exception("No suitable graphics device exception");
 		}
 
 		public Rectangle GetScreenBounds()

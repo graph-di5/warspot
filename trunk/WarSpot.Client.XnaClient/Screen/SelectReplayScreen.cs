@@ -15,6 +15,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private ButtonControl _watchButton;
 		private ButtonControl _deleteButton;
+		private ButtonControl _backButton;
 
 		private LabelControl _replayLabel;
 
@@ -69,7 +70,7 @@ namespace WarSpot.Client.XnaClient.Screen
 				Text = "Watch",
 				Bounds =
 						new UniRectangle(
-								new UniScalar(0f, 300 + 10),
+								new UniScalar(0f, 310),
 								new UniScalar(0f, 20),
 								new UniScalar(0f, 100),
 								new UniScalar(0f, 30))
@@ -80,8 +81,19 @@ namespace WarSpot.Client.XnaClient.Screen
 				Text = "Delete",
 				Bounds =
 						new UniRectangle(
-								new UniScalar(0f, 300 + 10),
+								new UniScalar(0f, 310),
 								new UniScalar(0.1f, 0),
+								new UniScalar(0f, 100),
+								new UniScalar(0f, 30))
+			};
+
+			_backButton = new ButtonControl
+			{
+				Text = "Back",
+				Bounds =
+						new UniRectangle(
+								new UniScalar(0f, 0),
+								new UniScalar(0.1f, 280),
 								new UniScalar(0f, 100),
 								new UniScalar(0f, 30))
 			};
@@ -91,6 +103,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			Desktop.Children.Add(_deleteButton);
 			Desktop.Children.Add(_watchButton);
+			Desktop.Children.Add(_backButton);
 
 			Desktop.Children.Add(_replayLabel);
 
@@ -98,6 +111,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 			ScreenManager.Instance.Controller.AddListener(_watchButton, WatchButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_deleteButton, DeleteButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
 
 			UpdataReplaysList();
 		}
@@ -124,6 +138,11 @@ namespace WarSpot.Client.XnaClient.Screen
 				MessageBox.Show("Select replay!", ScreenManager.ScreenEnum.WatchReplayScreen);
 			}
 
+		}
+
+		private void BackButtonPressed(object sender, EventArgs e)
+		{
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
 		}
 
 		private void UpdataReplaysList()
