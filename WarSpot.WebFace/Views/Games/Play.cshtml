@@ -1,0 +1,44 @@
+﻿@model dynamic
+@{
+  Layout = null;
+  int W = 800, H = 600;
+  int worldW = 32, worldH = 24;
+}
+<script type="text/javascript">
+    var canvas;
+    var context;
+    function initVars() {
+        canvas = document.getElementById("mainCanvas");
+        context = canvas.getContext("2d");
+    }
+
+    function drawGrid() {
+        initVars();
+        for (var i = 0; i < @worldW; i++) {
+      context.moveTo(i*@W/@worldW, 0);
+      context.lineTo(i*@W/@worldW, @H);
+    }
+    for (var i = 0; i < @worldH; i++) {
+      context.moveTo(0, i*@H/@worldH);
+      context.lineTo(@W, i*@H/@worldH);
+    }
+    context.strokeStyle = "#eee";
+    context.stroke();
+  }
+
+  function stepDraw() {
+    initVars();
+    drawGrid();
+    for (var x = 0.5; x < 500; x += 10) {
+      context.moveTo(x, 0);
+      context.lineTo(x, 375);
+    }
+  }
+</script>
+<table><tr><td style="background-color: #f00"></td><td style="background-color: #0f0"></td></tr></table>
+<h3>
+  Поле:
+  <input type="button" onclick="stepDraw();" /></h3>
+<div>
+  <canvas id="mainCanvas" width="@W" height="@H" style="border:1px solid #000000;">
+  </canvas></div>
