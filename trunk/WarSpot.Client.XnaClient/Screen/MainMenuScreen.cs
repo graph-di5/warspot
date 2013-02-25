@@ -14,7 +14,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		private ButtonControl _startGameButton;
 		private ButtonControl _localAIButton;
 		private ButtonControl _logOutButton;
-		private ButtonControl _optionsButton;
 		private ButtonControl _exitButton;
 		private ButtonControl _watchReplayButton;
 
@@ -70,24 +69,13 @@ namespace WarSpot.Client.XnaClient.Screen
 						new UniScalar(0.1f, 0)),
 			};
 
-			_optionsButton = new ButtonControl
-			{
-				Text = "Options",
-				Bounds =
-						new UniRectangle(
-								new UniScalar(0.30f, 0),
-								new UniScalar(0.55f, 0),
-								new UniScalar(0.4f, 0),
-								new UniScalar(0.1f, 0)),
-			};
-
 			_logOutButton = new ButtonControl
 			{
 				Text = "Log Out",
 				Bounds =
 					new UniRectangle(
 						new UniScalar(0.30f, 0),
-						new UniScalar(0.7f, 0),
+						new UniScalar(0.55f, 0),
 						new UniScalar(0.4f, 0),
 						new UniScalar(0.1f, 0)),
 			};
@@ -98,7 +86,7 @@ namespace WarSpot.Client.XnaClient.Screen
 				Bounds =
 						new UniRectangle(
 								new UniScalar(0.30f, 0),
-								new UniScalar(0.85f, 0),
+								new UniScalar(0.7f, 0),
 								new UniScalar(0.4f, 0),
 								new UniScalar(0.1f, 0)),
 			};
@@ -110,7 +98,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			ScreenManager.Instance.Controller.AddListener(_localAIButton, localAIButtonPressed);
 
 			Desktop.Children.Add(_logOutButton);
-			Desktop.Children.Add(_optionsButton);
 			Desktop.Children.Add(_exitButton);
 			Desktop.Children.Add(_watchReplayButton);
 			Desktop.Children.Add(_startGameButton);
@@ -118,7 +105,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			ScreenManager.Instance.Controller.AddListener(_startGameButton, startGameButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_logOutButton, logOutButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_watchReplayButton, watchReplayButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_optionsButton, optionsButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_exitButton, exitButtonPressed);
 		}
 
@@ -140,11 +126,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void logOutButtonPressed(object sender, EventArgs e)
 		{
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
-		}
-
-		private void optionsButtonPressed(object sender, EventArgs e)
-		{
-			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.OptionsScreen);
 		}
 
 		private void exitButtonPressed(object sender, EventArgs e)

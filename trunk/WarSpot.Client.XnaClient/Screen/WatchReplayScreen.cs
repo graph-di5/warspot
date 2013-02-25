@@ -126,7 +126,6 @@ namespace WarSpot.Client.XnaClient.Screen
 						{
 							var tmp = wsEvent as SystemEventMatchEnd;
 							_listOfCreatures = new List<Creature>();
-							_listOfEvents = new List<WarSpotEvent>();
 							ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.SelectReplayScreen);
 							break;
 						}

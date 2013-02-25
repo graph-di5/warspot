@@ -138,7 +138,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Screen\AIManageScreen.cs" />
     <Compile Include="Screen\MessageBox.cs" />
-    <Compile Include="Screen\OptionsScreen.cs" />
     <Compile Include="Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
