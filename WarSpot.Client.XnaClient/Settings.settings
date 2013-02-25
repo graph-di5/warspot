@@ -8,11 +8,5 @@
     <Setting Name="password" Type="System.String" Scope="User">
       <Value Profile="(Default)">qwerty</Value>
     </Setting>
-    <Setting Name="FullScreenSelected" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="Volume" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

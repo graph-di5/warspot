@@ -14,8 +14,6 @@ namespace WarSpot.Client.XnaClient.Input
 		private KeyboardState _currentKeyboardState;
 		private MouseState _currentMouseState;
 
-		private bool _justMaximazed = false;
-
 		public InputHandler(InputManager inputManager)
 			: base(inputManager)
 		{
@@ -26,21 +24,10 @@ namespace WarSpot.Client.XnaClient.Input
 		{
 			_currentKeyboardState = InputManager.GetKeyboard().GetState();
 			_currentMouseState = InputManager.GetMouse().GetState();
-
 			/*
-			 * It is not possible for XNA functions to assign Alt+Enter combination for fullscreen.
-			 */
-
-			/*
-			 * bool alt = _currentKeyboardState.IsKeyDown(Keys.RightAlt) doesn't work.
-			 */
 			bool alt = (System.Windows.Forms.Control.ModifierKeys & System.Windows.Forms.Keys.Alt) ==
 				System.Windows.Forms.Keys.Alt;
 
-			/*
-			 * WinAPI function is used, because _currentKeyboardState.IsKeyDown('some key')
-			 * doesn't work, when alt is pressed.
-			 */
 			if (!alt || !IsKeyPressed((int)Keys.Enter))
 			{
 				_justMaximazed = false;
@@ -49,7 +36,7 @@ namespace WarSpot.Client.XnaClient.Input
 			{
 				WarSpotGame.Instance.ToggleFullScreen();
 				_justMaximazed = true;
-			}
+			}*/
 		}
 
 		public override void AddListener(Control control, EventHandler buttonPressed)
@@ -58,8 +45,6 @@ namespace WarSpot.Client.XnaClient.Input
 
 			(control as ButtonControl).Pressed += buttonPressed;
 		}
-
-		//=========================
 
 		private const ushort MASK = 0x8000;
 
