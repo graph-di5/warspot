@@ -17,7 +17,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			MainMenuScreen,
 			NewAccountScreen,
 			LoginScreen,
-			OptionsScreen,
 			MessageBox,
 			WatchReplayScreen,
 			SelectReplayScreen,
