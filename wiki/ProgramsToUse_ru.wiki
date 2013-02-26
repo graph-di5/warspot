@@ -8,3 +8,4 @@
  * MS VS 2010
   * Windows Azure SDK and Windows Azure Tools [http://www.microsoft.com/en-us/download/details.aspx?id=15658 link]
   * Microsoft XNA Game Studio 4.0 [http://www.microsoft.com/en-us/download/details.aspx?id=23714 link]
+  * WiX 3.7 [http://wix.codeplex.com/ link]
