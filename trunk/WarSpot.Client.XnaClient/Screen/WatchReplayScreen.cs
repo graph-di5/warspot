@@ -32,9 +32,10 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Variable for contolling game pause by user
 		private bool _globalPause = false;
 		// Controls update for preventing from too fast replay speed
-		private bool _localPause = false;
+		private bool _localPause = true;
 		private int _timeSinceLastTurn = 0;
 		private bool _isPrepared = false;
+		private int _barHeight = 30;
 
 		public override void LoadContent()
 		{
@@ -156,7 +157,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				for (int j = 0; j < _worldWidth; j++)
 				{
-					SpriteBatch.Draw(_grass, new Rectangle(j * _scaledSpriteWidth, i * _scaledSpriteHeight,
+					SpriteBatch.Draw(_grass, new Rectangle(j * _scaledSpriteWidth, i * _scaledSpriteHeight + _barHeight,
 						_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
 				}
 			}
@@ -248,7 +249,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void SetScalings()
 		{
 			int width = WarSpotGame.Instance.GraphicsDevice.Viewport.Width;
-			int height = WarSpotGame.Instance.GraphicsDevice.Viewport.Height;
+			int height = WarSpotGame.Instance.GraphicsDevice.Viewport.Height - _barHeight;
 			_widthScaling = (float)width / (float)(_worldWidth * SizeOfSprite);
 			_heightScaling = (float)height / (float)(_wordlHeight * SizeOfSprite);
 			_scaledSpriteWidth = (int)Math.Round(_widthScaling * SizeOfSprite);
@@ -290,7 +291,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private int SizeForHeight()
 		{
-			return _wordlHeight * _scaledSpriteHeight;
+			return _wordlHeight * _scaledSpriteHeight + _barHeight;
 		}
 
 		private void exitReplay()
@@ -302,6 +303,5 @@ namespace WarSpot.Client.XnaClient.Screen
 			WarSpotGame.Instance.SetScreenSize(800, 600);
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.SelectReplayScreen);
 		}
-
 	}
 }
