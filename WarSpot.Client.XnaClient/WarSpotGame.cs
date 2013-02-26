@@ -70,6 +70,7 @@ namespace WarSpot.Client.XnaClient
 		protected override void Update(GameTime gameTime)
 		{
 			timeSinceLastApealinMS += gameTime.ElapsedGameTime.Milliseconds;
+
 			if (timeSinceLastApealinMS >= 30000)
 			{
 				timeSinceLastApealinMS = 0;

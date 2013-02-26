@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using WarSpot.Client.XnaClient.Screen.Utils;
 using WarSpot.MatchComputer;
+using Nuclex.UserInterface;
+using Nuclex.UserInterface.Controls;
+using Nuclex.UserInterface.Controls.Desktop;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -30,12 +33,24 @@ namespace WarSpot.Client.XnaClient.Screen
 		private float _widthScaling;
 		private float _heightScaling;
 		// Variable for contolling game pause by user
-		private bool _globalPause = false;
-		// Controls update for preventing from too fast replay speed
+		private bool _globalPause = true;
+		private bool _isActionDone = false;
+		// Control for preventing from too fast replay speed
 		private bool _localPause = true;
-		private int _timeSinceLastTurn = 0;
 		private bool _isPrepared = false;
 		private int _barHeight = 30;
+		private int _timeSinceLastTurn = 0;
+
+		// Buttons
+		private ButtonControl _pauseButton;
+		private ButtonControl _nextButton;
+		private ButtonControl _menuButton;
+
+		public WatchReplayScreen()
+		{
+			CreateControls();
+			InitializeControls();
+		}
 
 		public override void LoadContent()
 		{
@@ -47,7 +62,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public override void Update(GameTime gameTime)
 		{
-			if (!_globalPause)
+			if (!_globalPause && !_isActionDone)
 			{
 				if (!_localPause)
 				{
@@ -302,6 +317,69 @@ namespace WarSpot.Client.XnaClient.Screen
 			_globalPause = false;
 			WarSpotGame.Instance.SetScreenSize(800, 600);
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.SelectReplayScreen);
+		}
+
+		private void CreateControls()
+		{
+			_pauseButton = new ButtonControl
+			{
+				Text = "Pause",
+				Bounds =
+						new UniRectangle(
+								new UniScalar(0.0f, -18),
+								new UniScalar(0.0f, -18),
+								new UniScalar(0f, 50),
+								new UniScalar(0f, 25))
+			};
+
+			_nextButton = new ButtonControl
+			{
+				Text = "Next",
+				Bounds =
+						new UniRectangle(
+								new UniScalar(0f, 35),
+								new UniScalar(0f, -18),
+								new UniScalar(0f, 50),
+								new UniScalar(0f, 25))
+			};
+
+			_menuButton = new ButtonControl
+			{
+				Text = "Menu",
+				Bounds =
+						new UniRectangle(
+								new UniScalar(0f, WarSpotGame.Instance.GetScreenBounds().Width - 50 - 18),
+								new UniScalar(0f, -18),
+								new UniScalar(0f, 50),
+								new UniScalar(0f, 25))
+			};
+		}	
+
+		private void InitializeControls()
+		{
+			Desktop.Children.Add(_pauseButton);
+			Desktop.Children.Add(_nextButton);
+			Desktop.Children.Add(_menuButton);
+
+			ScreenManager.Instance.Controller.AddListener(_pauseButton, PauseButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_nextButton, NextButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_menuButton, MenuButtonPressed);
+		}
+
+		private void PauseButtonPressed(object sender, EventArgs e)
+		{
+			_globalPause = !_globalPause;
+		}
+
+		private void NextButtonPressed(object sender, EventArgs e)
+		{
+			_globalPause = false;
+			_localPause = false;
+		}
+
+		private void MenuButtonPressed(object sender, EventArgs e)
+		{
+			exitReplay();
 		}
 	}
 }
