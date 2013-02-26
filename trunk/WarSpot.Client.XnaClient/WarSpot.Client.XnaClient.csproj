@@ -125,7 +125,6 @@
     <Compile Include="Screen\Utils\FoldersHelper.cs" />
     <Compile Include="Input\Controller.cs" />
     <Compile Include="Input\InputControl.cs" />
-    <Compile Include="Screen\Utils\Deserializator.cs" />
     <Compile Include="Screen\Utils\InGameObjects.cs" />
     <Compile Include="Screen\LoadingScreen.cs" />
     <Compile Include="Screen\SelectReplayScreen.cs" />

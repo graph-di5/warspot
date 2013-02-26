@@ -66,7 +66,6 @@
       <Link>VersionInfo.cs</Link>
     </Compile>
     <Compile Include="ConsoleComputer.cs" />
-    <Compile Include="Deserializator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

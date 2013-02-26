@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.IO;
-using WarSpot.Client.XnaClient.Screen;
 using WarSpot.Common.Utils;
 using WarSpot.Contracts.Intellect;
 using WarSpot.MatchComputer;
