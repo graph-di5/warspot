@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using WarSpot.Cloud.Storage;
+using WarSpot.MatchComputer;
 using WarSpot.WebFace.Models;
 using WarSpot.WebFace.Security;
 
@@ -52,7 +54,7 @@ namespace WarSpot.WebFace.Controllers
 		// GET: /Games/Download/<GUID>
 		public FileResult Download(Guid id)
 		{
-			return new FileContentResult(Warehouse.GetReplay(id).data, "application/")
+			return new FileContentResult(Warehouse.GetReplay(id).data, "application/octet-stream")
 			{
 				// todo get date here
 				FileDownloadName = "replay_"+id+".out"
@@ -104,7 +106,13 @@ namespace WarSpot.WebFace.Controllers
 		// GET: /Games/Play/<Guid>
 		public ActionResult Play(Guid id)
 		{
-			return View();
+			var list = Deserializator.Deserialize(new MemoryStream(Warehouse.GetReplay(id).data));
+			if(list.Count == 0)
+			{
+				// todo report error
+				return RedirectToAction("Details", id);
+			}
+			return View(list);
 		}
 
 #if false

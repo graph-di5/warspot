@@ -209,9 +209,17 @@
       <Project>{FA906681-9071-4D80-9FE7-7AF85FCFB573}</Project>
       <Name>WarSpot.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj">
+      <Project>{218A447E-8808-4987-B665-A8B1FB107022}</Project>
+      <Name>WarSpot.Contracts.Intellect</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj">
       <Project>{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}</Project>
       <Name>WarSpot.Contracts.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WarSpot.MatchComputer\WarSpot.MatchComputer.csproj">
+      <Project>{8B236A28-C004-4207-8F6E-2DE18D4739D5}</Project>
+      <Name>WarSpot.MatchComputer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

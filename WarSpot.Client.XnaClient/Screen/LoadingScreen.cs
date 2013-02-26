@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using WarSpot.Client.XnaClient.Screen.Utils;
+using WarSpot.MatchComputer;
 
 
 namespace WarSpot.Client.XnaClient.Screen
@@ -67,11 +69,12 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void Deserialize()
 		{
-			string path = Utils.ReplayHelper.Instance.ReplayPath;
-			isCorrect = Utils.Deserializator.Deserialize(path);
+			string path = ReplayHelper.Instance.ReplayPath;
+			ReplayHelper.Instance.replayEvents = Deserializator.Deserialize(path);
+			isCorrect = ReplayHelper.Instance.replayEvents.Count > 0;
 			lock (_checker)
 			{
-				_checker.IsReplayDeserialized = true;
+				_checker.IsReplayDeserialized = isCorrect;
 			}
 		}
 	}

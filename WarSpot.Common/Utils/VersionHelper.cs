@@ -12,19 +12,6 @@ namespace WarSpot.Common.Utils
 			get { return Assembly.GetAssembly(typeof(VersionHelper)).GetName().Version; }
 		}
 
-#if fasle
-		public static bool CheckVersionFromStream(Stream fs, Version currVersion)
-		{
-			var bf = new BinaryFormatter();
-			var wsVersion = (Version)bf.Deserialize(fs);
-			return CheckVersion(currVersion, wsVersion);
-		}
-
-		public static bool CheckVersion(Version currVersion, Version versToCheck)
-		{
-			return (currVersion.Major == versToCheck.Major && currVersion.Minor == versToCheck.Minor);
-		}
-#endif
 
 		public static bool CheckVersionFromStream(Stream fs)
 		{
