@@ -144,16 +144,32 @@ namespace WarSpot.Cloud.Storage
 
         public static Replay GetReplay(Guid gameID)
         {
-            string neededname = string.Format("replay{0}", gameID.ToString());
-            CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
-            return new Replay(gameID, blob.DownloadByteArray());
+            try
+            {
+                string neededname = (from g in db.Game
+                                     where g.Game_ID == gameID
+                                     select g.Replay).FirstOrDefault<string>();
+                if (neededname != null)
+                {
+                    CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
+                    return new Replay(gameID, blob.DownloadByteArray());
+                }
+                else // Replay has not been uploaded yet.
+                    return null;
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public static ErrorCode UploadReplay(byte[] replay, Guid gameID)
         {
             try
             {
-                string uniqueBlobName = string.Format("replay{0}", gameID.ToString());
+                Guid replayID = Guid.NewGuid();
+                string uniqueBlobName = string.Format("{0}", replayID.ToString());
                 CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
                 blob.UploadByteArray(replay);
 
@@ -182,9 +198,58 @@ namespace WarSpot.Cloud.Storage
             queue.AddMessage(new CloudQueueMessage(message.ToString()));
         }
 
-        public static CloudQueueMessage GetMessage()
+        public static Message GetMessage()
         {
-            return queue.GetMessage();
+            CloudQueueMessage queuemessage = queue.GetMessage();
+            Message msg = ParseMessage(queuemessage);
+            // TODO: Пересмотреть удаление сообщений
+            queue.DeleteMessage(queuemessage);
+            return msg;
+        }
+
+        private static Message ParseMessage(CloudQueueMessage message)
+        {
+            Message msg = new Message();
+            string queuemessage = message.AsString;
+            String temp = "";
+            bool flag = false;
+
+            for (int i = 0; i < queuemessage.Length; i++)
+            {
+                if (flag)
+                {
+                    while (queuemessage[i] != ' ')
+                    {
+                        temp = temp + queuemessage[i];
+                        i++;
+                    }
+                    msg.ListOfDlls.Add(Guid.Parse(temp));
+                    temp = "";
+
+                    try
+                    {
+                        i++;
+                    }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    while (queuemessage[i] != ' ')
+                    {
+                        temp = temp + queuemessage[i];
+                        i++;
+                    }
+                    msg.ID = Guid.Parse(temp);
+                    flag = true;
+                    i++;
+                    temp = "";
+                }
+            }
+
+            return msg;
         }
 
 
@@ -227,7 +292,9 @@ namespace WarSpot.Cloud.Storage
         #region intellects
         public static List<KeyValuePair<Guid,string>> GetListOfIntellects(Guid userID)
         {
-
+            /*
+            Old method realisation: GetListOfIntellects returns list of intellects of logged in user.
+             * 
             List<KeyValuePair<Guid, string>> result = new List<KeyValuePair<Guid, string>>();
 
             var test = (from b in db.Intellect
@@ -237,6 +304,20 @@ namespace WarSpot.Cloud.Storage
             foreach (Intellect i in test)
             {
                 result.Add(new KeyValuePair<Guid, string> ( i.Intellect_ID, i.Intellect_Name ));
+            }
+
+            return result;
+             */
+
+            // Temporary realisation: GetListOfIntellect return list of ALL intellects in the system.
+            List<KeyValuePair<Guid, string>> result = new List<KeyValuePair<Guid, string>>();
+
+            var test = (from b in db.Intellect
+                        select b).ToList<Intellect>();
+
+            foreach (Intellect i in test)
+            {
+                result.Add(new KeyValuePair<Guid, string>(i.Intellect_ID, i.Intellect_Name));
             }
 
             return result;
@@ -297,7 +378,7 @@ namespace WarSpot.Cloud.Storage
 
             db.SaveChanges();
 
-            PutMessage(new Message(Guid.NewGuid(), intellects));
+            PutMessage(new Message(gameID, intellects));
                         
             return gameID;
 
