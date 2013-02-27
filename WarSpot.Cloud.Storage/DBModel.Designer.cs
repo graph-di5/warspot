@@ -446,11 +446,15 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         /// <param name="game_ID">Исходное значение свойства Game_ID.</param>
         /// <param name="accountAccount_ID">Исходное значение свойства AccountAccount_ID.</param>
-        public static Game CreateGame(global::System.Guid game_ID, global::System.Guid accountAccount_ID)
+        /// <param name="creationTime">Исходное значение свойства CreationTime.</param>
+        /// <param name="game_Name">Исходное значение свойства Game_Name.</param>
+        public static Game CreateGame(global::System.Guid game_ID, global::System.Guid accountAccount_ID, global::System.String creationTime, global::System.String game_Name)
         {
             Game game = new Game();
             game.Game_ID = game_ID;
             game.AccountAccount_ID = accountAccount_ID;
+            game.CreationTime = creationTime;
+            game.Game_Name = game_Name;
             return game;
         }
 
@@ -532,6 +536,54 @@ namespace WarSpot.Cloud.Storage
         private global::System.String _Replay;
         partial void OnReplayChanging(global::System.String value);
         partial void OnReplayChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String CreationTime
+        {
+            get
+            {
+                return _CreationTime;
+            }
+            set
+            {
+                OnCreationTimeChanging(value);
+                ReportPropertyChanging("CreationTime");
+                _CreationTime = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("CreationTime");
+                OnCreationTimeChanged();
+            }
+        }
+        private global::System.String _CreationTime;
+        partial void OnCreationTimeChanging(global::System.String value);
+        partial void OnCreationTimeChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Game_Name
+        {
+            get
+            {
+                return _Game_Name;
+            }
+            set
+            {
+                OnGame_NameChanging(value);
+                ReportPropertyChanging("Game_Name");
+                _Game_Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Game_Name");
+                OnGame_NameChanged();
+            }
+        }
+        private global::System.String _Game_Name;
+        partial void OnGame_NameChanging(global::System.String value);
+        partial void OnGame_NameChanged();
 
         #endregion
 

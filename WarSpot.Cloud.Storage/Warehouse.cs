@@ -273,10 +273,10 @@ namespace WarSpot.Cloud.Storage
 
         #region match
 
-        public static Guid? BeginMatch(List<Guid> intellects, Guid userID)
+        public static Guid? BeginMatch(List<Guid> intellects, Guid userID, string title)
         {
             Guid gameID = Guid.NewGuid();
-            Game match = Game.CreateGame(gameID, userID);            
+            Game match = Game.CreateGame(gameID, userID, DateTime.Now.ToString(), title);         
 
             List<Intellect> listofintellects = new List<Intellect>();
 
