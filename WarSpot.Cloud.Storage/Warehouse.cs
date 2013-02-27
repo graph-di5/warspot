@@ -7,11 +7,17 @@ using System.Net;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using WarSpot.Contracts.Service;
+using WarSpot.Cloud.Common;
+using System.IO;
 
 namespace WarSpot.Cloud.Storage
 {
     public static class Warehouse
     {
+
+        private static CloudQueue queue;
+        private static CloudQueueClient queueClient;
+
 
         #region BLOB SECTION VAR
         private const string CONNECTIONSTRING = "DataConnectionString";
@@ -68,6 +74,12 @@ namespace WarSpot.Cloud.Storage
                     var permissions = container.GetPermissions();
                     permissions.PublicAccess = BlobContainerPublicAccessType.Container;
                     container.SetPermissions(permissions);
+
+                    // create queue for matches
+			        queueClient = storageAccount.CreateCloudQueueClient();
+			        queue = queueClient.GetQueueReference("queue");
+			        queue.CreateIfNotExist();
+
                 }
                 catch (WebException)
                 {
@@ -81,6 +93,8 @@ namespace WarSpot.Cloud.Storage
                 db = new DBContext(new EntityConnection(@"metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string='data source=localhost\SQLEXPRESS;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework'")); // инициализируем базу данных
 
 
+                
+                currentMessage = null;
 
                 storageInitialized = true;
             }
@@ -250,8 +264,7 @@ namespace WarSpot.Cloud.Storage
         public static Guid? BeginMatch(List<Guid> intellects, Guid userID)
         {
             Guid gameID = Guid.NewGuid();
-            Game match = Game.CreateGame(gameID, userID);
-
+            Game match = Game.CreateGame(gameID, userID);            
 
             List<Intellect> listofintellects = new List<Intellect>();
 
@@ -271,6 +284,8 @@ namespace WarSpot.Cloud.Storage
             db.AddToGame(match);
 
             db.SaveChanges();
+
+            PutMessage(new Message(Guid.NewGuid(), intellects));
                         
             return gameID;
 
@@ -584,5 +599,20 @@ namespace WarSpot.Cloud.Storage
 
 
 
+
+        private static void PutMessage(Message message)
+        {
+            queue.AddMessage(EquipMessage(message));
+        }
+
+        public static CloudQueueMessage GetMessage()
+        {
+            return queue.GetMessage();
+        }
+
+        private static CloudQueueMessage EquipMessage(Message message)
+        {
+            return null;
+        }
     }
 }

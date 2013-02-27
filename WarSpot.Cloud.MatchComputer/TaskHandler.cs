@@ -30,16 +30,7 @@ namespace WarSpot.Cloud.MatchComputer
 			_are.Set();
 			thread.Join();
 		}
-
-		private CloudQueue CreateQueue()
-		{
-			StorageCredentialsAccountAndKey accountAndKey = new StorageCredentialsAccountAndKey("account", "key");
-			CloudStorageAccount account = new CloudStorageAccount(accountAndKey, true);
-			CloudQueueClient client = account.CreateCloudQueueClient();
-			CloudQueue queue = client.GetQueueReference("queue");
-			queue.CreateIfNotExist();
-			return queue;
-		}
+        		
 
 		public static List<IBeingInterface> AddBeing(byte[] dll)
 		{
@@ -168,12 +159,11 @@ namespace WarSpot.Cloud.MatchComputer
 
 		public void ThreadFunctions()
 		{
-			CloudQueue queue = CreateQueue();
 			int timeout = 1000;
 
 			while (true)
 			{
-				CloudQueueMessage msg = queue.GetMessage();
+                CloudQueueMessage msg = Warehouse.GetMessage();
 				//CloudQueueMessage msg = new CloudQueueMessage("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4 936DA01F-9ABD-4d9d-80C7-02AF85C822A8");
 			
 				_are.WaitOne(0);

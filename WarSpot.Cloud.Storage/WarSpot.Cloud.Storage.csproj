@@ -86,6 +86,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Cloud.Common\WarSpot.Cloud.Common.csproj">
+      <Project>{0d16b483-7926-430d-a330-46cf90f2cf5a}</Project>
+      <Name>WarSpot.Cloud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj">
       <Project>{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}</Project>
       <Name>WarSpot.Contracts.Service</Name>
