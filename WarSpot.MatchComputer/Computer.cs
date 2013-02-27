@@ -287,7 +287,7 @@ namespace WarSpot.MatchComputer
 					distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
 
 					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0)
-						&& (_world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue == null)
+						&& (_world[actor.Characteristics.X + moveAction.ShiftX, actor.Characteristics.Y + moveAction.ShiftY].BeingValue == null)
 						&& (distance <= actor.Characteristics.MaxStep))
 					{
 						actor.Characteristics.X += moveAction.ShiftX;
