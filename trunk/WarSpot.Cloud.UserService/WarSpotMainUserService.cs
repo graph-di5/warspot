@@ -18,14 +18,14 @@ namespace WarSpot.Cloud.UserService
 		}
 
 		#region match's stuff
-		public Guid? BeginMatch(List<Guid> intellects)
+		public Guid? BeginMatch(List<Guid> intellects, string title)
 		{
 			if (!_loggedIn)
 			{
 				return null;
 			}
             
-			return Warehouse.BeginMatch(intellects, _userID);
+			return Warehouse.BeginMatch(intellects, _userID, title);
 
 		}
 

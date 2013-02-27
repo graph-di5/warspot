@@ -93,7 +93,8 @@ namespace WarSpot.WebFace.Controllers
 				Guid? res = null;
 				if (customIdentity != null)
 				{
-					res = Warehouse.BeginMatch(intellects, customIdentity.Id);
+                    // что-то нужно решить с названием игры.
+					res = Warehouse.BeginMatch(intellects, customIdentity.Id, "title");
 				}
 				return RedirectToAction("Index");
 			}

@@ -33,7 +33,7 @@ namespace WarSpot.Contracts.Service
 		ErrorCode UploadReplay(Guid game, byte[] replay);
 
 		[OperationContract]
-		Guid? BeginMatch(List<Guid> intellects);
+		Guid? BeginMatch(List<Guid> intellects, string title);
 
 		[OperationContract]
 		List<Guid> GetListOfGames();

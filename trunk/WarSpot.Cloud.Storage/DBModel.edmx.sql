@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 02/23/2013 15:24:52
+-- Date Created: 02/27/2013 12:43:03
 -- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\Warspot\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
@@ -92,7 +92,9 @@ GO
 CREATE TABLE [dbo].[Game] (
     [Game_ID] uniqueidentifier  NOT NULL,
     [AccountAccount_ID] uniqueidentifier  NOT NULL,
-    [Replay] nvarchar(max)  NULL
+    [Replay] nvarchar(max)  NULL,
+    [CreationTime] nvarchar(max)  NOT NULL,
+    [Game_Name] nvarchar(max)  NOT NULL
 );
 GO
 
