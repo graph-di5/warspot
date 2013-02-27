@@ -16,6 +16,19 @@ namespace WarSpot.Cloud.Common
 
         public Message()
         {
+            this.ListOfDlls = new List<Guid>();
+        }
+
+        public override string ToString()
+        {
+            string result = this.ID.ToString() + ' ';
+
+            foreach (Guid intellect in this.ListOfDlls)
+            {
+                result = intellect.ToString() + ' ';
+            }
+
+            return result;
         }
 
 	}

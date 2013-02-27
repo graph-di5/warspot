@@ -82,11 +82,45 @@ namespace WarSpot.Cloud.MatchComputer
 
 		private static Message ParseMessage(CloudQueueMessage message)
 		{
-			Message msg = new Message();
-		    Stream stream = new MemoryStream(message.AsBytes);
+            Message msg = new Message();
+            string queuemessage = message.AsString;
+            String temp = "";
+            bool flag = false;
 
-		    var bf = new BinaryFormatter();
-		    msg = (Message) bf.Deserialize(stream);
+            for (int i = 0; i < queuemessage.Length; i++)
+            {
+                if (flag)
+                {
+                    while (queuemessage[i] != ' ')
+                    {
+                        temp = temp + queuemessage[i];
+                        i++;
+                    }
+                    msg.ListOfDlls.Add(Guid.Parse(temp));
+                    temp = "";
+
+                    try
+                    {
+                        i++;
+                    }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    while (queuemessage[i] != ' ')
+                    {
+                        temp = temp + queuemessage[i];
+                        i++;
+                    }
+                    msg.ID = Guid.Parse(temp);
+                    flag = true;
+                    i++;
+                    temp = "";
+                }
+            }
 
 			return msg;
 		}

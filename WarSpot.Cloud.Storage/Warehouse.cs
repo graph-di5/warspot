@@ -15,18 +15,18 @@ namespace WarSpot.Cloud.Storage
     public static class Warehouse
     {
 
-        private static CloudQueue queue;
-        private static CloudQueueClient queueClient;
-
-
-        #region BLOB SECTION VAR
+        #region AZURE SECTION VAR
         private const string CONNECTIONSTRING = "DataConnectionString";
         private const string DBCONNECTIONSTRING = "DBConnectionString";
 
         private static bool storageInitialized = false;
         private static object gate = new Object();
+
         private static CloudBlobClient blobStorage;
         private static CloudBlobContainer container;
+
+        private static CloudQueue queue;
+        private static CloudQueueClient queueClient;
 
         #endregion BLOB SECTION END
 
@@ -92,9 +92,6 @@ namespace WarSpot.Cloud.Storage
                 // плохо. временно заменяю на прямое указание!
                 db = new DBContext(new EntityConnection(@"metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string='data source=localhost\SQLEXPRESS;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework'")); // инициализируем базу данных
 
-
-                
-                currentMessage = null;
 
                 storageInitialized = true;
             }
@@ -175,6 +172,21 @@ namespace WarSpot.Cloud.Storage
             }
 
         }
+
+        #endregion
+
+        #region QUEUE METHODS
+
+        private static void PutMessage(Message message)
+        {
+            queue.AddMessage(new CloudQueueMessage(message.ToString()));
+        }
+
+        public static CloudQueueMessage GetMessage()
+        {
+            return queue.GetMessage();
+        }
+
 
         #endregion
 
@@ -597,22 +609,5 @@ namespace WarSpot.Cloud.Storage
 
         #endregion
 
-
-
-
-        private static void PutMessage(Message message)
-        {
-            queue.AddMessage(EquipMessage(message));
-        }
-
-        public static CloudQueueMessage GetMessage()
-        {
-            return queue.GetMessage();
-        }
-
-        private static CloudQueueMessage EquipMessage(Message message)
-        {
-            return null;
-        }
     }
 }
