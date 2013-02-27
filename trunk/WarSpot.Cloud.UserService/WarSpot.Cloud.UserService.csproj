@@ -84,6 +84,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Cloud.Common\WarSpot.Cloud.Common.csproj">
+      <Project>{0d16b483-7926-430d-a330-46cf90f2cf5a}</Project>
+      <Name>WarSpot.Cloud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Cloud.Storage\WarSpot.Cloud.Storage.csproj">
       <Project>{4D2D5B7A-0BF4-41D2-BF18-F450BF3CB33F}</Project>
       <Name>WarSpot.Cloud.Storage</Name>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
+using WarSpot.Cloud.Common;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -23,7 +24,7 @@ namespace WarSpot.Cloud.UserService
 			{
 				return null;
 			}
-
+            
 			return Warehouse.BeginMatch(intellects, _userID);
 
 		}
