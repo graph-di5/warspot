@@ -183,20 +183,20 @@ namespace WarSpot.Client.XnaClient.Screen
 				{
 				case 0:
 					{
-						SpriteBatch.Draw(_hedge, new Rectangle(gameObject.Y * _scaledSpriteWidth, gameObject.X * _scaledSpriteHeight,
+						SpriteBatch.Draw(_hedge, new Rectangle(gameObject.Y * _scaledSpriteWidth, gameObject.X * _scaledSpriteHeight + _barHeight,
 							_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
 						break;
 					}
 				case 1:
 					{
-						SpriteBatch.Draw(_creatureOfFirstTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight,
+						SpriteBatch.Draw(_creatureOfFirstTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight + _barHeight,
 							_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
 						//float HPpercent = gameObject.CurrentHealth / gameObject.MaxHealth;
 						break;
 					}
 				case 2:
 					{
-						SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight,
+						SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight + _barHeight,
 							_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
 						break;
 					}
