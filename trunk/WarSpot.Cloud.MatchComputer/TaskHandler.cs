@@ -80,50 +80,7 @@ namespace WarSpot.Cloud.MatchComputer
 
 
 
-		private static Message ParseMessage(CloudQueueMessage message)
-		{
-            Message msg = new Message();
-            string queuemessage = message.AsString;
-            String temp = "";
-            bool flag = false;
-
-            for (int i = 0; i < queuemessage.Length; i++)
-            {
-                if (flag)
-                {
-                    while (queuemessage[i] != ' ')
-                    {
-                        temp = temp + queuemessage[i];
-                        i++;
-                    }
-                    msg.ListOfDlls.Add(Guid.Parse(temp));
-                    temp = "";
-
-                    try
-                    {
-                        i++;
-                    }
-                    catch (IndexOutOfRangeException e)
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    while (queuemessage[i] != ' ')
-                    {
-                        temp = temp + queuemessage[i];
-                        i++;
-                    }
-                    msg.ID = Guid.Parse(temp);
-                    flag = true;
-                    i++;
-                    temp = "";
-                }
-            }
-
-			return msg;
-		}
+		
 
 		private List<TeamIntellectList> getIntellects(Message msg)
 		{
@@ -193,11 +150,12 @@ namespace WarSpot.Cloud.MatchComputer
 
 		public void ThreadFunctions()
 		{
+
 			int timeout = 1000;
 
 			while (true)
 			{
-                CloudQueueMessage msg = Warehouse.GetMessage();
+                Message msg = Warehouse.GetMessage();
 				//CloudQueueMessage msg = new CloudQueueMessage("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4 936DA01F-9ABD-4d9d-80C7-02AF85C822A8");
 			
 				_are.WaitOne(0);
@@ -209,7 +167,7 @@ namespace WarSpot.Cloud.MatchComputer
 				}
 				if (msg != null)
 				{
-					MemoryStreamer(getIntellects(ParseMessage(msg)));
+					MemoryStreamer(getIntellects(msg));
 					continue;
 				}
 
