@@ -33,18 +33,18 @@ namespace WarSpot.Client.XnaClient.Screen
 		private float _widthScaling;
 		private float _heightScaling;
 		// Variable for contolling game pause by user
-		private bool _globalPause = true;
-		private bool _isActionDone = false;
+		private bool _globalPause = false;
 		// Control for preventing from too fast replay speed
-		private bool _localPause = true;
+		private bool _localPause = false;
 		private bool _isPrepared = false;
-		private int _barHeight = 30;
+		private const int _barHeight = 30;
 		private int _timeSinceLastTurn = 0;
 
 		// Buttons
 		private ButtonControl _pauseButton;
 		private ButtonControl _nextButton;
 		private ButtonControl _menuButton;
+		private LabelControl _turnLabel;
 
 		public WatchReplayScreen()
 		{
@@ -62,7 +62,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public override void Update(GameTime gameTime)
 		{
-			if (!_globalPause && !_isActionDone)
+			if (!_globalPause)
 			{
 				if (!_localPause)
 				{
@@ -124,6 +124,8 @@ namespace WarSpot.Client.XnaClient.Screen
 					case EventTypes.SystemEventTurnStarted:
 						{
 							var tmp = wsEvent as SystemEventTurnStarted;
+							_turnLabel.Text = "Turn " + tmp.Number.ToString();
+
 							_listOfEvents.Remove(tmp);
 							break;
 						}
@@ -142,7 +144,7 @@ namespace WarSpot.Client.XnaClient.Screen
 					case EventTypes.SystemEventMatchEnd:
 						{
 							var tmp = wsEvent as SystemEventMatchEnd;
-							exitReplay();
+							ExitReplay();
 							break;
 						}
 					default:
@@ -183,20 +185,22 @@ namespace WarSpot.Client.XnaClient.Screen
 				{
 				case 0:
 					{
-						SpriteBatch.Draw(_hedge, new Rectangle(gameObject.Y * _scaledSpriteWidth, gameObject.X * _scaledSpriteHeight + _barHeight,
+						SpriteBatch.Draw(_hedge, new Rectangle(gameObject.Y * _scaledSpriteWidth,
+							gameObject.X * _scaledSpriteHeight + _barHeight,
 							_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
 						break;
 					}
 				case 1:
 					{
-						SpriteBatch.Draw(_creatureOfFirstTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight + _barHeight,
+						SpriteBatch.Draw(_creatureOfFirstTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, 
+							gameObject.Y * _scaledSpriteHeight + _barHeight,
 							_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
-						//float HPpercent = gameObject.CurrentHealth / gameObject.MaxHealth;
 						break;
 					}
 				case 2:
 					{
-						SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, gameObject.Y * _scaledSpriteHeight + _barHeight,
+						SpriteBatch.Draw(_creatureOfSecondTeam, new Rectangle(gameObject.X * _scaledSpriteWidth, 
+							gameObject.Y * _scaledSpriteHeight + _barHeight,
 							_scaledSpriteWidth, _scaledSpriteHeight), Color.White);
 						break;
 					}
@@ -309,7 +313,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			return _wordlHeight * _scaledSpriteHeight + _barHeight;
 		}
 
-		private void exitReplay()
+		private void ExitReplay()
 		{
 			_listOfCreatures = new List<Creature>();
 			_isPrepared = false;
@@ -348,10 +352,15 @@ namespace WarSpot.Client.XnaClient.Screen
 				Text = "Menu",
 				Bounds =
 						new UniRectangle(
-								new UniScalar(0f, WarSpotGame.Instance.GetScreenBounds().Width - 50 - 18),
+								new UniScalar(0f, WarSpotGame.Instance.GetScreenBounds().Width - 50 - 22),
 								new UniScalar(0f, -18),
 								new UniScalar(0f, 50),
 								new UniScalar(0f, 25))
+			};
+
+			_turnLabel = new LabelControl("Turn 0")
+			{
+				Bounds = new UniRectangle(new UniScalar(0f, 300), new UniScalar(0f, -5), 0, 0)
 			};
 		}	
 
@@ -360,6 +369,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			Desktop.Children.Add(_pauseButton);
 			Desktop.Children.Add(_nextButton);
 			Desktop.Children.Add(_menuButton);
+			Desktop.Children.Add(_turnLabel);
 
 			ScreenManager.Instance.Controller.AddListener(_pauseButton, PauseButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_nextButton, NextButtonPressed);
@@ -373,13 +383,12 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void NextButtonPressed(object sender, EventArgs e)
 		{
-			_globalPause = false;
-			_localPause = false;
+			_globalPause = false;	
 		}
 
 		private void MenuButtonPressed(object sender, EventArgs e)
 		{
-			exitReplay();
+			ExitReplay();
 		}
 	}
 }

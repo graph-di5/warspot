@@ -102,7 +102,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 			else
 			{
-				throw new Exception("game screen is already initialized");
+				throw new Exception("Game screen is already initialized");
 			}
 		}
 
@@ -114,7 +114,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void Update(GameTime gameTime)
 		{
 			_activeScreen.Update(gameTime);
-
 			Controller.Update();
 			_activeScreen.HandleInput(Controller);
 		}
@@ -133,7 +132,6 @@ namespace WarSpot.Client.XnaClient.Screen
 
 			foreach (string screen in Enum.GetNames(typeof(ScreenEnum)))
 			{
-				// TODO: rewrite/refactor
 				var type = Type.GetType("WarSpot.Client.XnaClient.Screen." + screen);
 				if (type != null)
 				{
@@ -160,16 +158,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			_screens.Clear();
 		}
 
-		public void ReloadContent()
-		{
-			var dict = _activeScreen.GetTexts();
-			string current = GetActiveScreen().GetType().Name;
-			UnloadContent();
-			LoadContent();
-			SetActiveScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), current));
-			_activeScreen.UseTexts(dict);
-		}
-
 		public void Resize()
 		{
 			foreach (var screen in _screens.Values)
@@ -180,12 +168,5 @@ namespace WarSpot.Client.XnaClient.Screen
 			string current = GetActiveScreen().GetType().Name;
 			SetActiveScreen((ScreenEnum)Enum.Parse(typeof(ScreenEnum), current));
 		}
-
-		public void PrepareReplayScreen()
-		{
-			var tmp = _screens[ScreenEnum.WatchReplayScreen] as WatchReplayScreen;
-			tmp.PrepareScreen();
-		}
-
 	}
 }
