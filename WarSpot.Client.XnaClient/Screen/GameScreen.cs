@@ -87,32 +87,5 @@ namespace WarSpot.Client.XnaClient.Screen
 			this.Height = WarSpotGame.Instance.GraphicsDevice.Viewport.Height;
 			this.Width = WarSpotGame.Instance.GraphicsDevice.Viewport.Width;
 		}
-
-		public Dictionary<string, string> GetTexts()
-		{
-			return (from control in Desktop.Children where control.GetType() == typeof (InputControl) select control as InputControl into ic where ic != null && ic.Name != null select ic).ToDictionary(ic => ic.Name, ic => ic.RealText);
-		}
-
-		/// <summary>
-		/// some linq magic 
-		/// </summary>
-		/// <param name="dict"></param>
-		public void UseTexts(Dictionary<string, string> dict)
-		{
-			foreach (var ic in from control in Desktop.Children where control.GetType() == typeof (InputControl) select control as InputControl into ic where ic != null && dict.ContainsKey(ic.Name) select ic)
-			{
-				ic.RealText = dict[ic.Name];
-			}
-		}
-
-		//protected void DrawString(string text, float positionX, float positionY, Color color)
-		//{
-		//    SpriteBatch.DrawString(
-		//        SpriteFont,
-		//        text,
-		//        new Vector2(positionX, positionY),
-		//        color, 0, new Vector2(0f, 0f), 0.8f, SpriteEffects.None,
-		//        layerDepth: Constants.TEXT_TEXTURE_LAYER);
-		//}
 	}
 }
