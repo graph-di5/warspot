@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIManager\Intellect.cs" />
+    <Compile Include="Screen\NewGameScreen.cs" />
     <Compile Include="Screen\Utils\FoldersHelper.cs" />
     <Compile Include="Input\Controller.cs" />
     <Compile Include="Input\InputControl.cs" />

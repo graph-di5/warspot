@@ -42,7 +42,6 @@ namespace WarSpot.Client.XnaClient.Network
 				Trace.WriteLine(e);
 			}
 		}
-		#region login and registration
 
 		public ErrorCode Register(string username, string password)
 		{
@@ -71,53 +70,28 @@ namespace WarSpot.Client.XnaClient.Network
 				return new ErrorCode(ErrorType.UnknownException, e.ToString());
 			}
 		}
-		#endregion login and registration
-
-		#region DLLUploadControl
 
 		public ErrorCode UploadIntellect(AIManager.Intellect intellect)
 		{
+			InitializeConnection();
 			return _service.UploadIntellect(intellect.ByteDll, intellect.Name);
 		}
 
 		public string[] GetListOfIntellects()
 		{
-			return _service == null ? new string[0] : _service.GetListOfIntellects().Select(re => re.Value).ToArray();
+			InitializeConnection();
+			return _service.GetListOfIntellects().Select(re => re.Value).ToArray();
 		}
 
 		public ErrorCode DeleteIntellect(string name)
 		{
+			InitializeConnection();
 			return _service.DeleteIntellect(name);
 		}
 
-		#endregion DLLUploadControl
-
-		#region recieving replays
-
-		public ErrorCode RecieveReplay(string name)
-		{
-			InitializeConnection();
-			try
-			{
-				// TODO: test this
-			//	Replay tmp;
-				//tmp = _service.SendReplay(name);
-				//string path = FoldersController.FoldersController.GetReplayPath();
-				//File.WriteAllBytes(Path.Combine(path, tmp.name + ".log"), tmp.data);
-			}
-			catch (Exception e)
-			{
-				Trace.WriteLine(e);
-				return new ErrorCode(ErrorType.UnknownException, e.ToString());
-			}
-			return new ErrorCode();
-		}
-
-		#endregion
-
 		public void KeepAlive()
 		{
-			//InitializeConnection();
+			InitializeConnection();
 			try
 			{
 				if(_service != null)
