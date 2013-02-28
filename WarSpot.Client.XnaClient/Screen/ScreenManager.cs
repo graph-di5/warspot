@@ -20,7 +20,8 @@ namespace WarSpot.Client.XnaClient.Screen
 			MessageBox,
 			WatchReplayScreen,
 			SelectReplayScreen,
-			LoadingScreen
+			LoadingScreen,
+			NewGameScreen
 		}
 
 		private static ScreenManager _instance;

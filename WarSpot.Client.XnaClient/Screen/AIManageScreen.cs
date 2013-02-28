@@ -81,10 +81,10 @@ namespace WarSpot.Client.XnaClient.Screen
 				Text = "Browse",
 				Bounds =
 						new UniRectangle(
-								new UniScalar(0f, 300 + 10),
-								new UniScalar(0f, 20),
-								new UniScalar(0f, 100),
-								new UniScalar(0f, 30))
+							new UniScalar(0f, 310),
+							new UniScalar(0f, 20),
+							new UniScalar(0f, 100),
+							new UniScalar(0f, 30))
 			};
 
 			_uploadButton = new ButtonControl
@@ -92,32 +92,20 @@ namespace WarSpot.Client.XnaClient.Screen
 				Text = "Upload",
 				Bounds =
 						new UniRectangle(
-								new UniScalar(0f, 0),
-		new UniScalar(0f, 60),
-		new UniScalar(0f, 100),
-		new UniScalar(0f, 30))
+							new UniScalar(0f, 0),
+							new UniScalar(0f, 60),
+							new UniScalar(0f, 100),
+							new UniScalar(0f, 30))
 			};
 			_backButton = new ButtonControl
 			{
-				Text = "Main Menu",
+				Text = "Back",
 				Bounds =
 					new UniRectangle(
 						new UniScalar(0f, 0),
 						new UniScalar(0f, 410),
 						new UniScalar(0f, 100),
 						new UniScalar(0f, 30))
-			};
-
-
-			_intellectList = new Nuclex.UserInterface.Controls.Desktop.ListControl
-			{
-				SelectionMode = ListSelectionMode.Single,
-				Bounds =
-					new UniRectangle(
-						new UniScalar(0f, 0),
-						new UniScalar(0f, 100),
-						new UniScalar(0f, 300),
-						new UniScalar(0f, 300))
 			};
 
 			_refreshButton = new ButtonControl
@@ -136,9 +124,20 @@ namespace WarSpot.Client.XnaClient.Screen
 				Bounds =
 					new UniRectangle(
 						new UniScalar(0f, 310),
-						new UniScalar(0f, 180),
+						new UniScalar(0f, 135),
 						new UniScalar(0f, 100),
 						new UniScalar(0f, 30))
+			};
+
+			_intellectList = new Nuclex.UserInterface.Controls.Desktop.ListControl
+			{
+				SelectionMode = ListSelectionMode.Single,
+				Bounds =
+					new UniRectangle(
+						new UniScalar(0f, 0),
+						new UniScalar(0f, 100),
+						new UniScalar(0f, 300),
+						new UniScalar(0f, 300))
 			};
 
 			_intellectList.Slider.Bounds.Location.X.Offset -= 1.0f;

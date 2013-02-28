@@ -110,7 +110,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void startGameButtonPressed(object sender, EventArgs e)
 		{
-
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.NewGameScreen);
 		}
 
 		private void localAIButtonPressed(object sender, EventArgs e)
