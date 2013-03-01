@@ -23,12 +23,14 @@ namespace WarSpot.WebFace.Controllers
 			if (customIdentity != null)
 			{
 				var games = (from b in Warehouse.db.Game
-                               where b.AccountAccount_ID == customIdentity.Id
-                               select b).ToList<Game>();
+										 where b.AccountAccount_ID == customIdentity.Id
+										 select b).ToList<Game>();
 				res.AddRange(games.Select(game => new GameModel()
-				                                  	{
-				                                  		Id = game.Game_ID, AccountID = game.AccountAccount_ID, Replay = game.Replay
-				                                  	}));
+																						{
+																							Id = game.Game_ID,
+																							AccountID = game.AccountAccount_ID,
+																							Replay = game.Replay
+																						}));
 			}
 			return View(res);
 		}
@@ -40,9 +42,9 @@ namespace WarSpot.WebFace.Controllers
 		{
 			var res = new GameModel();
 			var game = (from g in Warehouse.db.Game
-										where g.Game_ID == id
-										select g).FirstOrDefault();
-			if(game != null)
+									where g.Game_ID == id
+									select g).FirstOrDefault();
+			if (game != null)
 			{
 				res.Id = game.Game_ID;
 				res.Replay = game.Replay;
@@ -57,7 +59,7 @@ namespace WarSpot.WebFace.Controllers
 			return new FileContentResult(Warehouse.GetReplay(id).data, "application/octet-stream")
 			{
 				// todo get date here
-				FileDownloadName = "replay_"+id+".out"
+				FileDownloadName = "replay_" + id + ".out"
 			};
 		}
 
@@ -93,7 +95,7 @@ namespace WarSpot.WebFace.Controllers
 				Guid? res = null;
 				if (customIdentity != null)
 				{
-                    // что-то нужно решить с названием игры.
+					// todo что-то нужно решить с названием игры.
 					res = Warehouse.BeginMatch(intellects, customIdentity.Id, "title");
 				}
 				return RedirectToAction("Index");
@@ -108,7 +110,7 @@ namespace WarSpot.WebFace.Controllers
 		public ActionResult Play(Guid id)
 		{
 			var list = Deserializator.Deserialize(new MemoryStream(Warehouse.GetReplay(id).data));
-			if(list.Count == 0)
+			if (list.Count == 0)
 			{
 				// todo report error
 				return RedirectToAction("Details", id);
