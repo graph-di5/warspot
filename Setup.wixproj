@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.7</ProductVersion>
+    <ProjectGuid>{741b2592-44cd-415f-a761-5bf9da8ebdc7}</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>Setup</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Dialogs\BrowseDialog.wxs" />
+    <Compile Include="Dialogs\CancelDialog.wxs" />
+    <Compile Include="Dialogs\ErrorDialog.wxs" />
+    <Compile Include="Dialogs\ExitDialog.wxs" />
+    <Compile Include="Dialogs\FatalErrorDialog.wxs" />
+    <Compile Include="Dialogs\FilesInUseDialog.wxs" />
+    <Compile Include="Dialogs\OutOfDiskSpaceDialog.wxs" />
+    <Compile Include="Dialogs\OutOfRollbackDiskSpaceDialog.wxs" />
+    <Compile Include="Dialogs\PrerequisitesDialog.wxs" />
+    <Compile Include="Dialogs\ProgressDialog.wxs" />
+    <Compile Include="Dialogs\RequireDotNetDialog.wxs" />
+    <Compile Include="Dialogs\SelectFolderDialog.wxs" />
+    <Compile Include="Dialogs\ShaderWarningDialog.wxs" />
+    <Compile Include="Dialogs\UserExitDialog.wxs" />
+    <Compile Include="Dialogs\VerifyReadyDialog.wxs" />
+    <Compile Include="Dialogs\ViewLicenseAgreementDialog.wxs" />
+    <Compile Include="Dialogs\WelcomeDialog.wxs" />
+    <Compile Include="Dialogs\WrongOperatingSystemDialog.wxs" />
+    <Compile Include="Source\EmbeddedPrerequisites.wxs" />
+    <Compile Include="Source\Files.wxs" />
+    <Compile Include="Source\NuclexSetupDetector.wxs" />
+    <Compile Include="Source\Setup.wxs" />
+    <Compile Include="Source\UserInterface.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Game.exe" />
+    <Content Include="Documents\license.rtf" />
+    <Content Include="Resources\default-banner.bmp" />
+    <Content Include="Resources\default-dialog.bmp" />
+    <Content Include="Resources\DirectX-64.bmp" />
+    <Content Include="Resources\DotNet-64.bmp" />
+    <Content Include="Resources\GreenCheck-16.ico" />
+    <Content Include="Resources\GreenCheck-24.ico" />
+    <Content Include="Resources\info.bmp" />
+    <Content Include="Resources\new.bmp" />
+    <Content Include="Resources\Nuclex.Setup.Detector.dll" />
+    <Content Include="Resources\Nuclex.Setup.Xna4_0.dll" />
+    <Content Include="Resources\png\DirectX9-142.png" />
+    <Content Include="Resources\png\DirectX9-32.png" />
+    <Content Include="Resources\png\DirectX9-48.png" />
+    <Content Include="Resources\png\DirectX9-64.png" />
+    <Content Include="Resources\png\DotNet-32.png" />
+    <Content Include="Resources\png\DotNet-48.png" />
+    <Content Include="Resources\png\DotNet-513.png" />
+    <Content Include="Resources\png\DotNet-64.png" />
+    <Content Include="Resources\png\DotNet4-64.png" />
+    <Content Include="Resources\png\GreenCheck.png" />
+    <Content Include="Resources\png\InvertedGreenCheck.png" />
+    <Content Include="Resources\png\InvertedRedX.png" />
+    <Content Include="Resources\png\RedX.png" />
+    <Content Include="Resources\png\Xna-194.png" />
+    <Content Include="Resources\png\Xna-32.png" />
+    <Content Include="Resources\png\Xna-48.png" />
+    <Content Include="Resources\png\Xna-64.png" />
+    <Content Include="Resources\RedX-16.ico" />
+    <Content Include="Resources\RedX-24.ico" />
+    <Content Include="Resources\up.bmp" />
+    <Content Include="Resources\Xna-64.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dialogs" />
+    <Folder Include="Content" />
+    <Folder Include="Documents" />
+    <Folder Include="Source" />
+    <Folder Include="Resources" />
+    <Folder Include="Resources\png" />
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>
