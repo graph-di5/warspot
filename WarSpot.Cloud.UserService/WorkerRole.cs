@@ -5,8 +5,6 @@ using System.ServiceModel;
 using System.Threading;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
-using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.Autoscaling;
-using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 
 namespace WarSpot.Cloud.UserService
 {
