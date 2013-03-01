@@ -23,12 +23,15 @@ namespace WarSpot.Client.XnaClient.Screen
 		private InputControl _gameNameBox;
 
 		private LabelControl _gameNameLabel;
+		private LabelControl _offlineLabel;
+
+		private OptionControl _offlineModeCheckBox;
 
 		private ListControl _intellectFirstList;
 		private ListControl _intellectSecondList;
 
 		private bool _isShowedAgain = false;
-		public bool _isOnline = true;
+		public bool? _isOnline;
 
 		public NewGameScreen()
 		{
@@ -51,7 +54,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void OnShow()
 		{
 			base.OnShow();
-			/*
+			_gameNameBox.Text = DateTime.Now.ToString();
 			if (!_isShowedAgain)
 			{
 				var isOk = ConnectionManager.Instance.GetListOfIntellects();
@@ -59,6 +62,8 @@ namespace WarSpot.Client.XnaClient.Screen
 				{
 					_isShowedAgain = true;
 					_isOnline = false;
+			  		_offlineModeCheckBox.Selected = true;
+					_offlineModeCheckBox.Enabled = false;
 					MessageBox.Show("No connection, only offline mode available", ScreenManager.ScreenEnum.NewGameScreen);
 				}
 				else
@@ -71,14 +76,17 @@ namespace WarSpot.Client.XnaClient.Screen
 						_intellectSecondList.Items.Add(i.Value);
 					}
 				}
-			}*/
+			}
 		}
 
 		public override void OnHide()
 		{
 			base.OnHide();
-			_intellectFirstList.Items.Clear();
-			_intellectSecondList.Items.Clear();
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			// Checkbox changes processing here:
 		}
 
 		private void CreateControls()
@@ -132,6 +140,25 @@ namespace WarSpot.Client.XnaClient.Screen
 							new UniScalar(0f, 30))
 			};
 
+
+			_offlineLabel = new LabelControl("Offline mode:")
+			{
+				Bounds = new UniRectangle(
+					new UniScalar(0f, 50),
+					new UniScalar(0f, 455),
+					new UniScalar(0f, 100),
+					new UniScalar(0f, 30))
+			};
+
+			_offlineModeCheckBox = new OptionControl
+			{
+				Bounds = new UniRectangle(
+					new UniScalar(0f, 150),
+					new UniScalar(0f, 460),
+					new UniScalar(0f, 20),
+					new UniScalar(0f, 20))
+			};
+
 			_intellectFirstList = new Nuclex.UserInterface.Controls.Desktop.ListControl
 			{
 				SelectionMode = ListSelectionMode.Single,
@@ -165,6 +192,9 @@ namespace WarSpot.Client.XnaClient.Screen
 			Desktop.Children.Add(_gameNameBox);
 
 			Desktop.Children.Add(_gameNameLabel);
+			Desktop.Children.Add(_offlineLabel);
+
+			Desktop.Children.Add(_offlineModeCheckBox);
 
 			Desktop.Children.Add(_intellectFirstList);
 			Desktop.Children.Add(_intellectSecondList);
@@ -185,7 +215,7 @@ namespace WarSpot.Client.XnaClient.Screen
 					ConnectionManager.Instance.BeginMatch(selectedIntellects, _gameNameBox.Text);
 				}
 				else
-					ConnectionManager.Instance.BeginMatch(selectedIntellects, DateTime.Now.ToString());
+					MessageBox.Show("You must enter name of the game", ScreenManager.ScreenEnum.NewGameScreen);
 			}
 		}
 
@@ -193,6 +223,12 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
 			_isShowedAgain = false;
+			_intellectFirstList.SelectedItems.Clear();
+			_intellectSecondList.SelectedItems.Clear();
+			_intellectFirstList.Items.Clear();
+			_intellectSecondList.Items.Clear();
+			_offlineModeCheckBox.Enabled = true;
+			_isOnline = null;
 		}
 	}
 }
