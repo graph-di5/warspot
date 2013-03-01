@@ -146,6 +146,15 @@ namespace WarSpot.Cloud.UserService
             return Warehouse.UploadReplay(replay, gameID);
         }
 
+        public List<ReplayDescription> GetListOfReplays()
+        {
+            if (!_loggedIn)
+            {
+                return null;
+            }
+
+            return Warehouse.GetListOfReplays(_userID);
+        }
 		#endregion replay's stuff
 
 		#region tournament stuff
