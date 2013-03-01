@@ -24,8 +24,8 @@ namespace WarSpot.Cloud.MatchComputer
             // Это образец реализации рабочего процесса. Замените его собственной логикой.
             Trace.WriteLine("WarSpot.Cloud.Computer entry point called", "Information");
 
-            this.autoscaler = EnterpriseLibraryContainer.Current.GetInstance<Autoscaler>();
-            this.autoscaler.Start();
+            //this.autoscaler = EnterpriseLibraryContainer.Current.GetInstance<Autoscaler>();
+            //this.autoscaler.Start();
 
             /*while (true)
             {
