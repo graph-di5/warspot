@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rules xmlns="http://schemas.microsoft.com/practices/2011/entlib/autoscaling/rules">
+  
+<constraintRules>
+  <rule name="Default" description="Always active"
+        enabled="true" rank="1">
+    <actions>
+      <range min="2" max="2" target="RoleA"/>
+    </actions>
+  </rule>
+
+  <rule name="Peak" description="Active at peak times"
+        enabled="true" rank="100">
+    <actions>
+      <range min="4" max="4" target="RoleA"/>
+    </actions>
+    <timetable startTime="08:00:00" duration="02:00:00">
+      <daily/>
+    </timetable>
+  </rule>
+</constraintRules>
+
+<reactiveRules/>
+
+<operands/>
+</rules>
