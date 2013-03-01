@@ -189,6 +189,34 @@ namespace WarSpot.Cloud.Storage
 
         }
 
+        public static List<ReplayDescription> GetListOfReplays(Guid Account_ID)
+        {
+            try
+            {
+                List<ReplayDescription> userreplays = new List<ReplayDescription>();
+
+                List<Game> usergames = (from g in db.Game
+                                        where g.AccountAccount_ID == Account_ID
+                                        select g).ToList<Game>();
+
+                foreach (Game g in usergames)
+                {
+                    List<string> intellectsingame = (from i in db.Intellect
+                                                     where i.Games.Contains(g)
+                                                     select i.Intellect_Name).ToList<string>();
+
+                    ReplayDescription replay = new ReplayDescription(g.Game_ID, g.Game_Name, intellectsingame);
+
+                    userreplays.Add(replay);
+                }
+
+                return userreplays;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
         #endregion
 
         #region QUEUE METHODS

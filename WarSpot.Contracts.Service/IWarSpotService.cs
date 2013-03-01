@@ -7,14 +7,17 @@ namespace WarSpot.Contracts.Service
 {
 	[ServiceContract]
 	public interface IWarSpotService
-	{
-		[OperationContract(IsInitiating = true)]
+    {
+        #region Login\Registration
+        [OperationContract(IsInitiating = true)]
 		ErrorCode Register(string username, string pass);
 
 		[OperationContract(IsInitiating = true)]
 		ErrorCode Login(string inputUsername, string inputPass);
+        #endregion
 
-		[OperationContract]
+        #region Intelletcs
+        [OperationContract]
 		ErrorCode UploadIntellect(byte[] intellect, string name);
 
 		[OperationContract]
@@ -25,36 +28,44 @@ namespace WarSpot.Contracts.Service
 
 		[OperationContract]
 		ErrorCode DeleteIntellect(string name);
+        #endregion
 
-		[OperationContract]
+        #region Replay
+        [OperationContract]
 		Replay DownloadReplay(Guid game);
 
 		[OperationContract]
 		ErrorCode UploadReplay(Guid game, byte[] replay);
 
-		[OperationContract]
+        [OperationContract]
+        List<ReplayDescription> GetListOfReplays();
+        #endregion
+
+        #region Match
+        [OperationContract]
 		Guid? BeginMatch(List<Guid> intellects, string title);
 
 		[OperationContract]
 		List<Guid> GetListOfGames();
+        #endregion
 
-		[OperationContract]
-		void KeepAlive();
-
-		[OperationContract]
+        #region Role
+        [OperationContract]
 		bool IsUserAdmin(Guid user);
 
 		[OperationContract]
 		bool IsUser(string role, Guid user);
 
-		[OperationContract]
-		ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers);
+        [OperationContract]
+        ErrorCode SetUserRole(Guid user, string role, string until);
 
-		[OperationContract]
-		ErrorCode SetUserRole(Guid user, string role, string until);
+        [OperationContract]
+        string[] GetUserRoles(Guid user);
+        #endregion
 
-		[OperationContract]
-		string[] GetUserRoles(Guid user);
+        #region Tournament
+        [OperationContract]
+		ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers);		
 
 		[OperationContract]
 		List<Guid> GetMyTournamets();
@@ -70,6 +81,10 @@ namespace WarSpot.Contracts.Service
 
 		[OperationContract]
 		ErrorCode LeaveTournament(Guid tournamentID);
+        #endregion
 
-	}
+        [OperationContract]
+        void KeepAlive();
+
+    }
 }
