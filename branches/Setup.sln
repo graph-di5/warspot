@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Setup", "Setup\Setup.wixproj", "{741B2592-44CD-415F-A761-5BF9DA8EBDC7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{741B2592-44CD-415F-A761-5BF9DA8EBDC7}.Debug|x86.ActiveCfg = Debug|x86
+		{741B2592-44CD-415F-A761-5BF9DA8EBDC7}.Debug|x86.Build.0 = Debug|x86
+		{741B2592-44CD-415F-A761-5BF9DA8EBDC7}.Release|x86.ActiveCfg = Release|x86
+		{741B2592-44CD-415F-A761-5BF9DA8EBDC7}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
