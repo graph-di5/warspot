@@ -205,7 +205,11 @@ namespace WarSpot.Cloud.Storage
                                                      where i.Games.Contains(g)
                                                      select i.Intellect_Name).ToList<string>();
 
-                    ReplayDescription replay = new ReplayDescription(g.Game_ID, g.Game_Name, intellectsingame);
+                    ReplayDescription replay = new ReplayDescription();
+
+                    replay.id = g.Game_ID;
+                    replay.name = g.Game_Name;
+                    replay.intellects = intellectsingame;                   
 
                     userreplays.Add(replay);
                 }
