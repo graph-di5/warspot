@@ -56,15 +56,14 @@ namespace WarSpot.Cloud.MatchComputer
 			return _objects;
 		}
 
-		private static void MemoryStreamer(List<TeamIntellectList> listIntellect)
+		private static void MemoryStreamer(List<TeamIntellectList> listIntellect, Message msg)
 		{
 			Stream stream = new MemoryStream();
             // todo: вынести stream из конструктора в параметр метода
 			Computer computer = new Computer(listIntellect, stream);
-            computer.Compute();
+            computer.Compute(); 
 
-            Guid gameID = Guid.NewGuid();
-            Warehouse.UploadReplay(ReadFully(stream), gameID);
+            Warehouse.UploadReplay(ReadFully(stream), msg.ID);
 
 		    stream.Dispose();
 		}
@@ -167,7 +166,7 @@ namespace WarSpot.Cloud.MatchComputer
 				}
 				if (msg != null)
 				{
-					MemoryStreamer(getIntellects(msg));
+					MemoryStreamer(getIntellects(msg), msg);
 					continue;
 				}
 
