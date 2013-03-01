@@ -5,15 +5,24 @@ using System.ServiceModel;
 using System.Threading;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.Autoscaling;
+using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 
 namespace WarSpot.Cloud.UserService
 {
 	public class WorkerRole : RoleEntryPoint
 	{
+        private Autoscaler autoscaler;
+
 		public override void Run()
 		{
 			// This is a sample worker implementation. Replace with your logic.
 			Trace.WriteLine("WarSpot.Cloud.UserService entry point called", "Information");
+
+
+            this.autoscaler = EnterpriseLibraryContainer.Current.GetInstance<Autoscaler>();
+            this.autoscaler.Start();
+
 
 			var address = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["ServiceEndpoint"];
 			var prefix = address.Protocol == "tcp" ? "net.tcp://" : "http://";
