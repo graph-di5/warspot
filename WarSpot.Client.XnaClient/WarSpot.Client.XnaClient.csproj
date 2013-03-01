@@ -130,7 +130,7 @@
     <Compile Include="Screen\LoadingScreen.cs" />
     <Compile Include="Screen\SelectReplayScreen.cs" />
     <Compile Include="Screen\Utils\InputValidator.cs" />
-    <Compile Include="Screen\Utils\ReplayHelper.cs" />
+    <Compile Include="Screen\Utils\ScreenHelper.cs" />
     <Compile Include="Screen\WatchReplayScreen.cs" />
     <Compile Include="Input\InputHandler.cs" />
     <Compile Include="Network\ConnectionManager.cs" />
@@ -209,9 +209,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FoldersHelper\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

@@ -113,14 +113,14 @@ namespace WarSpot.Client.XnaClient.Screen
 			ScreenManager.Instance.Controller.AddListener(_deleteButton, DeleteButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
 
-			UpdataReplaysList();
+			UpdateReplaysList();
 		}
 
 		private static void WatchButtonPressed(object sender, EventArgs e)
 		{
 			//string selectedReplay = _replaysBox.Items[_replaysBox.SelectedItems[0]];
 			//string path = Path.Combine(FoldersHelper.FoldersHelper.GetReplayPath(), selectedReplay);
-			Utils.ReplayHelper.Instance.ReplayPath = "replay_test.out";
+			Utils.ScreenHelper.Instance.ReplayPath = "replay_test.out";
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoadingScreen);
 		}
 
@@ -131,7 +131,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				string forDelete = _replaysBox.Items[_replaysBox.SelectedItems[0]];
 				File.Delete(Path.Combine(Utils.FoldersHelper.GetReplayPath(), forDelete));
-				UpdataReplaysList();
+				UpdateReplaysList();
 			}
 			catch
 			{
@@ -145,7 +145,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
 		}
 
-		private void UpdataReplaysList()
+		private void UpdateReplaysList()
 		{
 			// TODO: test this
 			DirectoryInfo tmp = new DirectoryInfo(Utils.FoldersHelper.GetReplayPath());

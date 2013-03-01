@@ -69,9 +69,9 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void Deserialize()
 		{
-			string path = ReplayHelper.Instance.ReplayPath;
-			ReplayHelper.Instance.replayEvents = Deserializator.Deserialize(path);
-			isCorrect = ReplayHelper.Instance.replayEvents.Count > 0;
+			string path = ScreenHelper.Instance.ReplayPath;
+			ScreenHelper.Instance.replayEvents = Deserializator.Deserialize(path);
+			isCorrect = ScreenHelper.Instance.replayEvents.Count > 0;
 			lock (_checker)
 			{
 				_checker.IsReplayDeserialized = isCorrect;
