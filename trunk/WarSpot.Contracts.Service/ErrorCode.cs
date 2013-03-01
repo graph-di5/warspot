@@ -17,6 +17,8 @@ namespace WarSpot.Contracts.Service
 		/// </summary>
 		WrongLoginOrPassword,
 
+        NotLoggedIn,
+
 		#region .dll file exceptions
 		/// <summary>
 		/// Not a valid .NET dll
@@ -27,7 +29,13 @@ namespace WarSpot.Contracts.Service
 		/// Multi-threading, reflection
 		/// </summary>
 		ForbiddenUsages,	
+
+        BadFileName,
 		#endregion
+
+        DataBaseProblems,
+
+        WrongInformationInField,
 
 		/// <summary>
 		/// Some error, that not listed before.

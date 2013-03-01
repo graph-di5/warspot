@@ -184,7 +184,7 @@ namespace WarSpot.Cloud.Storage
             }
             catch (Exception e)
             {
-                return new ErrorCode(ErrorType.UnknownException, "Blob problems: \n" + e.ToString());
+                return new ErrorCode(ErrorType.DataBaseProblems, "Blob problems: \n" + e.ToString());
             }
 
         }
@@ -441,11 +441,11 @@ namespace WarSpot.Cloud.Storage
             if ((from t in db.Tournament
                  where t.Tournament_Name == title && t.Creator_ID == userID
                  select t).ToList<Tournament>().Any<Tournament>())
-                return new ErrorCode(ErrorType.BadFileType, "Bad tournament title. User has already created tournament with the same name = " + title);
+                return new ErrorCode(ErrorType.WrongInformationInField, "Bad tournament title. User has already created tournament with the same name = " + title);
 
             if (DateTime.Compare(DateTime.Parse(startdate), DateTime.Now) <= 0)
             {
-                return new ErrorCode(ErrorType.UnknownException, "Bad tournament starttime. User's starttime = " + startdate.ToString() + " is early then currenttime = " + DateTime.Now.ToString());
+                return new ErrorCode(ErrorType.WrongInformationInField, "Bad tournament starttime. User's starttime = " + startdate.ToString() + " is early then currenttime = " + DateTime.Now.ToString());
             }
 
             try
@@ -457,7 +457,7 @@ namespace WarSpot.Cloud.Storage
             }
             catch (Exception e)
             {
-                return new ErrorCode(ErrorType.UnknownException, "Database problems: " + e.ToString());
+                return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
             }
         }
 
@@ -497,11 +497,11 @@ namespace WarSpot.Cloud.Storage
                 }
                 catch (Exception e)
                 {
-                    return new ErrorCode(ErrorType.UnknownException, "Database problems: " + e.ToString());
+                    return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
                 }
             }
             else
-                return new ErrorCode(ErrorType.BadFileType, "User " + (from u in db.Account
+                return new ErrorCode(ErrorType.WrongInformationInField, "User " + (from u in db.Account
                                                                        where u.Account_ID == userID
                                                                        select u.Account_Name) + " didn't create that tournament. ");
           
@@ -560,7 +560,7 @@ namespace WarSpot.Cloud.Storage
 
                 if (updatedaccount.TournamentPlayer.Contains(neededtournament))
                 {
-                    return new ErrorCode(ErrorType.WrongLoginOrPassword, "User already competes in that tournament");
+                    return new ErrorCode(ErrorType.WrongInformationInField, "User already competes in that tournament");
                 }
                 else
                 {
@@ -577,14 +577,14 @@ namespace WarSpot.Cloud.Storage
                     }
                     catch (Exception e)
                     {
-                        return new ErrorCode(ErrorType.UnknownException, "Database problems: \n" + e.ToString());
+                        return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: \n" + e.ToString());
                     }
                 }
 
             }
             else
             {
-                return new ErrorCode(ErrorType.BadFileType, "There are no tournaments with that ID.");
+                return new ErrorCode(ErrorType.WrongInformationInField, "There are no tournaments with that ID.");
             }
           
         }
@@ -615,17 +615,17 @@ namespace WarSpot.Cloud.Storage
                     }
                     catch (Exception e)
                     {
-                        return new ErrorCode(ErrorType.UnknownException, "Database problems: " + e.ToString());
+                        return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
                     }
                 }
                 else
                 {
-                    return new ErrorCode(ErrorType.WrongLoginOrPassword, "User doesn't compete that tournament");
+                    return new ErrorCode(ErrorType.WrongInformationInField, "User doesn't compete that tournament");
                 }
 
             }
             else
-                return new ErrorCode(ErrorType.BadFileType, "There are no tournaments with that ID.");
+                return new ErrorCode(ErrorType.WrongInformationInField, "There are no tournaments with that ID.");
           
         }
 
@@ -670,7 +670,7 @@ namespace WarSpot.Cloud.Storage
 			{
 				if (DateTime.Compare(DateTime.Parse(until), DateTime.Now) <= 0)
 				{
-					return new ErrorCode(ErrorType.UnknownException, "Datetime is in past");
+                    return new ErrorCode(ErrorType.WrongInformationInField, "Datetime is in past");
 				}
 				else
 				{
@@ -685,7 +685,7 @@ namespace WarSpot.Cloud.Storage
 					}
 					catch (Exception e)
 					{
-						return new ErrorCode(ErrorType.UnknownException, "Database problems: " + e.ToString());
+                        return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
 					}
 
 				}
@@ -702,7 +702,7 @@ namespace WarSpot.Cloud.Storage
 				}
 				catch (Exception e)
 				{
-					return new ErrorCode(ErrorType.UnknownException, "Database problems: " + e.ToString());
+                    return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
 				}
 			}
 

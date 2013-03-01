@@ -73,13 +73,14 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (_loggedIn)
 			{
+                // TO DO: Verificate intellect.
 				if (Warehouse.UploadIntellect(_userID, name, intellect))
 					return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
 				else
-					return new ErrorCode(ErrorType.BadFileType, "Inttellect with the same name is already existed");
+					return new ErrorCode(ErrorType.BadFileName, "Inttellect with the same name is already existed");
 			}
 			else
-				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 		}
 
         public byte[] DownloadIntellect(Guid intellectID)
@@ -94,8 +95,6 @@ namespace WarSpot.Cloud.UserService
 
 		public List<KeyValuePair<Guid,string>> GetListOfIntellects()
 		{
-			// TODO: получать список всех интеллектов пользователя и возвращать их массивом
-
 			if (!_loggedIn)
 			{
                 return null;
@@ -106,11 +105,9 @@ namespace WarSpot.Cloud.UserService
 
 		public ErrorCode DeleteIntellect(string name)
 		{
-			// TODO: корректная работа с удалением
-
 			if (!_loggedIn)
 			{
-				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			if (Warehouse.DeleteIntellect(name, _userID))
@@ -118,7 +115,7 @@ namespace WarSpot.Cloud.UserService
 				return new ErrorCode(ErrorType.Ok, "Intellect has been deleted.");
 			}
 			else
-				return new ErrorCode(ErrorType.BadFileType, "No intellect with that name");
+				return new ErrorCode(ErrorType.BadFileName, "No intellect with that name");
 
 		}
 
@@ -140,9 +137,9 @@ namespace WarSpot.Cloud.UserService
         {
             if (!_loggedIn)
             {
-                return null;
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
             }
-
+            
             return Warehouse.UploadReplay(replay, gameID);
         }
 
@@ -162,7 +159,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (!_loggedIn)
 			{
-				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			return Warehouse.CreateTournament(title, startdate, maxplayers, this._userID);
@@ -184,7 +181,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (!_loggedIn)
 			{
-				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			return Warehouse.DeleteTournament(tournamentID, this._userID);
@@ -208,7 +205,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (!_loggedIn)
 			{
-				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			return Warehouse.JoinTournament(tournamentID, this._userID);
@@ -219,7 +216,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (!_loggedIn)
 			{
-				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			return Warehouse.LeaveTournament(tournamentID, this._userID);
@@ -253,7 +250,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (!_loggedIn)
 			{
-				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Not logged in yet.");
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			return Warehouse.SetUserRole((RoleType)Enum.Parse(typeof(RoleType), role), userID, until);
