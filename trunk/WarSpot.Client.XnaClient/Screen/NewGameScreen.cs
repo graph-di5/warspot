@@ -4,6 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
+using System.Collections.Generic;
+using System.Linq;
+using WarSpot.Client.XnaClient.Screen.Utils;
+using WarSpot.Client.XnaClient.Network;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -16,8 +20,15 @@ namespace WarSpot.Client.XnaClient.Screen
 		private ButtonControl _startGameButton;
 		private ButtonControl _backButton;
 
+		private InputControl _gameNameBox;
+
+		private LabelControl _gameNameLabel;
+
 		private ListControl _intellectFirstList;
 		private ListControl _intellectSecondList;
+
+		private bool _isShowedAgain = false;
+		public bool _isOnline = true;
 
 		public NewGameScreen()
 		{
@@ -36,6 +47,40 @@ namespace WarSpot.Client.XnaClient.Screen
 			SpriteBatch.Draw(_texture, WarSpotGame.Instance.GetScreenBounds(), Color.White);
 			SpriteBatch.End();
 		}
+
+		public override void OnShow()
+		{
+			base.OnShow();
+			/*
+			if (!_isShowedAgain)
+			{
+				var isOk = ConnectionManager.Instance.GetListOfIntellects();
+				if (isOk.Type != Contracts.Service.ErrorType.Ok)
+				{
+					_isShowedAgain = true;
+					_isOnline = false;
+					MessageBox.Show("No connection, only offline mode available", ScreenManager.ScreenEnum.NewGameScreen);
+				}
+				else
+				{
+					_isShowedAgain = true;
+					_isOnline = true;
+					foreach (var i in ScreenHelper.Instance.AvailableIntellects)
+					{
+						_intellectFirstList.Items.Add(i.Value);
+						_intellectSecondList.Items.Add(i.Value);
+					}
+				}
+			}*/
+		}
+
+		public override void OnHide()
+		{
+			base.OnHide();
+			_intellectFirstList.Items.Clear();
+			_intellectSecondList.Items.Clear();
+		}
+
 		private void CreateControls()
 		{
 			_descrLabel = new LabelControl("Select two intellects to start game:")
@@ -52,9 +97,9 @@ namespace WarSpot.Client.XnaClient.Screen
 				Bounds =
 					new UniRectangle(
 						new UniScalar(0f, 275),
-						new UniScalar(0f, 470),
+						new UniScalar(0f, 540),
 						new UniScalar(0f, 200),
-						new UniScalar(0f, 60))
+						new UniScalar(0f, 30))
 			};
 
 			_backButton = new ButtonControl
@@ -66,6 +111,25 @@ namespace WarSpot.Client.XnaClient.Screen
 						new UniScalar(0f, 540),
 						new UniScalar(0f, 100),
 						new UniScalar(0f, 30))
+			};
+
+			_gameNameBox = new InputControl
+			{
+				Bounds = new UniRectangle(
+							new UniScalar(0f, 275),
+							new UniScalar(0f, 500),
+							new UniScalar(0f, 200),
+							new UniScalar(0f, 30)),
+				Text = DateTime.Now.ToString()
+			};
+
+			_gameNameLabel = new LabelControl("Game name:")
+			{
+				Bounds = new UniRectangle(
+							new UniScalar(0f, 275),
+							new UniScalar(0f, 470),
+							new UniScalar(0f, 100),
+							new UniScalar(0f, 30))
 			};
 
 			_intellectFirstList = new Nuclex.UserInterface.Controls.Desktop.ListControl
@@ -98,6 +162,10 @@ namespace WarSpot.Client.XnaClient.Screen
 			Desktop.Children.Add(_startGameButton);
 			Desktop.Children.Add(_backButton);
 
+			Desktop.Children.Add(_gameNameBox);
+
+			Desktop.Children.Add(_gameNameLabel);
+
 			Desktop.Children.Add(_intellectFirstList);
 			Desktop.Children.Add(_intellectSecondList);
 
@@ -107,11 +175,24 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void StartGameButtonPressed(object sender, EventArgs e)
 		{
+			if (_intellectFirstList.SelectedItems.Count != 0 && _intellectSecondList.SelectedItems.Count != 0)
+			{
+				List<Guid> selectedIntellects =
+					(from x in ScreenHelper.Instance.AvailableIntellects where x.Value == _intellectFirstList.Items[_intellectFirstList.SelectedItems[0]]
+						 || x.Value == _intellectSecondList.Items[_intellectSecondList.SelectedItems[0]] select x.Key).ToList();
+				if (_gameNameBox.Text != null)
+				{
+					ConnectionManager.Instance.BeginMatch(selectedIntellects, _gameNameBox.Text);
+				}
+				else
+					ConnectionManager.Instance.BeginMatch(selectedIntellects, DateTime.Now.ToString());
+			}
 		}
 
 		private void BackButtonPressed(object sender, EventArgs e)
 		{
-			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen	);
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+			_isShowedAgain = false;
 		}
 	}
 }

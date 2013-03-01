@@ -213,7 +213,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void OnShow()
 		{
 			base.OnShow();
-			_listOfEvents = Utils.ReplayHelper.Instance.replayEvents;
+			_listOfEvents = Utils.ScreenHelper.Instance.replayEvents;
 			this.PrepareScreen();
 		}
 

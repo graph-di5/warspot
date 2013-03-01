@@ -32,66 +32,97 @@ namespace WarSpot.Client.XnaClient.Network
 
 		private void InitializeConnection()
 		{
-			try
+			if (_service == null)
 			{
 				var channelFactory = new ChannelFactory<IWarSpotService>("WarSpotEndpoint");
 				_service = channelFactory.CreateChannel();
-			}
-			catch (Exception e)
-			{
-				Trace.WriteLine(e);
 			}
 		}
 
 		public ErrorCode Register(string username, string password)
 		{
-			InitializeConnection();
 			try
 			{
+				InitializeConnection();
 				return _service.Register(username, HashHelper.GetMd5Hash(password));
 			}
 			catch (Exception e)
 			{
 				Trace.WriteLine(e);
-				return new ErrorCode(ErrorType.UnknownException, e.ToString());
+				return new ErrorCode(ErrorType.UnknownException, e.Message);
 			}
 		}
 
 		public ErrorCode Login(string username, string password)
 		{
-			InitializeConnection();
 			try
 			{
+				InitializeConnection();
 				return _service.Login(username, HashHelper.GetMd5Hash(password));
 			}
 			catch (Exception e)
 			{
 				Trace.WriteLine(e);
-				return new ErrorCode(ErrorType.UnknownException, e.ToString());
+				return new ErrorCode(ErrorType.UnknownException, e.Message);
 			}
 		}
 
 		public ErrorCode UploadIntellect(AIManager.Intellect intellect)
 		{
-			InitializeConnection();
-			return _service.UploadIntellect(intellect.ByteDll, intellect.Name);
+			try
+			{
+				InitializeConnection();
+				return _service.UploadIntellect(intellect.ByteDll, intellect.Name);
+			}
+			catch (Exception e)
+			{
+				return new ErrorCode(ErrorType.UnknownException, e.Message);
+			}
 		}
 
-		public string[] GetListOfIntellects()
+		public ErrorCode GetListOfIntellects()
 		{
-			InitializeConnection();
-			return _service.GetListOfIntellects().Select(re => re.Value).ToArray();
+			try
+			{
+				InitializeConnection();
+				Screen.Utils.ScreenHelper.Instance.AvailableIntellects = _service.GetListOfIntellects();
+				return new ErrorCode();
+			}
+			catch (Exception e)
+			{
+				return new ErrorCode(ErrorType.UnknownException, e.Message);
+			}
 		}
 
 		public ErrorCode DeleteIntellect(string name)
 		{
-			InitializeConnection();
-			return _service.DeleteIntellect(name);
+			try
+			{
+				InitializeConnection();
+				return _service.DeleteIntellect(name);
+			}
+			catch (Exception e)
+			{
+				return new ErrorCode(ErrorType.UnknownException, e.Message);
+			}
+		}
+
+		public ErrorCode BeginMatch(List<Guid> intellects, string title)
+		{
+			try
+			{
+				InitializeConnection();
+				_service.BeginMatch(intellects, title);
+				return new ErrorCode();
+			}
+			catch (Exception e)
+			{
+				return new ErrorCode(ErrorType.UnknownException, e.Message);
+			}
 		}
 
 		public void KeepAlive()
 		{
-			InitializeConnection();
 			try
 			{
 				if(_service != null)

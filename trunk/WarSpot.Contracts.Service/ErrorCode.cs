@@ -41,9 +41,6 @@ namespace WarSpot.Contracts.Service
 	[DataContract]
 	public class ErrorCode
 	{
-		// todo check if this working with private set
-		// todo may be refactor this
-
 		/// <summary>
 		/// Error code.
 		/// </summary>

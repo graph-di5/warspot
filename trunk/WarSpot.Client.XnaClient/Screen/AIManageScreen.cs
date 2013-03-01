@@ -40,12 +40,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoadIntellects()
 		{
-			string[] intellects = ConnectionManager.Instance.GetListOfIntellects();
-			_intellectList.Items.Clear();
-			foreach (string i in intellects)
-			{
-				_intellectList.Items.Add(i);
-			}
+
 		}
 
 		public override void LoadContent()
@@ -143,7 +138,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			_intellectList.Slider.Bounds.Location.X.Offset -= 1.0f;
 			_intellectList.Slider.Bounds.Location.Y.Offset += 1.0f;
 			_intellectList.Slider.Bounds.Size.Y.Offset -= 2.0f;
-			_intellectList.SelectionMode = Nuclex.UserInterface.Controls.Desktop.ListSelectionMode.Single;
 			_intellectList.SelectedItems.Add(0);
 		}
 
@@ -162,15 +156,15 @@ namespace WarSpot.Client.XnaClient.Screen
 			Desktop.Children.Add(_refreshButton);
 			Desktop.Children.Add(_deleteButton);
 
-			ScreenManager.Instance.Controller.AddListener(_browseButton, browseButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_browseButton, BrowseButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_refreshButton, refreshButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_uploadButton, uploadButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_deleteButton, deleteButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_refreshButton, RefreshButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_uploadButton, UploadButtonPressed);
+			ScreenManager.Instance.Controller.AddListener(_deleteButton, DeleteButtonPressed);
 		}
 
 
-		private void browseButtonPressed(object sender, EventArgs e)
+		private void BrowseButtonPressed(object sender, EventArgs e)
 		{
 			DialogResult dialog = _pathDialog.ShowDialog();
 			_pathBox.RealText = _pathDialog.FileName;
@@ -181,12 +175,12 @@ namespace WarSpot.Client.XnaClient.Screen
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
 		}
 
-		private void refreshButtonPressed(object sender, EventArgs e)
+		private void RefreshButtonPressed(object sender, EventArgs e)
 		{
 			LoadIntellects();
 		}
 
-		private void uploadButtonPressed(object sender, EventArgs e)
+		private void UploadButtonPressed(object sender, EventArgs e)
 		{
 			if (_pathBox.Text == "")
 			{
@@ -206,7 +200,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			LoadIntellects();
 		}
 
-		private void deleteButtonPressed(object sender, EventArgs e)
+		private void DeleteButtonPressed(object sender, EventArgs e)
 		{
 			if (_intellectList.Items.Count == 0)
 			{
