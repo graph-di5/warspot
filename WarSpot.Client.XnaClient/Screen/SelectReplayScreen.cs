@@ -23,6 +23,8 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private ListControl _replaysList;
 
+		private bool _isShowedAgain = false;
+
 		public SelectReplayScreen()
 		{
 			CreateControls();
@@ -53,28 +55,33 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void OnShow()
 		{
 			base.OnShow();
-			if (ScreenHelper.Instance.IsOnline)
+			if (!_isShowedAgain)
 			{
-				var isOk = ConnectionManager.Instance.GetListOfGames();
-				if (isOk.Type == Contracts.Service.ErrorType.Ok)
+				if (ScreenHelper.Instance.IsOnline)
 				{
-					foreach (var i in ScreenHelper.Instance.ListOfGames)
+					var isOk = ConnectionManager.Instance.GetListOfGames();
+					if (isOk.Type == Contracts.Service.ErrorType.Ok)
 					{
-						_replaysList.Items.Add(i.ToString());
+						foreach (var i in ScreenHelper.Instance.ListOfGames)
+						{
+							_replaysList.Items.Add(i.ToString());
+						}
+					}
+					else
+					{
+						GetSavedReplays();
+						_isShowedAgain = true;
+						MessageBox.Show("Some error occurs, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
 					}
 				}
 				else
 				{
 					GetSavedReplays();
-					MessageBox.Show("Some error occurs, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
+					_isShowedAgain = true;
+					MessageBox.Show("You play in offline mode\n, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
+
 				}
 			}
-			else
-			{
-				GetSavedReplays();
-				MessageBox.Show("You play in offline mode, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
-			}
-
 		}
 
 		private void CreateControls()
@@ -179,6 +186,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void BackButtonPressed(object sender, EventArgs e)
 		{
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+			_isShowedAgain = false;
 		}
 
 		private void UpdateReplaysList()
