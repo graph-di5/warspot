@@ -5,6 +5,8 @@ using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using System.IO;
+using WarSpot.Client.XnaClient.Screen.Utils;
+using WarSpot.Client.XnaClient.Network;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -19,7 +21,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private LabelControl _replayLabel;
 
-		private ListControl _replaysBox;
+		private ListControl _replaysList;
 
 		public SelectReplayScreen()
 		{
@@ -32,7 +34,14 @@ namespace WarSpot.Client.XnaClient.Screen
 			_texture = ContentManager.Load<Texture2D>("Textures/Screens/screen_02");
 		}
 
-
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+			if (ScreenHelper.Instance.IsOnline)
+				_deleteButton.Enabled = false;
+			else
+				_deleteButton.Enabled = true;
+		}
 
 		public override void Draw(GameTime gameTime)
 		{
@@ -41,9 +50,36 @@ namespace WarSpot.Client.XnaClient.Screen
 			SpriteBatch.End();
 		}
 
+		public override void OnShow()
+		{
+			base.OnShow();
+			if (ScreenHelper.Instance.IsOnline)
+			{
+				var isOk = ConnectionManager.Instance.GetListOfGames();
+				if (isOk.Type == Contracts.Service.ErrorType.Ok)
+				{
+					foreach (var i in ScreenHelper.Instance.ListOfGames)
+					{
+						_replaysList.Items.Add(i.ToString());
+					}
+				}
+				else
+				{
+					GetSavedReplays();
+					MessageBox.Show("Some error occurs, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
+				}
+			}
+			else
+			{
+				GetSavedReplays();
+				MessageBox.Show("You play in offline mode, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
+			}
+
+		}
+
 		private void CreateControls()
 		{
-			_replaysBox = new ListControl
+			_replaysList = new ListControl
 			{
 				SelectionMode = ListSelectionMode.Single,
 				Bounds =
@@ -54,11 +90,11 @@ namespace WarSpot.Client.XnaClient.Screen
 						new UniScalar(0f, 300))
 			};
 
-			_replaysBox.Slider.Bounds.Location.X.Offset -= 1.0f;
-			_replaysBox.Slider.Bounds.Location.Y.Offset += 1.0f;
-			_replaysBox.Slider.Bounds.Size.Y.Offset -= 2.0f;
-			_replaysBox.SelectionMode = Nuclex.UserInterface.Controls.Desktop.ListSelectionMode.Single;
-			_replaysBox.SelectedItems.Add(0);
+			_replaysList.Slider.Bounds.Location.X.Offset -= 1.0f;
+			_replaysList.Slider.Bounds.Location.Y.Offset += 1.0f;
+			_replaysList.Slider.Bounds.Size.Y.Offset -= 2.0f;
+			_replaysList.SelectionMode = Nuclex.UserInterface.Controls.Desktop.ListSelectionMode.Single;
+			_replaysList.SelectedItems.Add(0);
 
 			_replayLabel = new LabelControl("Select replay:")
 			{
@@ -107,7 +143,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 			Desktop.Children.Add(_replayLabel);
 
-			Desktop.Children.Add(_replaysBox);
+			Desktop.Children.Add(_replaysList);
 
 			ScreenManager.Instance.Controller.AddListener(_watchButton, WatchButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_deleteButton, DeleteButtonPressed);
@@ -118,6 +154,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private static void WatchButtonPressed(object sender, EventArgs e)
 		{
+			// Temporary solution
 			//string selectedReplay = _replaysBox.Items[_replaysBox.SelectedItems[0]];
 			//string path = Path.Combine(FoldersHelper.FoldersHelper.GetReplayPath(), selectedReplay);
 			Utils.ScreenHelper.Instance.ReplayPath = "replay_test.out";
@@ -126,16 +163,15 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void DeleteButtonPressed(object sender, EventArgs e)
 		{
-			// TODO: test this
 			try
 			{
-				string forDelete = _replaysBox.Items[_replaysBox.SelectedItems[0]];
+				string forDelete = _replaysList.Items[_replaysList.SelectedItems[0]];
 				File.Delete(Path.Combine(Utils.FoldersHelper.GetReplayPath(), forDelete));
 				UpdateReplaysList();
 			}
 			catch
 			{
-				MessageBox.Show("Select replay!", ScreenManager.ScreenEnum.WatchReplayScreen);
+				MessageBox.Show("Select saved replay!", ScreenManager.ScreenEnum.WatchReplayScreen);
 			}
 
 		}
@@ -147,12 +183,18 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void UpdateReplaysList()
 		{
-			// TODO: test this
-			DirectoryInfo tmp = new DirectoryInfo(Utils.FoldersHelper.GetReplayPath());
-			var replays = tmp.GetFiles();
-			foreach (var replay in replays)
+			if (!ScreenHelper.Instance.IsOnline)
 			{
-				_replaysBox.Items.Add(replay.Name);
+				GetSavedReplays();
+			}
+		}
+
+		private void GetSavedReplays()
+		{
+			string[] replays = Directory.GetFiles(FoldersHelper.GetReplayPath());
+			foreach (var i in replays)
+			{
+				_replaysList.Items.Add(i);
 			}
 		}
 	}

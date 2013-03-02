@@ -31,7 +31,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		private ListControl _intellectSecondList;
 
 		private bool _isShowedAgain = false;
-		public bool? _isOnline;
 
 		public NewGameScreen()
 		{
@@ -61,7 +60,7 @@ namespace WarSpot.Client.XnaClient.Screen
 				if (isOk.Type != Contracts.Service.ErrorType.Ok)
 				{
 					_isShowedAgain = true;
-					_isOnline = false;
+					ScreenHelper.Instance.IsOnline = false;
 			  		_offlineModeCheckBox.Selected = true;
 					_offlineModeCheckBox.Enabled = false;
 					MessageBox.Show("No connection, only offline mode available", ScreenManager.ScreenEnum.NewGameScreen);
@@ -69,7 +68,7 @@ namespace WarSpot.Client.XnaClient.Screen
 				else
 				{
 					_isShowedAgain = true;
-					_isOnline = true;
+					ScreenHelper.Instance.IsOnline = true;
 					foreach (var i in ScreenHelper.Instance.AvailableIntellects)
 					{
 						_intellectFirstList.Items.Add(i.Value);
@@ -228,7 +227,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			_intellectFirstList.Items.Clear();
 			_intellectSecondList.Items.Clear();
 			_offlineModeCheckBox.Enabled = true;
-			_isOnline = null;
 		}
 	}
 }
