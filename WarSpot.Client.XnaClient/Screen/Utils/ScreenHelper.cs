@@ -4,7 +4,7 @@ using WarSpot.MatchComputer;
 
 namespace WarSpot.Client.XnaClient.Screen.Utils
 {
-	// Helper for passing arguments through screens without direct methods
+	// Helper for passing arguments through screens without direct methods and for storage screens's data for other screens 
 	class ScreenHelper
 	{
 		public List<KeyValuePair<Guid, string>> AvailableIntellects { get; set; }
@@ -20,7 +20,9 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 				_replayPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), value);
 			}
 		}
-		public List<WarSpotEvent> replayEvents;
+		public List<WarSpotEvent> ReplayEvents { get; set;}
+		public List<Guid> ListOfGames { get; set; }
+		public bool IsOnline { get; set; }
 		private static ScreenHelper _instance;
 		public static ScreenHelper Instance
 		{
@@ -30,6 +32,7 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 		static ScreenHelper()
 		{
 			_instance = new ScreenHelper();
+			_instance.IsOnline = false;
 		}
 
 		private ScreenHelper()

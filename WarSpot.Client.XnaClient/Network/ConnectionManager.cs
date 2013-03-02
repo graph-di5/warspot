@@ -39,6 +39,11 @@ namespace WarSpot.Client.XnaClient.Network
 			}
 		}
 
+		public bool IsOnline()
+		{
+			return _service == null;
+		}
+
 		public ErrorCode Register(string username, string password)
 		{
 			try
@@ -113,6 +118,20 @@ namespace WarSpot.Client.XnaClient.Network
 			{
 				InitializeConnection();
 				_service.BeginMatch(intellects, title);
+				return new ErrorCode();
+			}
+			catch (Exception e)
+			{
+				return new ErrorCode(ErrorType.UnknownException, e.Message);
+			}
+		}
+
+		public ErrorCode GetListOfGames()
+		{
+			try
+			{
+				InitializeConnection();
+				Screen.Utils.ScreenHelper.Instance.ListOfGames = _service.GetListOfGames();
 				return new ErrorCode();
 			}
 			catch (Exception e)

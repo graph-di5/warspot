@@ -197,6 +197,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 			else
 			{
+				// Temporary
 				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
 			}
 		}
