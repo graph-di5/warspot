@@ -4,6 +4,7 @@ using System.Linq;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
 using WarSpot.Cloud.Common;
+using WarSpot.Security;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -74,6 +75,7 @@ namespace WarSpot.Cloud.UserService
 			if (_loggedIn)
 			{
                 // TO DO: Verificate intellect.
+                DllVerificationHandler.Execute(intellect);
 				if (Warehouse.UploadIntellect(_userID, name, intellect))
 					return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
 				else

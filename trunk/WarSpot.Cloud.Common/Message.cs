@@ -25,7 +25,7 @@ namespace WarSpot.Cloud.Common
 
             foreach (Guid intellect in this.ListOfDlls)
             {
-                result = intellect.ToString() + ' ';
+                result = result + intellect.ToString() + ' ';
             }
 
             return result;
