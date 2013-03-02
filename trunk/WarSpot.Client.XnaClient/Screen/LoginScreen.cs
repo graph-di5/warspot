@@ -15,9 +15,12 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private LabelControl _loginLabel;
 		private LabelControl _passwordLabel;
+		private LabelControl _rememberLabel;
 
 		private InputControl _loginBox;
 		private InputControl _passwordBox;
+
+		private OptionControl _rememberCheckBox;
 
 		private ButtonControl _exitButton;
 		private ButtonControl _loginButton;
@@ -41,6 +44,18 @@ namespace WarSpot.Client.XnaClient.Screen
 			SpriteBatch.End();
 		}
 
+		public override void OnShow()
+		{
+			base.OnShow();
+			if (Settings.Default.login != "" && Settings.Default.password != "")
+			{
+				_loginBox.RealText = Settings.Default.login;
+				_loginBox.Text = Settings.Default.login;
+				_passwordBox.RealText = Settings.Default.password;
+				_passwordBox.Text = new String('*', Settings.Default.password.Length);
+			}
+		}
+
 		private void CreateControls()
 		{
 			_loginBox = new InputControl
@@ -59,23 +74,47 @@ namespace WarSpot.Client.XnaClient.Screen
 				IsHidden = true,
 				Bounds = new UniRectangle(
 							new UniScalar(0.5f, -100f), 
-							new UniScalar(0.4f, 30), 200, 30),
+							new UniScalar(0.4f, 30), 
+							new UniScalar(0f, 200),
+							new UniScalar(0f, 30)),
 				RealText = "",
 				Text = InputControl.HiddenText("")
+			};
+
+			_rememberCheckBox = new OptionControl()
+			{
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, 60),
+							new UniScalar(0.4f, 70),
+							new UniScalar(0f, 20),
+							new UniScalar(0f, 20))
 			};
 
 			_loginLabel = new LabelControl("Username")
 			{
 				Bounds = new UniRectangle(
 							new UniScalar(0.5f, -32), 
-							new UniScalar(0.4f, -70), 100, 30)
+							new UniScalar(0.4f, -70),
+							new UniScalar(0f, 100),
+							new UniScalar(0f, 30))
 			};
 
 			_passwordLabel = new LabelControl("Password")
 			{
 				Bounds = new UniRectangle(
 							new UniScalar(0.5f, -32),
-							new UniScalar(0.4f, 0), 100, 30)
+							new UniScalar(0.4f, 0),
+							new UniScalar(0f, 100),
+							new UniScalar(0f, 30))
+			};
+
+			_rememberLabel = new LabelControl("Remember me:")
+			{
+				Bounds = new UniRectangle(
+							new UniScalar(0.5f, -50),
+							new UniScalar(0.4f, 65),
+							new UniScalar(0f, 100),
+							new UniScalar(0f, 30))
 			};
 
 			_loginButton = new ButtonControl
@@ -83,7 +122,9 @@ namespace WarSpot.Client.XnaClient.Screen
 				Text = "Login",
 				Bounds = new UniRectangle(
 							new UniScalar(0.5f, 110), 
-							new UniScalar(0.4f, 70), 100, 32)
+							new UniScalar(0.4f, 100),
+							new UniScalar(0f, 100),
+							new UniScalar(0f, 32))
 			};
 
 			_exitButton = new ButtonControl
@@ -91,15 +132,19 @@ namespace WarSpot.Client.XnaClient.Screen
 				Text = "Exit",
 				Bounds = new UniRectangle(
 							new UniScalar(0.5f, -210),
-							new UniScalar(0.4f, 70), 100, 32),
+							new UniScalar(0.4f, 100),
+							new UniScalar(0f, 100),
+							new UniScalar(0f, 32)),
 			};
 
 			_newAccountButton = new ButtonControl
 			{
 				Text = "Create new account",
 				Bounds = new UniRectangle(
-							new UniScalar(0.5f, -75f),
-							new UniScalar(0.4f, 70), 150, 32)
+							new UniScalar(0.5f, -75),
+							new UniScalar(0.4f, 100),
+							new UniScalar(0f, 150),
+							new UniScalar(0f, 32))
 			};
 		}
 
@@ -107,11 +152,16 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			Desktop.Children.Add(_loginBox);
 			Desktop.Children.Add(_passwordBox);
+
 			Desktop.Children.Add(_loginLabel);
 			Desktop.Children.Add(_passwordLabel);
+			Desktop.Children.Add(_rememberLabel);
+
 			Desktop.Children.Add(_exitButton);
 			Desktop.Children.Add(_newAccountButton);
 			Desktop.Children.Add(_loginButton);
+
+			Desktop.Children.Add(_rememberCheckBox);
 
 			ScreenManager.Instance.Controller.AddListener(_loginButton, LoginButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_exitButton, ExitButtonPressed);
@@ -130,6 +180,13 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
 				return;
+			}
+
+			if (_rememberCheckBox.Selected)
+			{
+				Settings.Default.login = _loginBox.RealText;
+				Settings.Default.password = _passwordBox.RealText;
+				Settings.Default.Save();
 			}
 
 			ErrorCode errorCode = Network.ConnectionManager.Instance.Login(_loginBox.RealText, _passwordBox.RealText);
