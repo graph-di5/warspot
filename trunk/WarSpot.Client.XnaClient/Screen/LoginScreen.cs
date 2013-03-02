@@ -6,6 +6,7 @@ using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using InputControl = WarSpot.Client.XnaClient.Input.InputControl;
 using WarSpot.Contracts.Service;
+using WarSpot.Client.XnaClient.Network;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
@@ -175,7 +176,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoginButtonPressed(object sender, EventArgs args)
 		{
-			// todo check this TEMPORARY
+			// TODO: Delete it after appearance test data in SQL
 			if (_loginBox.Text == "" && _passwordBox.Text == "")
 			{
 				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
@@ -189,8 +190,8 @@ namespace WarSpot.Client.XnaClient.Screen
 				Settings.Default.Save();
 			}
 
-			ErrorCode errorCode = Network.ConnectionManager.Instance.Login(_loginBox.RealText, _passwordBox.RealText);
-			if (errorCode.Type != ErrorType.Ok)
+			ErrorCode errorCode = ConnectionManager.Instance.Login(_loginBox.RealText, _passwordBox.RealText);
+			if (errorCode.Type == ErrorType.WrongLoginOrPassword)
 			{
 				MessageBox.Show("Incorrect login or password!", ScreenManager.ScreenEnum.LoginScreen);
 			}
