@@ -400,8 +400,8 @@ namespace WarSpot.Cloud.Storage
 			foreach (Guid id in intellects)
 			{
 				Intellect currentIntellect = (from i in db.Intellect
-																			where i.Intellect_ID == id
-																			select i).FirstOrDefault<Intellect>();
+									          where i.Intellect_ID == id
+											  select i).FirstOrDefault<Intellect>();
 				listofintellects.Add(currentIntellect);
 			}
 
