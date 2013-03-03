@@ -207,9 +207,9 @@ namespace WarSpot.Cloud.Storage
 
 					ReplayDescription replay = new ReplayDescription();
 
-					replay.id = g.Game_ID;
-					replay.name = g.Game_Name;
-					replay.intellects = intellectsingame;
+					replay.ID = g.Game_ID;
+					replay.Name = g.Game_Name;
+					replay.Intellects = intellectsingame;
 
 					userreplays.Add(replay);
 				}
@@ -260,45 +260,6 @@ namespace WarSpot.Cloud.Storage
 				}
 				msg.ListOfDlls.Add(Guid.Parse(id));
 			}
-			return msg;
-			String temp = "";
-			bool flag = false;
-
-			for (int i = 0; i < queuemessage.Length; i++)
-			{
-				if (flag)
-				{
-					while (queuemessage[i] != ' ')
-					{
-						temp = temp + queuemessage[i];
-						i++;
-					}
-					msg.ListOfDlls.Add(Guid.Parse(temp));
-					temp = "";
-
-					try
-					{
-						i++;
-					}
-					catch (IndexOutOfRangeException e)
-					{
-						break;
-					}
-				}
-				else
-				{
-					while (queuemessage[i] != ' ')
-					{
-						temp = temp + queuemessage[i];
-						i++;
-					}
-					msg.ID = Guid.Parse(temp);
-					flag = true;
-					i++;
-					temp = "";
-				}
-			}
-
 			return msg;
 		}
 
