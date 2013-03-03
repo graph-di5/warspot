@@ -58,7 +58,7 @@ namespace WarSpot.WebFace.Controllers
 		{
 			return new FileContentResult(Warehouse.GetReplay(id).data, "application/octet-stream")
 			{
-				// todo get date here
+				// todo get write name here
 				FileDownloadName = "replay_" + id + ".out"
 			};
 		}

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 using System.Threading;
-using Microsoft.WindowsAzure.StorageClient;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.ServiceRuntime;
 using System.Reflection;
 using WarSpot.Contracts.Intellect;
 using System.IO;
@@ -30,14 +27,14 @@ namespace WarSpot.Cloud.MatchComputer
 			_are.Set();
 			thread.Join();
 		}
-        		
+
 
 		public static List<IBeingInterface> AddBeing(byte[] dll)
 		{
 			List<IBeingInterface> _objects = new List<IBeingInterface>();
 			Assembly assembly = Assembly.Load(dll);
 			string iMyInterfaceName = typeof(IBeingInterface).ToString();
-			System.Reflection.TypeDelegator[] defaultConstructorParametersTypes = new System.Reflection.TypeDelegator[0];
+			TypeDelegator[] defaultConstructorParametersTypes = new TypeDelegator[0];
 			object[] defaultConstructorParameters = new object[0];
 
 			IBeingInterface iAI = null;
@@ -58,47 +55,46 @@ namespace WarSpot.Cloud.MatchComputer
 
 		private static void MemoryStreamer(List<TeamIntellectList> listIntellect, Message msg)
 		{
-			Stream stream = new MemoryStream();
-            // todo: вынести stream из конструктора в параметр метода
+			var stream = new MemoryStream();
+			// todo: вынести stream из конструктора в параметр метода
 			Computer computer = new Computer(listIntellect, stream);
-            computer.Compute(); 
+			computer.Compute();
 
-            Warehouse.UploadReplay(ReadFully(stream), msg.ID);
+			Warehouse.UploadReplay(stream.ToArray(), msg.ID);
 
-		    stream.Dispose();
+			stream.Dispose();
 		}
 
-        public static byte[] ReadFully(Stream input)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                input.CopyTo(ms);
-                return ms.ToArray();
-            }
-        }
+		public static byte[] ReadFully(Stream input)
+		{
+			using (MemoryStream ms = new MemoryStream())
+			{
+				input.CopyTo(ms);
+				return ms.ToArray();
+			}
+		}
 
 
 
-		
+
 
 		private List<TeamIntellectList> getIntellects(Message msg)
 		{
-			List<Guid> namesOfIntellects = msg.ListOfDlls;
-			List<byte[]> intellects = new List<byte[]>();
+			// todo а вот тут надо переделать; но уже лучше (DI)
+			var listIntellect = new List<TeamIntellectList>();
 
+			var teamNumber = 0;
 			// получаем список интеллектов как список массивов байтов
-			foreach (var name in namesOfIntellects)
+			foreach (var dll in msg.ListOfDlls.Select(id => Warehouse.DownloadIntellect(id)).ToList())
 			{
-				intellects.Add(Warehouse.DownloadIntellect(name));
-			}
-
-			// а вот тут надо переделать
-			List<TeamIntellectList> listIntellect = new List<TeamIntellectList>();
-			TeamIntellectList teamIntellectList = new TeamIntellectList();
-
-			foreach (var dll in intellects)
-			{
-				teamIntellectList.Members.Add(ParseIntellect(dll));
+				var teamIntellectList = new TeamIntellectList
+																	{
+																		Number = ++teamNumber,
+																		Members = new List<Type>()
+																		          	{
+																		          		ParseIntellect(dll)
+																		          	}
+																	};
 				listIntellect.Add(teamIntellectList);
 			}
 			return listIntellect;
@@ -154,9 +150,9 @@ namespace WarSpot.Cloud.MatchComputer
 
 			while (true)
 			{
-                Message msg = Warehouse.GetMessage();
+				Message msg = Warehouse.GetMessage();
 				//CloudQueueMessage msg = new CloudQueueMessage("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4 936DA01F-9ABD-4d9d-80C7-02AF85C822A8");
-			
+
 				_are.WaitOne(0);
 
 				if (_are.WaitOne(1))

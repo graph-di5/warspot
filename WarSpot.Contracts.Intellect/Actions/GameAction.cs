@@ -2,8 +2,15 @@
 
 namespace WarSpot.Contracts.Intellect.Actions
 {
-	public enum ActionTypes { GameActionAtack, GameActionEat, GameActionGiveCi, GameActionMove,
-		GameActionTreat, GameActionMakeOffspring};
+	public enum ActionTypes 
+	{
+		GameActionAtack, 
+		GameActionEat, 
+		GameActionGiveCi, 
+		GameActionMove,
+		GameActionTreat, 
+		GameActionMakeOffspring
+	};
 	/// <summary>
 	/// Parent class for all actitions
 	/// </summary>
