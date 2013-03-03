@@ -10,7 +10,7 @@ namespace WarSpot.Cloud.UserService
 {
 	public class WorkerRole : RoleEntryPoint
 	{
-        //private Autoscaler autoscaler;
+		//private Autoscaler autoscaler;
 
 		public override void Run()
 		{
@@ -18,8 +18,8 @@ namespace WarSpot.Cloud.UserService
 			Trace.WriteLine("WarSpot.Cloud.UserService entry point called", "Information");
 
 
-            //this.autoscaler = EnterpriseLibraryContainer.Current.GetInstance<Autoscaler>();
-            //this.autoscaler.Start();
+			//this.autoscaler = EnterpriseLibraryContainer.Current.GetInstance<Autoscaler>();
+			//this.autoscaler.Start();
 
 
 			var address = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["ServiceEndpoint"];

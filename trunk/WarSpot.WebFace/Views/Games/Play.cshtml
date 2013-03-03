@@ -19,7 +19,7 @@
     {
     case EventTypes.GameEventBirth:
       var ee = e as GameEventBirth;
-      sb.Append("jsGameEvents.push(new {id: \"").Append(ee.Newborn.Id).Append("\"});\n");
+      sb.Append("jsGameEvents[\"").Append(0).Append("\"].push(new {id: \"")).Append(ee.Newborn.Id).Append("\"});\n");
       break;
     default:
       break;

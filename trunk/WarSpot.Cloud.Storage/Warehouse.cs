@@ -247,6 +247,20 @@ namespace WarSpot.Cloud.Storage
 		{
 			Message msg = new Message();
 			string queuemessage = message.AsString;
+			bool firstID = true;
+			foreach(var id in queuemessage.Split(new[] {' '}))
+			{
+				if(string.IsNullOrWhiteSpace(id))
+					continue;
+				if(firstID)
+				{
+					msg.ID = Guid.Parse(id);
+					firstID = false;
+					continue;
+				}
+				msg.ListOfDlls.Add(Guid.Parse(id));
+			}
+			return msg;
 			String temp = "";
 			bool flag = false;
 
