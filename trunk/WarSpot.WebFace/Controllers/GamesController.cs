@@ -94,9 +94,10 @@ namespace WarSpot.WebFace.Controllers
 				}
 				return RedirectToAction("Index");
 			}
-			catch
+			catch(Exception e)
 			{
-				return View();
+				// todo report error
+				return View("Create");
 			}
 		}
 
