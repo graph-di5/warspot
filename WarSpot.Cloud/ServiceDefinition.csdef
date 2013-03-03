@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="WarSpot.Cloud" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2012-10.1.8">
-  <WorkerRole name="WarSpot.Cloud.MatchComputer" vmsize="Small">
+  <WorkerRole name="WarSpot.Cloud.MatchComputer" vmsize="ExtraSmall">
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
@@ -11,7 +11,7 @@
       <Setting name="DBConnectionString" />
     </ConfigurationSettings>
   </WorkerRole>
-  <WorkerRole name="WarSpot.Cloud.UserService" vmsize="Small">
+  <WorkerRole name="WarSpot.Cloud.UserService" vmsize="ExtraSmall">
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
@@ -23,7 +23,7 @@
       <Setting name="DBConnectionString" />
     </ConfigurationSettings>
   </WorkerRole>
-  <WebRole name="WarSpot.WebFace" vmsize="Small">
+  <WebRole name="WarSpot.WebFace" vmsize="ExtraSmall">
     <Sites>
       <Site name="Web">
         <Bindings>
