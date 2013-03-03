@@ -1,7 +1,12 @@
 ﻿@model List<WarSpot.WebFace.Models.GameModel>
 @{
 }
-<table border="0"><td>@Html.ActionLink("Новая игра", "Create")</td></table>
+<table border="0">
+  <tr>
+	<td>@Html.ActionLink("Новая игра", "Create")
+	</td>
+  </tr>
+</table>
 @if (!Model.Any())
 {
   <h3>
@@ -13,15 +18,26 @@ else
     Список игр:</h3>
   <table>
     @foreach (var m in Model)
-    {
-      string s = m.Replay ?? "Ожидает результата...";
+		{
+			string s = "";
+      if (m.Replay == null)
+      {
+        s = "В очереди";
+      }
+      else
+      {
+        s = Html.ActionLink("Скачать", "Download", new { id = m.Id }).ToHtmlString();
+      }
       <tr>
         <td>
-          @Html.ActionLink(m.Id.ToString(), "Details", new {id = m.Id})
+          @Html.ActionLink(m.Name, "Details", new { id = m.Id })
         </td>
         <td>
-					@s
-				</td>
+          @m.CreationTime
+        </td>
+        <td>
+          @Html.Raw(s)
+        </td>
       </tr>	
     }
   </table>

@@ -1,18 +1,33 @@
 ﻿@using WarSpot.WebFace.Security
 @model WarSpot.WebFace.Models.GameModel
-
-@{
+<div class="editor-label">
+  <b>@Html.LabelFor(m => m.Name)</b></div>
+<div class="editor-field">@Html.DisplayFor(m => m.Name)</div>
+@if ((User.Identity as CustomIdentity).IsInRole("Developer"))
+{
+  <div class="editor-label">
+    <b>@Html.LabelFor(m => m.Id)</b></div>
+  <div class="editor-field">@Html.DisplayFor(m => m.Id)</div>
+  <div class="editor-label">
+    <b>@Html.LabelFor(m => m.Replay)</b></div>
+  <div class="editor-field">@Html.DisplayFor(m => m.Replay)</div>
 }
-
-<!--
-	<h3>@Html.DisplayForModel(Model)</h3>
-	-->
-<div class="editor-label"><b>@Html.LabelFor(m => m.Id)</b></div>
-<div class="editor-field">@Html.DisplayFor(m => m.Id)</div>
-<div class="editor-label"><b>@Html.LabelFor(m => m.Replay)</b></div>
-<div class="editor-field">@Html.DisplayFor(m => m.Replay)</div>
-<p>@Html.ActionLink("Скачать", "Download", new {id = Model.Id})</p>
-@Html.ActionLink("Проиграть", "Play", new { id = Model.Id })
+<div class="editor-label">
+  <b>@Html.LabelFor(m => m.Intellects)</b></div>
+<ul>
+  @foreach (var i in Model.Intellects)
+  {
+    <li>
+      @i </li>
+  }
+</ul>
+<p>
+</p>
+<div class="editor-label">@Html.ActionLink("Скачать", "Download", new { id = Model.Id })</div>
+@if ((User.Identity as CustomIdentity).IsInRole("Developer"))
+{
+  <div class="editor-label">@Html.ActionLink("Просмотреть", "Play", new { id = Model.Id })</div>
+}
 <!--
 	 
   -->

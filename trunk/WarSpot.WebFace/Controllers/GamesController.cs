@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -22,15 +23,11 @@ namespace WarSpot.WebFace.Controllers
 			var customIdentity = User.Identity as CustomIdentity;
 			if (customIdentity != null)
 			{
+				Warehouse.db.Refresh(RefreshMode.StoreWins, Warehouse.db.Game);
 				var games = (from b in Warehouse.db.Game
 										 where b.AccountAccount_ID == customIdentity.Id
 										 select b).ToList<Game>();
-				res.AddRange(games.Select(game => new GameModel()
-																						{
-																							Id = game.Game_ID,
-																							AccountID = game.AccountAccount_ID,
-																							Replay = game.Replay
-																						}));
+				res.AddRange(games.Select(game => new GameModel(game)));
 			}
 			return View(res);
 		}
@@ -40,26 +37,24 @@ namespace WarSpot.WebFace.Controllers
 
 		public ActionResult Details(Guid id)
 		{
-			var res = new GameModel();
 			var game = (from g in Warehouse.db.Game
 									where g.Game_ID == id
 									select g).FirstOrDefault();
 			if (game != null)
 			{
-				res.Id = game.Game_ID;
-				res.Replay = game.Replay;
-				res.AccountID = game.AccountAccount_ID;
+				return View(new GameModel(game));
 			}
-			return View(res);
+			return View("Index");
 		}
 
 		// GET: /Games/Download/<GUID>
 		public FileResult Download(Guid id)
 		{
+			var game = Warehouse.db.Game.First(g => g.Game_ID == id);
 			return new FileContentResult(Warehouse.GetReplay(id).data, "application/octet-stream")
 			{
 				// todo get write name here
-				FileDownloadName = "replay_" + id + ".out"
+				FileDownloadName = "replay_" + game.Game_Name + ".out"
 			};
 		}
 
@@ -95,8 +90,7 @@ namespace WarSpot.WebFace.Controllers
 				Guid? res = null;
 				if (customIdentity != null)
 				{
-					// todo что-то нужно решить с названием игры.
-					res = Warehouse.BeginMatch(intellects, customIdentity.Id, "title");
+					res = Warehouse.BeginMatch(intellects, customIdentity.Id, collection["Name"]);
 				}
 				return RedirectToAction("Index");
 			}
@@ -109,7 +103,13 @@ namespace WarSpot.WebFace.Controllers
 		// GET: /Games/Play/<Guid>
 		public ActionResult Play(Guid id)
 		{
-			var list = Deserializator.Deserialize(new MemoryStream(Warehouse.GetReplay(id).data));
+			var replay = Warehouse.GetReplay(id);
+			if (replay == null)
+			{
+				// todo report error
+				return RedirectToAction("Details", id);
+			}
+			var list = Deserializator.Deserialize(new MemoryStream(replay.data));
 			if (list.Count == 0)
 			{
 				// todo report error
