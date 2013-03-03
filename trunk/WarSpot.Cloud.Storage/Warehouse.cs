@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.EntityClient;
 using System.Diagnostics;
 using System.Linq;
@@ -59,9 +60,7 @@ namespace WarSpot.Cloud.Storage
 				{
 					// read account configuration settings
 
-					// раньше connectionString парсилась RoleEnviroment.GetConfiguration, но парсилась как-то.. 
-					// плохо. временно заменяю на прямое указание!
-					var storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
+					var storageAccount = CloudStorageAccount.FromConfigurationSetting("DataConnectionString");
 
 
 
@@ -80,6 +79,12 @@ namespace WarSpot.Cloud.Storage
 					queue = queueClient.GetQueueReference("queue");
 					queue.CreateIfNotExist();
 
+					// раньше DbconnectionString для EntityConnection парсилась RoleEnviroment.GetConfiguration, но парсилась как-то.. 
+					// плохо. временно заменяю на прямое указание!
+					//db = new DBContext(new EntityConnection(@"metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string='data source=localhost\SQLEXPRESS;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework'")); // инициализируем базу данных
+
+					db = new DBContext(Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment.GetConfigurationSettingValue("DBConnectionString"));
+
 				}
 				catch (WebException)
 				{
@@ -87,11 +92,12 @@ namespace WarSpot.Cloud.Storage
 							 + "Check your storage account configuration settings. If running locally, "
 							 + "ensure that the Development Storage service is running.");
 				}
-
-				// раньше DbconnectionString для EntityConnection парсилась RoleEnviroment.GetConfiguration, но парсилась как-то.. 
-				// плохо. временно заменяю на прямое указание!
-				db = new DBContext(new EntityConnection(@"metadata=res://*/DBModel.csdl|res://*/DBModel.ssdl|res://*/DBModel.msl;provider=System.Data.SqlClient;provider connection string='data source=localhost\SQLEXPRESS;initial catalog=WarSpotDB;integrated security=True;multipleactiveresultsets=True;App=EntityFramework'")); // инициализируем базу данных
-
+				catch(TypeInitializationException)
+				{
+					throw new WebException("Storage services initialization failure. "
+							 + "Check your storage account configuration settings. If running locally, "
+							 + "ensure that the Development Storage service is running.");
+				}
 
 				storageInitialized = true;
 			}
