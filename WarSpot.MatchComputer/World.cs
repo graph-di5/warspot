@@ -122,7 +122,8 @@ namespace WarSpot.MatchComputer
 			{
 				for (var j = 0; j < Height; j++)
 				{
-					Map[i, j] = new WorldCell();
+					// todo проверить оси
+					Map[i, j] = new WorldCell(i, j);
 				}
 			}
 		}
