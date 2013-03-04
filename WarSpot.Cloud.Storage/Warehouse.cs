@@ -705,7 +705,15 @@ namespace WarSpot.Cloud.Storage
 
 		#endregion
 
-		#endregion
+        #region security
+        public static List<string> GetListOfIllegalReferences()
+        {
+            return (from s in db.Securities
+                    select s.IllegalReferenceName).ToList<string>();
+        }
+        #endregion
 
-	}
+        #endregion
+
+    }
 }

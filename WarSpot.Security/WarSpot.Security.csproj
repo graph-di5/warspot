@@ -40,8 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DllReferenceHandler.cs" />
     <Compile Include="DllVerificationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Cloud.Storage\WarSpot.Cloud.Storage.csproj">
+      <Project>{4d2d5b7a-0bf4-41d2-bf18-f450bf3cb33f}</Project>
+      <Name>WarSpot.Cloud.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj">
+      <Project>{4d8dba4a-a971-44f9-83d4-5129e47a0b89}</Project>
+      <Name>WarSpot.Contracts.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

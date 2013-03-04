@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 02/27/2013 12:43:03
+-- Date Created: 03/04/2013 22:50:58
 -- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\Warspot\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
@@ -61,6 +61,9 @@ GO
 IF OBJECT_ID(N'[dbo].[Tournament]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Tournament];
 GO
+IF OBJECT_ID(N'[dbo].[Securities]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Securities];
+GO
 IF OBJECT_ID(N'[dbo].[GameIntellect]', 'U') IS NOT NULL
     DROP TABLE [dbo].[GameIntellect];
 GO
@@ -117,6 +120,12 @@ CREATE TABLE [dbo].[Tournament] (
 );
 GO
 
+-- Creating table 'Securities'
+CREATE TABLE [dbo].[Securities] (
+    [IllegalReferenceName] nvarchar(max)  NOT NULL
+);
+GO
+
 -- Creating table 'GameIntellect'
 CREATE TABLE [dbo].[GameIntellect] (
     [Games_Game_ID] uniqueidentifier  NOT NULL,
@@ -163,6 +172,12 @@ GO
 ALTER TABLE [dbo].[Tournament]
 ADD CONSTRAINT [PK_Tournament]
     PRIMARY KEY CLUSTERED ([Tournament_ID] ASC);
+GO
+
+-- Creating primary key on [IllegalReferenceName] in table 'Securities'
+ALTER TABLE [dbo].[Securities]
+ADD CONSTRAINT [PK_Securities]
+    PRIMARY KEY CLUSTERED ([IllegalReferenceName] ASC);
 GO
 
 -- Creating primary key on [Games_Game_ID], [Intellects_Intellect_ID] in table 'GameIntellect'
