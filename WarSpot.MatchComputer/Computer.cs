@@ -290,9 +290,11 @@ namespace WarSpot.MatchComputer
 						&& (_world[actor.Characteristics.X + moveAction.ShiftX, actor.Characteristics.Y + moveAction.ShiftY].BeingValue == null)
 						&& (distance <= actor.Characteristics.MaxStep))
 					{
+                        _world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue = null;//Удаляем из клетки ссылку на существо.
 						actor.Characteristics.X += moveAction.ShiftX;
 						actor.Characteristics.Y += moveAction.ShiftY;
                         actor.Characteristics.Ci -= cost;
+                        _world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue = actor;//Существо появляется в другой клетке.
 
                         _eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
 						_eventsHistory.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
@@ -363,6 +365,7 @@ namespace WarSpot.MatchComputer
 							offspring.Characteristics.Y = emptyEnvirons[d].Y;
 
 							_objects.Add(offspring);
+                            _world[offspring.Characteristics.X, offspring.Characteristics.Y].BeingValue = offspring;//В ячейке мира появляется рождённое существо.
 							_eventsHistory.Add(new GameEventBirth(offspring.Characteristics.Id, offspring.Characteristics));
 							actor.Characteristics.Ci -= cost;
 							_eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
@@ -386,6 +389,7 @@ namespace WarSpot.MatchComputer
 				if (curObject.Characteristics.Health <= 0)
 				{
 					_world[curObject.Characteristics.X, curObject.Characteristics.Y].Ci += (curObject.Characteristics.Ci + curObject.Characteristics.MaxHealth / 5);//Из существа при смерти вываливается энергия.
+                    _world[curObject.Characteristics.X, curObject.Characteristics.Y].BeingValue = null;
 
 					_eventsHistory.Add(new GameEventDeath(curObject.Characteristics.Id));
 					_eventsHistory.Add(new GameEventWorldCiChanged(curObject.Characteristics.X, curObject.Characteristics.Y, _world[curObject.Characteristics.X, curObject.Characteristics.Y].Ci));
