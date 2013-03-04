@@ -27,20 +27,68 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="content.wxs" />
+    <Compile Include="Dialogs\BrowseDialog.wxs" />
+    <Compile Include="Dialogs\CancelDialog.wxs" />
+    <Compile Include="Dialogs\ErrorDialog.wxs" />
+    <Compile Include="Dialogs\ExitDialog.wxs" />
+    <Compile Include="Dialogs\FatalErrorDialog.wxs" />
+    <Compile Include="Dialogs\FilesInUseDialog.wxs" />
+    <Compile Include="Dialogs\OutOfDiskSpaceDialog.wxs" />
+    <Compile Include="Dialogs\OutOfRollbackDiskSpaceDialog.wxs" />
+    <Compile Include="Dialogs\PrerequisitesDialog.wxs" />
+    <Compile Include="Dialogs\ProgressDialog.wxs" />
+    <Compile Include="Dialogs\RequireDotNetDialog.wxs" />
+    <Compile Include="Dialogs\SelectFolderDialog.wxs" />
+    <Compile Include="Dialogs\ShaderWarningDialog.wxs" />
+    <Compile Include="Dialogs\UserExitDialog.wxs" />
+    <Compile Include="Dialogs\VerifyReadyDialog.wxs" />
+    <Compile Include="Dialogs\ViewLicenseAgreementDialog.wxs" />
+    <Compile Include="Dialogs\WelcomeDialog.wxs" />
+    <Compile Include="Dialogs\WrongOperatingSystemDialog.wxs" />
     <Compile Include="Product.wxs" />
+    <Compile Include="Source\EmbeddedPrerequisites.wxs" />
+    <Compile Include="Source\NuclexSetupDetector.wxs" />
+    <Compile Include="Source\UserInterface.wxs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="License.rtf" />
+    <Content Include="Resources\default-banner.bmp" />
+    <Content Include="Resources\default-dialog.bmp" />
+    <Content Include="Resources\DirectX-64.bmp" />
+    <Content Include="Resources\DotNet-64.bmp" />
+    <Content Include="Resources\GreenCheck-16.ico" />
+    <Content Include="Resources\GreenCheck-24.ico" />
+    <Content Include="Resources\info.bmp" />
+    <Content Include="Resources\new.bmp" />
+    <Content Include="Resources\Nuclex.Setup.Detector.dll" />
+    <Content Include="Resources\Nuclex.Setup.Xna4_0.dll" />
+    <Content Include="Resources\png\DirectX9-142.png" />
+    <Content Include="Resources\png\DirectX9-32.png" />
+    <Content Include="Resources\png\DirectX9-48.png" />
+    <Content Include="Resources\png\DirectX9-64.png" />
+    <Content Include="Resources\png\DotNet-32.png" />
+    <Content Include="Resources\png\DotNet-48.png" />
+    <Content Include="Resources\png\DotNet-513.png" />
+    <Content Include="Resources\png\DotNet-64.png" />
+    <Content Include="Resources\png\DotNet4-64.png" />
+    <Content Include="Resources\png\GreenCheck.png" />
+    <Content Include="Resources\png\InvertedGreenCheck.png" />
+    <Content Include="Resources\png\InvertedRedX.png" />
+    <Content Include="Resources\png\RedX.png" />
+    <Content Include="Resources\png\Xna-194.png" />
+    <Content Include="Resources\png\Xna-32.png" />
+    <Content Include="Resources\png\Xna-48.png" />
+    <Content Include="Resources\png\Xna-64.png" />
+    <Content Include="Resources\RedX-16.ico" />
+    <Content Include="Resources\RedX-24.ico" />
+    <Content Include="Resources\up.bmp" />
+    <Content Include="Resources\Xna-64.bmp" />
     <Content Include="Version.wxi" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixVSExtension">
       <HintPath>$(WixExtDir)\WixVSExtension.dll</HintPath>
       <Name>WixVSExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixUIExtension">
-      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension</Name>
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +109,12 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dialogs" />
+    <Folder Include="Resources" />
+    <Folder Include="Resources\png" />
+    <Folder Include="Source" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>
