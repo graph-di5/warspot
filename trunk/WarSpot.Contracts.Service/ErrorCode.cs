@@ -40,8 +40,12 @@ namespace WarSpot.Contracts.Service
 		/// <summary>
 		/// Some error, that not listed before.
 		/// </summary>
-		UnknownException
-	}
+        UnknownException,
+
+        #region Security
+            IllegalReference,
+        #endregion
+    }
 
 	/// <summary>
 	/// Class is needed for reporting errors from UserService to the client

@@ -11,6 +11,7 @@
     <EntitySet Name="Game" EntityType="DBModel.Store.Game" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserRole" EntityType="DBModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tournament" EntityType="DBModel.Store.Tournament" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Securities" EntityType="DBModel.Store.Securities" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GameIntellect" EntityType="DBModel.Store.GameIntellect" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AccountPlayer" EntityType="DBModel.Store.AccountTournament1" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="AccountIntellect" Association="DBModel.Store.AccountIntellect">
@@ -90,6 +91,12 @@
     <Property Name="When" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Creator_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Tournament_Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Securities">
+    <Key>
+      <PropertyRef Name="IllegalReferenceName" />
+    </Key>
+    <Property Name="IllegalReferenceName" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="GameIntellect">
     <Key>
@@ -237,6 +244,7 @@
             <End EntitySet="Account" Role="Account" />
             <End EntitySet="Tournament" Role="Tournament" />
           </AssociationSet>
+          <EntitySet Name="Securities" EntityType="DBModel.Security" />
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -351,6 +359,12 @@
           <End Type="DBModel.Account" Multiplicity="*" Role="Account" />
           <End Type="DBModel.Tournament" Multiplicity="*" Role="Tournament" />
         </Association>
+        <EntityType Name="Security">
+          <Key>
+            <PropertyRef Name="IllegalReferenceName" />
+          </Key>
+          <Property Type="String" Name="IllegalReferenceName" Nullable="false" annotation:StoreGeneratedPattern="None" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -404,6 +418,13 @@
           <ScalarProperty Name="When" ColumnName="When" />
           <ScalarProperty Name="Creator_ID" ColumnName="Creator_ID" />
           <ScalarProperty Name="Tournament_Name" ColumnName="Tournament_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Securities">
+      <EntityTypeMapping TypeName="IsTypeOf(DBModel.Security)">
+        <MappingFragment StoreEntitySet="Securities">
+          <ScalarProperty Name="IllegalReferenceName" ColumnName="IllegalReferenceName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -462,6 +483,7 @@
         <AssociationConnector ManuallyRouted="false" Association="DBModel.GameIntellect">
         </AssociationConnector>
         <AssociationConnector Association="DBModel.AccountTournament1" />
+        <EntityTypeShape EntityType="DBModel.Security" Width="1.5" PointX="8.25" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

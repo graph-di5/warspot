@@ -155,6 +155,22 @@ namespace WarSpot.Cloud.Storage
             }
         }
         private ObjectSet<Tournament> _Tournament;
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        public ObjectSet<Security> Securities
+        {
+            get
+            {
+                if ((_Securities == null))
+                {
+                    _Securities = base.CreateObjectSet<Security>("Securities");
+                }
+                return _Securities;
+            }
+        }
+        private ObjectSet<Security> _Securities;
 
         #endregion
 
@@ -198,6 +214,14 @@ namespace WarSpot.Cloud.Storage
         public void AddToTournament(Tournament tournament)
         {
             base.AddObject("Tournament", tournament);
+        }
+    
+        /// <summary>
+        /// Устаревший метод для добавления новых объектов в набор EntitySet Securities. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
+        /// </summary>
+        public void AddToSecurities(Security security)
+        {
+            base.AddObject("Securities", security);
         }
 
         #endregion
@@ -825,6 +849,63 @@ namespace WarSpot.Cloud.Storage
 
         #endregion
 
+    }
+    
+    /// <summary>
+    /// Нет доступной документации по метаданным.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="Security")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Security : EntityObject
+    {
+        #region Фабричный метод
+    
+        /// <summary>
+        /// Создание нового объекта Security.
+        /// </summary>
+        /// <param name="illegalReferenceName">Исходное значение свойства IllegalReferenceName.</param>
+        public static Security CreateSecurity(global::System.String illegalReferenceName)
+        {
+            Security security = new Security();
+            security.IllegalReferenceName = illegalReferenceName;
+            return security;
+        }
+
+        #endregion
+
+        #region Свойства-примитивы
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String IllegalReferenceName
+        {
+            get
+            {
+                return _IllegalReferenceName;
+            }
+            set
+            {
+                if (_IllegalReferenceName != value)
+                {
+                    OnIllegalReferenceNameChanging(value);
+                    ReportPropertyChanging("IllegalReferenceName");
+                    _IllegalReferenceName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("IllegalReferenceName");
+                    OnIllegalReferenceNameChanged();
+                }
+            }
+        }
+        private global::System.String _IllegalReferenceName;
+        partial void OnIllegalReferenceNameChanging(global::System.String value);
+        partial void OnIllegalReferenceNameChanged();
+
+        #endregion
+
+    
     }
     
     /// <summary>
