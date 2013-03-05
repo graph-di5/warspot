@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<?define IntegratedBuild = "0"?>
+<?define IntegratedBuild = "1"?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
@@ -161,19 +161,19 @@
       <?ifdef $(var.DEBUG) ?>
         <Binary
           Id='Detector'
-          SourceFile='$(sys.SOURCEFILEDIR)/../../Nuclex.Setup.Detector/bin/x86/Debug/Nuclex.Setup.Detector.dll'
+          SourceFile='Resources\Nuclex.Setup.Detector.dll'
         />
       <?else ?>
         <Binary
           Id='Detector'
-          SourceFile='$(sys.SOURCEFILEDIR)/../../Nuclex.Setup.Detector/bin/x86/Release/Nuclex.Setup.Detector.dll'
+          SourceFile='Resources\Nuclex.Setup.Detector.dll'
         />
       <?endif ?>
     <?endif ?><!-- IntegratedBuild -->
     <?if $(var.IntegratedBuild) != "1" ?>
       <Binary
         Id='Detector'
-        SourceFile='$(sys.SOURCEFILEDIR)/../Resources/Nuclex.Setup.Detector.dll'
+        SourceFile='Resources/Nuclex.Setup.Detector.dll'
       />
     <?endif ?>
 

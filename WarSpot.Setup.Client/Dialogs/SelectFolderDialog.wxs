@@ -12,9 +12,9 @@
         <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="[Button_Back]">
           <Publish Event="NewDialog" Value="PrerequisitesDialog">1</Publish>
         </Control>
-        <Control Id="FolderEdit" Type="PathEdit" X="18" Y="126" Width="252" Height="18" Property="INSTALLDIR" Sunken="yes" />
+        <Control Id="FolderEdit" Type="PathEdit" X="18" Y="126" Width="252" Height="18" Property="INSTALLFOLDER" Sunken="yes" />
         <Control Id="Browse" Type="PushButton" X="276" Y="126" Width="90" Height="18" Text="[Button_Browse]">
-          <Publish Property="_BrowseProperty" Value="INSTALLDIR">1</Publish>
+          <Publish Property="_BrowseProperty" Value="INSTALLFOLDER">1</Publish>
           <Publish Event="SpawnDialog" Value="BrowseDialog">1</Publish>
         </Control>    
         <Control Id="Text" Type="Text" X="25" Y="70" Width="320" Height="40">
