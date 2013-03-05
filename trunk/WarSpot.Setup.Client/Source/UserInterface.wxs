@@ -25,7 +25,7 @@
         process of installing the msi file on a system for usage on the same system.
       -->
       <InstallUISequence>
-        <Custom Action="SET_INSTALLDIR" Before="CostInitialize">INSTALLDIR=""</Custom>
+        <Custom Action="SET_INSTALLFOLDER" Before="CostInitialize">INSTALLFOLDER=""</Custom>
 
         <!--
           Check for a supported operating system first and bail out before attempting
@@ -91,7 +91,7 @@
         subsequently be installed to local network users.
       -->
       <AdminUISequence>
-        <Custom Action="SET_INSTALLDIR" Before="CostInitialize">INSTALLDIR=""</Custom>
+        <Custom Action="SET_INSTALLFOLDER" Before="CostInitialize">INSTALLFOLDER=""</Custom>
         
         <Show Dialog="WelcomeDialog" After="CostFinalize" />
         

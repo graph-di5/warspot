@@ -40,7 +40,7 @@
       <ComponentGroupRef Id="XNAClient" />
     </Feature>
 
-  <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" ></Property>
+  <Property Id="WIXUI_INSTALLFOLDER" Value="INSTALLLOCATION" ></Property>
   <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
 
   <!-- Includes the user interface definition defined in another file -->
@@ -118,9 +118,9 @@
   <!--END BUTTON TEXT-->
 
   <CustomAction
-    Id="SET_INSTALLDIR"
-    Property="INSTALLDIR"
-    Value="[INSTALLDIR]"
+    Id="SET_INSTALLFOLDER"
+    Property="INSTALLFOLDER"
+    Value="[INSTALLFOLDER]"
     Execute="firstSequence"
    />
   

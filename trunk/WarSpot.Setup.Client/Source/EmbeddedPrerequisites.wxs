@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?define InstallPrerequisitesIfRequired = "1"?>
-<?define IntegratedBuild = "0"?>
+<?define IntegratedBuild = "1"?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
@@ -25,19 +25,20 @@
         will assume that the Visual C++ projects are stored in parallel to the folder
         holding your setup.
       -->
-      <?if $(var.IntegratedBuild) = "1" ?>
+        <?if $(var.IntegratedBuild) = "1" ?>
         <?ifdef $(var.DEBUG) ?>
           <Binary
             Id='Xna4_0'
-            SourceFile='$(sys.SOURCEFILEDIR)/../../Nuclex.Setup.Xna4_0/bin/x86/Debug/Nuclex.Setup.Xna4_0.dll'
+            SourceFile='Resources\Nuclex.Setup.Xna4_0.dll'
           />
         <?else ?>
           <Binary
             Id='Xna4_0'
-            SourceFile='$(sys.SOURCEFILEDIR)/../../Nuclex.Setup.Xna4_0/bin/x86/Release/Nuclex.Setup.Xna4_0.dll'
+            SourceFile='Resources\Nuclex.Setup.Xna4_0.dll'
           />
         <?endif ?>
-      <?endif ?><!-- Integrated -->
+      <?endif ?>
+      <!-- Integrated -->
 
       <!--
         Standalone build you'd get when you download a public release of this
@@ -47,7 +48,7 @@
       <?if $(var.IntegratedBuild) != "1" ?>
         <Binary
           Id='Xna4_0'
-          SourceFile='$(sys.SOURCEFILEDIR)/../Resources/Nuclex.Setup.Xna4_0.dll'
+          SourceFile='Resources/Nuclex.Setup.Xna4_0.dll'
         />
       <?endif ?><!-- NOT Integrated -->
 
