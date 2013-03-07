@@ -12,8 +12,10 @@
     <EntitySet Name="UserRole" EntityType="DBModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tournament" EntityType="DBModel.Store.Tournament" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Securities" EntityType="DBModel.Store.Securities" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="GameIntellect" EntityType="DBModel.Store.GameIntellect" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GameDetails" EntityType="DBModel.Store.GameDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Teams" EntityType="DBModel.Store.Teams" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AccountPlayer" EntityType="DBModel.Store.AccountTournament1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IntellectTeam" EntityType="DBModel.Store.IntellectTeam" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="AccountIntellect" Association="DBModel.Store.AccountIntellect">
       <End Role="Account" EntitySet="Account" />
       <End Role="Intellect" EntitySet="Intellect" />
@@ -30,14 +32,6 @@
       <End Role="Account" EntitySet="Account" />
       <End Role="Tournament" EntitySet="Tournament" />
     </AssociationSet>
-    <AssociationSet Name="FK_GameIntellect_Game" Association="DBModel.Store.FK_GameIntellect_Game">
-      <End Role="Game" EntitySet="Game" />
-      <End Role="GameIntellect" EntitySet="GameIntellect" />
-    </AssociationSet>
-    <AssociationSet Name="FK_GameIntellect_Intellect" Association="DBModel.Store.FK_GameIntellect_Intellect">
-      <End Role="Intellect" EntitySet="Intellect" />
-      <End Role="GameIntellect" EntitySet="GameIntellect" />
-    </AssociationSet>
     <AssociationSet Name="FK_AccountPlayer_Account" Association="DBModel.Store.FK_AccountTournament1_Account">
       <End Role="Account" EntitySet="Account" />
       <End Role="AccountTournament1" EntitySet="AccountPlayer" />
@@ -45,6 +39,26 @@
     <AssociationSet Name="FK_AccountPlayer_Tournament" Association="DBModel.Store.FK_AccountTournament1_Tournament">
       <End Role="Tournament" EntitySet="Tournament" />
       <End Role="AccountTournament1" EntitySet="AccountPlayer" />
+    </AssociationSet>
+    <AssociationSet Name="TeamGame" Association="DBModel.Store.TeamGame">
+      <End Role="Team" EntitySet="Teams" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IntellectTeam_Intellect" Association="DBModel.Store.FK_IntellectTeam_Intellect">
+      <End Role="Intellect" EntitySet="Intellect" />
+      <End Role="IntellectTeam" EntitySet="IntellectTeam" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IntellectTeam_Team" Association="DBModel.Store.FK_IntellectTeam_Team">
+      <End Role="Team" EntitySet="Teams" />
+      <End Role="IntellectTeam" EntitySet="IntellectTeam" />
+    </AssociationSet>
+    <AssociationSet Name="GameGameDetails" Association="DBModel.Store.GameGameDetails">
+      <End Role="Game" EntitySet="Game" />
+      <End Role="GameDetails" EntitySet="GameDetails" />
+    </AssociationSet>
+    <AssociationSet Name="TeamGameDetails" Association="DBModel.Store.TeamGameDetails">
+      <End Role="Team" EntitySet="Teams" />
+      <End Role="GameDetails" EntitySet="GameDetails" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Account">
@@ -68,7 +82,7 @@
       <PropertyRef Name="Game_ID" />
     </Key>
     <Property Name="Game_ID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="AccountAccount_ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Creator_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Replay" Type="nvarchar(max)" Nullable="true" />
     <Property Name="CreationTime" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Game_Name" Type="nvarchar(max)" Nullable="false" />
@@ -98,13 +112,21 @@
     </Key>
     <Property Name="IllegalReferenceName" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="GameIntellect">
+  <EntityType Name="GameDetails">
     <Key>
-      <PropertyRef Name="Games_Game_ID" />
-      <PropertyRef Name="Intellects_Intellect_ID" />
+      <PropertyRef Name="GameDetails_ID" />
     </Key>
-    <Property Name="Games_Game_ID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Intellects_Intellect_ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="GameDetails_ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="StepsCount" Type="int" Nullable="false" />
+    <Property Name="Winner_ID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Teams">
+    <Key>
+      <PropertyRef Name="Team_ID" />
+    </Key>
+    <Property Name="Team_ID" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GameGame_ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="TeamGameDetails_Team_GameDetails_ID" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="AccountTournament1">
     <Key>
@@ -113,6 +135,14 @@
     </Key>
     <Property Name="Player_Account_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="TournamentPlayer_Tournament_ID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IntellectTeam">
+    <Key>
+      <PropertyRef Name="Intellects_Intellect_ID" />
+      <PropertyRef Name="Teams_Team_ID" />
+    </Key>
+    <Property Name="Intellects_Intellect_ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Teams_Team_ID" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <Association Name="AccountIntellect">
     <End Role="Account" Type="DBModel.Store.Account" Multiplicity="1" />
@@ -134,7 +164,7 @@
         <PropertyRef Name="Account_ID" />
       </Principal>
       <Dependent Role="Game">
-        <PropertyRef Name="AccountAccount_ID" />
+        <PropertyRef Name="Creator_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -162,27 +192,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_GameIntellect_Game">
+  <Association Name="TeamGame">
+    <End Role="Team" Type="DBModel.Store.Teams" Multiplicity="*" />
     <End Role="Game" Type="DBModel.Store.Game" Multiplicity="1" />
-    <End Role="GameIntellect" Type="DBModel.Store.GameIntellect" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Game">
         <PropertyRef Name="Game_ID" />
       </Principal>
-      <Dependent Role="GameIntellect">
-        <PropertyRef Name="Games_Game_ID" />
+      <Dependent Role="Team">
+        <PropertyRef Name="GameGame_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_GameIntellect_Intellect">
-    <End Role="GameIntellect" Type="DBModel.Store.GameIntellect" Multiplicity="*" />
-    <End Role="Intellect" Type="DBModel.Store.Intellect" Multiplicity="1" />
+  <Association Name="GameGameDetails">
+    <End Role="Game" Type="DBModel.Store.Game" Multiplicity="1" />
+    <End Role="GameDetails" Type="DBModel.Store.GameDetails" Multiplicity="0..1" />
     <ReferentialConstraint>
-      <Principal Role="Intellect">
-        <PropertyRef Name="Intellect_ID" />
+      <Principal Role="Game">
+        <PropertyRef Name="Game_ID" />
       </Principal>
-      <Dependent Role="GameIntellect">
-        <PropertyRef Name="Intellects_Intellect_ID" />
+      <Dependent Role="GameDetails">
+        <PropertyRef Name="GameDetails_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TeamGameDetails">
+    <End Role="Team" Type="DBModel.Store.Teams" Multiplicity="*" />
+    <End Role="GameDetails" Type="DBModel.Store.GameDetails" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="GameDetails">
+        <PropertyRef Name="GameDetails_ID" />
+      </Principal>
+      <Dependent Role="Team">
+        <PropertyRef Name="TeamGameDetails_Team_GameDetails_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -207,6 +249,30 @@
       </Principal>
       <Dependent Role="AccountTournament1">
         <PropertyRef Name="TournamentPlayer_Tournament_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IntellectTeam_Intellect">
+    <End Role="Intellect" Type="DBModel.Store.Intellect" Multiplicity="1" />
+    <End Role="IntellectTeam" Type="DBModel.Store.IntellectTeam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Intellect">
+        <PropertyRef Name="Intellect_ID" />
+      </Principal>
+      <Dependent Role="IntellectTeam">
+        <PropertyRef Name="Intellects_Intellect_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IntellectTeam_Team">
+    <End Role="IntellectTeam" Type="DBModel.Store.IntellectTeam" Multiplicity="*" />
+    <End Role="Team" Type="DBModel.Store.Teams" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Team_ID" />
+      </Principal>
+      <Dependent Role="IntellectTeam">
+        <PropertyRef Name="Teams_Team_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -236,15 +302,29 @@
             <End Role="Account" EntitySet="Account" />
             <End Role="Tournament" EntitySet="Tournament" />
           </AssociationSet>
-          <AssociationSet Name="GameIntellect" Association="DBModel.GameIntellect">
-            <End EntitySet="Game" Role="Game" />
-            <End EntitySet="Intellect" Role="Intellect" />
-          </AssociationSet>
           <AssociationSet Name="AccountPlayer" Association="DBModel.AccountTournament1">
             <End EntitySet="Account" Role="Account" />
             <End EntitySet="Tournament" Role="Tournament" />
           </AssociationSet>
           <EntitySet Name="Securities" EntityType="DBModel.Security" />
+          <EntitySet Name="GameDetails" EntityType="DBModel.GameDetails" />
+          <EntitySet Name="Teams" EntityType="DBModel.Team" />
+          <AssociationSet Name="TeamGame" Association="DBModel.TeamGame">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Game" EntitySet="Game" />
+          </AssociationSet>
+          <AssociationSet Name="IntellectTeam" Association="DBModel.IntellectTeam">
+            <End Role="Intellect" EntitySet="Intellect" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="GameGameDetails" Association="DBModel.GameGameDetails">
+            <End Role="Game" EntitySet="Game" />
+            <End Role="GameDetails" EntitySet="GameDetails" />
+          </AssociationSet>
+          <AssociationSet Name="TeamGameDetails" Association="DBModel.TeamGameDetails">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="GameDetails" EntitySet="GameDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -267,7 +347,7 @@
           <Property Type="String" Name="Intellect_Name" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="DBModel.AccountIntellect" FromRole="Intellect" ToRole="Account" />
           <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
-          <NavigationProperty Name="Games" Relationship="DBModel.GameIntellect" FromRole="Intellect" ToRole="Game" />
+          <NavigationProperty Name="Teams" Relationship="DBModel.IntellectTeam" FromRole="Intellect" ToRole="Team" />
         </EntityType>
         <Association Name="AccountIntellect">
           <End Type="DBModel.Account" Role="Account" Multiplicity="1" />
@@ -287,11 +367,12 @@
           </Key>
           <Property Type="Guid" Name="Game_ID" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="Account" Relationship="DBModel.AccountGame" FromRole="Game" ToRole="Account" />
-          <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
+          <Property Type="Guid" Name="Creator_ID" Nullable="false" />
           <Property Type="String" Name="Replay" Nullable="true" />
-          <NavigationProperty Name="Intellects" Relationship="DBModel.GameIntellect" FromRole="Game" ToRole="Intellect" />
           <Property Type="String" Name="CreationTime" Nullable="false" />
           <Property Type="String" Name="Game_Name" Nullable="false" />
+          <NavigationProperty Name="Teams" Relationship="DBModel.TeamGame" FromRole="Game" ToRole="Team" />
+          <NavigationProperty Name="GameDetail" Relationship="DBModel.GameGameDetails" FromRole="Game" ToRole="GameDetails" />
         </EntityType>
         <Association Name="AccountGame">
           <End Type="DBModel.Account" Role="Account" Multiplicity="1" />
@@ -301,7 +382,7 @@
               <PropertyRef Name="Account_ID" />
             </Principal>
             <Dependent Role="Game">
-              <PropertyRef Name="AccountAccount_ID" />
+              <PropertyRef Name="Creator_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -351,10 +432,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="GameIntellect">
-          <End Type="DBModel.Game" Multiplicity="*" Role="Game" />
-          <End Type="DBModel.Intellect" Multiplicity="*" Role="Intellect" />
-        </Association>
         <Association Name="AccountTournament1">
           <End Type="DBModel.Account" Multiplicity="*" Role="Account" />
           <End Type="DBModel.Tournament" Multiplicity="*" Role="Tournament" />
@@ -365,6 +442,58 @@
           </Key>
           <Property Type="String" Name="IllegalReferenceName" Nullable="false" annotation:StoreGeneratedPattern="None" />
         </EntityType>
+        <EntityType Name="GameDetails">
+          <Key>
+            <PropertyRef Name="GameDetails_ID" />
+          </Key>
+          <Property Type="Guid" Name="GameDetails_ID" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="Int32" Name="StepsCount" Nullable="false" />
+          <NavigationProperty Name="Game" Relationship="DBModel.GameGameDetails" FromRole="GameDetails" ToRole="Game" />
+          <Property Type="Guid" Name="Winner_ID" Nullable="false" />
+          <NavigationProperty Name="Team" Relationship="DBModel.TeamGameDetails" FromRole="GameDetails" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Team_ID" />
+          </Key>
+          <Property Type="Guid" Name="Team_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Games" Relationship="DBModel.TeamGame" FromRole="Team" ToRole="Game" />
+          <NavigationProperty Name="Intellects" Relationship="DBModel.IntellectTeam" FromRole="Team" ToRole="Intellect" />
+          <Property Type="Guid" Name="GameGame_ID" Nullable="false" />
+        </EntityType>
+        <Association Name="TeamGame">
+          <End Type="DBModel.Team" Role="Team" Multiplicity="*" />
+          <End Type="DBModel.Game" Role="Game" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="Game_ID" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="GameGame_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IntellectTeam">
+          <End Type="DBModel.Intellect" Role="Intellect" Multiplicity="*" />
+          <End Type="DBModel.Team" Role="Team" Multiplicity="*" />
+        </Association>
+        <Association Name="GameGameDetails">
+          <End Type="DBModel.Game" Role="Game" Multiplicity="1" />
+          <End Type="DBModel.GameDetails" Role="GameDetails" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Game">
+              <PropertyRef Name="Game_ID" />
+            </Principal>
+            <Dependent Role="GameDetails">
+              <PropertyRef Name="GameDetails_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamGameDetails">
+          <End Type="DBModel.Team" Role="Team" Multiplicity="1" />
+          <End Type="DBModel.GameDetails" Role="GameDetails" Multiplicity="1" >
+          </End>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -393,7 +522,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(DBModel.Game)">
         <MappingFragment StoreEntitySet="Game">
           <ScalarProperty Name="Game_ID" ColumnName="Game_ID" />
-          <ScalarProperty Name="AccountAccount_ID" ColumnName="AccountAccount_ID" />
+          <ScalarProperty Name="Creator_ID" ColumnName="Creator_ID" />
           <ScalarProperty Name="Replay" ColumnName="Replay" />
           <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
           <ScalarProperty Name="Game_Name" ColumnName="Game_Name" />
@@ -428,20 +557,45 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="GameIntellect" TypeName="DBModel.GameIntellect" StoreEntitySet="GameIntellect">
-      <EndProperty Name="Game">
-        <ScalarProperty Name="Game_ID" ColumnName="Games_Game_ID" />
-      </EndProperty>
-      <EndProperty Name="Intellect">
-        <ScalarProperty Name="Intellect_ID" ColumnName="Intellects_Intellect_ID" />
-      </EndProperty>
-    </AssociationSetMapping>
+    <EntitySetMapping Name="GameDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(DBModel.GameDetails)">
+        <MappingFragment StoreEntitySet="GameDetails">
+          <ScalarProperty Name="GameDetails_ID" ColumnName="GameDetails_ID" />
+          <ScalarProperty Name="StepsCount" ColumnName="StepsCount" />
+          <ScalarProperty Name="Winner_ID" ColumnName="Winner_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teams">
+      <EntityTypeMapping TypeName="IsTypeOf(DBModel.Team)">
+        <MappingFragment StoreEntitySet="Teams">
+          <ScalarProperty Name="Team_ID" ColumnName="Team_ID" />
+          <ScalarProperty Name="GameGame_ID" ColumnName="GameGame_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="AccountPlayer" TypeName="DBModel.AccountTournament1" StoreEntitySet="AccountPlayer">
       <EndProperty Name="Account">
         <ScalarProperty Name="Account_ID" ColumnName="Player_Account_ID" />
       </EndProperty>
       <EndProperty Name="Tournament">
         <ScalarProperty Name="Tournament_ID" ColumnName="TournamentPlayer_Tournament_ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="IntellectTeam" TypeName="DBModel.IntellectTeam" StoreEntitySet="IntellectTeam">
+      <EndProperty Name="Intellect">
+        <ScalarProperty Name="Intellect_ID" ColumnName="Intellects_Intellect_ID" />
+      </EndProperty>
+      <EndProperty Name="Team">
+        <ScalarProperty Name="Team_ID" ColumnName="Teams_Team_ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TeamGameDetails" TypeName="DBModel.TeamGameDetails" StoreEntitySet="Teams">
+      <EndProperty Name="GameDetails">
+        <ScalarProperty Name="GameDetails_ID" ColumnName="TeamGameDetails_Team_GameDetails_ID" />
+      </EndProperty>
+      <EndProperty Name="Team">
+        <ScalarProperty Name="Team_ID" ColumnName="Team_ID" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
@@ -465,25 +619,29 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="DBModel" ZoomLevel="94" >
-        <EntityTypeShape EntityType="DBModel.Account" Width="2.75" PointX="0.75" PointY="4.5" Height="1.8694466145833331" />
-        <EntityTypeShape EntityType="DBModel.Intellect" Width="2.625" PointX="5.875" PointY="7.625" Height="1.787985026041667" />
+        <EntityTypeShape EntityType="DBModel.Account" Width="2.75" PointX="3.5" PointY="0.625" Height="1.8694466145833331" />
+        <EntityTypeShape EntityType="DBModel.Intellect" Width="2.625" PointX="0.5" PointY="3.875" Height="1.787985026041667" />
         <AssociationConnector Association="DBModel.AccountIntellect">
           <ConnectorPoint PointX="3.75" PointY="2.3097233072916667" />
           <ConnectorPoint PointX="5.25" PointY="2.3097233072916667" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="DBModel.Game" Width="2.375" PointX="1.5" PointY="8.75" Height="1.7879850260416657" />
+        <EntityTypeShape EntityType="DBModel.Game" Width="2.375" PointX="7" PointY="3.625" Height="1.7879850260416657" />
         <AssociationConnector Association="DBModel.AccountGame">
           <ConnectorPoint PointX="2.6875" PointY="3.2444466145833331" />
           <ConnectorPoint PointX="2.6875" PointY="4.125" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="DBModel.UserRole" Width="1.5" PointX="5.375" PointY="5.125" />
+        <EntityTypeShape EntityType="DBModel.UserRole" Width="1.5" PointX="7.5" PointY="0.625" />
         <AssociationConnector Association="DBModel.AccountUserRole" />
-        <EntityTypeShape EntityType="DBModel.Tournament" Width="1.5" PointX="4" PointY="1.375" />
+        <EntityTypeShape EntityType="DBModel.Tournament" Width="1.5" PointX="0.75" PointY="0.625" />
         <AssociationConnector Association="DBModel.AccountTournament" />
-        <AssociationConnector ManuallyRouted="false" Association="DBModel.GameIntellect">
-        </AssociationConnector>
         <AssociationConnector Association="DBModel.AccountTournament1" />
-        <EntityTypeShape EntityType="DBModel.Security" Width="1.5" PointX="8.25" PointY="3.75" />
+        <EntityTypeShape EntityType="DBModel.Security" Width="1.5" PointX="10.125" PointY="3" />
+        <EntityTypeShape EntityType="DBModel.GameDetails" Width="1.5" PointX="4.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Team" Width="1.5" PointX="4.5" PointY="6.875" />
+        <AssociationConnector Association="DBModel.TeamGame" />
+        <AssociationConnector Association="DBModel.IntellectTeam" />
+        <AssociationConnector Association="DBModel.GameGameDetails" />
+        <AssociationConnector Association="DBModel.TeamGameDetails" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

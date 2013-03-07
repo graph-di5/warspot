@@ -25,7 +25,7 @@ namespace WarSpot.WebFace.Controllers
 			{
 				Warehouse.db.Refresh(RefreshMode.StoreWins, Warehouse.db.Game);
 				var games = (from b in Warehouse.db.Game
-										 where b.AccountAccount_ID == customIdentity.Id
+										 where b.Creator_ID == customIdentity.Id
 										 select b).ToList<Game>();
 				res.AddRange(games.Select(game => new GameModel(game)));
 			}

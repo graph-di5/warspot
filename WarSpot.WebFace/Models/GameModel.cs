@@ -28,14 +28,17 @@ namespace WarSpot.WebFace.Models
 		public GameModel(Game game)
 		{
 			Id = game.Game_ID;
-			AccountID = game.AccountAccount_ID;
+			AccountID = game.Creator_ID;
 			Replay = game.Replay;
 			CreationTime = game.CreationTime;
 			Name = game.Game_Name;
 			Intellects = new List<string>();
-			foreach (var intellect in game.Intellects)
+			foreach (var team in game.Teams)
 			{
-				Intellects.Add(intellect.Intellect_Name);
+                foreach (var intellect in team.Intellects)
+                {
+                    Intellects.Add(intellect.Intellect_Name);
+                }
 			}
 		}
 	}

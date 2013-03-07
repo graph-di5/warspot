@@ -54,7 +54,17 @@ namespace WarSpot.WebFace.Controllers
 		public ActionResult Details(Guid id)
 		{
 			var ii = Warehouse.db.Intellect.First(i => i.Intellect_ID == id);
-			var games = ii.Games;
+            var teamsofii = ii.Teams;
+
+            List<Game> games = new List<Game>();
+            foreach (Team t in teamsofii)
+            {
+                games.Add((from g in Warehouse.db.Game
+                          where g.Game_ID == t.GameGame_ID
+                          select g).FirstOrDefault<Game>());
+            }
+
+
 			var res = games.ToArray().Select(game => new GameModel(game)).ToList();
 			return View(res);
 		}

@@ -23,8 +23,11 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("DBModel", "AccountGame", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Game), true)]
 [assembly: EdmRelationshipAttribute("DBModel", "AccountUserRole", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "UserRole", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.UserRole), true)]
 [assembly: EdmRelationshipAttribute("DBModel", "AccountTournament", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Tournament), true)]
-[assembly: EdmRelationshipAttribute("DBModel", "GameIntellect", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Game), "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Intellect))]
 [assembly: EdmRelationshipAttribute("DBModel", "AccountTournament1", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Account), "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Tournament))]
+[assembly: EdmRelationshipAttribute("DBModel", "TeamGame", "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Team), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Game), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "IntellectTeam", "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Intellect), "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Team))]
+[assembly: EdmRelationshipAttribute("DBModel", "GameGameDetails", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Game), "GameDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.GameDetails), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "TeamGameDetails", "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Team), "GameDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.GameDetails))]
 
 #endregion
 
@@ -171,6 +174,38 @@ namespace WarSpot.Cloud.Storage
             }
         }
         private ObjectSet<Security> _Securities;
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        public ObjectSet<GameDetails> GameDetails
+        {
+            get
+            {
+                if ((_GameDetails == null))
+                {
+                    _GameDetails = base.CreateObjectSet<GameDetails>("GameDetails");
+                }
+                return _GameDetails;
+            }
+        }
+        private ObjectSet<GameDetails> _GameDetails;
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        public ObjectSet<Team> Teams
+        {
+            get
+            {
+                if ((_Teams == null))
+                {
+                    _Teams = base.CreateObjectSet<Team>("Teams");
+                }
+                return _Teams;
+            }
+        }
+        private ObjectSet<Team> _Teams;
 
         #endregion
 
@@ -222,6 +257,22 @@ namespace WarSpot.Cloud.Storage
         public void AddToSecurities(Security security)
         {
             base.AddObject("Securities", security);
+        }
+    
+        /// <summary>
+        /// Устаревший метод для добавления новых объектов в набор EntitySet GameDetails. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
+        /// </summary>
+        public void AddToGameDetails(GameDetails gameDetails)
+        {
+            base.AddObject("GameDetails", gameDetails);
+        }
+    
+        /// <summary>
+        /// Устаревший метод для добавления новых объектов в набор EntitySet Teams. Взамен можно использовать метод .Add связанного свойства ObjectSet&lt;T&gt;.
+        /// </summary>
+        public void AddToTeams(Team team)
+        {
+            base.AddObject("Teams", team);
         }
 
         #endregion
@@ -469,14 +520,14 @@ namespace WarSpot.Cloud.Storage
         /// Создание нового объекта Game.
         /// </summary>
         /// <param name="game_ID">Исходное значение свойства Game_ID.</param>
-        /// <param name="accountAccount_ID">Исходное значение свойства AccountAccount_ID.</param>
+        /// <param name="creator_ID">Исходное значение свойства Creator_ID.</param>
         /// <param name="creationTime">Исходное значение свойства CreationTime.</param>
         /// <param name="game_Name">Исходное значение свойства Game_Name.</param>
-        public static Game CreateGame(global::System.Guid game_ID, global::System.Guid accountAccount_ID, global::System.String creationTime, global::System.String game_Name)
+        public static Game CreateGame(global::System.Guid game_ID, global::System.Guid creator_ID, global::System.String creationTime, global::System.String game_Name)
         {
             Game game = new Game();
             game.Game_ID = game_ID;
-            game.AccountAccount_ID = accountAccount_ID;
+            game.Creator_ID = creator_ID;
             game.CreationTime = creationTime;
             game.Game_Name = game_Name;
             return game;
@@ -518,24 +569,24 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Guid AccountAccount_ID
+        public global::System.Guid Creator_ID
         {
             get
             {
-                return _AccountAccount_ID;
+                return _Creator_ID;
             }
             set
             {
-                OnAccountAccount_IDChanging(value);
-                ReportPropertyChanging("AccountAccount_ID");
-                _AccountAccount_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("AccountAccount_ID");
-                OnAccountAccount_IDChanged();
+                OnCreator_IDChanging(value);
+                ReportPropertyChanging("Creator_ID");
+                _Creator_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Creator_ID");
+                OnCreator_IDChanged();
             }
         }
-        private global::System.Guid _AccountAccount_ID;
-        partial void OnAccountAccount_IDChanging(global::System.Guid value);
-        partial void OnAccountAccount_IDChanged();
+        private global::System.Guid _Creator_ID;
+        partial void OnCreator_IDChanging(global::System.Guid value);
+        partial void OnCreator_IDChanged();
     
         /// <summary>
         /// Нет доступной документации по метаданным.
@@ -658,18 +709,245 @@ namespace WarSpot.Cloud.Storage
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameIntellect", "Intellect")]
-        public EntityCollection<Intellect> Intellects
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "TeamGame", "Team")]
+        public EntityCollection<Team> Teams
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Intellect>("DBModel.GameIntellect", "Intellect");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Team>("DBModel.TeamGame", "Team");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Intellect>("DBModel.GameIntellect", "Intellect", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Team>("DBModel.TeamGame", "Team", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameGameDetails", "GameDetails")]
+        public GameDetails GameDetail
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameDetails>("DBModel.GameGameDetails", "GameDetails").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameDetails>("DBModel.GameGameDetails", "GameDetails").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<GameDetails> GameDetailReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<GameDetails>("DBModel.GameGameDetails", "GameDetails");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<GameDetails>("DBModel.GameGameDetails", "GameDetails", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// Нет доступной документации по метаданным.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="GameDetails")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class GameDetails : EntityObject
+    {
+        #region Фабричный метод
+    
+        /// <summary>
+        /// Создание нового объекта GameDetails.
+        /// </summary>
+        /// <param name="gameDetails_ID">Исходное значение свойства GameDetails_ID.</param>
+        /// <param name="stepsCount">Исходное значение свойства StepsCount.</param>
+        /// <param name="winner_ID">Исходное значение свойства Winner_ID.</param>
+        public static GameDetails CreateGameDetails(global::System.Guid gameDetails_ID, global::System.Int32 stepsCount, global::System.Guid winner_ID)
+        {
+            GameDetails gameDetails = new GameDetails();
+            gameDetails.GameDetails_ID = gameDetails_ID;
+            gameDetails.StepsCount = stepsCount;
+            gameDetails.Winner_ID = winner_ID;
+            return gameDetails;
+        }
+
+        #endregion
+
+        #region Свойства-примитивы
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid GameDetails_ID
+        {
+            get
+            {
+                return _GameDetails_ID;
+            }
+            set
+            {
+                if (_GameDetails_ID != value)
+                {
+                    OnGameDetails_IDChanging(value);
+                    ReportPropertyChanging("GameDetails_ID");
+                    _GameDetails_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("GameDetails_ID");
+                    OnGameDetails_IDChanged();
+                }
+            }
+        }
+        private global::System.Guid _GameDetails_ID;
+        partial void OnGameDetails_IDChanging(global::System.Guid value);
+        partial void OnGameDetails_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 StepsCount
+        {
+            get
+            {
+                return _StepsCount;
+            }
+            set
+            {
+                OnStepsCountChanging(value);
+                ReportPropertyChanging("StepsCount");
+                _StepsCount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StepsCount");
+                OnStepsCountChanged();
+            }
+        }
+        private global::System.Int32 _StepsCount;
+        partial void OnStepsCountChanging(global::System.Int32 value);
+        partial void OnStepsCountChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Winner_ID
+        {
+            get
+            {
+                return _Winner_ID;
+            }
+            set
+            {
+                OnWinner_IDChanging(value);
+                ReportPropertyChanging("Winner_ID");
+                _Winner_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Winner_ID");
+                OnWinner_IDChanged();
+            }
+        }
+        private global::System.Guid _Winner_ID;
+        partial void OnWinner_IDChanging(global::System.Guid value);
+        partial void OnWinner_IDChanged();
+
+        #endregion
+
+    
+        #region Свойства навигации
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameGameDetails", "Game")]
+        public Game Game
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("DBModel.GameGameDetails", "Game").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("DBModel.GameGameDetails", "Game").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Game> GameReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("DBModel.GameGameDetails", "Game");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Game>("DBModel.GameGameDetails", "Game", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "TeamGameDetails", "Team")]
+        public Team Team
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Team>("DBModel.TeamGameDetails", "Team").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Team>("DBModel.TeamGameDetails", "Team").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Team> TeamReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Team>("DBModel.TeamGameDetails", "Team");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Team>("DBModel.TeamGameDetails", "Team", value);
                 }
             }
         }
@@ -831,18 +1109,18 @@ namespace WarSpot.Cloud.Storage
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameIntellect", "Game")]
-        public EntityCollection<Game> Games
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "IntellectTeam", "Team")]
+        public EntityCollection<Team> Teams
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Game>("DBModel.GameIntellect", "Game");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Team>("DBModel.IntellectTeam", "Team");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("DBModel.GameIntellect", "Game", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Team>("DBModel.IntellectTeam", "Team", value);
                 }
             }
         }
@@ -906,6 +1184,153 @@ namespace WarSpot.Cloud.Storage
         #endregion
 
     
+    }
+    
+    /// <summary>
+    /// Нет доступной документации по метаданным.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="Team")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Team : EntityObject
+    {
+        #region Фабричный метод
+    
+        /// <summary>
+        /// Создание нового объекта Team.
+        /// </summary>
+        /// <param name="team_ID">Исходное значение свойства Team_ID.</param>
+        /// <param name="gameGame_ID">Исходное значение свойства GameGame_ID.</param>
+        public static Team CreateTeam(global::System.Guid team_ID, global::System.Guid gameGame_ID)
+        {
+            Team team = new Team();
+            team.Team_ID = team_ID;
+            team.GameGame_ID = gameGame_ID;
+            return team;
+        }
+
+        #endregion
+
+        #region Свойства-примитивы
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Team_ID
+        {
+            get
+            {
+                return _Team_ID;
+            }
+            set
+            {
+                if (_Team_ID != value)
+                {
+                    OnTeam_IDChanging(value);
+                    ReportPropertyChanging("Team_ID");
+                    _Team_ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Team_ID");
+                    OnTeam_IDChanged();
+                }
+            }
+        }
+        private global::System.Guid _Team_ID;
+        partial void OnTeam_IDChanging(global::System.Guid value);
+        partial void OnTeam_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid GameGame_ID
+        {
+            get
+            {
+                return _GameGame_ID;
+            }
+            set
+            {
+                OnGameGame_IDChanging(value);
+                ReportPropertyChanging("GameGame_ID");
+                _GameGame_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("GameGame_ID");
+                OnGameGame_IDChanged();
+            }
+        }
+        private global::System.Guid _GameGame_ID;
+        partial void OnGameGame_IDChanging(global::System.Guid value);
+        partial void OnGameGame_IDChanged();
+
+        #endregion
+
+    
+        #region Свойства навигации
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "TeamGame", "Game")]
+        public Game Games
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("DBModel.TeamGame", "Game").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("DBModel.TeamGame", "Game").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Game> GamesReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Game>("DBModel.TeamGame", "Game");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Game>("DBModel.TeamGame", "Game", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "IntellectTeam", "Intellect")]
+        public EntityCollection<Intellect> Intellects
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Intellect>("DBModel.IntellectTeam", "Intellect");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Intellect>("DBModel.IntellectTeam", "Intellect", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
     
     /// <summary>

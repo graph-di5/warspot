@@ -202,20 +202,32 @@ namespace WarSpot.Cloud.Storage
 				List<ReplayDescription> userreplays = new List<ReplayDescription>();
 
 				List<Game> usergames = (from g in db.Game
-																where g.AccountAccount_ID == Account_ID
+																where g.Creator_ID == Account_ID
 																select g).ToList<Game>();
 
 				foreach (Game g in usergames)
 				{
-					List<string> intellectsingame = (from i in db.Intellect
-																					 where i.Games.Contains(g)
-																					 select i.Intellect_Name).ToList<string>();
+                    List<TeamDescription> teamsingame = new List<TeamDescription>();
+
+                    foreach (Team t in (from t in db.Teams
+                                        where t.GameGame_ID == g.Game_ID
+                                        select t))
+                    {
+                        TeamDescription tdesc = new TeamDescription();
+                        tdesc.ID = t.Team_ID;
+                        tdesc.Intellects = new List<Guid>();
+
+                        foreach (Intellect i in t.Intellects)
+                        {
+                            tdesc.Intellects.Add(i.Intellect_ID);
+                        }
+                    }
 
 					ReplayDescription replay = new ReplayDescription();
 
 					replay.ID = g.Game_ID;
 					replay.Name = g.Game_Name;
-					replay.Intellects = intellectsingame;
+					replay.Teams = teamsingame;
 
 					userreplays.Add(replay);
 				}
@@ -376,21 +388,16 @@ namespace WarSpot.Cloud.Storage
 			Guid gameID = Guid.NewGuid();
 			Game match = Game.CreateGame(gameID, userID, DateTime.Now.ToString(), title);
 
-			List<Intellect> listofintellects = new List<Intellect>();
+            Team team = Team.CreateTeam(Guid.NewGuid(), gameID);
 
 			foreach (Guid id in intellects)
 			{
 				Intellect currentIntellect = (from i in db.Intellect
 									          where i.Intellect_ID == id
 											  select i).FirstOrDefault<Intellect>();
-				listofintellects.Add(currentIntellect);
+				team.Intellects.Add(currentIntellect);
 			}
-
-			foreach (Intellect intellect in listofintellects)
-			{
-				match.Intellects.Add(intellect);
-			}
-
+			
 			db.AddToGame(match);
 
 			db.SaveChanges();
@@ -404,7 +411,7 @@ namespace WarSpot.Cloud.Storage
 		public static List<Guid> GetListOfGames(Guid _userID)
 		{
 			List<Game> test = (from b in db.Game
-												 where b.AccountAccount_ID == _userID
+												 where b.Creator_ID == _userID
 												 select b).ToList<Game>();
 
 			List<Guid> res = new List<Guid>();
