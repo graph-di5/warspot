@@ -14,7 +14,7 @@ namespace WarSpot.Contracts.Service
 		public string Name { get; set; }
 
 		[DataMember]
-		public List<string> Intellects;
+		public List<TeamDescription> Teams { get; set; }
 
 		/*
 		public Guid ID

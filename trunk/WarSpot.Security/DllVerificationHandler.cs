@@ -15,7 +15,7 @@ namespace WarSpot.Security
         {
             Assembly Dll = Assembly.Load(intellect);
 
-            if (DllReferenceHandler.ReferenceAnalyzer(Dll).Type == ErrorType.IllegalReference)
+            if (DllReferenceHandler.AnalyzeDllReferences(Dll).Type == ErrorType.IllegalReference)
                 return;
         }
 

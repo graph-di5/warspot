@@ -77,6 +77,7 @@
     <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs " />
     <Compile Include="Replay.cs" />
     <Compile Include="ReplayDescription.cs" />
+    <Compile Include="TeamDescription.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
