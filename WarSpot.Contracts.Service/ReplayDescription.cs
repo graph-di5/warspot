@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
+// todo move to models
 namespace WarSpot.Contracts.Service
 {
 	[DataContract]
@@ -15,28 +16,6 @@ namespace WarSpot.Contracts.Service
 
 		[DataMember]
 		public List<TeamDescription> Teams { get; set; }
-
-		/*
-		public Guid ID
-		{
-				get { return id; }
-				set { id = value; }
-		}
-
-		public string Name
-		{
-				get { return name; }
-				set { name = value; }
-		}
-
-		public List<string> Intellects
-		{
-				get { return intellects; }
-				set { intellects = value; }
-		}
-
-		*/
-
 
 	}
 }

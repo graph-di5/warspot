@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System;
 
+// todo move to models
 namespace WarSpot.Contracts.Service
 {
 	/// <summary>
@@ -14,10 +15,10 @@ namespace WarSpot.Contracts.Service
 		[DataMember]
 		public byte[] data;
 
-        public Replay(Guid _id, byte[] _data)
-        {
-            this.id = _id;
-            this.data = _data;
-        }
+		public Replay(Guid _id, byte[] _data)
+		{
+			this.id = _id;
+			this.data = _data;
+		}
 	}
 }

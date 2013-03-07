@@ -12,6 +12,7 @@
     <EntitySet Name="UserRole" EntityType="DBModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tournament" EntityType="DBModel.Store.Tournament" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Securities" EntityType="DBModel.Store.Securities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Files" EntityType="DBModel.Store.Files" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GameDetails" EntityType="DBModel.Store.GameDetails" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Teams" EntityType="DBModel.Store.Teams" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AccountPlayer" EntityType="DBModel.Store.AccountTournament1" store:Type="Tables" Schema="dbo" />
@@ -111,6 +112,16 @@
       <PropertyRef Name="IllegalReferenceName" />
     </Key>
     <Property Name="IllegalReferenceName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Files">
+    <Key>
+      <PropertyRef Name="File_Id" />
+    </Key>
+    <Property Name="File_Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreationTime" Type="datetime" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LongComment" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="GameDetails">
     <Key>
@@ -307,6 +318,7 @@
             <End EntitySet="Tournament" Role="Tournament" />
           </AssociationSet>
           <EntitySet Name="Securities" EntityType="DBModel.Security" />
+          <EntitySet Name="Files" EntityType="DBModel.File" />
           <EntitySet Name="GameDetails" EntityType="DBModel.GameDetails" />
           <EntitySet Name="Teams" EntityType="DBModel.Team" />
           <AssociationSet Name="TeamGame" Association="DBModel.TeamGame">
@@ -442,6 +454,16 @@
           </Key>
           <Property Type="String" Name="IllegalReferenceName" Nullable="false" annotation:StoreGeneratedPattern="None" />
         </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="File_Id" />
+          </Key>
+          <Property Type="Guid" Name="File_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="DateTime" Name="CreationTime" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="String" Name="LongComment" Nullable="false" />
+        </EntityType>
         <EntityType Name="GameDetails">
           <Key>
             <PropertyRef Name="GameDetails_ID" />
@@ -557,6 +579,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Files">
+      <EntityTypeMapping TypeName="IsTypeOf(DBModel.File)">
+        <MappingFragment StoreEntitySet="Files">
+          <ScalarProperty Name="File_Id" ColumnName="File_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="LongComment" ColumnName="LongComment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="GameDetails">
       <EntityTypeMapping TypeName="IsTypeOf(DBModel.GameDetails)">
         <MappingFragment StoreEntitySet="GameDetails">
@@ -642,6 +675,7 @@
         <AssociationConnector Association="DBModel.IntellectTeam" />
         <AssociationConnector Association="DBModel.GameGameDetails" />
         <AssociationConnector Association="DBModel.TeamGameDetails" />
+        <EntityTypeShape EntityType="DBModel.File" Width="1.5" PointX="6.5" PointY="10.625" Height="1.8694466145833335" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

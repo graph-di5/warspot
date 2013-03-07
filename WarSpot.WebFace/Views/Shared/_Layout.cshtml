@@ -23,6 +23,7 @@
             <nav>
                 <ul id="menu">
 									<li>@Html.ActionLink("Home", "Index", "Home")</li>
+                  <li>@Html.ActionLink("Файлы", "Index", "Home")</li>
                   @{ var identity = (User.Identity as CustomIdentity);
                      if (identity != null && identity.IsInRole("User"))
                      {
