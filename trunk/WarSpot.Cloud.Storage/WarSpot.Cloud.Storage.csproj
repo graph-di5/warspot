@@ -65,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\BlobFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs " />
     <Compile Include="Role.cs" />

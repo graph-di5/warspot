@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.EntityClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
+using WarSpot.Cloud.Storage.Models;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Common;
-using System.IO;
 
 namespace WarSpot.Cloud.Storage
 {
@@ -239,6 +237,62 @@ namespace WarSpot.Cloud.Storage
 				return null;
 			}
 		}
+
+		public static bool UploadFile(String name, String description, String longComment, byte[] data)
+		{
+			var id = Guid.NewGuid();
+			var time = DateTime.UtcNow;
+			var uniqueBlobName = String.Format("files/{0}", id);
+
+			db.AddToFiles(File.CreateFile(id, name, time, description, longComment));
+			db.SaveChanges();
+
+			CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
+			blob.UploadByteArray(data);
+			return true;
+		}
+
+		public static BlobFile DownloadFile(Guid id)
+		{
+			var fileInfo = db.Files.FirstOrDefault(f => f.File_Id == id);
+			if(fileInfo == null)
+			{
+				// means that no file
+				return null;
+			}
+			var uniqueBlobName = String.Format("files/{0}", id);
+			CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
+			// catch here errors
+			var data = blob.DownloadByteArray();
+			var res = new BlobFile
+			          	{
+			          		ID = fileInfo.File_Id,
+										Name = fileInfo.Name,
+										CreationTime = fileInfo.CreationTime,
+										Description = fileInfo.Description,
+										LongDescription = fileInfo.LongComment,
+										Data = data
+			          	};
+			return res;
+		}
+
+		/// <summary>
+		/// Gets list of downloadable files in bolb storage
+		/// </summary>
+		/// <param name="full">Means is in needed show files with duplicated names</param>
+		/// <returns>return ONLY file info without(!) content</returns>
+		public static List<BlobFile> GetFileList(bool full = false)
+		{
+			return db.Files.OrderBy("CreatonTime").ToArray().Select(fileInfo => new BlobFile
+			                                                          	{
+			                                                          		ID = fileInfo.File_Id,
+																																		Name = fileInfo.Name,
+																																		CreationTime = fileInfo.CreationTime,
+																																		Description = fileInfo.Description,
+																																		LongDescription = fileInfo.LongComment,
+			                                                          	}).ToList();
+		}
+
 		#endregion
 
 		#region QUEUE METHODS
