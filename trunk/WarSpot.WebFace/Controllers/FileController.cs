@@ -1,14 +1,17 @@
 ﻿using System;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using WarSpot.Cloud.Storage;
 
 namespace WarSpot.WebFace.Controllers
 {
-	public class FileController : Controller
+	public class FileController : AuthorizedController
 	{
 		//
 		// GET: /File/
 
+		[AllowAnonymous]
 		public ActionResult Index()
 		{
 			// check user role here, if admin show all files with duplicates
@@ -17,6 +20,7 @@ namespace WarSpot.WebFace.Controllers
 
 		//
 		// GET: /File/Download/<GUID>
+		[AllowAnonymous]
 		public FileResult Download(Guid id)
 		{
 			// todo check error
@@ -30,6 +34,7 @@ namespace WarSpot.WebFace.Controllers
 		//
 		// GET: /File/Details/<GUID>
 
+		[AllowAnonymous]
 		public ActionResult Details(Guid id)
 		{
 			return View();
@@ -48,12 +53,16 @@ namespace WarSpot.WebFace.Controllers
 
 		[HttpPost]
 		[Authorize(Roles = "Admin")]
-		public ActionResult Create(FormCollection collection)
+		public ActionResult Create(string name, string description,
+			string longDescription, HttpPostedFileBase file)
 		{
 			try
 			{
-				// TODO: Add insert logic here
-
+				var target = new MemoryStream();
+				file.InputStream.CopyTo(target);
+				// TODO: check res
+				var res = Warehouse.UploadFile(name, description,
+				                               longDescription, target.ToArray());
 				return RedirectToAction("Index");
 			}
 			catch

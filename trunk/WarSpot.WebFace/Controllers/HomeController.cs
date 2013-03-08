@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Web.Mvc;
 
 namespace WarSpot.WebFace.Controllers
 {
@@ -9,8 +10,9 @@ namespace WarSpot.WebFace.Controllers
 		public ActionResult Index()
 		{
 			ViewBag.Message = "Welcome to WarSpot!";
-            
-            return View();
+			//DirectoryInfo
+
+			return View();
 		}
 
 		[AllowAnonymous]
