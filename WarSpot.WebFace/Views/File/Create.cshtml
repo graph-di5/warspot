@@ -1,0 +1,16 @@
+﻿@model WarSpot.Cloud.Storage.Models.BlobFile
+@using (Html.BeginForm("Create", "File", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+  <div class="editor-label">@Html.LabelFor(m => m.Name)</div>
+  <div class="editor-field">@Html.TextBoxFor(m => m.Name)</div>
+  <div class="editor-label">@Html.LabelFor(m => m.Description)</div>
+  <div class="editor-field">@Html.TextBoxFor(m => m.Description)</div>
+  <div class="editor-label">@Html.LabelFor(m => m.LongDescription)</div>
+  <div class="editor-field">@Html.TextAreaFor(m => m.LongDescription)</div>
+  <div class="editor-label">@Html.LabelFor(m => m.Data)</div>
+  <div class="editor-field">
+    <input name="file" type="file" id="file" /></div>
+  <p>
+    <input type="submit" value="Загрузить" />
+  </p>
+}

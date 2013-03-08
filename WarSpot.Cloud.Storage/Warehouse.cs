@@ -286,7 +286,11 @@ namespace WarSpot.Cloud.Storage
 		/// <returns>return ONLY file info without(!) content</returns>
 		public static List<BlobFile> GetFileList(bool full = false)
 		{
-			return db.Files.OrderBy("CreatonTime").ToArray().Select(fileInfo => new BlobFile
+			if (!db.Files.Any())
+			{
+				return new List<BlobFile>();
+			}
+			return db.Files.OrderBy("it.CreationTime").ToArray().Select(fileInfo => new BlobFile
 			                                                          	{
 			                                                          		ID = fileInfo.File_Id,
 																																		Name = fileInfo.Name,

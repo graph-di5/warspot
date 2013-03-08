@@ -118,7 +118,7 @@
     <Key>
       <PropertyRef Name="File_Id" />
     </Key>
-    <Property Name="File_Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="File_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreationTime" Type="datetime" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
@@ -460,7 +460,7 @@
           <Key>
             <PropertyRef Name="File_Id" />
           </Key>
-          <Property Type="Guid" Name="File_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Guid" Name="File_Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="DateTime" Name="CreationTime" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="false" />

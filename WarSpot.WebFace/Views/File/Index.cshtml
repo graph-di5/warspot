@@ -1,22 +1,27 @@
-﻿@model List<WarSpot.Cloud.Storage.Models.BlobFile>
+﻿@using WarSpot.WebFace.Security
+@model List<WarSpot.Cloud.Storage.Models.BlobFile>
 
 @{
+	var identity = (User.Identity as CustomIdentity);
 }
 
-<!-- check if admin then add upload link -->
+	@if (identity != null && identity.IsInRole("admin"))
+	{
+    @Html.ActionLink("Загрузить файл", "Create")
+  }
 <div class="display-label">
 	<table>
 		<tr><td>dn</td><td>Имя</td><td>Описание</td><td>Дата добавления</td></tr>
 		@foreach (var m in Model)
-    {
+  {
 			<tr>
-				<td>@Html.ActionLink("img", "Download", new {id = m.ID})</td>
+				<td>@Html.ActionLink("img", "Download", new { id = m.ID })</td>
 				<td>@Html.ActionLink(m.Name, "Details", new { id = m.ID })</td>
 				<td>@m.Description</td>
         <td>@m.CreationTime</td>
 			</tr>
 			
-		}
+  }
 		
 	</table>
 </div>
