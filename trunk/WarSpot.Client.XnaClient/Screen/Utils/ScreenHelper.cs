@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using WarSpot.MatchComputer;
+using WarSpot.Contracts.Service;
 
 namespace WarSpot.Client.XnaClient.Screen.Utils
 {

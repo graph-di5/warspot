@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
-using System.Xml;
-using WarSpot.MatchComputer;
 
-namespace WarSpot.MatchComputer
+namespace WarSpot.Contracts.Service
 {
     [DataContract]
     public class MatchReplay//Используем этот класс для хранения и сериализации истории событий.
     {
         [DataMember]
-        Version AssemblyVersion { get; set; }
+        public Version AssemblyVersion { get; set; }
 
-        [CollectionDataContractAttribute]
+        [DataMember]
         public List<WarSpotEvent> Events;
 
         public MatchReplay()

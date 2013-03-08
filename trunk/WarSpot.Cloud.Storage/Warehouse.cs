@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using Microsoft.WindowsAzure;
@@ -156,7 +157,9 @@ namespace WarSpot.Cloud.Storage
 				if (neededname != null)
 				{
 					CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
-					return new Replay(gameID, blob.DownloadByteArray());
+				    var memStream = new MemoryStream();
+				    blob.DownloadToStream(memStream);
+					return new Replay(gameID, SerializationHelper.Deserialize(memStream));
 				}
 				else // Replay has not been uploaded yet.
 					return null;

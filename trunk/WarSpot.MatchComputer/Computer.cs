@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using WarSpot.Contracts.Intellect;
 using WarSpot.Contracts.Intellect.Actions;
+using WarSpot.Contracts.Service;
 
 namespace WarSpot.MatchComputer
 {

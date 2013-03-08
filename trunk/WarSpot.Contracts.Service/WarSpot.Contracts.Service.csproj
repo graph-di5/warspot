@@ -69,8 +69,11 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BeingCharacteristics.cs" />
+    <Compile Include="SerializationHelper.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="IWarSpotService.cs" />
     <Compile Include="MatchReplay.cs" />
@@ -79,6 +82,7 @@
     <Compile Include="Replay.cs" />
     <Compile Include="ReplayDescription.cs" />
     <Compile Include="TeamDescription.cs" />
+    <Compile Include="WarSpotEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -101,6 +105,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Common\WarSpot.Common.csproj">
+      <Project>{FA906681-9071-4D80-9FE7-7AF85FCFB573}</Project>
+      <Name>WarSpot.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
