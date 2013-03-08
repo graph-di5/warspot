@@ -72,7 +72,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BeingCharacteristics.cs" />
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="IWarSpotService.cs" />
@@ -110,6 +109,10 @@
     <ProjectReference Include="..\WarSpot.Common\WarSpot.Common.csproj">
       <Project>{FA906681-9071-4D80-9FE7-7AF85FCFB573}</Project>
       <Name>WarSpot.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Contracts.Intellect\WarSpot.Contracts.Intellect.csproj">
+      <Project>{218A447E-8808-4987-B665-A8B1FB107022}</Project>
+      <Name>WarSpot.Contracts.Intellect</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
