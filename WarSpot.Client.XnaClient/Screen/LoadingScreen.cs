@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using WarSpot.Client.XnaClient.Screen.Utils;
+using WarSpot.Contracts.Service;
 using WarSpot.MatchComputer;
 
 
@@ -70,7 +71,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void Deserialize()
 		{
 			string path = ScreenHelper.Instance.ReplayPath;
-			ScreenHelper.Instance.ReplayEvents = Deserializator.Deserialize(path);
+			ScreenHelper.Instance.ReplayEvents = SerializationHelper.Deserialize(path).Events;
 			isCorrect = ScreenHelper.Instance.ReplayEvents.Count > 0;
 			lock (_checker)
 			{

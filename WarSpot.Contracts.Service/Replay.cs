@@ -10,15 +10,16 @@ namespace WarSpot.Contracts.Service
 	[DataContract]
 	public class Replay
 	{
-		[DataMember]
-		public Guid id;
-		[DataMember]
-		public byte[] data;
+        [DataMember]
+        public Guid Id { get; set; }
 
-		public Replay(Guid _id, byte[] _data)
+        [DataMember]
+        public MatchReplay Data { get; set; }
+
+        public Replay(Guid id, MatchReplay data)
 		{
-			this.id = _id;
-			this.data = _data;
+			this.Id = id;
+			this.Data = data;
 		}
 	}
 }

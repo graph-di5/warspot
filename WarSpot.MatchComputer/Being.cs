@@ -1,6 +1,7 @@
 using System;
 using WarSpot.Contracts.Intellect;
 using WarSpot.Contracts.Intellect.Actions;
+using WarSpot.Contracts.Service;
 
 namespace WarSpot.MatchComputer
 {
@@ -61,8 +62,14 @@ namespace WarSpot.MatchComputer
 		{
 			// todo add here checking of the returned characteristics
 			Characteristics = Me.Construct(turnNumber, ci);
-			Characteristics.Ci = ci;
-			Characteristics.Health = Characteristics.MaxHealth;
+            Characteristics.Health = Characteristics.MaxHealth;
+            if (ci < 0)
+            {
+                Characteristics.Health += ci;
+                Characteristics.Ci = 0;
+            }
+			else Characteristics.Ci = ci;
+			
 			return Characteristics;
 		}
 

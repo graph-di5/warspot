@@ -1,4 +1,5 @@
 ﻿using System;
+using WarSpot.Contracts.Service;
 
 namespace WarSpot.Contracts.Intellect
 {

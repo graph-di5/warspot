@@ -5,6 +5,7 @@ using System.Reflection;
 using System.IO;
 using WarSpot.Common.Utils;
 using WarSpot.Contracts.Intellect;
+using WarSpot.Contracts.Service;
 using WarSpot.MatchComputer;
 
 namespace WarSpot.ConsoleComputer
@@ -47,7 +48,7 @@ namespace WarSpot.ConsoleComputer
 			Console.WriteLine("Done: {0}.", sw.Elapsed);
 			Console.ReadLine();
 #if true
-			var list = Deserializator.Deserialize(outFileName);
+            var list = SerializationHelper.Deserialize(outFileName);
 #endif
 		}
 
@@ -63,7 +64,7 @@ namespace WarSpot.ConsoleComputer
 				if(referencedAssembly.Name == "WarSpot.Contracts.Intellect")
 				{
 					// todo rewrite this to CheckVersion
-					if(VersionHelper.CheckVersion(referencedAssembly.Version))
+                    if (VersionHelper.CheckVersion(referencedAssembly.Version))
 					{
 						foundIntellect = true;
 					}

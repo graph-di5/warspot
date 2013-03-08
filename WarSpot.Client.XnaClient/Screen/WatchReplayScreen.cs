@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using WarSpot.Client.XnaClient.Screen.Utils;
+using WarSpot.Contracts.Service;
 using WarSpot.MatchComputer;
 using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
