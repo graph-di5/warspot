@@ -13,9 +13,7 @@ namespace WarSpot.MatchComputer
 	{
 		private readonly List<Being> _objects;
 		private readonly List<GameAction> _actions;//Сначала задаём действия, затем делаем их в нужом порядке.
-		private readonly List<WarSpotEvent> _eventsHistory;//Для истории событий (не действий). Это и отправляется пользователю для просмотра матча.
-		private readonly Stream _stream;//Поток для вывода сериализованной истории
-		private readonly BinaryFormatter _formatter;//Создаём буфер для сериализации
+		private readonly MatchReplay _eventsHistory;//Для истории событий (не действий). Это и отправляется пользователю для просмотра матча.
 		private readonly World _world;
 		private ulong _turnNumber;
 
@@ -75,10 +73,8 @@ namespace WarSpot.MatchComputer
 		{
 			_objects = new List<Being>();
 			_actions = new List<GameAction>();
-			_eventsHistory = new List<WarSpotEvent>();
+			_eventsHistory = new MatchReplay();
 			_turnNumber = 0;
-			_stream = stream;
-			_formatter = new BinaryFormatter();
 			_world = new World();
 
 			int c = 5; //Константа площади начального расположения, не знаю, куда её запихнуть 
@@ -90,8 +86,8 @@ namespace WarSpot.MatchComputer
 					center.Add(new Tuple<int, int>(i, j));
 			RandomShuffle(center);
 
-			_eventsHistory.Add(new SystemEventWorldCreated(_world.Width, _world.Height));
-			_eventsHistory.Add(new SystemEventTurnStarted(_turnNumber));//Записываем в историю начало хода.
+			_eventsHistory.Events.Add(new SystemEventWorldCreated(_world.Width, _world.Height));
+            _eventsHistory.Events.Add(new SystemEventTurnStarted(_turnNumber));//Записываем в историю начало хода.
 
 			int curNum = 0;
 
@@ -132,7 +128,7 @@ namespace WarSpot.MatchComputer
 					_world[pos[i].Item1, pos[i].Item2].BeingValue = newBeing;
 
 					_objects.Add(newBeing);
-					_eventsHistory.Add(new GameEventBirth(newBeing.Characteristics.Id, newBeing.Characteristics));//Рождение записываем в историю.
+                    _eventsHistory.Events.Add(new GameEventBirth(newBeing.Characteristics.Id, newBeing.Characteristics));//Рождение записываем в историю.
 				}
 
 				curNum++;
@@ -141,11 +137,13 @@ namespace WarSpot.MatchComputer
 			_turnNumber++;
 		}
 
-		public void Compute()
+		public MatchReplay Compute()
 		{
 			while (Update() != 0)
 			{
 			}
+
+            return _eventsHistory;//После окончания игры отдаём историю событий
 		}
 
 		/// <summary>
@@ -154,7 +152,7 @@ namespace WarSpot.MatchComputer
 		private int Update()
 		{
 			_actions.Clear();
-			_eventsHistory.Add(new SystemEventTurnStarted(_turnNumber));//Записываем в историю начало хода.
+            _eventsHistory.Events.Add(new SystemEventTurnStarted(_turnNumber));//Записываем в историю начало хода.
 
 			var objectsToDelete = new List<Being>();//Список объектов на удаление.
 
@@ -170,7 +168,7 @@ namespace WarSpot.MatchComputer
 				curObject.Characteristics.Ci -= 0.01f * (0.1f * curObject.Characteristics.MaxHealth +
 				0.05f * curObject.Characteristics.MaxSeeDistance * curObject.Characteristics.MaxSeeDistance +
 				0.3f * curObject.Characteristics.MaxStep);
-				_eventsHistory.Add(new GameEventCiChange(curObject.Characteristics.Id, curObject.Characteristics.Ci));
+                _eventsHistory.Events.Add(new GameEventCiChange(curObject.Characteristics.Id, curObject.Characteristics.Ci));
 			}
 
 			#region Event Dealer //Проход по всем действиям этого хода.
@@ -194,7 +192,7 @@ namespace WarSpot.MatchComputer
 					cost = 0.2f * actor.Characteristics.MaxHealth + atackAction.Damage;
                     distance = Math.Abs(atackAction.X) + Math.Abs(atackAction.Y);
 
-                    _eventsHistory.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));//В любом случае отнимаем энергию.
+                    _eventsHistory.Events.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));//В любом случае отнимаем энергию.
 
                     if (_world[actor.Characteristics.X + atackAction.X, actor.Characteristics.Y + atackAction.Y].BeingValue != null)
                     {
@@ -207,7 +205,7 @@ namespace WarSpot.MatchComputer
                             target.Characteristics.Health -= atackAction.Damage;
 
 
-                            _eventsHistory.Add(new GameEventHealthChange(target.Characteristics.Id, target.Characteristics.Health));
+                            _eventsHistory.Events.Add(new GameEventHealthChange(target.Characteristics.Id, target.Characteristics.Health));
                         }
                     }
      
@@ -235,8 +233,8 @@ namespace WarSpot.MatchComputer
 							actor.Characteristics.Ci += _world[actor.Characteristics.X, actor.Characteristics.Y].Ci;//увеличиваем энергию существа
 							_world[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0;//Убираем энергию из клетки
 						}
-						_eventsHistory.Add(new GameEventCiChange(eatAction.SenderId, actor.Characteristics.Ci));
-						_eventsHistory.Add(new GameEventWorldCiChanged(actor.Characteristics.X, actor.Characteristics.Y, 0));//Событие в клетке по координатам существа
+                        _eventsHistory.Events.Add(new GameEventCiChange(eatAction.SenderId, actor.Characteristics.Ci));
+                        _eventsHistory.Events.Add(new GameEventWorldCiChanged(actor.Characteristics.X, actor.Characteristics.Y, 0));//Событие в клетке по координатам существа
 					}
 
 					break;
@@ -257,19 +255,19 @@ namespace WarSpot.MatchComputer
 					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
 					{
 						actor.Characteristics.Ci -= cost;//В любом случае отнимаем энергию
-                        _eventsHistory.Add(new GameEventCiChange(giveCiAction.SenderId, actor.Characteristics.Ci));
+                        _eventsHistory.Events.Add(new GameEventCiChange(giveCiAction.SenderId, actor.Characteristics.Ci));
 
                         if (_world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].BeingValue != null)
                         {
                             target = _objects.Find(a => a.Characteristics.Id == _world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].BeingValue.Characteristics.Id);
                             target.Characteristics.Ci += giveCiAction.Ci;
-                            _eventsHistory.Add(new GameEventCiChange(target.Characteristics.Id, target.Characteristics.Ci));
+                            _eventsHistory.Events.Add(new GameEventCiChange(target.Characteristics.Id, target.Characteristics.Ci));
                         }
 
                         else//Если в клетке никого, энергия скидывается в клетку.
                         {
                             _world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].Ci += giveCiAction.Ci;
-                            _eventsHistory.Add(new GameEventWorldCiChanged(actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y, giveCiAction.Ci));
+                            _eventsHistory.Events.Add(new GameEventWorldCiChanged(actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y, giveCiAction.Ci));
                         }												
 					}
 
@@ -297,8 +295,8 @@ namespace WarSpot.MatchComputer
                         actor.Characteristics.Ci -= cost;
                         _world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue = actor;//Существо появляется в другой клетке.
 
-                        _eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
-						_eventsHistory.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
+                        _eventsHistory.Events.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
+                        _eventsHistory.Events.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
 					}
 
 					break;
@@ -323,8 +321,8 @@ namespace WarSpot.MatchComputer
                         target = _objects.Find(a => a.Characteristics.Id == _world[actor.Characteristics.X + treatAction.X, actor.Characteristics.Y + treatAction.Y].BeingValue.Characteristics.Id);
 						target.Characteristics.Health += cost / 3;
 
-						_eventsHistory.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
-						_eventsHistory.Add(new GameEventHealthChange(treatAction.TargetId, target.Characteristics.Health));
+                        _eventsHistory.Events.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
+                        _eventsHistory.Events.Add(new GameEventHealthChange(treatAction.TargetId, target.Characteristics.Health));
 					}
 
 					break;
@@ -367,9 +365,9 @@ namespace WarSpot.MatchComputer
 
 							_objects.Add(offspring);
                             _world[offspring.Characteristics.X, offspring.Characteristics.Y].BeingValue = offspring;//В ячейке мира появляется рождённое существо.
-							_eventsHistory.Add(new GameEventBirth(offspring.Characteristics.Id, offspring.Characteristics));
+                            _eventsHistory.Events.Add(new GameEventBirth(offspring.Characteristics.Id, offspring.Characteristics));
 							actor.Characteristics.Ci -= cost;
-							_eventsHistory.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
+                            _eventsHistory.Events.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
 						}
 					}
 
@@ -392,8 +390,8 @@ namespace WarSpot.MatchComputer
 					_world[curObject.Characteristics.X, curObject.Characteristics.Y].Ci += (curObject.Characteristics.Ci + curObject.Characteristics.MaxHealth / 5);//Из существа при смерти вываливается энергия.
                     _world[curObject.Characteristics.X, curObject.Characteristics.Y].BeingValue = null;
 
-					_eventsHistory.Add(new GameEventDeath(curObject.Characteristics.Id));
-					_eventsHistory.Add(new GameEventWorldCiChanged(curObject.Characteristics.X, curObject.Characteristics.Y, _world[curObject.Characteristics.X, curObject.Characteristics.Y].Ci));
+                    _eventsHistory.Events.Add(new GameEventDeath(curObject.Characteristics.Id));
+                    _eventsHistory.Events.Add(new GameEventWorldCiChanged(curObject.Characteristics.X, curObject.Characteristics.Y, _world[curObject.Characteristics.X, curObject.Characteristics.Y].Ci));
 
 					objectsToDelete.Add(curObject);//Вносим умерших в список на удаление
 				}
@@ -407,7 +405,7 @@ namespace WarSpot.MatchComputer
 
 				if ((team != 0) & (!(_objects.Any(a => a.Characteristics.Team == team))))
 				{//Если команда не нулевая, и нет никого с такой же командой, пишем событие проигрыша команды.
-					_eventsHistory.Add(new SystemEventCommandDead(team));
+                    _eventsHistory.Events.Add(new SystemEventCommandDead(team));
 				}
 			}
 
@@ -417,27 +415,22 @@ namespace WarSpot.MatchComputer
 			if (_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Count() == 1)
 			{
 				int winer = _objects.Find(a => a.Characteristics.Team != 0).Characteristics.Team;
-				_eventsHistory.Add(new SystemEventCommandWin(winer));//Объявляем победителя
-				_eventsHistory.Add(new SystemEventMatchEnd());//И матч заканчивается.
+                _eventsHistory.Events.Add(new SystemEventCommandWin(winer));//Объявляем победителя
+                _eventsHistory.Events.Add(new SystemEventMatchEnd());//И матч заканчивается.
 
-				PullOut();//Отдаём историю событий.
-
-				return 0;
+				return 0;//Ходы больше не нужны
 			}
 			if (!_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Any())
 			{
 				// system  command win
-				_eventsHistory.Add(new SystemEventCommandWin(0));//Объявляем победителя
-				_eventsHistory.Add(new SystemEventMatchEnd());//И матч заканчивается.
+                _eventsHistory.Events.Add(new SystemEventCommandWin(0));//Объявляем победителем 0 команду ToDo: Вставить определение победителя.
+                _eventsHistory.Events.Add(new SystemEventMatchEnd());//И матч заканчивается.
 
-				PullOut();//Отдаём историю событий.
-
-				return 0;
-
+                return 0;//Ходы больше не нужны
 			}
 
 			_turnNumber++;
-			return 1;//Если нужны ещё ходы.
+			return 1;//Нужны ещё ходы.
 
 			#endregion
 		}
@@ -461,18 +454,6 @@ namespace WarSpot.MatchComputer
 
 #endif
 
-		/// <summary>
-		///Выгрузка в поток накопившейся истории событий, очистка истории для дальнейшего накопления.
-		/// </summary>
-		public void PullOut()
-		{
-            Version _version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-
-            _formatter.Serialize(_stream, _version);//Пишем версию сборки.
-			_formatter.Serialize(_stream, _eventsHistory);//Отдаём всё, что успело накопиться в истории событий с последнего вызова этого метода.
-			_eventsHistory.Clear();//Очищаем историю.
-
-		}
 	}
 }
 
