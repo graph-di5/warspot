@@ -70,6 +70,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AIController.cs" />
     <Compile Include="Controllers\AuthorizedController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -157,6 +158,17 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Wiki\AboutRU.html" />
+    <Content Include="Wiki\AutoScaling.html" />
+    <Content Include="Wiki\CodeStyle.html" />
+    <Content Include="Wiki\Deploy.html" />
+    <Content Include="Wiki\DllVerificationProcedure.html" />
+    <Content Include="Wiki\EULA.html" />
+    <Content Include="Wiki\GameRules.html" />
+    <Content Include="Wiki\ProgramsToUse_ru.html" />
+    <Content Include="Wiki\SVNcontent_ru.html" />
+    <Content Include="Wiki\TournamentsImplementationGuide.html" />
+    <Content Include="Wiki\WarspotStageRules.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -242,7 +254,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>22987</DevelopmentServerPort>
+          <DevelopmentServerPort>56345</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
@@ -255,4 +267,8 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>cd $(ProjectDir)
+svn export --force http://warspot.googlecode.com/svn/wiki/ Wiki</PreBuildEvent>
+  </PropertyGroup>
 </Project>
