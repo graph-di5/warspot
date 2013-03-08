@@ -11,10 +11,10 @@
     <EntitySet Name="Game" EntityType="DBModel.Store.Game" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserRole" EntityType="DBModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tournament" EntityType="DBModel.Store.Tournament" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Securities" EntityType="DBModel.Store.Securities" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Files" EntityType="DBModel.Store.Files" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GameDetails" EntityType="DBModel.Store.GameDetails" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Teams" EntityType="DBModel.Store.Teams" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Securities" EntityType="DBModel.Store.Securities" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AccountPlayer" EntityType="DBModel.Store.AccountTournament1" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="IntellectTeam" EntityType="DBModel.Store.IntellectTeam" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="AccountIntellect" Association="DBModel.Store.AccountIntellect">
@@ -107,12 +107,6 @@
     <Property Name="Creator_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Tournament_Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="Securities">
-    <Key>
-      <PropertyRef Name="IllegalReferenceName" />
-    </Key>
-    <Property Name="IllegalReferenceName" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
   <EntityType Name="Files">
     <Key>
       <PropertyRef Name="File_Id" />
@@ -138,6 +132,13 @@
     <Property Name="Team_ID" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="GameGame_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="TeamGameDetails_Team_GameDetails_ID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Securities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="IllegalReferenceName" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="AccountTournament1">
     <Key>
@@ -317,7 +318,6 @@
             <End EntitySet="Account" Role="Account" />
             <End EntitySet="Tournament" Role="Tournament" />
           </AssociationSet>
-          <EntitySet Name="Securities" EntityType="DBModel.Security" />
           <EntitySet Name="Files" EntityType="DBModel.File" />
           <EntitySet Name="GameDetails" EntityType="DBModel.GameDetails" />
           <EntitySet Name="Teams" EntityType="DBModel.Team" />
@@ -337,6 +337,7 @@
             <End Role="Team" EntitySet="Teams" />
             <End Role="GameDetails" EntitySet="GameDetails" />
           </AssociationSet>
+          <EntitySet Name="Securities" EntityType="DBModel.Security" />
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -448,12 +449,6 @@
           <End Type="DBModel.Account" Multiplicity="*" Role="Account" />
           <End Type="DBModel.Tournament" Multiplicity="*" Role="Tournament" />
         </Association>
-        <EntityType Name="Security">
-          <Key>
-            <PropertyRef Name="IllegalReferenceName" />
-          </Key>
-          <Property Type="String" Name="IllegalReferenceName" Nullable="false" annotation:StoreGeneratedPattern="None" />
-        </EntityType>
         <EntityType Name="File">
           <Key>
             <PropertyRef Name="File_Id" />
@@ -516,6 +511,13 @@
           <End Type="DBModel.GameDetails" Role="GameDetails" Multiplicity="1" >
           </End>
         </Association>
+        <EntityType Name="Security">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="String" Name="IllegalReferenceName" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -572,13 +574,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Securities">
-      <EntityTypeMapping TypeName="IsTypeOf(DBModel.Security)">
-        <MappingFragment StoreEntitySet="Securities">
-          <ScalarProperty Name="IllegalReferenceName" ColumnName="IllegalReferenceName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Files">
       <EntityTypeMapping TypeName="IsTypeOf(DBModel.File)">
         <MappingFragment StoreEntitySet="Files">
@@ -604,6 +599,14 @@
         <MappingFragment StoreEntitySet="Teams">
           <ScalarProperty Name="Team_ID" ColumnName="Team_ID" />
           <ScalarProperty Name="GameGame_ID" ColumnName="GameGame_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Securities">
+      <EntityTypeMapping TypeName="IsTypeOf(DBModel.Security)">
+        <MappingFragment StoreEntitySet="Securities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IllegalReferenceName" ColumnName="IllegalReferenceName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -668,7 +671,6 @@
         <EntityTypeShape EntityType="DBModel.Tournament" Width="1.5" PointX="0.75" PointY="0.625" />
         <AssociationConnector Association="DBModel.AccountTournament" />
         <AssociationConnector Association="DBModel.AccountTournament1" />
-        <EntityTypeShape EntityType="DBModel.Security" Width="1.5" PointX="10.125" PointY="3" />
         <EntityTypeShape EntityType="DBModel.GameDetails" Width="1.5" PointX="4.5" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DBModel.Team" Width="1.5" PointX="4.5" PointY="6.875" />
         <AssociationConnector Association="DBModel.TeamGame" />
@@ -676,6 +678,7 @@
         <AssociationConnector Association="DBModel.GameGameDetails" />
         <AssociationConnector Association="DBModel.TeamGameDetails" />
         <EntityTypeShape EntityType="DBModel.File" Width="1.5" PointX="6.5" PointY="10.625" Height="1.8694466145833335" />
+        <EntityTypeShape EntityType="DBModel.Security" Width="1.5" PointX="10.875" PointY="3.25" Height="1.4033821614583326" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
