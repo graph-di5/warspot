@@ -161,22 +161,6 @@ namespace WarSpot.Cloud.Storage
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Security> Securities
-        {
-            get
-            {
-                if ((_Securities == null))
-                {
-                    _Securities = base.CreateObjectSet<Security>("Securities");
-                }
-                return _Securities;
-            }
-        }
-        private ObjectSet<Security> _Securities;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<File> Files
         {
             get
@@ -221,6 +205,22 @@ namespace WarSpot.Cloud.Storage
             }
         }
         private ObjectSet<Team> _Teams;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Security> Securities
+        {
+            get
+            {
+                if ((_Securities == null))
+                {
+                    _Securities = base.CreateObjectSet<Security>("Securities");
+                }
+                return _Securities;
+            }
+        }
+        private ObjectSet<Security> _Securities;
 
         #endregion
         #region AddTo Methods
@@ -266,14 +266,6 @@ namespace WarSpot.Cloud.Storage
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Securities EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToSecurities(Security security)
-        {
-            base.AddObject("Securities", security);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the Files EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToFiles(File file)
@@ -295,6 +287,14 @@ namespace WarSpot.Cloud.Storage
         public void AddToTeams(Team team)
         {
             base.AddObject("Teams", team);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Securities EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSecurities(Security security)
+        {
+            base.AddObject("Securities", security);
         }
 
         #endregion
@@ -1311,10 +1311,12 @@ namespace WarSpot.Cloud.Storage
         /// <summary>
         /// Create a new Security object.
         /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
         /// <param name="illegalReferenceName">Initial value of the IllegalReferenceName property.</param>
-        public static Security CreateSecurity(global::System.String illegalReferenceName)
+        public static Security CreateSecurity(global::System.Int32 id, global::System.String illegalReferenceName)
         {
             Security security = new Security();
+            security.Id = id;
             security.IllegalReferenceName = illegalReferenceName;
             return security;
         }
@@ -1327,6 +1329,33 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
         public global::System.String IllegalReferenceName
         {
             get
@@ -1335,14 +1364,11 @@ namespace WarSpot.Cloud.Storage
             }
             set
             {
-                if (_IllegalReferenceName != value)
-                {
-                    OnIllegalReferenceNameChanging(value);
-                    ReportPropertyChanging("IllegalReferenceName");
-                    _IllegalReferenceName = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("IllegalReferenceName");
-                    OnIllegalReferenceNameChanged();
-                }
+                OnIllegalReferenceNameChanging(value);
+                ReportPropertyChanging("IllegalReferenceName");
+                _IllegalReferenceName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("IllegalReferenceName");
+                OnIllegalReferenceNameChanged();
             }
         }
         private global::System.String _IllegalReferenceName;

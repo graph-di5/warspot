@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/07/2013 01:18:44
--- Generated from EDMX file: C:\Users\deem\Documents\warspot_\trunk\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 03/08/2013 15:08:56
+-- Generated from EDMX file: C:\warspot\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -29,17 +29,26 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AccountTournament]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Tournament] DROP CONSTRAINT [FK_AccountTournament];
 GO
-IF OBJECT_ID(N'[dbo].[FK_GameIntellect_Game]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[GameIntellect] DROP CONSTRAINT [FK_GameIntellect_Game];
-GO
-IF OBJECT_ID(N'[dbo].[FK_GameIntellect_Intellect]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[GameIntellect] DROP CONSTRAINT [FK_GameIntellect_Intellect];
-GO
 IF OBJECT_ID(N'[dbo].[FK_AccountTournament1_Account]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AccountPlayer] DROP CONSTRAINT [FK_AccountTournament1_Account];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AccountTournament1_Tournament]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AccountPlayer] DROP CONSTRAINT [FK_AccountTournament1_Tournament];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TeamGame]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Teams] DROP CONSTRAINT [FK_TeamGame];
+GO
+IF OBJECT_ID(N'[dbo].[FK_IntellectTeam_Intellect]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[IntellectTeam] DROP CONSTRAINT [FK_IntellectTeam_Intellect];
+GO
+IF OBJECT_ID(N'[dbo].[FK_IntellectTeam_Team]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[IntellectTeam] DROP CONSTRAINT [FK_IntellectTeam_Team];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GameGameDetails]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GameDetails] DROP CONSTRAINT [FK_GameGameDetails];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TeamGameDetails]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Teams] DROP CONSTRAINT [FK_TeamGameDetails];
 GO
 
 -- --------------------------------------------------
@@ -61,14 +70,20 @@ GO
 IF OBJECT_ID(N'[dbo].[Tournament]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Tournament];
 GO
-IF OBJECT_ID(N'[dbo].[Securities]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Securities];
+IF OBJECT_ID(N'[dbo].[Files]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Files];
 GO
-IF OBJECT_ID(N'[dbo].[GameIntellect]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[GameIntellect];
+IF OBJECT_ID(N'[dbo].[GameDetails]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GameDetails];
+GO
+IF OBJECT_ID(N'[dbo].[Teams]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Teams];
 GO
 IF OBJECT_ID(N'[dbo].[AccountPlayer]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AccountPlayer];
+GO
+IF OBJECT_ID(N'[dbo].[IntellectTeam]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[IntellectTeam];
 GO
 
 -- --------------------------------------------------
@@ -94,7 +109,7 @@ GO
 -- Creating table 'Game'
 CREATE TABLE [dbo].[Game] (
     [Game_ID] uniqueidentifier  NOT NULL,
-    [AccountAccount_ID] uniqueidentifier  NOT NULL,
+    [Creator_ID] uniqueidentifier  NOT NULL,
     [Replay] nvarchar(max)  NULL,
     [CreationTime] nvarchar(max)  NOT NULL,
     [Game_Name] nvarchar(max)  NOT NULL
@@ -120,12 +135,6 @@ CREATE TABLE [dbo].[Tournament] (
 );
 GO
 
--- Creating table 'Securities'
-CREATE TABLE [dbo].[Securities] (
-    [IllegalReferenceName] nvarchar(max)  NOT NULL
-);
-GO
-
 -- Creating table 'Files'
 CREATE TABLE [dbo].[Files] (
     [File_Id] uniqueidentifier  NOT NULL,
@@ -136,10 +145,26 @@ CREATE TABLE [dbo].[Files] (
 );
 GO
 
--- Creating table 'GameIntellect'
-CREATE TABLE [dbo].[GameIntellect] (
-    [Games_Game_ID] uniqueidentifier  NOT NULL,
-    [Intellects_Intellect_ID] uniqueidentifier  NOT NULL
+-- Creating table 'GameDetails'
+CREATE TABLE [dbo].[GameDetails] (
+    [GameDetails_ID] uniqueidentifier  NOT NULL,
+    [StepsCount] int  NOT NULL,
+    [Winner_ID] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Teams'
+CREATE TABLE [dbo].[Teams] (
+    [Team_ID] uniqueidentifier  NOT NULL,
+    [GameGame_ID] uniqueidentifier  NOT NULL,
+    [TeamGameDetails_Team_GameDetails_ID] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Securities'
+CREATE TABLE [dbo].[Securities] (
+    [Id] int  NOT NULL,
+    [IllegalReferenceName] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -147,6 +172,13 @@ GO
 CREATE TABLE [dbo].[AccountPlayer] (
     [Player_Account_ID] uniqueidentifier  NOT NULL,
     [TournamentPlayer_Tournament_ID] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'IntellectTeam'
+CREATE TABLE [dbo].[IntellectTeam] (
+    [Intellects_Intellect_ID] uniqueidentifier  NOT NULL,
+    [Teams_Team_ID] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -184,28 +216,40 @@ ADD CONSTRAINT [PK_Tournament]
     PRIMARY KEY CLUSTERED ([Tournament_ID] ASC);
 GO
 
--- Creating primary key on [IllegalReferenceName] in table 'Securities'
-ALTER TABLE [dbo].[Securities]
-ADD CONSTRAINT [PK_Securities]
-    PRIMARY KEY CLUSTERED ([IllegalReferenceName] ASC);
-GO
-
 -- Creating primary key on [File_Id] in table 'Files'
 ALTER TABLE [dbo].[Files]
 ADD CONSTRAINT [PK_Files]
     PRIMARY KEY CLUSTERED ([File_Id] ASC);
 GO
 
--- Creating primary key on [Games_Game_ID], [Intellects_Intellect_ID] in table 'GameIntellect'
-ALTER TABLE [dbo].[GameIntellect]
-ADD CONSTRAINT [PK_GameIntellect]
-    PRIMARY KEY NONCLUSTERED ([Games_Game_ID], [Intellects_Intellect_ID] ASC);
+-- Creating primary key on [GameDetails_ID] in table 'GameDetails'
+ALTER TABLE [dbo].[GameDetails]
+ADD CONSTRAINT [PK_GameDetails]
+    PRIMARY KEY CLUSTERED ([GameDetails_ID] ASC);
+GO
+
+-- Creating primary key on [Team_ID] in table 'Teams'
+ALTER TABLE [dbo].[Teams]
+ADD CONSTRAINT [PK_Teams]
+    PRIMARY KEY CLUSTERED ([Team_ID] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Securities'
+ALTER TABLE [dbo].[Securities]
+ADD CONSTRAINT [PK_Securities]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Player_Account_ID], [TournamentPlayer_Tournament_ID] in table 'AccountPlayer'
 ALTER TABLE [dbo].[AccountPlayer]
 ADD CONSTRAINT [PK_AccountPlayer]
     PRIMARY KEY NONCLUSTERED ([Player_Account_ID], [TournamentPlayer_Tournament_ID] ASC);
+GO
+
+-- Creating primary key on [Intellects_Intellect_ID], [Teams_Team_ID] in table 'IntellectTeam'
+ALTER TABLE [dbo].[IntellectTeam]
+ADD CONSTRAINT [PK_IntellectTeam]
+    PRIMARY KEY NONCLUSTERED ([Intellects_Intellect_ID], [Teams_Team_ID] ASC);
 GO
 
 -- --------------------------------------------------
@@ -226,10 +270,10 @@ ON [dbo].[Intellect]
     ([AccountAccount_ID]);
 GO
 
--- Creating foreign key on [AccountAccount_ID] in table 'Game'
+-- Creating foreign key on [Creator_ID] in table 'Game'
 ALTER TABLE [dbo].[Game]
 ADD CONSTRAINT [FK_AccountGame]
-    FOREIGN KEY ([AccountAccount_ID])
+    FOREIGN KEY ([Creator_ID])
     REFERENCES [dbo].[Account]
         ([Account_ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -237,7 +281,7 @@ ADD CONSTRAINT [FK_AccountGame]
 -- Creating non-clustered index for FOREIGN KEY 'FK_AccountGame'
 CREATE INDEX [IX_FK_AccountGame]
 ON [dbo].[Game]
-    ([AccountAccount_ID]);
+    ([Creator_ID]);
 GO
 
 -- Creating foreign key on [AccountAccount_ID] in table 'UserRole'
@@ -268,29 +312,6 @@ ON [dbo].[Tournament]
     ([Creator_ID]);
 GO
 
--- Creating foreign key on [Games_Game_ID] in table 'GameIntellect'
-ALTER TABLE [dbo].[GameIntellect]
-ADD CONSTRAINT [FK_GameIntellect_Game]
-    FOREIGN KEY ([Games_Game_ID])
-    REFERENCES [dbo].[Game]
-        ([Game_ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Intellects_Intellect_ID] in table 'GameIntellect'
-ALTER TABLE [dbo].[GameIntellect]
-ADD CONSTRAINT [FK_GameIntellect_Intellect]
-    FOREIGN KEY ([Intellects_Intellect_ID])
-    REFERENCES [dbo].[Intellect]
-        ([Intellect_ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_GameIntellect_Intellect'
-CREATE INDEX [IX_FK_GameIntellect_Intellect]
-ON [dbo].[GameIntellect]
-    ([Intellects_Intellect_ID]);
-GO
-
 -- Creating foreign key on [Player_Account_ID] in table 'AccountPlayer'
 ALTER TABLE [dbo].[AccountPlayer]
 ADD CONSTRAINT [FK_AccountTournament1_Account]
@@ -312,6 +333,66 @@ ADD CONSTRAINT [FK_AccountTournament1_Tournament]
 CREATE INDEX [IX_FK_AccountTournament1_Tournament]
 ON [dbo].[AccountPlayer]
     ([TournamentPlayer_Tournament_ID]);
+GO
+
+-- Creating foreign key on [GameGame_ID] in table 'Teams'
+ALTER TABLE [dbo].[Teams]
+ADD CONSTRAINT [FK_TeamGame]
+    FOREIGN KEY ([GameGame_ID])
+    REFERENCES [dbo].[Game]
+        ([Game_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TeamGame'
+CREATE INDEX [IX_FK_TeamGame]
+ON [dbo].[Teams]
+    ([GameGame_ID]);
+GO
+
+-- Creating foreign key on [Intellects_Intellect_ID] in table 'IntellectTeam'
+ALTER TABLE [dbo].[IntellectTeam]
+ADD CONSTRAINT [FK_IntellectTeam_Intellect]
+    FOREIGN KEY ([Intellects_Intellect_ID])
+    REFERENCES [dbo].[Intellect]
+        ([Intellect_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Teams_Team_ID] in table 'IntellectTeam'
+ALTER TABLE [dbo].[IntellectTeam]
+ADD CONSTRAINT [FK_IntellectTeam_Team]
+    FOREIGN KEY ([Teams_Team_ID])
+    REFERENCES [dbo].[Teams]
+        ([Team_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_IntellectTeam_Team'
+CREATE INDEX [IX_FK_IntellectTeam_Team]
+ON [dbo].[IntellectTeam]
+    ([Teams_Team_ID]);
+GO
+
+-- Creating foreign key on [GameDetails_ID] in table 'GameDetails'
+ALTER TABLE [dbo].[GameDetails]
+ADD CONSTRAINT [FK_GameGameDetails]
+    FOREIGN KEY ([GameDetails_ID])
+    REFERENCES [dbo].[Game]
+        ([Game_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [TeamGameDetails_Team_GameDetails_ID] in table 'Teams'
+ALTER TABLE [dbo].[Teams]
+ADD CONSTRAINT [FK_TeamGameDetails]
+    FOREIGN KEY ([TeamGameDetails_Team_GameDetails_ID])
+    REFERENCES [dbo].[GameDetails]
+        ([GameDetails_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TeamGameDetails'
+CREATE INDEX [IX_FK_TeamGameDetails]
+ON [dbo].[Teams]
+    ([TeamGameDetails_Team_GameDetails_ID]);
 GO
 
 -- --------------------------------------------------
