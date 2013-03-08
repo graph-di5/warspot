@@ -1,5 +1,4 @@
 ﻿using WarSpot.Contracts.Intellect.Actions;
-using WarSpot.Contracts.Service;
 
 namespace WarSpot.Contracts.Intellect
 {

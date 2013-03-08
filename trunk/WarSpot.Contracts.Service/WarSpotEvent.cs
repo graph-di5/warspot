@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using WarSpot.Contracts.Intellect;
 
 // todo spit to different files
 
