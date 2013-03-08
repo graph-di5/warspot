@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="ErrorCode.cs" />
     <Compile Include="IWarSpotService.cs" />
+    <Compile Include="MatchReplay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs " />
     <Compile Include="Replay.cs" />
