@@ -1,8 +1,10 @@
-﻿@{
+﻿@model string
+
+@{
     ViewBag.Title = "";
 }
 
 <h2>@ViewBag.Message</h2>
 <p>
-    todo: импортировать сюда информацию из вики.
+    @Html.Raw(Model)
 </p>
