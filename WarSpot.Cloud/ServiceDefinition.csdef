@@ -17,6 +17,7 @@
     </Imports>
     <Endpoints>
       <InputEndpoint name="ServiceEndpoint" protocol="tcp" port="10100" />
+      <InputEndpoint name="MetadataEndpoint" protocol="http" port="10101" />
     </Endpoints>
     <ConfigurationSettings>
       <Setting name="DataConnectionString" />

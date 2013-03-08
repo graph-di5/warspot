@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Net;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Threading;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
@@ -10,6 +11,7 @@ namespace WarSpot.Cloud.UserService
 {
 	public class WorkerRole : RoleEntryPoint
 	{
+	    private AutoResetEvent _disposeEvent = new AutoResetEvent(false);
 		//private Autoscaler autoscaler;
 
 		public override void Run()
@@ -26,20 +28,30 @@ namespace WarSpot.Cloud.UserService
 			var prefix = address.Protocol == "tcp" ? "net.tcp://" : "http://";
 			ServiceHost host = new ServiceHost(typeof(WarSpotMainUserService),
 																				 new Uri(prefix + address.IPEndpoint.ToString()));
-#if !false
 			var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
 			behaviour.InstanceContextMode = InstanceContextMode.PerSession;
-#endif
+
+            ServiceMetadataBehavior smb = host.Description.Behaviors.Find<ServiceMetadataBehavior>();
+            smb.HttpGetEnabled = true;
+            var metadataAddress = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["MetadataEndpoint"];
+            smb.HttpGetUrl = new Uri("http://" + metadataAddress.IPEndpoint + "/WSDL");
+
 			host.Open();
 
-			while (true)
+            while (!_disposeEvent.WaitOne(10000))
 			{
-				Thread.Sleep(10000);
 				Trace.WriteLine("Working", "Information");
 			}
-
+            
 			host.Close();
+            Trace.WriteLine("Stopped", "Information");
 		}
+
+        public override void OnStop()
+        {
+            _disposeEvent.Set();
+            base.OnStop();
+        }
 
 		public override bool OnStart()
 		{
