@@ -445,19 +445,28 @@ namespace WarSpot.Cloud.Storage
 			Guid gameID = Guid.NewGuid();
 			Game match = Game.CreateGame(gameID, userID, DateTime.Now.ToString(), title);
 
-            Team team = Team.CreateTeam(Guid.NewGuid(), gameID);
 
 			foreach (Guid id in intellects)
 			{
+				Team team = Team.CreateTeam(Guid.NewGuid(), gameID);
 				Intellect currentIntellect = (from i in db.Intellect
 									          where i.Intellect_ID == id
 											  select i).FirstOrDefault<Intellect>();
 				team.Intellects.Add(currentIntellect);
+				db.AddToTeams(team);
+				match.Teams.Add(team);
 			}
 			
 			db.AddToGame(match);
 
-			db.SaveChanges();
+			try
+			{
+				db.SaveChanges();
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
 
 			PutMessage(new Message(gameID, intellects));
 

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/08/2013 15:08:56
--- Generated from EDMX file: C:\warspot\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 03/08/2013 17:26:18
+-- Generated from EDMX file: C:\Users\deem\Documents\warspot_\trunk\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -48,7 +48,7 @@ IF OBJECT_ID(N'[dbo].[FK_GameGameDetails]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[GameDetails] DROP CONSTRAINT [FK_GameGameDetails];
 GO
 IF OBJECT_ID(N'[dbo].[FK_TeamGameDetails]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Teams] DROP CONSTRAINT [FK_TeamGameDetails];
+    ALTER TABLE [dbo].[GameDetails] DROP CONSTRAINT [FK_TeamGameDetails];
 GO
 
 -- --------------------------------------------------
@@ -69,6 +69,9 @@ IF OBJECT_ID(N'[dbo].[UserRole]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Tournament]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Tournament];
+GO
+IF OBJECT_ID(N'[dbo].[Securities]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Securities];
 GO
 IF OBJECT_ID(N'[dbo].[Files]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Files];
@@ -135,6 +138,13 @@ CREATE TABLE [dbo].[Tournament] (
 );
 GO
 
+-- Creating table 'Securities'
+CREATE TABLE [dbo].[Securities] (
+    [IllegalReferenceName] nvarchar(max)  NOT NULL,
+    [Id] uniqueidentifier  NOT NULL
+);
+GO
+
 -- Creating table 'Files'
 CREATE TABLE [dbo].[Files] (
     [File_Id] uniqueidentifier  NOT NULL,
@@ -149,22 +159,15 @@ GO
 CREATE TABLE [dbo].[GameDetails] (
     [GameDetails_ID] uniqueidentifier  NOT NULL,
     [StepsCount] int  NOT NULL,
-    [Winner_ID] uniqueidentifier  NOT NULL
+    [Winner_ID] uniqueidentifier  NOT NULL,
+    [Team_Team_ID] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Teams'
 CREATE TABLE [dbo].[Teams] (
     [Team_ID] uniqueidentifier  NOT NULL,
-    [GameGame_ID] uniqueidentifier  NOT NULL,
-    [TeamGameDetails_Team_GameDetails_ID] uniqueidentifier  NOT NULL
-);
-GO
-
--- Creating table 'Securities'
-CREATE TABLE [dbo].[Securities] (
-    [Id] int  NOT NULL,
-    [IllegalReferenceName] nvarchar(max)  NOT NULL
+    [GameGame_ID] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -216,6 +219,12 @@ ADD CONSTRAINT [PK_Tournament]
     PRIMARY KEY CLUSTERED ([Tournament_ID] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'Securities'
+ALTER TABLE [dbo].[Securities]
+ADD CONSTRAINT [PK_Securities]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [File_Id] in table 'Files'
 ALTER TABLE [dbo].[Files]
 ADD CONSTRAINT [PK_Files]
@@ -232,12 +241,6 @@ GO
 ALTER TABLE [dbo].[Teams]
 ADD CONSTRAINT [PK_Teams]
     PRIMARY KEY CLUSTERED ([Team_ID] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Securities'
-ALTER TABLE [dbo].[Securities]
-ADD CONSTRAINT [PK_Securities]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Player_Account_ID], [TournamentPlayer_Tournament_ID] in table 'AccountPlayer'
@@ -381,18 +384,18 @@ ADD CONSTRAINT [FK_GameGameDetails]
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [TeamGameDetails_Team_GameDetails_ID] in table 'Teams'
-ALTER TABLE [dbo].[Teams]
+-- Creating foreign key on [Team_Team_ID] in table 'GameDetails'
+ALTER TABLE [dbo].[GameDetails]
 ADD CONSTRAINT [FK_TeamGameDetails]
-    FOREIGN KEY ([TeamGameDetails_Team_GameDetails_ID])
-    REFERENCES [dbo].[GameDetails]
-        ([GameDetails_ID])
+    FOREIGN KEY ([Team_Team_ID])
+    REFERENCES [dbo].[Teams]
+        ([Team_ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_TeamGameDetails'
 CREATE INDEX [IX_FK_TeamGameDetails]
-ON [dbo].[Teams]
-    ([TeamGameDetails_Team_GameDetails_ID]);
+ON [dbo].[GameDetails]
+    ([Team_Team_ID]);
 GO
 
 -- --------------------------------------------------
