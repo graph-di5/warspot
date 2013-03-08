@@ -40,6 +40,17 @@ namespace WarSpot.Contracts.Service
 	};
 
 	[DataContract]
+    [KnownType(typeof(GameEventHealthChange))]
+    [KnownType(typeof(GameEventCiChange))]
+    [KnownType(typeof(GameEventMove))]
+    [KnownType(typeof(GameEventDeath))]
+    [KnownType(typeof(GameEventBirth))]
+    [KnownType(typeof(GameEventWorldCiChanged))]
+    [KnownType(typeof(SystemEventWorldCreated))]
+    [KnownType(typeof(SystemEventTurnStarted))]
+    [KnownType(typeof(SystemEventCommandDead))]
+    [KnownType(typeof(SystemEventCommandWin))]
+    [KnownType(typeof(SystemEventMatchEnd))]
 	public abstract class WarSpotEvent
 	{
 		/// <summary>
@@ -195,12 +206,7 @@ namespace WarSpot.Contracts.Service
 	#region System events
 
 	[DataContract]
-	public abstract class SystemEvent : WarSpotEvent
-	{
-	}
-
-	[DataContract]
-	public class SystemEventWorldCreated : SystemEvent
+    public class SystemEventWorldCreated : WarSpotEvent
 	{
         [DataMember]
 		public int Width { set; get; }
@@ -221,7 +227,7 @@ namespace WarSpot.Contracts.Service
 	}
 
 	[DataContract]
-	public class SystemEventTurnStarted : SystemEvent
+    public class SystemEventTurnStarted : WarSpotEvent
 	{
         [DataMember]
 		public ulong Number { set; get; }
@@ -238,7 +244,7 @@ namespace WarSpot.Contracts.Service
 	}
 
     [DataContract]
-	public class SystemEventCommandDead : SystemEvent
+    public class SystemEventCommandDead : WarSpotEvent
 	{
         public SystemEventCommandDead()
         {
@@ -255,7 +261,7 @@ namespace WarSpot.Contracts.Service
 	}
 
     [DataContract]
-	public class SystemEventCommandWin : SystemEvent
+    public class SystemEventCommandWin : WarSpotEvent
 	{
         public SystemEventCommandWin()
         {
@@ -272,7 +278,7 @@ namespace WarSpot.Contracts.Service
 	}
 
     [DataContract]
-	public class SystemEventMatchEnd : SystemEvent
+    public class SystemEventMatchEnd : WarSpotEvent
 	{
 		public SystemEventMatchEnd()
 		{
