@@ -110,18 +110,22 @@ namespace WarSpot.WebFace.Controllers
             {
                 string currentUserName;
                 bool changePasswordSecceeded;
-                try
+
+                if (changePasswordSecceeded = (model.NewPassword == model.ConfirmPassword))
                 {
-                    MembershipUser currentUser = Membership.GetUser((currentUserName = User.Identity.Name), true);
-                    if (changePasswordSecceeded = Warehouse.ChangePassword(currentUserName, model.OldPassword, model.NewPassword, model.ConfirmPassword))
+                    try
                     {
-                        currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+                        MembershipUser currentUser = Membership.GetUser((currentUserName = User.Identity.Name), true);
+                        if (changePasswordSecceeded = Warehouse.ChangePassword(currentUserName, model.OldPassword, model.NewPassword))
+                        {
+                            currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+                        }
                     }
-                }
-                catch (System.Exception)
-                {
-                    changePasswordSecceeded = false;
-                }
+                    catch (System.Exception)
+                    {
+                        changePasswordSecceeded = false;
+                    }
+                }                
 
                 if (changePasswordSecceeded)
                 {

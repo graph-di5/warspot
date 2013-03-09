@@ -68,7 +68,7 @@ namespace WarSpot.Cloud.UserService
 
 		}
 
-        public ErrorCode ChangePassword(string username, string oldpassword, string newpassword, string confirmedpassword)
+        public ErrorCode ChangePassword(string oldpassword, string newpassword)
         {
             if (!_loggedIn)
             {
@@ -76,19 +76,15 @@ namespace WarSpot.Cloud.UserService
             }
             else
             {
-                if (newpassword != confirmedpassword)
+                if (Warehouse.ChangePassword((from a in Warehouse.db.Account
+                                                  where a.Account_ID == _userID
+                                                  select a.Account_Name).FirstOrDefault<string>(), oldpassword, newpassword))
                 {
-                    return new ErrorCode(ErrorType.Ok, "New password is not equal to confirmed password.");
+                    return new ErrorCode(ErrorType.Ok, "Password has been changed.");
                 }
                 else
-                {
-                    if (Warehouse.ChangePassword(username, oldpassword, newpassword, confirmedpassword))
-                    {
-                        return new ErrorCode(ErrorType.Ok, "Password has been changed.");
-                    }
-                    else
-                        return new ErrorCode(ErrorType.UnknownException, "Current password is incorrect or database problems.");
-                }
+                    return new ErrorCode(ErrorType.UnknownException, "Current password is incorrect or database problems.");
+                
             }
         }
 		#endregion login and registration
