@@ -67,6 +67,30 @@ namespace WarSpot.Cloud.UserService
 			}
 
 		}
+
+        public ErrorCode ChangePassword(string username, string oldpassword, string newpassword, string confirmedpassword)
+        {
+            if (!_loggedIn)
+            {
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+            }
+            else
+            {
+                if (newpassword != confirmedpassword)
+                {
+                    return new ErrorCode(ErrorType.Ok, "New password is not equal to confirmed password.");
+                }
+                else
+                {
+                    if (Warehouse.ChangePassword(username, oldpassword, newpassword, confirmedpassword))
+                    {
+                        return new ErrorCode(ErrorType.Ok, "Password has been changed.");
+                    }
+                    else
+                        return new ErrorCode(ErrorType.UnknownException, "Current password is incorrect or database problems.");
+                }
+            }
+        }
 		#endregion login and registration
 
 		#region intellect's stuff

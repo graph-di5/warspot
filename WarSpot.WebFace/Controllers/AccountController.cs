@@ -104,9 +104,36 @@ namespace WarSpot.WebFace.Controllers
 		//
 		// GET: /Account/ChangePassword
 
-		public ActionResult ChangePassword()
+		public ActionResult ChangePassword(ChangePasswordModel model)
 		{
-			return View();
+            if (ModelState.IsValid)
+            {
+                string currentUserName;
+                bool changePasswordSecceeded;
+                try
+                {
+                    MembershipUser currentUser = Membership.GetUser((currentUserName = User.Identity.Name), true);
+                    if (changePasswordSecceeded = Warehouse.ChangePassword(currentUserName, model.OldPassword, model.NewPassword, model.ConfirmPassword))
+                    {
+                        currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+                    }
+                }
+                catch (System.Exception)
+                {
+                    changePasswordSecceeded = false;
+                }
+
+                if (changePasswordSecceeded)
+                {
+                    return RedirectToAction("ChangePasswordSuccess");
+                }
+                else
+                {
+					ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+				}
+            }
+            
+			return View(model);
 		}
 
 		//

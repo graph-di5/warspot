@@ -14,6 +14,9 @@ namespace WarSpot.Contracts.Service
 
 		[OperationContract(IsInitiating = true)]
 		ErrorCode Login(string inputUsername, string inputPass);
+
+        [OperationContract(IsInitiating = true)]
+        ErrorCode ChangePassword(string username, string oldpassword, string newpassword, string confirmedpassword);
 		#endregion
 
 		#region Intelletcs
