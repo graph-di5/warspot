@@ -364,7 +364,7 @@ namespace WarSpot.Cloud.Storage
 							select b).Any();
 		}
 
-        public static bool ChangePassword(string username, string oldpassword, string newpassword, string confirmedpassword)
+        public static bool ChangePassword(string username, string oldpassword, string newpassword)
         {            
             try
             {
