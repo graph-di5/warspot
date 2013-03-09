@@ -158,22 +158,10 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Wiki\AboutRU.html" />
-    <Content Include="Wiki\AutoScaling.html" />
-    <Content Include="Wiki\CodeStyle.html" />
-    <Content Include="Wiki\Deploy.html" />
-    <Content Include="Wiki\DllVerificationProcedure.html" />
-    <Content Include="Wiki\EULA.html" />
-    <Content Include="Wiki\GameRules.html" />
-    <Content Include="Wiki\ProgramsToUse_ru.html" />
-    <Content Include="Wiki\SVNcontent_ru.html" />
-    <Content Include="Wiki\TournamentsImplementationGuide.html" />
-    <Content Include="Wiki\WarspotStageRules.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
-    <Folder Include="wiki\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
