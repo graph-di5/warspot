@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace WarSpot.Cloud.Common
 {
@@ -19,17 +21,13 @@ namespace WarSpot.Cloud.Common
             this.ListOfDlls = new List<Guid>();
         }
 
-        public override string ToString()
+        public override byte[] ToByteArray()
         {
-            string result = this.ID.ToString() + ' ';
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream stream = new MemoryStream();
 
-            foreach (Guid intellect in this.ListOfDlls)
-            {
-                result = result + intellect.ToString() + ' ';
-            }
-
-            return result;
+            bf.Serialize(stream, this);
+            return stream.ToArray();
         }
-
 	}
 }
