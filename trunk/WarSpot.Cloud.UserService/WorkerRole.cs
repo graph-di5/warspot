@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Threading;
 using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace WarSpot.Cloud.UserService
@@ -16,34 +17,42 @@ namespace WarSpot.Cloud.UserService
 
 		public override void Run()
 		{
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			// This is a sample worker implementation. Replace with your logic.
 			Trace.WriteLine("WarSpot.Cloud.UserService entry point called", "Information");
-
+		    ServiceHost host = null;
+		    try
+		    {
+                var address = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["ServiceEndpoint"];
+                var prefix = address.Protocol == "tcp" ? "net.tcp://" : "http://";
+		        host = new ServiceHost(typeof (WarSpotMainUserService),
+                    new Uri(prefix+address.IPEndpoint.ToString()));
+                var address2 = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["MetadataEndpoint"];
+                prefix = address2.Protocol == "tcp" ? "net.tcp://" : "http://";
+                var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
+                behaviour.InstanceContextMode = InstanceContextMode.PerSession;
+		        host.Description.Endpoints[1].Address = new EndpointAddress(new Uri(prefix + address2.IPEndpoint));
+                host.Open();
+		    }
+		    catch (Exception ex)
+		    {
+                Trace.TraceError("Exception occured: {0}",ex.Message);
+                if(ex.InnerException!=null)
+                    Trace.TraceError("Exception details: {0}", ex.InnerException.Message);
+		    }
 
 			//this.autoscaler = EnterpriseLibraryContainer.Current.GetInstance<Autoscaler>();
 			//this.autoscaler.Start();
 
 
-			var address = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["ServiceEndpoint"];
-			var prefix = address.Protocol == "tcp" ? "net.tcp://" : "http://";
-			ServiceHost host = new ServiceHost(typeof(WarSpotMainUserService),
-																				 new Uri(prefix + address.IPEndpoint.ToString()));
-			var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
-			behaviour.InstanceContextMode = InstanceContextMode.PerSession;
-
-            ServiceMetadataBehavior smb = host.Description.Behaviors.Find<ServiceMetadataBehavior>();
-            smb.HttpGetEnabled = true;
-            var metadataAddress = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["MetadataEndpoint"];
-            smb.HttpGetUrl = new Uri("http://" + metadataAddress.IPEndpoint + "/WSDL");
-
-			host.Open();
+			
 
             while (!_disposeEvent.WaitOne(10000))
 			{
 				Trace.WriteLine("Working", "Information");
 			}
-            
-			host.Close();
+            if(host!=null)
+			    host.Close();
             Trace.WriteLine("Stopped", "Information");
 		}
 
@@ -55,8 +64,22 @@ namespace WarSpot.Cloud.UserService
 
 		public override bool OnStart()
 		{
+            
 			// Set the maximum number of concurrent connections 
 			ServicePointManager.DefaultConnectionLimit = 12;
+
+            TimeSpan tsMin = TimeSpan.FromMinutes(1);
+
+            DiagnosticMonitorConfiguration dmc = DiagnosticMonitor.GetDefaultInitialConfiguration();
+
+            // Transfer logs to storage every minute
+
+            dmc.Logs.ScheduledTransferPeriod = tsMin;
+
+            // Transfer verbose, critical, etc. logs
+
+            dmc.Logs.ScheduledTransferLogLevelFilter = LogLevel.Undefined;
+            DiagnosticMonitor.Start("Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString", dmc);
 
 			// For information on handling configuration changes
 			// see the MSDN topic at http://go.microsoft.com/fwlink/?LinkId=166357.
@@ -66,5 +89,11 @@ namespace WarSpot.Cloud.UserService
 
 			return base.OnStart();
 		}
+
+	    private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+	    {
+            Trace.TraceError("Unhandled Exception: {0}", e.ExceptionObject);
+            Trace.Flush();
+	    }
 	}
 }
