@@ -21,7 +21,7 @@ namespace WarSpot.Cloud.Common
             this.ListOfDlls = new List<Guid>();
         }
 
-        public override byte[] ToByteArray()
+        public byte[] ToByteArray()
         {
             BinaryFormatter bf = new BinaryFormatter();
             MemoryStream stream = new MemoryStream();
