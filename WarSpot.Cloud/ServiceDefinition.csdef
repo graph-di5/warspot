@@ -16,8 +16,8 @@
       <Import moduleName="Diagnostics" />
     </Imports>
     <Endpoints>
-      <InputEndpoint name="ServiceEndpoint" protocol="tcp" port="10100" />
-      <InputEndpoint name="MetadataEndpoint" protocol="http" port="10101" />
+      <InputEndpoint name="ServiceEndpoint" protocol="tcp" port="8000" />
+      <InputEndpoint name="MetadataEndpoint" protocol="tcp" port="808" />
     </Endpoints>
     <ConfigurationSettings>
       <Setting name="DataConnectionString" />
