@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure.StorageClient;
 using WarSpot.Cloud.Storage.Models;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Common;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace WarSpot.Cloud.Storage
 {
@@ -306,7 +307,7 @@ namespace WarSpot.Cloud.Storage
 
 		private static void PutMessage(Message message)
 		{
-			queue.AddMessage(new CloudQueueMessage(message.ToString()));
+			queue.AddMessage(new CloudQueueMessage(message.ToByteArray()));
 		}
 
 		public static Message GetMessage()
@@ -316,32 +317,18 @@ namespace WarSpot.Cloud.Storage
 			{
 				return null;
 			}
-			Message msg = ParseMessage(queuemessage);
+
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream stream = new MemoryStream (queuemessage.AsBytes);
+            Message msg = (Message)bf.Deserialize(stream);
+
+            // изменить парсинг сообщения
+			//Message msg = ParseMessage(queuemessage);
+            
 			// TODO: Пересмотреть удаление сообщений
 			queue.DeleteMessage(queuemessage);
 			return msg;
 		}
-
-		private static Message ParseMessage(CloudQueueMessage message)
-		{
-			Message msg = new Message();
-			string queuemessage = message.AsString;
-			bool firstID = true;
-			foreach(var id in queuemessage.Split(new[] {' '}))
-			{
-				if(string.IsNullOrWhiteSpace(id))
-					continue;
-				if(firstID)
-				{
-					msg.ID = Guid.Parse(id);
-					firstID = false;
-					continue;
-				}
-				msg.ListOfDlls.Add(Guid.Parse(id));
-			}
-			return msg;
-		}
-
 
 		#endregion
 
