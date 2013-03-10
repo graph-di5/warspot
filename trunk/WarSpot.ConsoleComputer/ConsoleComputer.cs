@@ -38,17 +38,18 @@ namespace WarSpot.ConsoleComputer
 
 			var outFileName = String.Format("replay_{0}.out", DateTime.Now.ToString("yyyy.MM.dd_HH.mm.ss"));
 			var fs = new FileStream(outFileName, FileMode.CreateNew);
-			var computer = new Computer(listIntellect, fs);
+			var computer = new Computer(listIntellect);
 			var sw = new Stopwatch();
 			Console.WriteLine("Game started: {0}", listIntellect.Count);
 			sw.Start();
-			computer.Compute();
+			var res = computer.Compute();
+			SerializationHelper.Serialize(res, fs);
 			sw.Stop();
 			fs.Close();
 			Console.WriteLine("Done: {0}.", sw.Elapsed);
 			Console.ReadLine();
 #if true
-            var list = SerializationHelper.Deserialize(outFileName);
+			var list = SerializationHelper.Deserialize(outFileName);
 #endif
 		}
 
