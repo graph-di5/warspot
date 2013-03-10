@@ -148,23 +148,27 @@ namespace WarSpot.Cloud.Storage
 			return blob.DownloadByteArray();
 		}
 
+		public static MemoryStream GetReplayAsMemoryStream(Guid gameID)
+		{
+			var neededname = (from g in db.Game
+												where g.Game_ID == gameID
+												select g.Replay).FirstOrDefault<string>();
+			if (neededname != null)
+			{
+				CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
+				var memStream = new MemoryStream();
+				blob.DownloadToStream(memStream);
+				return memStream;
+			}
+			return null;
+		}
+
 		public static Replay GetReplay(Guid gameID)
 		{
 			try
 			{
-				string neededname = (from g in db.Game
-														 where g.Game_ID == gameID
-														 select g.Replay).FirstOrDefault<string>();
-				if (neededname != null)
-				{
-					CloudBlockBlob blob = container.GetBlockBlobReference(neededname);
-				    var memStream = new MemoryStream();
-				    blob.DownloadToStream(memStream);
-					return new Replay(gameID, SerializationHelper.Deserialize(memStream));
-				}
-				else // Replay has not been uploaded yet.
-					return null;
-
+				var memStream = GetReplayAsMemoryStream(gameID);
+				return memStream == null ? null : new Replay(gameID, SerializationHelper.Deserialize(memStream));
 			}
 			catch (Exception e)
 			{

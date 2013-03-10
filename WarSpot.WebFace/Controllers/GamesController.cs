@@ -52,7 +52,7 @@ namespace WarSpot.WebFace.Controllers
 		public FileResult Download(Guid id)
 		{
 			var game = Warehouse.db.Game.First(g => g.Game_ID == id);
-			return new FileContentResult(SerializationHelper.Serialize(Warehouse.GetReplay(id).Data), "application/octet-stream")
+			return new FileContentResult(Warehouse.GetReplayAsMemoryStream(id).ToArray(), "application/octet-stream")
 			{
 				// todo get write name here
 				FileDownloadName = "replay_" + game.Game_Name + ".out"

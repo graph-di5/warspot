@@ -5,6 +5,7 @@ using System.Threading;
 using System.Reflection;
 using WarSpot.Contracts.Intellect;
 using System.IO;
+using WarSpot.Contracts.Service;
 using WarSpot.MatchComputer;
 using WarSpot.Cloud.Common;
 using WarSpot.Cloud.Storage;
@@ -31,7 +32,7 @@ namespace WarSpot.Cloud.MatchComputer
 
 		public static List<IBeingInterface> AddBeing(byte[] dll)
 		{
-			List<IBeingInterface> _objects = new List<IBeingInterface>();
+			List<IBeingInterface> objects = new List<IBeingInterface>();
 			Assembly assembly = Assembly.Load(dll);
 			string iMyInterfaceName = typeof(IBeingInterface).ToString();
 			TypeDelegator[] defaultConstructorParametersTypes = new TypeDelegator[0];
@@ -47,38 +48,21 @@ namespace WarSpot.Cloud.MatchComputer
 					object instance = defaultConstructor.Invoke(defaultConstructorParameters);
 					iAI = (IBeingInterface)instance;//Достаём таки нужный интерфейс
 					//
-					_objects.Add(iAI);
+					objects.Add(iAI);
 				}
 			}
-			return _objects;
+			return objects;
 		}
 
 		private static void MemoryStreamer(List<TeamIntellectList> listIntellect, Message msg)
 		{
-			var stream = new MemoryStream();
-			// todo: вынести stream из конструктора в параметр метода
-			Computer computer = new Computer(listIntellect, stream);
-			computer.Compute();
-
-			Warehouse.UploadReplay(stream.ToArray(), msg.ID);
-
-			stream.Dispose();
+			var computer = new Computer(listIntellect);
+			var res = computer.Compute();
+			// todo warehouse store result
+			Warehouse.UploadReplay(SerializationHelper.Serialize(res), msg.ID);
 		}
 
-		public static byte[] ReadFully(Stream input)
-		{
-			using (MemoryStream ms = new MemoryStream())
-			{
-				input.CopyTo(ms);
-				return ms.ToArray();
-			}
-		}
-
-
-
-
-
-		private List<TeamIntellectList> getIntellects(Message msg)
+		private static List<TeamIntellectList> GetIntellects(Message msg)
 		{
 			// todo а вот тут надо переделать; но уже лучше (DI)
 			var listIntellect = new List<TeamIntellectList>();
@@ -162,7 +146,7 @@ namespace WarSpot.Cloud.MatchComputer
 				}
 				if (msg != null)
 				{
-					MemoryStreamer(getIntellects(msg), msg);
+					MemoryStreamer(GetIntellects(msg), msg);
 					continue;
 				}
 

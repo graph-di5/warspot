@@ -24,8 +24,11 @@ namespace WarSpot.MatchComputer
 			set
 			{
 				_beingValue = value;
-				BeingValue.Characteristics.X = X;
-				BeingValue.Characteristics.Y = Y;
+				if(_beingValue != null)
+				{
+					_beingValue.Characteristics.X = X;
+					_beingValue.Characteristics.Y = Y;
+				}
 			}
 		}
 
