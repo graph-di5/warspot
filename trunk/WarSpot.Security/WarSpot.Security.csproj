@@ -44,6 +44,8 @@
     <Compile Include="DllVerificationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyIntellect.cs" />
+    <Compile Include="WarSpotSecurityPermission.cs" />
+    <Compile Include="WarSpotSecurityPermissionAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WarSpot.Cloud.Storage\WarSpot.Cloud.Storage.csproj">
