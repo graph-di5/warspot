@@ -68,7 +68,8 @@ namespace WarSpot.WebFace.Controllers
 			var m = new NewGameModel();
 			foreach (var i in Warehouse.db.Intellect)
 			{
-				m.Intellects.Add(new KeyValuePair<Guid, string>(i.Intellect_ID, i.Intellect_Name));
+				m.Intellects.Add(new KeyValuePair<Guid, string>(i.Intellect_ID,
+					String.Format("{0}: {1}", i.Account.Account_Name, i.Intellect_Name)));
 			}
 			return View(m);
 		}

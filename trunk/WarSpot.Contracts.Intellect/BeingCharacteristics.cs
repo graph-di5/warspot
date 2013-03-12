@@ -18,7 +18,7 @@ namespace WarSpot.Contracts.Intellect
 		/// In some game modes different intelects can be in one team, so this property can be used for determining the teammates.
 		/// </summary>
 		[DataMember]
-		public int Team { set; get; }
+		public Guid Team { set; get; }
 
 		/// <summary>
 		/// Maximum available health for the object.

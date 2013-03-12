@@ -7,6 +7,7 @@ using System.Net;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using WarSpot.Cloud.Storage.Models;
+using WarSpot.Common;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Common;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -92,7 +93,7 @@ namespace WarSpot.Cloud.Storage
 							 + "Check your storage account configuration settings. If running locally, "
 							 + "ensure that the Development Storage service is running.");
 				}
-				catch(TypeInitializationException)
+				catch (TypeInitializationException)
 				{
 					throw new WebException("Storage services initialization failure. "
 							 + "Check your storage account configuration settings. If running locally, "
@@ -176,20 +177,26 @@ namespace WarSpot.Cloud.Storage
 			}
 		}
 
-		public static ErrorCode UploadReplay(byte[] replay, Guid gameID)
+		public static ErrorCode UploadReplay(MatchReplay replay, Guid gameID)
 		{
+
 			try
 			{
 				Guid replayID = Guid.NewGuid();
 				string uniqueBlobName = string.Format("{0}", replayID.ToString());
 				CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);
-				blob.UploadByteArray(replay);
+				blob.UploadByteArray(SerializationHelper.Serialize(replay));
 
 				Game game = (from g in db.Game
 										 where g.Game_ID == gameID
 										 select g).FirstOrDefault<Game>();
 
 				game.Replay = uniqueBlobName;
+				//if(replay.WinnerTeam == Guid.Empty)
+				//{
+				//  db.AddToTeams(Team.CreateTeam(replay.WinnerTeam, gameID));
+				//}
+				db.AddToGameDetails(GameDetails.CreateGameDetails(gameID, (int) replay.Steps, replay.WinnerTeam));
 				db.SaveChanges();
 
 				return new ErrorCode(ErrorType.Ok, "Replay has been uploaded.");
@@ -201,33 +208,33 @@ namespace WarSpot.Cloud.Storage
 
 		}
 
-		public static List<ReplayDescription> GetListOfReplays(Guid Account_ID)
+		public static List<ReplayDescription> GetListOfReplays(Guid accountID)
 		{
 			try
 			{
 				List<ReplayDescription> userreplays = new List<ReplayDescription>();
 
 				List<Game> usergames = (from g in db.Game
-																where g.Creator_ID == Account_ID
+																where g.Creator_ID == accountID
 																select g).ToList<Game>();
 
 				foreach (Game g in usergames)
 				{
-                    List<TeamDescription> teamsingame = new List<TeamDescription>();
+					List<TeamDescription> teamsingame = new List<TeamDescription>();
 
-                    foreach (Team t in (from t in db.Teams
-                                        where t.GameGame_ID == g.Game_ID
-                                        select t))
-                    {
-                        TeamDescription tdesc = new TeamDescription();
-                        tdesc.ID = t.Team_ID;
-                        tdesc.Intellects = new List<Guid>();
+					foreach (Team t in (from t in db.Teams
+															where t.GameGame_ID == g.Game_ID
+															select t))
+					{
+						TeamDescription tdesc = new TeamDescription();
+						tdesc.ID = t.Team_ID;
+						tdesc.Intellects = new List<Guid>();
 
-                        foreach (Intellect i in t.Intellects)
-                        {
-                            tdesc.Intellects.Add(i.Intellect_ID);
-                        }
-                    }
+						foreach (Intellect i in t.Intellects)
+						{
+							tdesc.Intellects.Add(i.Intellect_ID);
+						}
+					}
 
 					ReplayDescription replay = new ReplayDescription();
 
@@ -263,7 +270,7 @@ namespace WarSpot.Cloud.Storage
 		public static BlobFile DownloadFile(Guid id)
 		{
 			var fileInfo = db.Files.FirstOrDefault(f => f.File_Id == id);
-			if(fileInfo == null)
+			if (fileInfo == null)
 			{
 				// means that no file
 				return null;
@@ -273,14 +280,14 @@ namespace WarSpot.Cloud.Storage
 			// catch here errors
 			var data = blob.DownloadByteArray();
 			var res = new BlobFile
-			          	{
-			          		ID = fileInfo.File_Id,
+									{
+										ID = fileInfo.File_Id,
 										Name = fileInfo.Name,
 										CreationTime = fileInfo.CreationTime,
 										Description = fileInfo.Description,
 										LongDescription = fileInfo.LongComment,
 										Data = data
-			          	};
+									};
 			return res;
 		}
 
@@ -289,20 +296,20 @@ namespace WarSpot.Cloud.Storage
 		/// </summary>
 		/// <param name="full">Means is in needed show files with duplicated names</param>
 		/// <returns>return ONLY file info without(!) content</returns>
-		public static List<BlobFile> GetFileList(bool full = false)
+		public static List<BlobFile> GetListOfFiles(bool full = false)
 		{
 			if (!db.Files.Any())
 			{
 				return new List<BlobFile>();
 			}
 			return db.Files.OrderBy("it.CreationTime").ToArray().Select(fileInfo => new BlobFile
-			                                                          	{
-			                                                          		ID = fileInfo.File_Id,
+																																	{
+																																		ID = fileInfo.File_Id,
 																																		Name = fileInfo.Name,
 																																		CreationTime = fileInfo.CreationTime,
 																																		Description = fileInfo.Description,
 																																		LongDescription = fileInfo.LongComment,
-			                                                          	}).ToList();
+																																	}).ToList();
 		}
 
 		#endregion
@@ -322,13 +329,13 @@ namespace WarSpot.Cloud.Storage
 				return null;
 			}
 
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream stream = new MemoryStream (queuemessage.AsBytes);
-            Message msg = (Message)bf.Deserialize(stream);
+			BinaryFormatter bf = new BinaryFormatter();
+			MemoryStream stream = new MemoryStream(queuemessage.AsBytes);
+			Message msg = (Message)bf.Deserialize(stream);
 
-            // изменить парсинг сообщения
+			// изменить парсинг сообщения
 			//Message msg = ParseMessage(queuemessage);
-            
+
 			// TODO: Пересмотреть удаление сообщений
 			queue.DeleteMessage(queuemessage);
 			return msg;
@@ -368,31 +375,31 @@ namespace WarSpot.Cloud.Storage
 							select b).Any();
 		}
 
-        public static bool ChangePassword(string username, string oldpassword, string newpassword)
-        {            
-            try
-            {
-                Account user = (from a in db.Account
-                                where a.Account_Name == username
-                                select a).FirstOrDefault<Account>();
-                if (user.Account_Password != oldpassword)
-                {
-                    return false;
-                }
-                else
-                {
-                    db.Account.DeleteObject(user);
-                    user.Account_Password = newpassword;
-                    db.Account.AddObject(user);
-                    db.SaveChanges();
-                    return true;
-                }
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
+		public static bool ChangePassword(string username, string oldpassword, string newpassword)
+		{
+			try
+			{
+				Account user = (from a in db.Account
+												where a.Account_Name == username
+												select a).FirstOrDefault<Account>();
+				if (user.Account_Password != oldpassword)
+				{
+					return false;
+				}
+				else
+				{
+					db.Account.DeleteObject(user);
+					user.Account_Password = newpassword;
+					db.Account.AddObject(user);
+					db.SaveChanges();
+					return true;
+				}
+			}
+			catch (Exception e)
+			{
+				return false;
+			}
+		}
 
 		#endregion
 
@@ -464,20 +471,34 @@ namespace WarSpot.Cloud.Storage
 		public static Guid? BeginMatch(List<Guid> intellects, Guid userID, string title)
 		{
 			Guid gameID = Guid.NewGuid();
+			// todo make date here
 			Game match = Game.CreateGame(gameID, userID, DateTime.Now.ToString(), title);
 
-
-			foreach (Guid id in intellects)
+			var teamInfo = new List<TeamInfo>
+			               	{
+												// system command
+												//new TeamInfo()
+												//  {
+												//    TeamId = Guid.Empty
+												//  }
+			               	};
+			//db.AddToTeams(Team.CreateTeam(Guid.Empty, gameID));
+			foreach (Guid id in intellects) 
 			{
 				Team team = Team.CreateTeam(Guid.NewGuid(), gameID);
-				Intellect currentIntellect = (from i in db.Intellect
-									          where i.Intellect_ID == id
-											  select i).FirstOrDefault<Intellect>();
+				var currentIntellect = (from i in db.Intellect
+																			where i.Intellect_ID == id
+																			select i).FirstOrDefault<Intellect>();
 				team.Intellects.Add(currentIntellect);
 				db.AddToTeams(team);
 				match.Teams.Add(team);
+				teamInfo.Add(new TeamInfo()
+				             	{
+				             		TeamId = team.Team_ID,
+												Members = new List<Guid>(){id}
+				             	});
 			}
-			
+
 			db.AddToGame(match);
 
 			try
@@ -489,26 +510,20 @@ namespace WarSpot.Cloud.Storage
 				return null;
 			}
 
-			PutMessage(new Message(gameID, intellects));
+			PutMessage(new Message(gameID, teamInfo));
 
 			return gameID;
 
 		}
 
-		public static List<Guid> GetListOfGames(Guid _userID)
+		public static List<Guid> GetListOfGames(Guid userID)
 		{
-			List<Game> test = (from b in db.Game
-												 where b.Creator_ID == _userID
-												 select b).ToList<Game>();
+			List<Game> games = (from b in db.Game
+													where b.Creator_ID == userID
+													orderby b.CreationTime descending
+													select b).ToList<Game>();
 
-			List<Guid> res = new List<Guid>();
-
-			foreach (Game game in test)
-			{
-				res.Add(game.Game_ID);
-			}
-
-			return res;
+			return games.Select(game => game.Game_ID).ToList();
 		}
 
 		#endregion
@@ -799,15 +814,15 @@ namespace WarSpot.Cloud.Storage
 
 		#endregion
 
-        #region security
-        public static List<string> GetListOfIllegalReferences()
-        {
-            return (from s in db.Securities
-                    select s.IllegalReferenceName).ToList<string>();
-        }
-        #endregion
+		#region security
+		public static List<string> GetListOfIllegalReferences()
+		{
+			return (from s in db.Securities
+							select s.IllegalReferenceName).ToList<string>();
+		}
+		#endregion
 
-        #endregion
+		#endregion
 
-    }
+	}
 }

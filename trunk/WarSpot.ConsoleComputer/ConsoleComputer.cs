@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.IO;
+using WarSpot.Common;
 using WarSpot.Common.Utils;
 using WarSpot.Contracts.Intellect;
 using WarSpot.Contracts.Service;
@@ -22,11 +23,10 @@ namespace WarSpot.ConsoleComputer
 				return;
 			}
 
-			int team = 0;
 			foreach (var s in args)
 			{
 				var t = new TeamIntellectList();
-				t.Number = ++team;
+				t.TeamId = Guid.NewGuid();
 				var i = ParseIntellect(s);
 				if(i == null)
 				{

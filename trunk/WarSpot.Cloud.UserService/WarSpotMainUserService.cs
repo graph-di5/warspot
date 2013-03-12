@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
-using WarSpot.Cloud.Common;
 using WarSpot.Security;
 
 namespace WarSpot.Cloud.UserService
@@ -25,7 +24,7 @@ namespace WarSpot.Cloud.UserService
 			{
 				return null;
 			}
-            
+
 			return Warehouse.BeginMatch(intellects, _userID, title);
 
 		}
@@ -68,25 +67,25 @@ namespace WarSpot.Cloud.UserService
 
 		}
 
-        public ErrorCode ChangePassword(string oldpassword, string newpassword)
-        {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
-            }
-            else
-            {
-                if (Warehouse.ChangePassword((from a in Warehouse.db.Account
-                                                  where a.Account_ID == _userID
-                                                  select a.Account_Name).FirstOrDefault<string>(), oldpassword, newpassword))
-                {
-                    return new ErrorCode(ErrorType.Ok, "Password has been changed.");
-                }
-                else
-                    return new ErrorCode(ErrorType.UnknownException, "Current password is incorrect or database problems.");
-                
-            }
-        }
+		public ErrorCode ChangePassword(string oldpassword, string newpassword)
+		{
+			if (!_loggedIn)
+			{
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+			}
+			else
+			{
+				if (Warehouse.ChangePassword((from a in Warehouse.db.Account
+																			where a.Account_ID == _userID
+																			select a.Account_Name).FirstOrDefault<string>(), oldpassword, newpassword))
+				{
+					return new ErrorCode(ErrorType.Ok, "Password has been changed.");
+				}
+				else
+					return new ErrorCode(ErrorType.UnknownException, "Current password is incorrect or database problems.");
+
+			}
+		}
 		#endregion login and registration
 
 		#region intellect's stuff
@@ -94,32 +93,32 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (_loggedIn)
 			{
-                // TO DO: Verificate intellect.
-                DllVerificationHandler.Execute(intellect);
+				// TO DO: Verificate intellect.
+				DllVerificationHandler.Execute(intellect);
 				if (Warehouse.UploadIntellect(_userID, name, intellect))
 					return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
 				else
 					return new ErrorCode(ErrorType.BadFileName, "Inttellect with the same name is already existed");
 			}
 			else
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 		}
 
-        public byte[] DownloadIntellect(Guid intellectID)
-        {
-            if (!_loggedIn)
-            {
-                return null;
-            }
-            else
-                return Warehouse.DownloadIntellect(intellectID);
-        }
-
-		public List<KeyValuePair<Guid,string>> GetListOfIntellects()
+		public byte[] DownloadIntellect(Guid intellectID)
 		{
 			if (!_loggedIn)
 			{
-                return null;
+				return null;
+			}
+			else
+				return Warehouse.DownloadIntellect(intellectID);
+		}
+
+		public List<KeyValuePair<Guid, string>> GetListOfIntellects()
+		{
+			if (!_loggedIn)
+			{
+				return null;
 			}
 
 			return Warehouse.GetListOfIntellects(_userID);
@@ -129,7 +128,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (!_loggedIn)
 			{
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			if (Warehouse.DeleteIntellect(name, _userID))
@@ -155,6 +154,8 @@ namespace WarSpot.Cloud.UserService
 
 		}
 
+		// WTF
+#if false
         public ErrorCode UploadReplay(Guid gameID, byte[] replay)
         {
             if (!_loggedIn)
@@ -164,16 +165,17 @@ namespace WarSpot.Cloud.UserService
             
             return Warehouse.UploadReplay(replay, gameID);
         }
+#endif
 
-        public List<ReplayDescription> GetListOfReplays()
-        {
-            if (!_loggedIn)
-            {
-                return null;
-            }
+		public List<ReplayDescription> GetListOfReplays()
+		{
+			if (!_loggedIn)
+			{
+				return null;
+			}
 
-            return Warehouse.GetListOfReplays(_userID);
-        }
+			return Warehouse.GetListOfReplays(_userID);
+		}
 		#endregion replay's stuff
 
 		#region tournament stuff
@@ -203,7 +205,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (!_loggedIn)
 			{
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			return Warehouse.DeleteTournament(tournamentID, this._userID);
@@ -227,7 +229,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (!_loggedIn)
 			{
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			return Warehouse.JoinTournament(tournamentID, this._userID);
@@ -238,7 +240,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (!_loggedIn)
 			{
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			return Warehouse.LeaveTournament(tournamentID, this._userID);
@@ -265,14 +267,14 @@ namespace WarSpot.Cloud.UserService
 				return false;
 			}
 
-			return Warehouse.IsUser((RoleType)Enum.Parse(typeof(RoleType),role), user);
+			return Warehouse.IsUser((RoleType)Enum.Parse(typeof(RoleType), role), user);
 		}
 
 		public ErrorCode SetUserRole(Guid userID, string role, string until)
 		{
 			if (!_loggedIn)
 			{
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
 			return Warehouse.SetUserRole((RoleType)Enum.Parse(typeof(RoleType), role), userID, until);

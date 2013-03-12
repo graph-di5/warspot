@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using WarSpot.Common;
 
 namespace WarSpot.Cloud.Common
 {
@@ -9,17 +10,20 @@ namespace WarSpot.Cloud.Common
 	public class Message
 	{
 		public Guid ID;
-		public List<Guid> ListOfDlls;
+		public List<TeamInfo> TeamList;
+		//public List<Guid> ListOfDlls;
 
-		public Message(Guid id, List<Guid> listOfDlls)
+		public Message(Guid id, List<TeamInfo> teamList)
 		{
 			ID = id;
-			ListOfDlls = listOfDlls;
+			TeamList = teamList;
+			//ListOfDlls = listOfDlls;
 		}
 
 		public Message()
 		{
-			ListOfDlls = new List<Guid>();
+			TeamList = new List<TeamInfo>();
+			//ListOfDlls = new List<Guid>();
 		}
 
 		public byte[] ToByteArray()

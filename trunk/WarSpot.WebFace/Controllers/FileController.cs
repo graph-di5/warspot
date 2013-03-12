@@ -15,7 +15,7 @@ namespace WarSpot.WebFace.Controllers
 		public ActionResult Index()
 		{
 			// check user role here, if admin show all files with duplicates
-			return View(Warehouse.GetFileList());
+			return View(Warehouse.GetListOfFiles());
 		}
 
 		//

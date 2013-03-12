@@ -22,7 +22,7 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 		public Guid Id { get; private set; }
 		public int X { get; set; }
 		public int Y { get; set; }
-		public int Team { get; private set; }
+		public Guid Team { get; private set; }
 		public float MaxHealth { get; private set; }
 		public float CurrentHealth { get; set; }
 		public float CurrentCi { get; set; }
@@ -30,7 +30,7 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 		public GameObjectType Type { get; private set; }
 		public bool isAlive;
 
-		public Creature(Guid id, int x, int y, int team, float maxHealth, float currHP, float currCi)
+		public Creature(Guid id, int x, int y, Guid team, float maxHealth, float currHP, float currCi)
 		{
 			Id = id;
 			X = x;
