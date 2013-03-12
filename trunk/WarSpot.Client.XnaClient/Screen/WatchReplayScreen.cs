@@ -227,6 +227,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Define a world's size
 		private void CreateWorld()
 		{
+			Creature.ResetTeams();
 			if (_listOfEvents.Count != 0)
 			{
 				WarSpotEvent wsEvent = _listOfEvents.First();
