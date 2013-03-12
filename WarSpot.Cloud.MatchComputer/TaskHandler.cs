@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Reflection;
+using WarSpot.Common;
 using WarSpot.Contracts.Intellect;
-using System.IO;
-using WarSpot.Contracts.Service;
 using WarSpot.MatchComputer;
 using WarSpot.Cloud.Common;
 using WarSpot.Cloud.Storage;
@@ -54,31 +52,29 @@ namespace WarSpot.Cloud.MatchComputer
 			return objects;
 		}
 
-		private static void MemoryStreamer(List<TeamIntellectList> listIntellect, Message msg)
+		private static void ComputeMatch(List<TeamIntellectList> listIntellect, Message msg)
 		{
 			var computer = new Computer(listIntellect);
 			var res = computer.Compute();
-			// todo warehouse store result
-			Warehouse.UploadReplay(SerializationHelper.Serialize(res), msg.ID);
+			Warehouse.UploadReplay(res, msg.ID);
 		}
 
 		private static List<TeamIntellectList> GetIntellects(Message msg)
 		{
-			// todo а вот тут надо переделать; но уже лучше (DI)
 			var listIntellect = new List<TeamIntellectList>();
 
-			var teamNumber = 0;
-			// получаем список интеллектов как список массивов байтов
-			foreach (var dll in msg.ListOfDlls.Select(id => Warehouse.DownloadIntellect(id)).ToList())
+			foreach(var team in msg.TeamList)
 			{
 				var teamIntellectList = new TeamIntellectList
 																	{
-																		Number = ++teamNumber,
+																		TeamId = team.TeamId,
 																		Members = new List<Type>()
-																		          	{
-																		          		ParseIntellect(dll)
-																		          	}
 																	};
+				foreach (var intellectId in team.Members)
+				{
+					var dll = Warehouse.DownloadIntellect(intellectId);
+					teamIntellectList.Members.Add(ParseIntellect(dll));
+				}
 				listIntellect.Add(teamIntellectList);
 			}
 			return listIntellect;
@@ -113,14 +109,6 @@ namespace WarSpot.Cloud.MatchComputer
 				if (t.GetInterface(iMyInterfaceName) != null)
 				{
 					return t;
-#if false
-					var defaultCtor = t.GetConstructor(new Type[0]);
-					if (defaultCtor != null)
-					{
-						var inst = defaultCtor.Invoke(new Type[0]);
-						return inst as IBeingInterface;
-					}
-#endif
 				}
 			}
 			return null;
@@ -146,7 +134,7 @@ namespace WarSpot.Cloud.MatchComputer
 				}
 				if (msg != null)
 				{
-					MemoryStreamer(GetIntellects(msg), msg);
+					ComputeMatch(GetIntellects(msg), msg);
 					continue;
 				}
 

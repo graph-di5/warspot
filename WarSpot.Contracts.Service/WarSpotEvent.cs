@@ -8,50 +8,50 @@ using WarSpot.Contracts.Intellect;
 
 namespace WarSpot.Contracts.Service
 {
-    [DataContract]
+	[DataContract]
 	public enum EventTypes
 	{
 		#region Game events
-        [EnumMember]
+		[EnumMember]
 		GameEventHealthChange,
-        [EnumMember]
+		[EnumMember]
 		GameEventCiChange,
-        [EnumMember]
+		[EnumMember]
 		GameEventMove,
-        [EnumMember]
+		[EnumMember]
 		GameEventDeath,
-        [EnumMember]
+		[EnumMember]
 		GameEventBirth,
-        [EnumMember]
+		[EnumMember]
 		GameEventWorldCiChanged,
 		#endregion
 
 		#region System events
-        [EnumMember]
+		[EnumMember]
 		SystemEventWorldCreated,
-        [EnumMember]
+		[EnumMember]
 		SystemEventTurnStarted,
-        [EnumMember]
+		[EnumMember]
 		SystemEventCommandDead,
-        [EnumMember]
+		[EnumMember]
 		SystemEventCommandWin,
-        [EnumMember]
+		[EnumMember]
 		SystemEventMatchEnd
 		#endregion
 	};
 
 	[DataContract]
-    [KnownType(typeof(GameEventHealthChange))]
-    [KnownType(typeof(GameEventCiChange))]
-    [KnownType(typeof(GameEventMove))]
-    [KnownType(typeof(GameEventDeath))]
-    [KnownType(typeof(GameEventBirth))]
-    [KnownType(typeof(GameEventWorldCiChanged))]
-    [KnownType(typeof(SystemEventWorldCreated))]
-    [KnownType(typeof(SystemEventTurnStarted))]
-    [KnownType(typeof(SystemEventCommandDead))]
-    [KnownType(typeof(SystemEventCommandWin))]
-    [KnownType(typeof(SystemEventMatchEnd))]
+	[KnownType(typeof(GameEventHealthChange))]
+	[KnownType(typeof(GameEventCiChange))]
+	[KnownType(typeof(GameEventMove))]
+	[KnownType(typeof(GameEventDeath))]
+	[KnownType(typeof(GameEventBirth))]
+	[KnownType(typeof(GameEventWorldCiChanged))]
+	[KnownType(typeof(SystemEventWorldCreated))]
+	[KnownType(typeof(SystemEventTurnStarted))]
+	[KnownType(typeof(SystemEventCommandDead))]
+	[KnownType(typeof(SystemEventCommandWin))]
+	[KnownType(typeof(SystemEventMatchEnd))]
 	public abstract class WarSpotEvent
 	{
 		/// <summary>
@@ -70,12 +70,12 @@ namespace WarSpot.Contracts.Service
 			SubjectId = creator;
 		}
 
-        protected GameEvent()
-        {
-        }
+		protected GameEvent()
+		{
+		}
 
-	    [DataMember]
-        public Guid SubjectId { get; set; }
+		[DataMember]
+		public Guid SubjectId { get; set; }
 	}
 
 	[DataContract]
@@ -89,32 +89,32 @@ namespace WarSpot.Contracts.Service
 			Health = newHealth;
 		}
 
-        public GameEventHealthChange()
-        {
-        }
+		public GameEventHealthChange()
+		{
+		}
 
-	    /// <summary>
+		/// <summary>
 		/// new health
 		/// </summary>
 		[DataMember]
 		public float Health { get; set; }
 	}
 
-    [DataContract]
-    public class GameEventCiChange : GameEvent
-    {
-        public GameEventCiChange(Guid subjectId, float newCi) :
-            base(subjectId)
-        {
-            EventType = EventTypes.GameEventCiChange;
-            Ci = newCi;
-        }
+	[DataContract]
+	public class GameEventCiChange : GameEvent
+	{
+		public GameEventCiChange(Guid subjectId, float newCi) :
+			base(subjectId)
+		{
+			EventType = EventTypes.GameEventCiChange;
+			Ci = newCi;
+		}
 
-        public GameEventCiChange()
-        {
-        }
+		public GameEventCiChange()
+		{
+		}
 
-        /// <summary>
+		/// <summary>
 		/// new Ci
 		/// </summary>
 		[DataMember]
@@ -132,42 +132,42 @@ namespace WarSpot.Contracts.Service
 			ShiftY = shiftY;
 		}
 
-        public GameEventMove()
-        {
-        }
+		public GameEventMove()
+		{
+		}
 
-	    [DataMember]
+		[DataMember]
 		public int ShiftX { get; private set; }
 
-        [DataMember]
+		[DataMember]
 		public int ShiftY { get; private set; }
 	}
 
-    [DataContract]
+	[DataContract]
 	public class GameEventDeath : GameEvent
 	{
-        public GameEventDeath()
-        {
-        }
+		public GameEventDeath()
+		{
+		}
 
-        public GameEventDeath(Guid creator)
+		public GameEventDeath(Guid creator)
 			: base(creator)
 		{
 			EventType = EventTypes.GameEventDeath;
 		}
 	}
 
-    [DataContract]
+	[DataContract]
 	public class GameEventBirth : GameEvent
 	{
-        [DataMember]
+		[DataMember]
 		public BeingCharacteristics Newborn { set; get; }
 
-        public GameEventBirth()
-        {
-        }
+		public GameEventBirth()
+		{
+		}
 
-        public GameEventBirth(Guid creator, BeingCharacteristics newborn)
+		public GameEventBirth(Guid creator, BeingCharacteristics newborn)
 			: base(creator)
 		{
 			EventType = EventTypes.GameEventBirth;
@@ -186,20 +186,20 @@ namespace WarSpot.Contracts.Service
 			Ci = ci;
 		}
 
-        public GameEventWorldCiChanged()
-        {
-        }
+		public GameEventWorldCiChanged()
+		{
+		}
 
-	    [DataMember]
+		[DataMember]
 		public int X { get; set; }
 
-        [DataMember]
+		[DataMember]
 		public int Y { get; set; }
 
 		/// <summary>
 		/// new Ci
 		/// </summary>
-        [DataMember]
+		[DataMember]
 		public float Ci { get; set; }
 	}
 	#endregion
@@ -207,19 +207,19 @@ namespace WarSpot.Contracts.Service
 	#region System events
 
 	[DataContract]
-    public class SystemEventWorldCreated : WarSpotEvent
+	public class SystemEventWorldCreated : WarSpotEvent
 	{
-        [DataMember]
+		[DataMember]
 		public int Width { set; get; }
 
-        [DataMember]
+		[DataMember]
 		public int Height { set; get; }
 
-        public SystemEventWorldCreated()
-        {
-        }
+		public SystemEventWorldCreated()
+		{
+		}
 
-	    public SystemEventWorldCreated(int width, int height)
+		public SystemEventWorldCreated(int width, int height)
 		{
 			EventType = EventTypes.SystemEventWorldCreated;
 			Width = width;
@@ -228,58 +228,58 @@ namespace WarSpot.Contracts.Service
 	}
 
 	[DataContract]
-    public class SystemEventTurnStarted : WarSpotEvent
+	public class SystemEventTurnStarted : WarSpotEvent
 	{
-        [DataMember]
+		[DataMember]
 		public ulong Number { set; get; }
 
-        public SystemEventTurnStarted()
-        {
-        }
+		public SystemEventTurnStarted()
+		{
+		}
 
-	    public SystemEventTurnStarted(ulong number)
+		public SystemEventTurnStarted(ulong number)
 		{
 			EventType = EventTypes.SystemEventTurnStarted;
 			Number = number;
 		}
 	}
 
-    [DataContract]
-    public class SystemEventCommandDead : WarSpotEvent
+	[DataContract]
+	public class SystemEventCommandDead : WarSpotEvent
 	{
-        public SystemEventCommandDead()
-        {
-        }
+		public SystemEventCommandDead()
+		{
+		}
 
-		public SystemEventCommandDead(int teamId)
+		public SystemEventCommandDead(Guid teamId)
 		{
 			EventType = EventTypes.SystemEventCommandDead;
 			TeamId = teamId;
 		}
 
-        [DataMember]
-		public int TeamId { get; set; }
+		[DataMember]
+		public Guid TeamId { get; set; }
 	}
 
-    [DataContract]
-    public class SystemEventCommandWin : WarSpotEvent
+	[DataContract]
+	public class SystemEventCommandWin : WarSpotEvent
 	{
-        public SystemEventCommandWin()
-        {
-        }
+		public SystemEventCommandWin()
+		{
+		}
 
-        public SystemEventCommandWin(int teamId)
+		public SystemEventCommandWin(Guid teamId)
 		{
 			EventType = EventTypes.SystemEventCommandWin;
 			TeamId = teamId;
 		}
 
-        [DataMember]
-		public int TeamId { get; set; }
+		[DataMember]
+		public Guid TeamId { get; set; }
 	}
 
-    [DataContract]
-    public class SystemEventMatchEnd : WarSpotEvent
+	[DataContract]
+	public class SystemEventMatchEnd : WarSpotEvent
 	{
 		public SystemEventMatchEnd()
 		{

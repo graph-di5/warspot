@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace WarSpot.Contracts.Service
@@ -37,8 +36,11 @@ namespace WarSpot.Contracts.Service
 		[OperationContract]
 		Replay DownloadReplay(Guid game);
 
+		// WTF!
+#if false
 		[OperationContract]
 		ErrorCode UploadReplay(Guid game, byte[] replay);
+#endif
 
 		[OperationContract]
 		List<ReplayDescription> GetListOfReplays();

@@ -57,10 +57,6 @@
       <End Role="Game" EntitySet="Game" />
       <End Role="GameDetails" EntitySet="GameDetails" />
     </AssociationSet>
-    <AssociationSet Name="TeamGameDetails" Association="DBModel.Store.TeamGameDetails">
-      <End Role="Team" EntitySet="Teams" />
-      <End Role="GameDetails" EntitySet="GameDetails" />
-    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Account">
     <Key>
@@ -131,7 +127,6 @@
     <Property Name="GameDetails_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="StepsCount" Type="int" Nullable="false" />
     <Property Name="Winner_ID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Team_Team_ID" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Teams">
     <Key>
@@ -228,18 +223,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="TeamGameDetails">
-    <End Role="Team" Type="DBModel.Store.Teams" Multiplicity="1" />
-    <End Role="GameDetails" Type="DBModel.Store.GameDetails" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Team">
-        <PropertyRef Name="Team_ID" />
-      </Principal>
-      <Dependent Role="GameDetails">
-        <PropertyRef Name="Team_Team_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_AccountTournament1_Account">
     <End Role="Account" Type="DBModel.Store.Account" Multiplicity="1" />
     <End Role="AccountTournament1" Type="DBModel.Store.AccountTournament1" Multiplicity="*" />
@@ -332,10 +315,6 @@
           </AssociationSet>
           <AssociationSet Name="GameGameDetails" Association="DBModel.GameGameDetails">
             <End Role="Game" EntitySet="Game" />
-            <End Role="GameDetails" EntitySet="GameDetails" />
-          </AssociationSet>
-          <AssociationSet Name="TeamGameDetails" Association="DBModel.TeamGameDetails">
-            <End Role="Team" EntitySet="Teams" />
             <End Role="GameDetails" EntitySet="GameDetails" />
           </AssociationSet>
         </EntityContainer>
@@ -474,7 +453,6 @@
           <Property Type="Int32" Name="StepsCount" Nullable="false" />
           <NavigationProperty Name="Game" Relationship="DBModel.GameGameDetails" FromRole="GameDetails" ToRole="Game" />
           <Property Type="Guid" Name="Winner_ID" Nullable="false" />
-          <NavigationProperty Name="Team" Relationship="DBModel.TeamGameDetails" FromRole="GameDetails" ToRole="Team" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
@@ -512,11 +490,6 @@
               <PropertyRef Name="GameDetails_ID" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="TeamGameDetails">
-          <End Type="DBModel.Team" Role="Team" Multiplicity="1" />
-          <End Type="DBModel.GameDetails" Role="GameDetails" Multiplicity="0..1" >
-          </End>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -626,14 +599,6 @@
         <ScalarProperty Name="Team_ID" ColumnName="Teams_Team_ID" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="TeamGameDetails" TypeName="DBModel.TeamGameDetails" StoreEntitySet="GameDetails">
-      <EndProperty Name="Team">
-        <ScalarProperty Name="Team_ID" ColumnName="Team_Team_ID" />
-      </EndProperty>
-      <EndProperty Name="GameDetails">
-        <ScalarProperty Name="GameDetails_ID" ColumnName="GameDetails_ID" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -698,10 +663,6 @@
         <AssociationConnector Association="DBModel.GameGameDetails" >
           <ConnectorPoint PointX="7" PointY="5.4347233072916659" />
           <ConnectorPoint PointX="6" PointY="5.4347233072916659" />
-        </AssociationConnector>
-        <AssociationConnector Association="DBModel.TeamGameDetails" >
-          <ConnectorPoint PointX="5.25" PointY="7.25" />
-          <ConnectorPoint PointX="5.25" PointY="6.3694466145833326" />
         </AssociationConnector>
         <EntityTypeShape EntityType="DBModel.File" Width="1.5" PointX="6.5" PointY="11" Height="1.8694466145833335" />
       </Diagram>

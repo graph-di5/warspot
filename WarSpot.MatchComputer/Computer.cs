@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WarSpot.Common;
 using WarSpot.Contracts.Intellect;
 using WarSpot.Contracts.Intellect.Actions;
 using WarSpot.Contracts.Service;
@@ -117,9 +118,9 @@ namespace WarSpot.MatchComputer
 					{
 						continue;
 					}
-					var newBeing = new Being(team.Members[i], team.Number);
+					var newBeing = new Being(team.Members[i], team.TeamId);
 					newBeing.Construct(0, 60);
-					newBeing.Characteristics.Team = team.Number;
+					newBeing.Characteristics.Team = team.TeamId;
 					newBeing.Characteristics.X = pos[i].Item1;
 					newBeing.Characteristics.Y = pos[i].Item2;
 					_world[pos[i].Item1, pos[i].Item2].BeingValue = newBeing;
@@ -396,11 +397,11 @@ namespace WarSpot.MatchComputer
 
 			foreach (var t in objectsToDelete)
 			{
-				int team = t.Characteristics.Team;
+				Guid team = t.Characteristics.Team;
 
 				_objects.Remove(t);//удаляем умершего из главного списка
 
-				if ((team != 0) & (!(_objects.Any(a => a.Characteristics.Team == team))))
+				if ((team != Guid.Empty) && (!(_objects.Any(a => a.Characteristics.Team == team))))
 				{//Если команда не нулевая, и нет никого с такой же командой, пишем событие проигрыша команды.
 					_eventsHistory.Events.Add(new SystemEventCommandDead(team));
 				}
@@ -409,20 +410,22 @@ namespace WarSpot.MatchComputer
 			objectsToDelete.Clear();
 			#endregion
 			#region Check For Winning //Если остались представители лишь одной команды--эта команда победила.
-			if (_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Count() == 1)
+			if (_objects.FindAll(a => a.Characteristics.Team != Guid.Empty).GroupBy(a => a.Characteristics.Team).Count() == 1)
 			{
-				int winer = _objects.Find(a => a.Characteristics.Team != 0).Characteristics.Team;
+				Guid winer = _objects.Find(a => a.Characteristics.Team != Guid.Empty).Characteristics.Team;
 				_eventsHistory.Events.Add(new SystemEventCommandWin(winer));//Объявляем победителя
 				_eventsHistory.Events.Add(new SystemEventMatchEnd());//И матч заканчивается.
-
+				_eventsHistory.WinnerTeam = winer;
+				_eventsHistory.Steps = _turnNumber;
 				return 0;//Ходы больше не нужны
 			}
-			if (!_objects.FindAll(a => a.Characteristics.Team != 0).GroupBy(a => a.Characteristics.Team).Any())
+			if (!_objects.FindAll(a => a.Characteristics.Team != Guid.Empty).GroupBy(a => a.Characteristics.Team).Any())
 			{
 				// system  command win
-				_eventsHistory.Events.Add(new SystemEventCommandWin(0));//Объявляем победителем 0 команду ToDo: Вставить определение победителя.
+				_eventsHistory.Events.Add(new SystemEventCommandWin(Guid.Empty));//Объявляем победителем 0 команду ToDo: Вставить определение победителя.
 				_eventsHistory.Events.Add(new SystemEventMatchEnd());//И матч заканчивается.
-
+				_eventsHistory.WinnerTeam = Guid.Empty;
+				_eventsHistory.Steps = _turnNumber;
 				return 0;//Ходы больше не нужны
 			}
 

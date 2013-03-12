@@ -6,9 +6,10 @@ namespace WarSpot.Common
 	/// <summary>
 	/// Class for command with loaded intellects
 	/// </summary>
-	public class TeamIntellectList
+	[Serializable]
+	public class TeamInfo
 	{
 		public Guid TeamId { set; get ;}
-		public List<Type> Members = new List<Type>();
+		public List<Guid> Members = new List<Guid>();
 	}
 }
