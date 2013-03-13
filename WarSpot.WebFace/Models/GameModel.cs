@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using WarSpot.Cloud.Storage;
+using WarSpot.Common;
 
 namespace WarSpot.WebFace.Models
 {
@@ -22,8 +24,14 @@ namespace WarSpot.WebFace.Models
 		[Display(Name = "Время старта игры")]
 		public string CreationTime { get; set; }
 
-		[Display(Name = "Список интеллектов")]
-		public List<string> Intellects;
+		[Display(Name = "Список комманд")]
+		public List<TeamTextInfo> Teams;
+
+		[Display(Name = "Команда победитель")]
+		public Guid Winner { get; set; }
+
+		[Display(Name = "Число ходов")]
+		public int Steps {get; set; }
 
 		public GameModel(Game game)
 		{
@@ -32,15 +40,31 @@ namespace WarSpot.WebFace.Models
 			Replay = game.Replay;
 			CreationTime = game.CreationTime;
 			Name = game.Game_Name;
-			Intellects = new List<string>();
+			Teams = new List<TeamTextInfo>();
+			if (game.GameDetail == null)
+			{
+				game.GameDetail = Warehouse.db.GameDetails.FirstOrDefault(gd => gd.Game.Game_ID == game.Game_ID);
+			}
+			if (game.GameDetail != null)
+			{
+				Winner = game.GameDetail.Winner_ID;
+				Steps = game.GameDetail.StepsCount;
+			}
 			foreach (var team in game.Teams)
 			{
-                foreach (var intellect in team.Intellects)
-                {
-                    Intellects.Add(intellect.Intellect_Name);
-                }
+				Teams.Add(new TeamTextInfo()
+				          	{
+				          		TeamId = team.Team_ID,
+											IsWinner = team.Team_ID == Winner,
+											Members = team.Intellects.ToList().Select(intellect
+												=>
+												string.Format("{0}: {1}",
+												intellect.Account.Account_Name,
+												intellect.Intellect_Name)).ToList()
+					          	});
 			}
 		}
+
 	}
 
 	public class NewGameModel
