@@ -1,29 +1,78 @@
 ﻿@using WarSpot.WebFace.Security
 @model WarSpot.WebFace.Models.GameModel
-<div class="editor-label">
-  <b>@Html.LabelFor(m => m.Name)</b></div>
-<div class="editor-field">@Html.DisplayFor(m => m.Name)</div>
-@if ((User.Identity as CustomIdentity).IsInRole("Developer"))
-{
+@{
+
+  if ((User.Identity as CustomIdentity).IsInRole("Developer"))
+  {
   <div class="editor-label">
     <b>@Html.LabelFor(m => m.Id)</b></div>
   <div class="editor-field">@Html.DisplayFor(m => m.Id)</div>
   <div class="editor-label">
     <b>@Html.LabelFor(m => m.Replay)</b></div>
   <div class="editor-field">@Html.DisplayFor(m => m.Replay)</div>
+  }
+
+	var teamCnt = 0;
 }
 <div class="editor-label">
-  <b>@Html.LabelFor(m => m.Intellects)</b></div>
+  <b>@Html.LabelFor(m => m.Name)</b></div>
+<div class="editor-field">@Html.DisplayFor(m => m.Name)</div>
+<div class="editor-label"><b>@Html.LabelFor(m => m.Steps)</b></div>
+<div class="editor-field">@Html.DisplayFor(m => m.Steps)</div>
+<div class="editor-label">
+  <b>Список команд участников
+    <!-- @Html.LabelFor(m => m.Teams) -->
+  </b>
+</div>
 <ul>
-  @foreach (var i in Model.Intellects)
+  @if (Model.Winner == Guid.Empty && Model.Replay != null)
+  {
+    <h4>
+      Победила дружба</h4>
+  }
+  @foreach (var team in Model.Teams)
   {
     <li>
-      @i </li>
+      <div>
+        @if (team.IsWinner)
+        {
+          <b>Команда победитель</b> 
+        }
+				<table>
+          @if (team.Members.Count > 0)
+          {
+            <tr>
+              <td>
+                <b>Состав @(++teamCnt)-й команды:</b>
+              </td>
+            </tr>
+          }
+          @foreach (var i in team.Members)
+          {
+            <tr>
+              <td>
+                @i
+              </td>
+            </tr>
+          }
+        </table>
+      </div>
+      <br />
+    </li>
   }
 </ul>
 <p>
 </p>
-<div class="editor-label">@Html.ActionLink("Скачать", "Download", new { id = Model.Id })</div>
+	<div class="editor-label">
+@if(Model.Replay != null)
+{
+  	@Html.ActionLink("Скачать", "Download", new { id = Model.Id })
+}
+else
+{
+  <i>Игра в очереди...</i>
+}
+	</div>
 @if ((User.Identity as CustomIdentity).IsInRole("Developer"))
 {
   <div class="editor-label">@Html.ActionLink("Просмотреть", "Play", new { id = Model.Id })</div>

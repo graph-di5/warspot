@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Objects;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using WarSpot.Cloud.Storage;
-using WarSpot.Contracts.Service;
-using WarSpot.MatchComputer;
 using WarSpot.WebFace.Models;
 using WarSpot.WebFace.Security;
 
