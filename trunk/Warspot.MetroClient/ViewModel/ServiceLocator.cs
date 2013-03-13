@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WarSpot.MetroClient.ServiceClient;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace WarSpot.MetroClient.ViewModel
 {
@@ -11,21 +14,33 @@ namespace WarSpot.MetroClient.ViewModel
     {
         static UnityContainer _container = new UnityContainer();
 
+        static ReplayViewModel _replay = new ReplayViewModel();
+
+        static WarSpotServiceClient _client = new WarSpotServiceClient();
+
         static ServiceLocator()
         {
-            _container.RegisterType(typeof(ReplayViewModel),typeof(ReplayViewModel),"ReplayVM",new ContainerControlledLifetimeManager(),
-                new InjectionMember[0]);
+
+            //_container.RegisterInstance(typeof(Frame), "MainFrame", Window.Current.Content);
         }
 
         public ServiceLocator()
         {
         }
 
+        public ServiceClient.WarSpotServiceClient ServiceClient
+        {
+            get
+            {
+                return _client;
+            }
+        }
+
         public ReplayViewModel ReplayViewModel
         {
             get
             {
-                return _container.Resolve<ReplayViewModel>("ReplayVM");
+                return _replay;
             }
         }
     }

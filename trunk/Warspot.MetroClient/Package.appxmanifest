@@ -15,9 +15,9 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Warspot.MetroClient.App">
-      <VisualElements DisplayName="Warspot.MetroClient" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Warspot.MetroClient" ForegroundText="light" BackgroundColor="#FFFF00">
-        <DefaultTile ShowName="allLogos" />
-        <SplashScreen Image="Assets\WarSpotLogo.png" />
+      <VisualElements DisplayName="WarSpot" Logo="Assets\LogoSmall.png" SmallLogo="Assets\LogoTiny.png" Description="Client application for WarSpot" ForegroundText="light" BackgroundColor="#E84C22">
+        <DefaultTile ShowName="allLogos" WideLogo="Assets\LogoMed.png" />
+        <SplashScreen Image="Assets\LogoBig.png" BackgroundColor="#E84C22" />
         <InitialRotationPreference>
           <Rotation Preference="landscape" />
         </InitialRotationPreference>
