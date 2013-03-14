@@ -22,9 +22,20 @@
           <Rotation Preference="landscape" />
         </InitialRotationPreference>
       </VisualElements>
+      <Extensions>
+        <Extension Category="windows.fileTypeAssociation">
+          <FileTypeAssociation Name="replay">
+            <DisplayName>Replays</DisplayName>
+            <SupportedFileTypes>
+              <FileType ContentType="text/xml">.out</FileType>
+            </SupportedFileTypes>
+          </FileTypeAssociation>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
+    <Capability Name="documentsLibrary" />
     <Capability Name="internetClient" />
   </Capabilities>
 </Package>

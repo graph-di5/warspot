@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="974e0eec-d0c9-45ce-af19-9fb7a30279a2" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost/" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="e1b5359d-fe59-4ffa-8209-efe4e06e259f" SourceId="1" SourceUrl="net.tcp://localhost/" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="f528021b-6f26-4502-82e5-dc6682c33473" SourceId="1" SourceUrl="net.tcp://localhost/" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="53df65f1-97e6-49dd-b857-6f14dcd71f8a" SourceId="1" SourceUrl="net.tcp://localhost/" />
+    <MetadataFile FileName="WarSpot.Contracts.Service.xsd" MetadataType="Schema" ID="7b183f36-46cf-4912-9063-ee6cda60d932" SourceId="1" SourceUrl="net.tcp://localhost/" />
+    <MetadataFile FileName="System.Collections.Generic.xsd" MetadataType="Schema" ID="43919733-4a15-44e1-91ef-9c16204966e1" SourceId="1" SourceUrl="net.tcp://localhost/" />
+    <MetadataFile FileName="System.xsd" MetadataType="Schema" ID="0717e0f6-c755-4e68-b065-765afa08241b" SourceId="1" SourceUrl="net.tcp://localhost/" />
+    <MetadataFile FileName="WarSpot.Contracts.Intellect.xsd" MetadataType="Schema" ID="07db7d7d-6a41-419a-8fdf-61b0a3262378" SourceId="1" SourceUrl="net.tcp://localhost/" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="f8f40f6d-b822-40b7-96e9-3c9be8aeac0b" SourceId="1" SourceUrl="net.tcp://localhost/" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
