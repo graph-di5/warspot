@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="Warspot.MetroClient.Pages.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Warspot.MetroClient"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="#FFE84C22"  DataContext="{Binding Source={StaticResource ServiceLocator}}">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+            <TextBlock FontSize="30" HorizontalAlignment="Center" Text="Login"/>
+            <TextBox Width="300"  Name="Login" Margin="5"/>
+            <TextBlock FontSize="30" HorizontalAlignment="Center" Text="Password"/>
+            <PasswordBox Width="300" Margin="5" Name="Password" />
+            <StackPanel Orientation="Horizontal">
+                <Button Name="LoginButton" Content="Login" Click="Login_Click_1"/>
+                <Button Name="RegisterButton" Content="Register" Click="RegisterButton_Click_1"/>
+            </StackPanel>
+            <TextBlock FontSize="20" HorizontalAlignment="Center" Name="Error"/>
+            <ProgressRing Width="40" Height="40" Foreground="White" Background="Transparent" Name="Waiter" HorizontalAlignment="Center" IsActive="false"/>
+        </StackPanel>
+    </Grid>
+</Page>

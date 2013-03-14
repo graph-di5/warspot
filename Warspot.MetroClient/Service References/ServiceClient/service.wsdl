@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="WarSpotMainUserService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IWarSpotService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/WarSpot.Contracts.Service" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Collections.Generic" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/WarSpot.Contracts.Intellect" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IWarSpotService_Register_InputMessage">
+    <wsdl:part name="parameters" element="tns:Register" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_Register_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_ChangePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePassword" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_ChangePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_UploadIntellect_InputMessage">
+    <wsdl:part name="parameters" element="tns:UploadIntellect" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_UploadIntellect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UploadIntellectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_DownloadIntellect_InputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadIntellect" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_DownloadIntellect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadIntellectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetListOfIntellects_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetListOfIntellects" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetListOfIntellects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetListOfIntellectsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_DeleteIntellect_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteIntellect" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_DeleteIntellect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteIntellectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_DownloadReplay_InputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadReplay" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_DownloadReplay_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadReplayResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetListOfReplays_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetListOfReplays" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetListOfReplays_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetListOfReplaysResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_BeginMatch_InputMessage">
+    <wsdl:part name="parameters" element="tns:BeginMatch" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_BeginMatch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BeginMatchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetListOfGames_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetListOfGames" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetListOfGames_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetListOfGamesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_IsUserAdmin_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsUserAdmin" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_IsUserAdmin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsUserAdminResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_IsUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsUser" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_IsUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_SetUserRole_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetUserRole" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_SetUserRole_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetUserRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetUserRoles_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserRoles" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetUserRoles_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserRolesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_CreateTournament_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTournament" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_CreateTournament_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTournamentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetMyTournamets_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMyTournamets" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetMyTournamets_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMyTournametsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_DeleteTournament_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTournament" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_DeleteTournament_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTournamentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetAvailableTournaments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAvailableTournaments" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_GetAvailableTournaments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAvailableTournamentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_JoinTournament_InputMessage">
+    <wsdl:part name="parameters" element="tns:JoinTournament" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_JoinTournament_OutputMessage">
+    <wsdl:part name="parameters" element="tns:JoinTournamentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_LeaveTournament_InputMessage">
+    <wsdl:part name="parameters" element="tns:LeaveTournament" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_LeaveTournament_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LeaveTournamentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_KeepAlive_InputMessage">
+    <wsdl:part name="parameters" element="tns:KeepAlive" />
+  </wsdl:message>
+  <wsdl:message name="IWarSpotService_KeepAlive_OutputMessage">
+    <wsdl:part name="parameters" element="tns:KeepAliveResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IWarSpotService">
+    <wsdl:operation name="Register">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/Register" message="tns:IWarSpotService_Register_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/RegisterResponse" message="tns:IWarSpotService_Register_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/Login" message="tns:IWarSpotService_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/LoginResponse" message="tns:IWarSpotService_Login_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/ChangePassword" message="tns:IWarSpotService_ChangePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/ChangePasswordResponse" message="tns:IWarSpotService_ChangePassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadIntellect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/UploadIntellect" message="tns:IWarSpotService_UploadIntellect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/UploadIntellectResponse" message="tns:IWarSpotService_UploadIntellect_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DownloadIntellect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/DownloadIntellect" message="tns:IWarSpotService_DownloadIntellect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/DownloadIntellectResponse" message="tns:IWarSpotService_DownloadIntellect_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListOfIntellects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/GetListOfIntellects" message="tns:IWarSpotService_GetListOfIntellects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/GetListOfIntellectsResponse" message="tns:IWarSpotService_GetListOfIntellects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteIntellect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/DeleteIntellect" message="tns:IWarSpotService_DeleteIntellect_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/DeleteIntellectResponse" message="tns:IWarSpotService_DeleteIntellect_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DownloadReplay">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/DownloadReplay" message="tns:IWarSpotService_DownloadReplay_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/DownloadReplayResponse" message="tns:IWarSpotService_DownloadReplay_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListOfReplays">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/GetListOfReplays" message="tns:IWarSpotService_GetListOfReplays_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/GetListOfReplaysResponse" message="tns:IWarSpotService_GetListOfReplays_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BeginMatch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/BeginMatch" message="tns:IWarSpotService_BeginMatch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/BeginMatchResponse" message="tns:IWarSpotService_BeginMatch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListOfGames">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/GetListOfGames" message="tns:IWarSpotService_GetListOfGames_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/GetListOfGamesResponse" message="tns:IWarSpotService_GetListOfGames_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IsUserAdmin">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/IsUserAdmin" message="tns:IWarSpotService_IsUserAdmin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/IsUserAdminResponse" message="tns:IWarSpotService_IsUserAdmin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IsUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/IsUser" message="tns:IWarSpotService_IsUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/IsUserResponse" message="tns:IWarSpotService_IsUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUserRole">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/SetUserRole" message="tns:IWarSpotService_SetUserRole_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/SetUserRoleResponse" message="tns:IWarSpotService_SetUserRole_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRoles">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/GetUserRoles" message="tns:IWarSpotService_GetUserRoles_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/GetUserRolesResponse" message="tns:IWarSpotService_GetUserRoles_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateTournament">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/CreateTournament" message="tns:IWarSpotService_CreateTournament_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/CreateTournamentResponse" message="tns:IWarSpotService_CreateTournament_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMyTournamets">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/GetMyTournamets" message="tns:IWarSpotService_GetMyTournamets_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/GetMyTournametsResponse" message="tns:IWarSpotService_GetMyTournamets_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTournament">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/DeleteTournament" message="tns:IWarSpotService_DeleteTournament_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/DeleteTournamentResponse" message="tns:IWarSpotService_DeleteTournament_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableTournaments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/GetAvailableTournaments" message="tns:IWarSpotService_GetAvailableTournaments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/GetAvailableTournamentsResponse" message="tns:IWarSpotService_GetAvailableTournaments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="JoinTournament">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/JoinTournament" message="tns:IWarSpotService_JoinTournament_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/JoinTournamentResponse" message="tns:IWarSpotService_JoinTournament_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LeaveTournament">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/LeaveTournament" message="tns:IWarSpotService_LeaveTournament_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/LeaveTournamentResponse" message="tns:IWarSpotService_LeaveTournament_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="KeepAlive">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWarSpotService/KeepAlive" message="tns:IWarSpotService_KeepAlive_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWarSpotService/KeepAliveResponse" message="tns:IWarSpotService_KeepAlive_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IWarSpotService" type="tns:IWarSpotService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IWarSpotService_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="Register">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/Register" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/Login" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/ChangePassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadIntellect">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/UploadIntellect" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DownloadIntellect">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/DownloadIntellect" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListOfIntellects">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/GetListOfIntellects" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteIntellect">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/DeleteIntellect" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DownloadReplay">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/DownloadReplay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListOfReplays">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/GetListOfReplays" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BeginMatch">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/BeginMatch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListOfGames">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/GetListOfGames" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsUserAdmin">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/IsUserAdmin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsUser">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/IsUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUserRole">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/SetUserRole" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRoles">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/GetUserRoles" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateTournament">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/CreateTournament" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMyTournamets">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/GetMyTournamets" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTournament">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/DeleteTournament" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableTournaments">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/GetAvailableTournaments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="JoinTournament">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/JoinTournament" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LeaveTournament">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/LeaveTournament" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KeepAlive">
+      <soap12:operation soapAction="http://tempuri.org/IWarSpotService/KeepAlive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WarSpotMainUserService">
+    <wsdl:port name="NetTcpBinding_IWarSpotService" binding="tns:NetTcpBinding_IWarSpotService">
+      <soap12:address location="net.tcp://127.255.0.1:8000/WarSpotMainUserService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://127.255.0.1:8000/WarSpotMainUserService</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

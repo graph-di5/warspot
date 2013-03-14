@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/WarSpot.Contracts.Service" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WarSpot.Contracts.Service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/WarSpot.Contracts.Intellect" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="ErrorCode">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Type" type="tns:ErrorType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ErrorCode" nillable="true" type="tns:ErrorCode" />
+  <xs:simpleType name="ErrorType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Ok" />
+      <xs:enumeration value="WrongLoginOrPassword" />
+      <xs:enumeration value="NotLoggedIn" />
+      <xs:enumeration value="BadFileType" />
+      <xs:enumeration value="ForbiddenUsages" />
+      <xs:enumeration value="BadFileName" />
+      <xs:enumeration value="DataBaseProblems" />
+      <xs:enumeration value="WrongInformationInField" />
+      <xs:enumeration value="UnknownException" />
+      <xs:enumeration value="IllegalReference" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ErrorType" nillable="true" type="tns:ErrorType" />
+  <xs:complexType name="Replay">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Data" nillable="true" type="tns:MatchReplay" />
+      <xs:element minOccurs="0" name="Id" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Replay" nillable="true" type="tns:Replay" />
+  <xs:complexType name="MatchReplay">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="AssemblyVersion" nillable="true" type="q1:Version" />
+      <xs:element minOccurs="0" name="Events" nillable="true" type="tns:ArrayOfWarSpotEvent" />
+      <xs:element minOccurs="0" name="Steps" type="xs:unsignedLong" />
+      <xs:element minOccurs="0" name="WinnerTeam" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MatchReplay" nillable="true" type="tns:MatchReplay" />
+  <xs:complexType name="ArrayOfWarSpotEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="WarSpotEvent" nillable="true" type="tns:WarSpotEvent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfWarSpotEvent" nillable="true" type="tns:ArrayOfWarSpotEvent" />
+  <xs:complexType name="WarSpotEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="EventType" type="tns:EventTypes" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WarSpotEvent" nillable="true" type="tns:WarSpotEvent" />
+  <xs:simpleType name="EventTypes">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GameEventHealthChange" />
+      <xs:enumeration value="GameEventCiChange" />
+      <xs:enumeration value="GameEventMove" />
+      <xs:enumeration value="GameEventDeath" />
+      <xs:enumeration value="GameEventBirth" />
+      <xs:enumeration value="GameEventWorldCiChanged" />
+      <xs:enumeration value="SystemEventWorldCreated" />
+      <xs:enumeration value="SystemEventTurnStarted" />
+      <xs:enumeration value="SystemEventCommandDead" />
+      <xs:enumeration value="SystemEventCommandWin" />
+      <xs:enumeration value="SystemEventMatchEnd" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="EventTypes" nillable="true" type="tns:EventTypes" />
+  <xs:complexType name="SystemEventWorldCreated">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:WarSpotEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Height" type="xs:int" />
+          <xs:element minOccurs="0" name="Width" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SystemEventWorldCreated" nillable="true" type="tns:SystemEventWorldCreated" />
+  <xs:complexType name="GameEventBirth">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:GameEvent">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/WarSpot.Contracts.Intellect" minOccurs="0" name="Newborn" nillable="true" type="q2:BeingCharacteristics" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GameEventBirth" nillable="true" type="tns:GameEventBirth" />
+  <xs:complexType name="GameEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:WarSpotEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SubjectId" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GameEvent" nillable="true" type="tns:GameEvent" />
+  <xs:complexType name="GameEventMove">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:GameEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ShiftX" type="xs:int" />
+          <xs:element minOccurs="0" name="ShiftY" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GameEventMove" nillable="true" type="tns:GameEventMove" />
+  <xs:complexType name="GameEventDeath">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:GameEvent">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GameEventDeath" nillable="true" type="tns:GameEventDeath" />
+  <xs:complexType name="SystemEventMatchEnd">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:WarSpotEvent">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SystemEventMatchEnd" nillable="true" type="tns:SystemEventMatchEnd" />
+  <xs:complexType name="GameEventHealthChange">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:GameEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Health" type="xs:float" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GameEventHealthChange" nillable="true" type="tns:GameEventHealthChange" />
+  <xs:complexType name="GameEventCiChange">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:GameEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Ci" type="xs:float" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GameEventCiChange" nillable="true" type="tns:GameEventCiChange" />
+  <xs:complexType name="GameEventWorldCiChanged">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:WarSpotEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Ci" type="xs:float" />
+          <xs:element minOccurs="0" name="X" type="xs:int" />
+          <xs:element minOccurs="0" name="Y" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GameEventWorldCiChanged" nillable="true" type="tns:GameEventWorldCiChanged" />
+  <xs:complexType name="SystemEventTurnStarted">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:WarSpotEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Number" type="xs:unsignedLong" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SystemEventTurnStarted" nillable="true" type="tns:SystemEventTurnStarted" />
+  <xs:complexType name="SystemEventCommandDead">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:WarSpotEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="TeamId" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SystemEventCommandDead" nillable="true" type="tns:SystemEventCommandDead" />
+  <xs:complexType name="SystemEventCommandWin">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:WarSpotEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="TeamId" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SystemEventCommandWin" nillable="true" type="tns:SystemEventCommandWin" />
+  <xs:complexType name="ArrayOfReplayDescription">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ReplayDescription" nillable="true" type="tns:ReplayDescription" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfReplayDescription" nillable="true" type="tns:ArrayOfReplayDescription" />
+  <xs:complexType name="ReplayDescription">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" type="ser:guid" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Teams" nillable="true" type="tns:ArrayOfTeamDescription" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ReplayDescription" nillable="true" type="tns:ReplayDescription" />
+  <xs:complexType name="ArrayOfTeamDescription">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TeamDescription" nillable="true" type="tns:TeamDescription" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTeamDescription" nillable="true" type="tns:ArrayOfTeamDescription" />
+  <xs:complexType name="TeamDescription">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" type="ser:guid" />
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Intellects" nillable="true" type="q3:ArrayOfguid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TeamDescription" nillable="true" type="tns:TeamDescription" />
+</xs:schema>
