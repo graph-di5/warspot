@@ -7,18 +7,32 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="#FFE84C22">
+    <Grid Name="Root" Background="#FFE84C22">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextStyle}" Text="Das Replay"/>
+        <TextBlock Grid.Row="0" Margin="10" Style="{StaticResource HeaderTextStyle}" Name="ReplayName" Text="Replay: "/>
+        <TextBlock Style="{StaticResource HeaderTextStyle}" Margin="10" Name="TurnCounter" Grid.Row="0" HorizontalAlignment="Right"/>
         <Rectangle Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="SizeRect"/>
-        <Grid Grid.Row="1" Margin="20" Name="MainGrid"/>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Content="ВПЕрДЁ"/>
-            <Button Content="ВЗАДЭ"/>
-        </StackPanel>
+        <Grid Grid.Row="1" Margin="20" Name="MainGrid" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Row="2" Name="ControlGrid" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Style="{StaticResource AppBarButtonStyle}" Content="&#xE100;" Name="ToStart" Click="ToStart_Click"/>
+            <Button Grid.Column="1" Style="{StaticResource AppBarButtonStyle}" Content="&#xE112;" Name="PreviousMove" Click="PreviousMove_Click"/>
+            <Button Grid.Column="2" Style="{StaticResource AppBarButtonStyle}" Content="&#xE102;" Name="Start" Click="Start_Click"/>
+            <Button Grid.Column="3" Style="{StaticResource AppBarButtonStyle}" Content="&#xE15B;" Name="Stop" Click="Stop_Click"/>
+            <Button Grid.Column="4" Style="{StaticResource AppBarButtonStyle}" Content="&#xE111;" Name="NextMove" Click="NextMove_Click"/>
+            <Button Grid.Column="5" Style="{StaticResource AppBarButtonStyle}" Content="&#xE101;" Name="ToEnd" Click="ToEnd_Click"/>
+            
+        </Grid>
     </Grid>
 </Page>
