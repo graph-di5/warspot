@@ -19,6 +19,7 @@ using WarSpot.MetroClient.ServiceClient;
 using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 using WarSpot.MetroClient.ViewModel;
+using Windows.System.Threading;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,14 +34,18 @@ namespace WarSpot.MetroClient.Pages
         public ReplayPage()
         {
             this.InitializeComponent();
-            
+            _timer.Tick += _timer_Tick;
+            _timer.Interval = TimeSpan.FromMilliseconds(200);
         }
 
         List<TurnViewModel> _turns = new List<TurnViewModel>();
         Size _cellSize;
+        int _worldWidth;
+        int _worldHeight;
         List<Image> _team0 = new List<Image>();
         List<Image> _team1 = new List<Image>();
 
+        DispatcherTimer _timer = new DispatcherTimer();
 
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
@@ -60,12 +65,17 @@ namespace WarSpot.MetroClient.Pages
                     var serializer = new DataContractSerializer(typeof(MatchReplay));
                     replay = serializer.ReadObject(s) as MatchReplay;
                 }
-
+                ReplayName.Text += "replay.out";
                 var worldParams = replay.Events.OfType<SystemEventWorldCreated>().First();
-
+                _worldWidth = worldParams.Width;
+                _worldHeight = worldParams.Height;
                 _turns = MakeTurns(replay.Events);
-
-                _cellSize = DetermineCellSize(SizeRect.ActualWidth, SizeRect.ActualHeight, worldParams.Width, worldParams.Height);
+                var actualHeight = Root.ActualHeight - ReplayName.ActualHeight - ControlGrid.ActualHeight -20- 40; //margin
+                var actualWidth = Root.ActualWidth - 40;
+                
+                _cellSize = DetermineCellSize(actualWidth, actualHeight, worldParams.Width, worldParams.Height);
+                MainGrid.Height = _cellSize.Height * _worldHeight;
+                MainGrid.Width = _cellSize.Width * _worldWidth;
                 MainGrid.ColumnDefinitions.Clear();
                 for (int i = 0; i < worldParams.Width; i++)
                     MainGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(_cellSize.Width, GridUnitType.Pixel) });
@@ -74,7 +84,7 @@ namespace WarSpot.MetroClient.Pages
                 for (int i = 0; i < worldParams.Width; i++)
                     MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(_cellSize.Height, GridUnitType.Pixel) });
 
-
+                
 
                 for (int x = 0; x < worldParams.Width; x++)
                 {
@@ -123,6 +133,7 @@ namespace WarSpot.MetroClient.Pages
                 img.SetValue(Grid.ColumnProperty, (int)newC.X);
                 img.SetValue(Grid.RowProperty, (int)newC.Y);
                 MainGrid.Children.Add(img);
+                _team0.Add(img);
             }
             foreach (var img in _team0.Skip(team0Pos.Count))
             {
@@ -149,12 +160,15 @@ namespace WarSpot.MetroClient.Pages
                 img.SetValue(Grid.ColumnProperty, (int)newC.X);
                 img.SetValue(Grid.RowProperty, (int)newC.Y);
                 MainGrid.Children.Add(img);
+                _team1.Add(img);
             }
             foreach (var img in _team1.Skip(team1Pos.Count))
             {
                 MainGrid.Children.Remove(img);
             }
-            _team0 = _team0.Take(team1Pos.Count).ToList();
+            _team1 = _team1.Take(team1Pos.Count).ToList();
+
+            TurnCounter.Text = string.Format("Turn: {0} / {1}", _currentTurn, _turns.Count-1);
         }
 
         private List<TurnViewModel> MakeTurns(System.Collections.ObjectModel.ObservableCollection<WarSpotEvent> observableCollection)
@@ -181,8 +195,8 @@ namespace WarSpot.MetroClient.Pages
                         if (pair.Value.ContainsKey(gem.SubjectId))
                         {
                             var pt = pair.Value[gem.SubjectId];
-                            pt.X += gem.ShiftX;
-                            pt.Y += gem.ShiftY;
+                            pt.X = (pt.X+gem.ShiftX)%_worldWidth;
+                            pt.Y = (pt.Y+gem.ShiftY)%_worldHeight;
                             pair.Value[gem.SubjectId] = pt;
                             break;
                         }
@@ -218,6 +232,65 @@ namespace WarSpot.MetroClient.Pages
         {
             var dim = Math.Min((int)(w / columns), (int)(h / rows));
             return new Size(dim, dim);
+        }
+
+        private int _currentTurn;
+
+        private void NextMove_Click(object sender, RoutedEventArgs e)
+        {
+            Stop_Click(sender, e);
+            if(_currentTurn<_turns.Count-1)
+                SetTurn(++_currentTurn);
+        }
+
+        private void PreviousMove_Click(object sender, RoutedEventArgs e)
+        {
+            Stop_Click(sender, e);
+            if (_currentTurn >0)
+                SetTurn(--_currentTurn);
+        }
+
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            Stop_Click(sender, e);
+
+            _timer.Start();
+        }
+
+        private void OnDestroy(ThreadPoolTimer timer)
+        {
+            
+        }
+
+        void _timer_Tick(object sender, object e)
+        {
+            if (_currentTurn < _turns.Count - 1)
+                SetTurn(++_currentTurn);
+        }
+
+        private void OnTime(ThreadPoolTimer timer)
+        {
+
+        }
+
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+            if (_timer.IsEnabled)
+            {
+                _timer.Stop();
+            }
+        }
+
+        private void ToStart_Click(object sender, RoutedEventArgs e)
+        {
+            Stop_Click(sender, e);
+            SetTurn(_currentTurn = 0);
+        }
+
+        private void ToEnd_Click(object sender, RoutedEventArgs e)
+        {
+            Stop_Click(sender, e);
+            SetTurn(_currentTurn = _turns.Count - 1);
         }
     }
 }
