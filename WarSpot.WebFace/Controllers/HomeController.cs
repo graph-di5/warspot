@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace WarSpot.WebFace.Controllers
 {
@@ -17,6 +16,18 @@ namespace WarSpot.WebFace.Controllers
 
 		[AllowAnonymous]
 		public ActionResult About()
+		{
+			return View();
+		}
+
+		[AllowAnonymous]
+		public ActionResult Details()
+		{
+			return View();
+		}
+
+		[AllowAnonymous]
+		public ActionResult Contacts()
 		{
 			return View();
 		}
