@@ -31,5 +31,11 @@ namespace WarSpot.WebFace.Controllers
 		{
 			return View();
 		}
+
+		[AllowAnonymous]
+		public ActionResult FastStart()
+		{
+			return View();
+		}
 	}
 }
