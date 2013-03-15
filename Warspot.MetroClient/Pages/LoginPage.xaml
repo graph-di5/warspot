@@ -14,10 +14,14 @@
             <TextBox Width="300"  Name="Login" Margin="5"/>
             <TextBlock FontSize="30" HorizontalAlignment="Center" Text="Password"/>
             <PasswordBox Width="300" Margin="5" Name="Password" />
-            <StackPanel Orientation="Horizontal">
-                <Button Name="LoginButton" Content="Login" Click="Login_Click_1"/>
-                <Button Name="RegisterButton" Content="Register" Click="RegisterButton_Click_1"/>
-            </StackPanel>
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="LoginButton" Content="Login" Grid.Column="0" Click="Login_Click_1"/>
+                <Button Name="RegisterButton" Content="Register" Grid.Column="1" Click="RegisterButton_Click_1"/>
+            </Grid>
             <TextBlock FontSize="20" HorizontalAlignment="Center" Name="Error"/>
             <ProgressRing Width="40" Height="40" Foreground="White" Background="Transparent" Name="Waiter" HorizontalAlignment="Center" IsActive="false"/>
         </StackPanel>

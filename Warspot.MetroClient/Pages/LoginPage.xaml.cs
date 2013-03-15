@@ -71,9 +71,34 @@ namespace Warspot.MetroClient.Pages
             }
         }
 
-        private void RegisterButton_Click_1(object sender, RoutedEventArgs e)
+        private async void RegisterButton_Click_1(object sender, RoutedEventArgs e)
         {
-
+            Error.Text = "";
+            Waiter.IsActive = true;
+            var client = _locator.ServiceClient;
+            try
+            {
+                var loginTask = client.RegisterAsync(Login.Text, HashHelper.GetMd5Hash(Password.Password));
+                var loginResult = await loginTask;
+                if (loginResult.Type != ErrorType.Ok)
+                {
+                    Error.Text = loginResult.Message;
+                }
+                else
+                {
+                    var frame = Window.Current.Content as Frame;
+                    _locator.Username = Login.Text;
+                    frame.Navigate(typeof(ReplaysPage));
+                }
+            }
+            catch (Exception ex)
+            {
+                Error.Text = "Register failed";
+            }
+            finally
+            {
+                Waiter.IsActive = false;
+            }
         }
     }
 }
