@@ -44,7 +44,7 @@ namespace WarSpot.MetroClient.Pages
         int _worldHeight;
         List<Image> _team0 = new List<Image>();
         List<Image> _team1 = new List<Image>();
-
+        SystemEventWorldCreated _worldParams;
         DispatcherTimer _timer = new DispatcherTimer();
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace WarSpot.MetroClient.Pages
         {
             try
             {
-                _localFolder = KnownFolders.DocumentsLibrary;
+                /*_localFolder = KnownFolders.DocumentsLibrary;
 
                 MatchReplay replay;
 
@@ -64,46 +64,16 @@ namespace WarSpot.MetroClient.Pages
                 {
                     var serializer = new DataContractSerializer(typeof(MatchReplay));
                     replay = serializer.ReadObject(s) as MatchReplay;
-                }
-                ReplayName.Text += "replay.out";
-                var worldParams = replay.Events.OfType<SystemEventWorldCreated>().First();
-                _worldWidth = worldParams.Width;
-                _worldHeight = worldParams.Height;
+                }*/
+                var locator = new ServiceLocator();
+                MatchReplay replay = locator.Rep.Data;
+                ReplayDescription rD = locator.RepDesc;
+                ReplayName.Text += rD.Name;
+                _worldParams = replay.Events.OfType<SystemEventWorldCreated>().First();
+                _worldWidth = _worldParams.Width;
+                _worldHeight = _worldParams.Height;
                 _turns = MakeTurns(replay.Events);
-                var actualHeight = Root.ActualHeight - ReplayName.ActualHeight - ControlGrid.ActualHeight -20- 40; //margin
-                var actualWidth = Root.ActualWidth - 40;
                 
-                _cellSize = DetermineCellSize(actualWidth, actualHeight, worldParams.Width, worldParams.Height);
-                MainGrid.Height = _cellSize.Height * _worldHeight;
-                MainGrid.Width = _cellSize.Width * _worldWidth;
-                MainGrid.ColumnDefinitions.Clear();
-                for (int i = 0; i < worldParams.Width; i++)
-                    MainGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(_cellSize.Width, GridUnitType.Pixel) });
-
-                MainGrid.RowDefinitions.Clear();
-                for (int i = 0; i < worldParams.Width; i++)
-                    MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(_cellSize.Height, GridUnitType.Pixel) });
-
-                
-
-                for (int x = 0; x < worldParams.Width; x++)
-                {
-                    for (int y = 0; y < worldParams.Height; y++)
-                    {
-                        var img = new Image()
-                        {
-                            Width = _cellSize.Width,
-                            Height = _cellSize.Height,
-                            Source = new BitmapImage(new Uri("ms-appx:///Assets/grass.png"))
-                        };
-                        img.SetValue(Grid.RowProperty, y);
-                        img.SetValue(Grid.ColumnProperty, x);
-
-                        MainGrid.Children.Add(img);
-                    }
-                }
-
-                SetTurn(0);
             }
             catch (Exception ex)
             {
@@ -291,6 +261,58 @@ namespace WarSpot.MetroClient.Pages
         {
             Stop_Click(sender, e);
             SetTurn(_currentTurn = _turns.Count - 1);
+        }
+
+        private void Root_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var actualHeight = Root.ActualHeight  - ControlGrid.ActualHeight - 20 - 90; //margin
+                var actualWidth = Root.ActualWidth - 40;
+
+                _cellSize = DetermineCellSize(actualWidth, actualHeight, _worldParams.Width, _worldParams.Height);
+                MainGrid.Height = _cellSize.Height * _worldHeight;
+                MainGrid.Width = _cellSize.Width * _worldWidth;
+                MainGrid.ColumnDefinitions.Clear();
+                for (int i = 0; i < _worldParams.Width; i++)
+                    MainGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(_cellSize.Width, GridUnitType.Pixel) });
+
+                MainGrid.RowDefinitions.Clear();
+                for (int i = 0; i < _worldParams.Width; i++)
+                    MainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(_cellSize.Height, GridUnitType.Pixel) });
+
+
+
+                for (int x = 0; x < _worldParams.Width; x++)
+                {
+                    for (int y = 0; y < _worldParams.Height; y++)
+                    {
+                        var img = new Image()
+                        {
+                            Width = _cellSize.Width,
+                            Height = _cellSize.Height,
+                            Source = new BitmapImage(new Uri("ms-appx:///Assets/grass.png"))
+                        };
+                        img.SetValue(Grid.RowProperty, y);
+                        img.SetValue(Grid.ColumnProperty, x);
+
+                        MainGrid.Children.Add(img);
+                    }
+                }
+
+                SetTurn(0);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Stop_Click(sender, e);
+            var frame = Window.Current.Content as Frame;
+
+            frame.Navigate(typeof(ReplaysPage));
         }
     }
 }

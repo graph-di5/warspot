@@ -14,9 +14,12 @@ namespace WarSpot.MetroClient.ViewModel
     {
         static UnityContainer _container = new UnityContainer();
 
-        static ReplayViewModel _replay = new ReplayViewModel();
+        static Replay _rep;
+        static ReplayDescription _repD;
 
         static WarSpotServiceClient _client = new WarSpotServiceClient();
+
+        static string _uname;
 
         static ServiceLocator()
         {
@@ -36,12 +39,22 @@ namespace WarSpot.MetroClient.ViewModel
             }
         }
 
-        public ReplayViewModel ReplayViewModel
+        public Replay Rep
         {
-            get
-            {
-                return _replay;
-            }
+            get { return _rep; }
+            set { _rep = value; }
+        }
+
+        public ReplayDescription RepDesc
+        {
+            get { return _repD; }
+            set { _repD = value; }
+        }
+
+        public string Username
+        {
+            get { return _uname; }
+            set { _uname = value; }
         }
     }
 }
