@@ -357,8 +357,10 @@ namespace WarSpot.Cloud.Storage
 				return false;
 			try
 			{
-				db.AddToAccount(Account.CreateAccount(Guid.NewGuid(), username, password));
+				var id = Guid.NewGuid();
+				db.AddToAccount(Account.CreateAccount(id, username, password));
 				db.SaveChanges();
+				SetUserRole(RoleType.User, id, "" /* todo rewrite this !11*/);
 
 				return true;
 			}
@@ -427,6 +429,7 @@ namespace WarSpot.Cloud.Storage
 			List<KeyValuePair<Guid, string>> result = new List<KeyValuePair<Guid, string>>();
 
 			var test = (from b in db.Intellect
+									where b.AccountAccount_ID == userID
 									select b).ToList<Intellect>();
 
 			foreach (Intellect i in test)
