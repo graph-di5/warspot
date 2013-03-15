@@ -42,9 +42,10 @@ namespace WarSpot.MetroClient.Pages
             Uname.Text+= loc.Username;
 
             var client = loc.ServiceClient;
-            var replays = await client.GetListOfReplaysAsync();
+            var replays = (await client.GetListOfReplaysAsync())??new ObservableCollection<ReplayDescription>();
+            
             Progress.IsActive = false;
-
+            
             foreach (var item in replays)
             {
                 Reps.Items.Add(new ListBoxItem()
