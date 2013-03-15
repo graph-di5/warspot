@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WarSpot.MetroClient.Common;
 using WarSpot.MetroClient.Pages;
 using WarSpot.MetroClient.ServiceClient;
 using WarSpot.MetroClient.ViewModel;
@@ -47,25 +48,26 @@ namespace Warspot.MetroClient.Pages
             var client = _locator.ServiceClient;
             try
             {
-                var loginTask = client.LoginAsync(Login.Text, Password.Password);
+                var loginTask = client.LoginAsync(Login.Text, HashHelper.GetMd5Hash(Password.Password));
                 var loginResult = await loginTask;
                 if (loginResult.Type != ErrorType.Ok)
                 {
-                    //Error.Text = loginResult.Message;
+                    Error.Text = loginResult.Message;
                 }
                 else
                 {
+                    var frame = Window.Current.Content as Frame;
+                    _locator.Username = Login.Text;
+                    frame.Navigate(typeof(ReplaysPage));
                 }
             }
             catch (Exception ex)
             {
-                Error.Text = "LoginFailed";
+                Error.Text = "Login failed";
             }
             finally
             {
                 Waiter.IsActive = false;
-                var frame = Window.Current.Content as Frame;
-                frame.Navigate(typeof(ReplayPage));
             }
         }
 

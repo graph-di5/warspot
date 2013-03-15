@@ -7,14 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Name="Root" Background="#FFE84C22">
+    <Grid Name="Root" Background="#FFE84C22" Loaded="Root_Loaded_1">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Margin="10" Style="{StaticResource HeaderTextStyle}" Name="ReplayName" Text="Replay: "/>
-        <TextBlock Style="{StaticResource HeaderTextStyle}" Margin="10" Name="TurnCounter" Grid.Row="0" HorizontalAlignment="Right"/>
+        <StackPanel Orientation="Horizontal">
+            <Button Style="{StaticResource BackButtonStyle}" Height="50" Width="50" Margin="20" VerticalAlignment="Center" Click="Button_Click_1"/>
+            <TextBlock Grid.Row="0" Margin="10" Style="{StaticResource HeaderTextStyle}" VerticalAlignment="Center"  Name="ReplayName" Text="Replay: "/>
+        </StackPanel>
+
+        <TextBlock Style="{StaticResource HeaderTextStyle}" VerticalAlignment="Center"  Margin="10" Name="TurnCounter" Grid.Row="0" HorizontalAlignment="Right"/>
         <Rectangle Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="SizeRect"/>
         <Grid Grid.Row="1" Margin="20" Name="MainGrid" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="2" Name="ControlGrid" HorizontalAlignment="Center">

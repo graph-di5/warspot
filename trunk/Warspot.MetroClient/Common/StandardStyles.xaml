@@ -28,6 +28,9 @@
 
     <x:String x:Key="ChevronGlyph">&#xE26B;</x:String>
 
+    <!--the overlay when you have an item selected and mouse out of it-->
+    <SolidColorBrush x:Key="ListViewItemSelectedBackgroundThemeBrushOverlay" Color="#00000000"></SolidColorBrush>
+
     <!-- RichTextBlock styles -->
 
     <Style x:Key="BasicRichTextStyle" TargetType="RichTextBlock">

@@ -9,6 +9,7 @@
 
     <Grid Background="#FFE84C22"  DataContext="{Binding Source={StaticResource ServiceLocator}}">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+            <Image  HorizontalAlignment="Center" Height="150" Width="150" Source="ms-appx:///Assets/LogoSmall.png"/>
             <TextBlock FontSize="30" HorizontalAlignment="Center" Text="Login"/>
             <TextBox Width="300"  Name="Login" Margin="5"/>
             <TextBlock FontSize="30" HorizontalAlignment="Center" Text="Password"/>
