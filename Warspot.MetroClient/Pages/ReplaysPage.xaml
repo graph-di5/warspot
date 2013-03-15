@@ -1,0 +1,20 @@
+﻿<Page
+    x:Class="WarSpot.MetroClient.Pages.ReplaysPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WarSpot.MetroClient.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="#FFE84C22">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Hello, " Margin="10" Name ="Uname" Style="{StaticResource HeaderTextStyle}"/>
+        <ListBox IsEnabled="False" Margin="100 50" Grid.Row="1" VerticalAlignment="Stretch" Foreground="#FFE84C22" Name="Reps" DoubleTapped="Reps_DoubleTapped_1" >
+        </ListBox>
+        <ProgressRing Grid.Row="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" IsActive="True" Name="Progress"/>
+    </Grid>
+</Page>
