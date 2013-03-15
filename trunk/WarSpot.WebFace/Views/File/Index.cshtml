@@ -24,7 +24,7 @@
      		<td>@Html.ActionLink("&dArr;", "Download", new { id = m.ID })</td>
         -->
 				<td>@Html.ActionLink(m.Name, "Download", new { id = m.ID })</td>
-				<td>@m.Description</td>
+				<td>@Html.ActionLink(m.Description, "Details", new { id = m.ID })</td>
         <td>@m.CreationTime</td>
 			</tr>
 			

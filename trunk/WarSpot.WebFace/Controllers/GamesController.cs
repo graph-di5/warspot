@@ -79,6 +79,10 @@ namespace WarSpot.WebFace.Controllers
 		{
 			try
 			{
+				if (string.IsNullOrWhiteSpace(collection["Name"]))
+				{
+					collection["Name"] = "New game";
+				}
 				// TODO: rewrite this to right IDs of the form filed
 				var intellects = new List<Guid>
 				                 	{
