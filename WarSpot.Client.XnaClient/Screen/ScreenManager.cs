@@ -114,14 +114,14 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public override void Update(GameTime gameTime)
 		{
-			if (Network.ConnectionManager.Instance.IsOnline())
-				Screen.Utils.ScreenHelper.Instance.IsOnline = true;
-			else
-				Screen.Utils.ScreenHelper.Instance.IsOnline = false;
+				if (Network.ConnectionManager.Instance.IsOnline())
+					Screen.Utils.ScreenHelper.Instance.IsOnline = true;
+				else
+					Screen.Utils.ScreenHelper.Instance.IsOnline = false;
 
-			_activeScreen.Update(gameTime);
-			Controller.Update();
-			_activeScreen.HandleInput(Controller);
+				_activeScreen.Update(gameTime);
+				Controller.Update();
+				_activeScreen.HandleInput(Controller);
 		}
 
 		public override void Draw(GameTime gameTime)
@@ -176,3 +176,4 @@ namespace WarSpot.Client.XnaClient.Screen
 		}
 	}
 }
+	

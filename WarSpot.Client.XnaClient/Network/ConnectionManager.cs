@@ -41,7 +41,7 @@ namespace WarSpot.Client.XnaClient.Network
 
 		public bool IsOnline()
 		{
-			return _service == null;
+			return !(_service == null);
 		}
 
 		public ErrorCode Register(string username, string password)
@@ -118,6 +118,21 @@ namespace WarSpot.Client.XnaClient.Network
 			{
 				InitializeConnection();
 				_service.BeginMatch(intellects, title);
+				return new ErrorCode();
+			}
+			catch (Exception e)
+			{
+				return new ErrorCode(ErrorType.UnknownException, e.Message);
+			}
+		}
+
+		public ErrorCode DownloadReplay(Guid g)
+		{
+			try
+			{
+				InitializeConnection();
+				var x = _service.DownloadReplay(g);
+				Screen.Utils.ScreenHelper.Instance.ReplayEvents = x.Data.Events;
 				return new ErrorCode();
 			}
 			catch (Exception e)

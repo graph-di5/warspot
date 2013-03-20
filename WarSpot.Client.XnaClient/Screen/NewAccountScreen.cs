@@ -184,7 +184,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void RegisterButtonPressed(object sender, EventArgs args)
 		{
-			bool checker = InputValidator.CheckText(_nameBox.RealText) &&
+			/*bool checker = InputValidator.CheckText(_nameBox.RealText) &&
 				InputValidator.CheckText(_surNameBox.RealText) &&
 				InputValidator.CheckEmail(_emailBox.RealText) &&
 				InputValidator.CheckText(_nicknameBox.RealText) &&
@@ -194,7 +194,7 @@ namespace WarSpot.Client.XnaClient.Screen
 				MessageBox.Show("Incorrect input", ScreenManager.ScreenEnum.NewAccountScreen);
 			}
 			else
-			{
+			{*/
 				ErrorCode errorCode = Network.ConnectionManager.Instance.Register(_nicknameBox.RealText, _passwordBox.RealText);
 				if (errorCode.Type != ErrorType.Ok)
 				{
@@ -205,7 +205,7 @@ namespace WarSpot.Client.XnaClient.Screen
 				{
 					MessageBox.Show("Registered Successfully", ScreenManager.ScreenEnum.LoginScreen);
 				}
-			}
+			//}
 		}
 
 		private void BackButtonPressed(object sender, EventArgs args)

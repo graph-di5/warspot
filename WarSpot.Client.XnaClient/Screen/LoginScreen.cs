@@ -31,6 +31,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			CreateControls();
 			InitializeControls();
+			_rememberCheckBox.Selected = true;
 		}
 
 		public override void LoadContent()
@@ -197,7 +198,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 			else
 			{
-				// Temporary
+				Utils.ScreenHelper.Instance.IsOnline = true;
 				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
 			}
 		}

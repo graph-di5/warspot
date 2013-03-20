@@ -40,6 +40,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private bool _isPrepared = false;
 		private const int _barHeight = 30;
 		private int _timeSinceLastTurn = 0;
+		private int size = 0;
 
 		// Buttons
 		private ButtonControl _pauseButton;
@@ -92,8 +93,21 @@ namespace WarSpot.Client.XnaClient.Screen
 							_localPause = true;
 							var tmpEvent = wsEvent as GameEventMove;
 							var tmp = _listOfCreatures.Where(creture => creture.Id == tmpEvent.SubjectId).First();
-							tmp.X += tmpEvent.ShiftX;
-							tmp.Y += tmpEvent.ShiftY;
+							if (tmp.X + tmpEvent.ShiftX >= _worldWidth)
+							{
+								tmp.Y += tmpEvent.ShiftY;
+								tmp.X = (tmp.X + tmpEvent.ShiftX) % _worldWidth;
+							}
+							else if (tmp.Y + tmpEvent.ShiftY >= _wordlHeight)
+							{
+								tmp.X += tmpEvent.ShiftX;
+								tmp.Y = (tmp.Y + tmpEvent.ShiftY) % _wordlHeight;
+							}
+							else
+							{
+								tmp.X += tmpEvent.ShiftX;
+								tmp.Y += tmpEvent.ShiftY;
+							}
 							_listOfEvents.Remove(wsEvent);
 							break;
 						}
@@ -125,7 +139,7 @@ namespace WarSpot.Client.XnaClient.Screen
 					case EventTypes.SystemEventTurnStarted:
 						{
 							var tmp = wsEvent as SystemEventTurnStarted;
-							_turnLabel.Text = "Turn " + tmp.Number.ToString();
+							_turnLabel.Text = "Turn " + tmp.Number.ToString() + " / " + size.ToString();
 
 							_listOfEvents.Remove(tmp);
 							break;
@@ -158,7 +172,7 @@ namespace WarSpot.Client.XnaClient.Screen
 					// Checks time per unit game action
 					_timeSinceLastTurn += gameTime.ElapsedGameTime.Milliseconds;
 					// 1000 - delay between game actions	
-					if (_timeSinceLastTurn > 1000)
+					if (_timeSinceLastTurn > 200)
 					{
 						_localPause = false;
 						_timeSinceLastTurn = 0;
@@ -216,6 +230,21 @@ namespace WarSpot.Client.XnaClient.Screen
 			base.OnShow();
 			_listOfEvents = Utils.ScreenHelper.Instance.ReplayEvents;
 			this.PrepareScreen();
+			size = _listOfEvents.Count;
+			_globalPause = false;
+		}
+
+		public override void OnHide()
+		{
+			base.OnHide();
+			_turnLabel.Text = "0";
+			size = 0;
+			_globalPause = true;
+			_localPause = false;
+			_listOfEvents = new List<WarSpotEvent>();
+			_listOfCreatures = new List<Creature>();
+			_isPrepared = false;
+			_worldMap = null;
 		}
 
 		public override void OnResize()

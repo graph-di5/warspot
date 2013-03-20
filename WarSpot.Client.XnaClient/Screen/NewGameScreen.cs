@@ -207,8 +207,12 @@ namespace WarSpot.Client.XnaClient.Screen
 			if (_intellectFirstList.SelectedItems.Count != 0 && _intellectSecondList.SelectedItems.Count != 0)
 			{
 				List<Guid> selectedIntellects =
-					(from x in ScreenHelper.Instance.AvailableIntellects where x.Value == _intellectFirstList.Items[_intellectFirstList.SelectedItems[0]]
-						 || x.Value == _intellectSecondList.Items[_intellectSecondList.SelectedItems[0]] select x.Key).ToList();
+					(from x in ScreenHelper.Instance.AvailableIntellects where x.Value == _intellectFirstList.Items[_intellectFirstList.SelectedItems[0]] select x.Key).ToList();
+
+				selectedIntellects.Add((from x in ScreenHelper.Instance.AvailableIntellects
+					 where x.Value == _intellectSecondList.Items[_intellectSecondList.SelectedItems[0]]
+					 select x.Key).First());
+					
 				if (_gameNameBox.Text != null)
 				{
 					ConnectionManager.Instance.BeginMatch(selectedIntellects, _gameNameBox.Text);
