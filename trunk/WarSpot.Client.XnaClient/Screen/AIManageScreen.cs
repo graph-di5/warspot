@@ -55,6 +55,28 @@ namespace WarSpot.Client.XnaClient.Screen
 			SpriteBatch.End();
 		}
 
+		public override void OnShow()
+		{
+			base.OnShow();
+			var isOk = ConnectionManager.Instance.GetListOfIntellects();
+			if (isOk.Type == ErrorType.Ok)
+			{
+				if (Utils.ScreenHelper.Instance.IsOnline)
+				{
+					foreach (var i in Utils.ScreenHelper.Instance.AvailableIntellects)
+					{
+						_intellectList.Items.Add(i.Value);
+					}
+				}
+			}
+		}
+
+		public override void OnHide()
+		{
+			base.OnHide();
+			_intellectList.Items.Clear();
+		}
+
 		private void CreateControls()
 		{
 			_pathLabel = new LabelControl("Select path for your .dll file:")

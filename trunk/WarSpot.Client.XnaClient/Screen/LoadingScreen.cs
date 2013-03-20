@@ -13,15 +13,19 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Bool reference type
 		class ObjBool
 		{
-			public bool IsReplayDeserialized;
+			public bool IsReplayDeserialized { get; set; }
+			public bool IsReplayDownloaded { get; set; }
 			public ObjBool()
 			{
 				IsReplayDeserialized = false;
+				IsReplayDownloaded = false;
+				
 			}
 		}
+
 		private Texture2D _texture;
 		private readonly ObjBool _checker = new ObjBool();
-		bool isCorrect = false;
+		bool isCorrect = true;
 
 		public LoadingScreen()
 		{
@@ -40,7 +44,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			base.Update(gameTime);
 			lock (_checker)
 			{
-				if (_checker.IsReplayDeserialized)
+				if (_checker.IsReplayDeserialized || _checker.IsReplayDownloaded)
 				{
 					if (isCorrect)
 					{
@@ -64,7 +68,15 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void OnShow()
 		{
 			base.OnShow();
-			Thread replayHandler = new Thread(Deserialize);
+			Thread replayHandler;
+			if (ScreenHelper.Instance.IsOnline)
+			{
+				replayHandler = new Thread(DownloadReplay);
+			}
+			else
+			{
+				replayHandler = new Thread(Deserialize);
+			}
 			replayHandler.Start();
 		}
 
@@ -76,6 +88,15 @@ namespace WarSpot.Client.XnaClient.Screen
 			lock (_checker)
 			{
 				_checker.IsReplayDeserialized = isCorrect;
+			}
+		}
+
+		private void DownloadReplay()
+		{
+			Network.ConnectionManager.Instance.DownloadReplay(Utils.ScreenHelper.Instance.DownloadedGameGuid);
+			lock (_checker)
+			{
+				_checker.IsReplayDownloaded = true;
 			}
 		}
 	}

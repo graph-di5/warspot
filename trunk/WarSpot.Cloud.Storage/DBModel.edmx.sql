@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/13/2013 00:39:13
--- Generated from EDMX file: C:\Users\deem\Documents\warspot_\trunk\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 03/15/2013 15:20:06
+-- Generated from EDMX file: C:\Users\Всеволод\Desktop\WarSpotSVN\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -46,9 +46,6 @@ IF OBJECT_ID(N'[dbo].[FK_IntellectTeam_Team]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_GameGameDetails]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[GameDetails] DROP CONSTRAINT [FK_GameGameDetails];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TeamGameDetails]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[GameDetails] DROP CONSTRAINT [FK_TeamGameDetails];
 GO
 
 -- --------------------------------------------------
@@ -245,13 +242,13 @@ GO
 -- Creating primary key on [Player_Account_ID], [TournamentPlayer_Tournament_ID] in table 'AccountPlayer'
 ALTER TABLE [dbo].[AccountPlayer]
 ADD CONSTRAINT [PK_AccountPlayer]
-    PRIMARY KEY CLUSTERED ([Player_Account_ID], [TournamentPlayer_Tournament_ID] ASC);
+    PRIMARY KEY NONCLUSTERED ([Player_Account_ID], [TournamentPlayer_Tournament_ID] ASC);
 GO
 
 -- Creating primary key on [Intellects_Intellect_ID], [Teams_Team_ID] in table 'IntellectTeam'
 ALTER TABLE [dbo].[IntellectTeam]
 ADD CONSTRAINT [PK_IntellectTeam]
-    PRIMARY KEY CLUSTERED ([Intellects_Intellect_ID], [Teams_Team_ID] ASC);
+    PRIMARY KEY NONCLUSTERED ([Intellects_Intellect_ID], [Teams_Team_ID] ASC);
 GO
 
 -- --------------------------------------------------

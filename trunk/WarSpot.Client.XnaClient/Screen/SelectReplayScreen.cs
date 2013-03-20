@@ -10,7 +10,6 @@ using WarSpot.Client.XnaClient.Network;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
-	// TODO: filling listbox and deleting replays
 	internal class SelectReplayScreen : GameScreen
 	{
 		private static Texture2D _texture;
@@ -43,6 +42,11 @@ namespace WarSpot.Client.XnaClient.Screen
 				_deleteButton.Enabled = false;
 			else
 				_deleteButton.Enabled = true;
+
+			if (_replaysList.SelectedItems.Count == 0)
+				_watchButton.Enabled = false;
+			else
+				_watchButton.Enabled = true;
 		}
 
 		public override void Draw(GameTime gameTime)
@@ -84,6 +88,12 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 		}
 
+		public override void OnHide()
+		{
+			base.OnHide();
+			_replaysList.Items.Clear();
+		}
+
 		private void CreateControls()
 		{
 			_replaysList = new ListControl
@@ -96,12 +106,6 @@ namespace WarSpot.Client.XnaClient.Screen
 						new UniScalar(0f, 300),
 						new UniScalar(0f, 300))
 			};
-
-			_replaysList.Slider.Bounds.Location.X.Offset -= 1.0f;
-			_replaysList.Slider.Bounds.Location.Y.Offset += 1.0f;
-			_replaysList.Slider.Bounds.Size.Y.Offset -= 2.0f;
-			_replaysList.SelectionMode = Nuclex.UserInterface.Controls.Desktop.ListSelectionMode.Single;
-			_replaysList.SelectedItems.Add(0);
 
 			_replayLabel = new LabelControl("Select replay:")
 			{
@@ -159,12 +163,10 @@ namespace WarSpot.Client.XnaClient.Screen
 			UpdateReplaysList();
 		}
 
-		private static void WatchButtonPressed(object sender, EventArgs e)
+		private void WatchButtonPressed(object sender, EventArgs e)
 		{
-			// Temporary solution
-			//string selectedReplay = _replaysBox.Items[_replaysBox.SelectedItems[0]];
-			//string path = Path.Combine(FoldersHelper.FoldersHelper.GetReplayPath(), selectedReplay);
 			Utils.ScreenHelper.Instance.ReplayPath = "replay_test.out";
+			Utils.ScreenHelper.Instance.DownloadedGameGuid = Guid.Parse(_replaysList.Items[_replaysList.SelectedItems[0]]);
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoadingScreen);
 		}
 

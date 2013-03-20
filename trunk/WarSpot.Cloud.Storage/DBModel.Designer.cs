@@ -8,12 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -222,6 +223,7 @@ namespace WarSpot.Cloud.Storage
         private ObjectSet<Team> _Teams;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -297,11 +299,11 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -330,6 +332,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -408,6 +411,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnAccount_PasswordChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -522,6 +526,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -554,6 +559,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -680,6 +686,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnLongCommentChanged();
 
         #endregion
+
     
     }
     
@@ -711,6 +718,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -837,6 +845,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnGame_NameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -939,6 +948,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -967,6 +977,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1045,6 +1056,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnWinner_IDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1087,6 +1099,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1115,6 +1128,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1193,6 +1207,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnAccountAccount_IDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1257,6 +1272,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1283,6 +1299,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1337,6 +1354,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnIdChanged();
 
         #endregion
+
     
     }
     
@@ -1364,6 +1382,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1418,6 +1437,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnGameGame_IDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1482,6 +1502,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1514,6 +1535,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1640,6 +1662,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnTournament_NameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1704,6 +1727,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1734,6 +1758,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1836,6 +1861,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnRole_CodeChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1878,8 +1904,10 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
 
     #endregion
+
     
 }
