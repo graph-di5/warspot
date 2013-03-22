@@ -609,7 +609,7 @@ namespace WarSpot.Cloud.Storage
 			List<Tournament> actualtournaments;
 
 			if ((actualtournaments = (from t in db.Tournament
-																where DateTime.Compare(DateTime.Parse(t.When), DateTime.Now) >= 0
+																where DateTime.Compare(DateTime.Parse(t.StartTime), DateTime.Now) >= 0
 																select t).ToList<Tournament>()).Any<Tournament>())
 			{
 				Account user = (from a in db.Account

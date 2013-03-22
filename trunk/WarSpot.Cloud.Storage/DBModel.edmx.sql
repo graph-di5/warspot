@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/15/2013 15:20:06
--- Generated from EDMX file: C:\Users\Всеволод\Desktop\WarSpotSVN\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 03/22/2013 15:20:29
+-- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\W2\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -129,7 +129,7 @@ GO
 CREATE TABLE [dbo].[Tournament] (
     [Tournament_ID] uniqueidentifier  NOT NULL,
     [MaxPlayers] bigint  NOT NULL,
-    [When] nvarchar(max)  NOT NULL,
+    [StartTime] nvarchar(max)  NOT NULL,
     [Creator_ID] uniqueidentifier  NOT NULL,
     [Tournament_Name] nvarchar(max)  NOT NULL
 );
@@ -167,6 +167,32 @@ CREATE TABLE [dbo].[Teams] (
 );
 GO
 
+-- Creating table 'Stages'
+CREATE TABLE [dbo].[Stages] (
+    [Stage_ID] uniqueidentifier  NOT NULL,
+    [TournamentTournament_ID] uniqueidentifier  NOT NULL,
+    [State] nvarchar(max)  NOT NULL,
+    [Type] nvarchar(max)  NOT NULL,
+    [StartTime] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'SubStages'
+CREATE TABLE [dbo].[SubStages] (
+    [SubStage_ID] uniqueidentifier  NOT NULL,
+    [StageStage_ID] uniqueidentifier  NOT NULL,
+    [State] nvarchar(max)  NOT NULL,
+    [Subtype] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Scores'
+CREATE TABLE [dbo].[Scores] (
+    [Score_ID] uniqueidentifier  NOT NULL,
+    [SubStageSubStage_ID] uniqueidentifier  NOT NULL
+);
+GO
+
 -- Creating table 'AccountPlayer'
 CREATE TABLE [dbo].[AccountPlayer] (
     [Player_Account_ID] uniqueidentifier  NOT NULL,
@@ -178,6 +204,20 @@ GO
 CREATE TABLE [dbo].[IntellectTeam] (
     [Intellects_Intellect_ID] uniqueidentifier  NOT NULL,
     [Teams_Team_ID] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'AccountStage'
+CREATE TABLE [dbo].[AccountStage] (
+    [Accounts_Account_ID] uniqueidentifier  NOT NULL,
+    [Stages_Stage_ID] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'GameSubStage'
+CREATE TABLE [dbo].[GameSubStage] (
+    [Games_Game_ID] uniqueidentifier  NOT NULL,
+    [SubStages_SubStage_ID] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -239,6 +279,24 @@ ADD CONSTRAINT [PK_Teams]
     PRIMARY KEY CLUSTERED ([Team_ID] ASC);
 GO
 
+-- Creating primary key on [Stage_ID] in table 'Stages'
+ALTER TABLE [dbo].[Stages]
+ADD CONSTRAINT [PK_Stages]
+    PRIMARY KEY CLUSTERED ([Stage_ID] ASC);
+GO
+
+-- Creating primary key on [SubStage_ID] in table 'SubStages'
+ALTER TABLE [dbo].[SubStages]
+ADD CONSTRAINT [PK_SubStages]
+    PRIMARY KEY CLUSTERED ([SubStage_ID] ASC);
+GO
+
+-- Creating primary key on [Score_ID] in table 'Scores'
+ALTER TABLE [dbo].[Scores]
+ADD CONSTRAINT [PK_Scores]
+    PRIMARY KEY CLUSTERED ([Score_ID] ASC);
+GO
+
 -- Creating primary key on [Player_Account_ID], [TournamentPlayer_Tournament_ID] in table 'AccountPlayer'
 ALTER TABLE [dbo].[AccountPlayer]
 ADD CONSTRAINT [PK_AccountPlayer]
@@ -249,6 +307,18 @@ GO
 ALTER TABLE [dbo].[IntellectTeam]
 ADD CONSTRAINT [PK_IntellectTeam]
     PRIMARY KEY NONCLUSTERED ([Intellects_Intellect_ID], [Teams_Team_ID] ASC);
+GO
+
+-- Creating primary key on [Accounts_Account_ID], [Stages_Stage_ID] in table 'AccountStage'
+ALTER TABLE [dbo].[AccountStage]
+ADD CONSTRAINT [PK_AccountStage]
+    PRIMARY KEY NONCLUSTERED ([Accounts_Account_ID], [Stages_Stage_ID] ASC);
+GO
+
+-- Creating primary key on [Games_Game_ID], [SubStages_SubStage_ID] in table 'GameSubStage'
+ALTER TABLE [dbo].[GameSubStage]
+ADD CONSTRAINT [PK_GameSubStage]
+    PRIMARY KEY NONCLUSTERED ([Games_Game_ID], [SubStages_SubStage_ID] ASC);
 GO
 
 -- --------------------------------------------------
@@ -378,6 +448,94 @@ ADD CONSTRAINT [FK_GameGameDetails]
     REFERENCES [dbo].[Game]
         ([Game_ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [TournamentTournament_ID] in table 'Stages'
+ALTER TABLE [dbo].[Stages]
+ADD CONSTRAINT [FK_TournamentStage]
+    FOREIGN KEY ([TournamentTournament_ID])
+    REFERENCES [dbo].[Tournament]
+        ([Tournament_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TournamentStage'
+CREATE INDEX [IX_FK_TournamentStage]
+ON [dbo].[Stages]
+    ([TournamentTournament_ID]);
+GO
+
+-- Creating foreign key on [StageStage_ID] in table 'SubStages'
+ALTER TABLE [dbo].[SubStages]
+ADD CONSTRAINT [FK_StageSubStage]
+    FOREIGN KEY ([StageStage_ID])
+    REFERENCES [dbo].[Stages]
+        ([Stage_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_StageSubStage'
+CREATE INDEX [IX_FK_StageSubStage]
+ON [dbo].[SubStages]
+    ([StageStage_ID]);
+GO
+
+-- Creating foreign key on [SubStageSubStage_ID] in table 'Scores'
+ALTER TABLE [dbo].[Scores]
+ADD CONSTRAINT [FK_SubStageScore]
+    FOREIGN KEY ([SubStageSubStage_ID])
+    REFERENCES [dbo].[SubStages]
+        ([SubStage_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SubStageScore'
+CREATE INDEX [IX_FK_SubStageScore]
+ON [dbo].[Scores]
+    ([SubStageSubStage_ID]);
+GO
+
+-- Creating foreign key on [Accounts_Account_ID] in table 'AccountStage'
+ALTER TABLE [dbo].[AccountStage]
+ADD CONSTRAINT [FK_AccountStage_Account]
+    FOREIGN KEY ([Accounts_Account_ID])
+    REFERENCES [dbo].[Account]
+        ([Account_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Stages_Stage_ID] in table 'AccountStage'
+ALTER TABLE [dbo].[AccountStage]
+ADD CONSTRAINT [FK_AccountStage_Stage]
+    FOREIGN KEY ([Stages_Stage_ID])
+    REFERENCES [dbo].[Stages]
+        ([Stage_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccountStage_Stage'
+CREATE INDEX [IX_FK_AccountStage_Stage]
+ON [dbo].[AccountStage]
+    ([Stages_Stage_ID]);
+GO
+
+-- Creating foreign key on [Games_Game_ID] in table 'GameSubStage'
+ALTER TABLE [dbo].[GameSubStage]
+ADD CONSTRAINT [FK_GameSubStage_Game]
+    FOREIGN KEY ([Games_Game_ID])
+    REFERENCES [dbo].[Game]
+        ([Game_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [SubStages_SubStage_ID] in table 'GameSubStage'
+ALTER TABLE [dbo].[GameSubStage]
+ADD CONSTRAINT [FK_GameSubStage_SubStage]
+    FOREIGN KEY ([SubStages_SubStage_ID])
+    REFERENCES [dbo].[SubStages]
+        ([SubStage_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_GameSubStage_SubStage'
+CREATE INDEX [IX_FK_GameSubStage_SubStage]
+ON [dbo].[GameSubStage]
+    ([SubStages_SubStage_ID]);
 GO
 
 -- --------------------------------------------------
