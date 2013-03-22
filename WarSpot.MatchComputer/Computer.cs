@@ -120,13 +120,16 @@ namespace WarSpot.MatchComputer
 					}
 					var newBeing = new Being(team.Members[i], team.TeamId);
 					newBeing.Construct(0, 60);
-					newBeing.Characteristics.Team = team.TeamId;
-					newBeing.Characteristics.X = pos[i].Item1;
-					newBeing.Characteristics.Y = pos[i].Item2;
-					_world[pos[i].Item1, pos[i].Item2].BeingValue = newBeing;
+                    if (60 >= newBeing.Characteristics.Cost())//Проверка, можно ли создать начальное существо с такими характеристиками
+                    {
+                        newBeing.Characteristics.Team = team.TeamId;
+                        newBeing.Characteristics.X = pos[i].Item1;
+                        newBeing.Characteristics.Y = pos[i].Item2;
+                        _world[pos[i].Item1, pos[i].Item2].BeingValue = newBeing;
 
-					_objects.Add(newBeing);
-					_eventsHistory.Events.Add(new GameEventBirth(newBeing.Characteristics.Id, newBeing.Characteristics));//Рождение записываем в историю.
+                        _objects.Add(newBeing);
+                        _eventsHistory.Events.Add(new GameEventBirth(newBeing.Characteristics.Id, newBeing.Characteristics));//Рождение записываем в историю.
+                    }
 				}
 
 				curNum++;
