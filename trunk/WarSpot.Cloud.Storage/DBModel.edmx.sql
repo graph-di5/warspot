@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/22/2013 15:20:29
+-- Date Created: 03/22/2013 15:38:13
 -- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\W2\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
@@ -47,6 +47,30 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_GameGameDetails]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[GameDetails] DROP CONSTRAINT [FK_GameGameDetails];
 GO
+IF OBJECT_ID(N'[dbo].[FK_TournamentStage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Stages] DROP CONSTRAINT [FK_TournamentStage];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StageSubStage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SubStages] DROP CONSTRAINT [FK_StageSubStage];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SubStageScore]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Scores] DROP CONSTRAINT [FK_SubStageScore];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccountStage_Account]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccountStage] DROP CONSTRAINT [FK_AccountStage_Account];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccountStage_Stage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccountStage] DROP CONSTRAINT [FK_AccountStage_Stage];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GameSubStage_Game]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GameSubStage] DROP CONSTRAINT [FK_GameSubStage_Game];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GameSubStage_SubStage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GameSubStage] DROP CONSTRAINT [FK_GameSubStage_SubStage];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccountScore]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Scores] DROP CONSTRAINT [FK_AccountScore];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -79,11 +103,26 @@ GO
 IF OBJECT_ID(N'[dbo].[Teams]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Teams];
 GO
+IF OBJECT_ID(N'[dbo].[Stages]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Stages];
+GO
+IF OBJECT_ID(N'[dbo].[SubStages]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SubStages];
+GO
+IF OBJECT_ID(N'[dbo].[Scores]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Scores];
+GO
 IF OBJECT_ID(N'[dbo].[AccountPlayer]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AccountPlayer];
 GO
 IF OBJECT_ID(N'[dbo].[IntellectTeam]', 'U') IS NOT NULL
     DROP TABLE [dbo].[IntellectTeam];
+GO
+IF OBJECT_ID(N'[dbo].[AccountStage]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccountStage];
+GO
+IF OBJECT_ID(N'[dbo].[GameSubStage]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GameSubStage];
 GO
 
 -- --------------------------------------------------
@@ -189,7 +228,8 @@ GO
 -- Creating table 'Scores'
 CREATE TABLE [dbo].[Scores] (
     [Score_ID] uniqueidentifier  NOT NULL,
-    [SubStageSubStage_ID] uniqueidentifier  NOT NULL
+    [SubStageSubStage_ID] uniqueidentifier  NOT NULL,
+    [Points] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -536,6 +576,15 @@ ADD CONSTRAINT [FK_GameSubStage_SubStage]
 CREATE INDEX [IX_FK_GameSubStage_SubStage]
 ON [dbo].[GameSubStage]
     ([SubStages_SubStage_ID]);
+GO
+
+-- Creating foreign key on [Score_ID] in table 'Scores'
+ALTER TABLE [dbo].[Scores]
+ADD CONSTRAINT [FK_AccountScore]
+    FOREIGN KEY ([Score_ID])
+    REFERENCES [dbo].[Account]
+        ([Account_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- --------------------------------------------------
