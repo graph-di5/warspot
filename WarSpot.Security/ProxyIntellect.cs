@@ -13,22 +13,15 @@ namespace WarSpot.Security
         // 
         private IBeingInterface intellect;
 
-        public ProxyIntellect()
+        public ProxyIntellect(Assembly dll)
         {
-            this.intellect = null;
+            this.Initialize(dll);
         }
        
         // Этим методом следует иницилизировать поле intellect?
-        public bool Initialize(Assembly dll)
+        private void Initialize(Assembly dll)
         {
             this.intellect = AddBeing(dll).First<IBeingInterface>();
-
-            if (this.intellect == null)
-            {
-                return false;
-            }
-            // TO DO: Initialize field intellect.
-            return true;
         }
 
         private static List<IBeingInterface> AddBeing(Assembly assembly)
@@ -57,13 +50,14 @@ namespace WarSpot.Security
         [WarSpotSecurityPermission(SecurityAction.Demand)] // TO DO: 
         public BeingCharacteristics Construct(ulong step, float ci)
         {
-            throw new NotImplementedException();
+            return this.intellect.Construct(step, ci); //Таким образом, вызываем метод Construct у проверяемой библиотеки, 
+                                                       //с уже навешенной проверкой безопасности.
         }
 
-         // TO DO:
+         // TO DO: Добавить Permission.
         public Contracts.Intellect.Actions.GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
         {
-            throw new NotImplementedException();
+            return this.intellect.Think(step, characteristics, area);
         }
     }
 }
