@@ -341,7 +341,12 @@ namespace WarSpot.Cloud.Storage
 			return msg;
 		}
 
-		#endregion
+	    public static int getTasksNumber()
+	    {
+	        return queue.RetrieveApproximateMessageCount();
+	    }
+
+	    #endregion
 
 		#region DATABASE METHODS
 

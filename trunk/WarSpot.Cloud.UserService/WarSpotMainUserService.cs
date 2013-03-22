@@ -4,6 +4,7 @@ using System.Linq;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
 using WarSpot.Security;
+using System.Diagnostics;
 
 namespace WarSpot.Cloud.UserService
 {
