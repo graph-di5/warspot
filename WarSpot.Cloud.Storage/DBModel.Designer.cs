@@ -32,6 +32,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("DBModel", "SubStageScore", "SubStage", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.SubStage), "Score", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Score), true)]
 [assembly: EdmRelationshipAttribute("DBModel", "AccountStage", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Account), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage))]
 [assembly: EdmRelationshipAttribute("DBModel", "GameSubStage", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Game), "SubStage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.SubStage))]
+[assembly: EdmRelationshipAttribute("DBModel", "AccountScore", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "Score", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Score), true)]
 
 #endregion
 
@@ -620,6 +621,44 @@ namespace WarSpot.Cloud.Storage
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Stage>("DBModel.AccountStage", "Stage", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountScore", "Score")]
+        public Score Score
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Score>("DBModel.AccountScore", "Score").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Score>("DBModel.AccountScore", "Score").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Score> ScoreReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Score>("DBModel.AccountScore", "Score");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Score>("DBModel.AccountScore", "Score", value);
                 }
             }
         }
@@ -1411,11 +1450,13 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         /// <param name="score_ID">Исходное значение свойства Score_ID.</param>
         /// <param name="subStageSubStage_ID">Исходное значение свойства SubStageSubStage_ID.</param>
-        public static Score CreateScore(global::System.Guid score_ID, global::System.Guid subStageSubStage_ID)
+        /// <param name="points">Исходное значение свойства Points.</param>
+        public static Score CreateScore(global::System.Guid score_ID, global::System.Guid subStageSubStage_ID, global::System.String points)
         {
             Score score = new Score();
             score.Score_ID = score_ID;
             score.SubStageSubStage_ID = subStageSubStage_ID;
+            score.Points = points;
             return score;
         }
 
@@ -1473,6 +1514,30 @@ namespace WarSpot.Cloud.Storage
         private global::System.Guid _SubStageSubStage_ID;
         partial void OnSubStageSubStage_IDChanging(global::System.Guid value);
         partial void OnSubStageSubStage_IDChanged();
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Points
+        {
+            get
+            {
+                return _Points;
+            }
+            set
+            {
+                OnPointsChanging(value);
+                ReportPropertyChanging("Points");
+                _Points = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Points");
+                OnPointsChanged();
+            }
+        }
+        private global::System.String _Points;
+        partial void OnPointsChanging(global::System.String value);
+        partial void OnPointsChanged();
 
         #endregion
 
@@ -1513,6 +1578,44 @@ namespace WarSpot.Cloud.Storage
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<SubStage>("DBModel.SubStageScore", "SubStage", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountScore", "Account")]
+        public Account Account
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountScore", "Account").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountScore", "Account").Value = value;
+            }
+        }
+        /// <summary>
+        /// Нет доступной документации по метаданным.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Account> AccountReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountScore", "Account");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Account>("DBModel.AccountScore", "Account", value);
                 }
             }
         }
