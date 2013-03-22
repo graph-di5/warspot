@@ -17,6 +17,10 @@ namespace WarSpot.Security
 
             if (DllReferenceHandler.AnalyzeDllReferences(Dll).Type == ErrorType.IllegalReference)
                 return;
+
+            ProxyIntellect proxy = new ProxyIntellect(Dll);
+
+
         }
 
 
