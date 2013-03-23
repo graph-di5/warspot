@@ -1,5 +1,5 @@
 #labels Featured
-Проект *[http://code.google.com/p/warspot/wiki/AboutRU#Суть WarSpot]* создаётся силами студентов [URL:http://math.spbu.ru |TEXT:Математико-Механического факультета] и [http://apmath.spbu.ru/ факультета Прикладной Математики и Процессов Управления] [http://spbu.ru СПбГУ] под руководством сотрудников компании [http://www.lanit-tercom.com/ «Ланит-Терком»] в рамках программы [http://www.lanit-tercom.com/ru/hr/students студенческих проектов] компании «Ланит-Терком».
+Проект *[http://code.google.com/p/warspot/wiki/AboutRU#Суть WarSpot]* создаётся силами студентов [URL:http://math.spbu.ru |TEXT: Математико-Механического факультета] и [http://apmath.spbu.ru/ факультета Прикладной Математики и Процессов Управления] [http://spbu.ru СПбГУ] под руководством сотрудников компании [http://www.lanit-tercom.com/ «Ланит-Терком»] в рамках программы [http://www.lanit-tercom.com/ru/hr/students студенческих проектов] компании «Ланит-Терком».
 
 ==Суть<g:plusone size="small"></g:plusone>==
 
