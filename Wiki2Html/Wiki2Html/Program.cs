@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using CommandLine;
 using CommandLine.Text;
@@ -42,7 +43,7 @@ namespace Wiki2Html
 				var inFile = new StreamReader(options.InFileName);
 				var outFile = new StreamWriter(options.OutFileName);
 
-				while((line = inFile.ReadLine()) != null)
+				while ((line = inFile.ReadLine()) != null)
 				{
 					outFile.WriteLine(converter.Convert(line));
 				}
@@ -55,21 +56,36 @@ namespace Wiki2Html
 
 	internal class Wiki2HtmlConverter
 	{
-		private static readonly Dictionary<string,string> Rules = new Dictionary<string, string>
-		                                         	{
-		                                         		{"^#(.*)$", "<!--$1-->"},
-																								{"====.*====", "<h4>$1</h4>"},
-																								{"===.*===", "<h3>$1</h3>"},
-																								{"==.*==", "<h2>$1</h2>"},
-																								{"=.*=", "<h1>$1</h1>"},
-		                                         	};
+		static KeyValuePair<string, string> Tag(string wikiTag, string htmlTag, bool fullString = false)
+		{
+			return new KeyValuePair<string, string>(
+				string.Format("{1}{0}(.*){0}{2}", wikiTag, fullString ? "^" : "", fullString ? "$" : ""),
+				string.Format("<{0}>$1</{0}>", htmlTag));
+		}
+
+
+		private static readonly IDictionary<string, string> Rules;
+
+		static Wiki2HtmlConverter()
+		{
+			Rules = new Dictionary<string, string>();
+			Rules.Add(Tag(@"\*", "b"));
+			Rules.Add("^#(.*)$", "<!--$1-->");
+			Rules.Add(Tag("====", "h4", true));
+			Rules.Add(Tag("===", "h3", true));
+			Rules.Add(Tag("==", "h2", true));
+			Rules.Add(Tag("=", "h1", true));
+			Rules.Add("{{{", "<pre>");
+			Rules.Add("}}}", "</pre>");
+			Rules.Add("^$", "<br/>");
+			Rules.Add(@"\[(\S+?)\s(.*?)\]", "<a href=\"$1\">$2</a>");
+			Rules.Add(@"\[(\S+?)]", "<a href=\"$1\">$1</a>");
+			Rules.Add(@"(https+.*?\.(png|gif|jpg|jpeg))", "<img src=\"$1\">");
+		}
+
 		public string Convert(string line)
 		{
-			foreach (var rule in Rules)
-			{
-				line = Regex.Replace(line, rule.Key, rule.Value);
-			}
-			return line;
+			return Rules.Aggregate(line, (current, rule) => Regex.Replace(current, rule.Key, rule.Value));
 		}
 	}
 }
