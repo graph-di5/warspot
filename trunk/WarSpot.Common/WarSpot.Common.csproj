@@ -56,7 +56,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(ProjectDir)UpdateAssemblyInfo.exe" "$(ProjectDir)Properties\VersionInfo.cs"
+    <PreBuildEvent>"$(SolutionDir)\Utils\UpdateAssemblyInfo.exe" "$(ProjectDir)Properties\VersionInfo.cs"
 
 </PreBuildEvent>
   </PropertyGroup>
