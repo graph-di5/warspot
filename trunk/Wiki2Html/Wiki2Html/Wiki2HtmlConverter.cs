@@ -77,42 +77,50 @@ namespace Wiki2Html
 			Rules.Add(@"\|(.*?)\|", "<td>$1</td>");
 
 			TablePattern = new Regex(@"^\s*\|((\|.*?\|)+)\|\s*$");
-			NumberListPattern = new Regex(@"^(\s)+#");
+			NumberedListPattern = new Regex(@"^(\s)+#");
+			BulletedListPattern = new Regex(@"^(\s)+\*");
 		}
 
-		private static readonly Regex TablePattern, NumberListPattern;
+		private static readonly Regex TablePattern, NumberedListPattern, BulletedListPattern;
 		#endregion
 
 		private bool _isTable;
-		private Stack<int> _numberedLists;
+		// todo merge this to stacks
+		private readonly Stack<int> _numberedLists, _bulletedLists;
 
 		public Wiki2HtmlConverter()
 		{
 			_isTable = false;
 			_numberedLists = new Stack<int>();
-
+			_bulletedLists= new Stack<int>();
 		}
 
 		public string Convert(string line)
 		{
 			var isTable = TablePattern.IsMatch(line);
-			var isNumberedList = NumberListPattern.IsMatch(line);
+			var isNumberedList = NumberedListPattern.IsMatch(line);
+			var isBulletedList = BulletedListPattern.IsMatch(line);
+
 			var numberedListShift = 0;
-			if(isNumberedList)
+			if (isNumberedList)
 			{
 				numberedListShift = line.IndexOf('#') - 1;
+			}
+			if (isBulletedList)
+			{
+				numberedListShift = line.IndexOf('*') - 1;
 			}
 
 			var res = Rules.Aggregate(line, (current, rule) => Regex.Replace(current, rule.Key, rule.Value));
 
 			#region <ol> - numbered list
-			if (isNumberedList 
+			if (isNumberedList
 				&& (_numberedLists.Count == 0 || _numberedLists.Peek() < numberedListShift))
 			{
 				res = "<ol> " + res;
 				_numberedLists.Push(numberedListShift);
 			}
-			if (!isNumberedList)
+			if (!isNumberedList && !isBulletedList)
 			{
 				while (_numberedLists.Count > 0)
 				{
@@ -124,6 +132,28 @@ namespace Wiki2Html
 			{
 				res = "</ol>" + res;
 				_numberedLists.Pop();
+			}
+			#endregion
+
+			#region <ul> - bulleted list
+			if (isBulletedList
+				&& (_bulletedLists.Count == 0 || _bulletedLists.Peek() < numberedListShift))
+			{
+				res = "<ul> " + res;
+				_bulletedLists.Push(numberedListShift);
+			}
+			if (!isNumberedList && !isBulletedList)
+			{
+				while (_bulletedLists.Count > 0)
+				{
+					res = "</ul>" + res;
+					_bulletedLists.Pop();
+				}
+			}
+			if (_bulletedLists.Count != 0 && _bulletedLists.Peek() > numberedListShift)
+			{
+				res = "</ul>" + res;
+				_bulletedLists.Pop();
 			}
 			#endregion
 
