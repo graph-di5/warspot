@@ -61,8 +61,7 @@ namespace Wiki2Html
  * Despite the different indentation levels.
 			 */
 
-			// todo
-			// Plain URLs such as http://www.google.com/ or ftp://ftp.kernel.org/ are automatically made into links. 
+			Rules.Add(@"\s((http|ftp)s?://.*?)\s", " <a href=\"$1\">$1</a> ");
 			Rules.Add(@"\[(\S+?)\s(.*?)\]", "<a href=\"$1\">$2</a>");
 			Rules.Add(@"\[(\S+?)]", "<a href=\"$1\">$1</a>");
 
@@ -71,10 +70,11 @@ namespace Wiki2Html
 			Rules.Add(@"^\s*\|", "<tr>");
 			Rules.Add(@"\|\s*$", "</tr>");
 			Rules.Add(@"\|(.*?)\|", "<td>$1</td>");
-			_tableString = new Regex(@"^\s*\|((\|.*?\|)+)\|\s*$");
+			
+			TableString = new Regex(@"^\s*\|((\|.*?\|)+)\|\s*$");
 		}
 
-		private static Regex _tableString;
+		private static readonly Regex TableString;
 		#endregion
 
 		private bool _isTable;
@@ -86,10 +86,11 @@ namespace Wiki2Html
 
 		public string Convert(string line)
 		{
-			var isTable = _tableString.Match(line).Success;
+			var isTable = TableString.Match(line).Success;
 
-			var res = Rules.Aggregate(line, (current, rule) => Regex.Replace((string)current, (string)rule.Key, (string)rule.Value));
+			var res = Rules.Aggregate(line, (current, rule) => Regex.Replace(current, rule.Key, rule.Value));
 
+			#region <table>
 			if (!_isTable && isTable)
 			{
 				res = "<table>" + res;
@@ -99,6 +100,7 @@ namespace Wiki2Html
 				res = "</table>" + res;
 			}
 			_isTable = isTable;
+			#endregion
 
 			return res;
 		}
