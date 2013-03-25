@@ -26,9 +26,14 @@ namespace Wiki2Html
 			// todo sidebar
 			Rules.Add("^#(labels|sidebar|summary)(.*)$", "<!--$1: $2-->");
 
+			// lists
+			Rules.Add(@"^\s+#(.*)$", "<li>$1</li>");
+			Rules.Add(@"^\s+\*(.*)$", "<li>$1</li>");
+
 			Rules.Add(Tag(@"\*", "b"));
 			Rules.Add(Tag(@"_", "i"));
 			Rules.Add(Tag(@"`", "tt"));
+			// todo skip replacement
 			Rules.Add("{{{", "<pre>");
 			Rules.Add("}}}", "</pre>");
 			Rules.Add(Tag(@"\^", "sup"));
@@ -70,34 +75,66 @@ namespace Wiki2Html
 			Rules.Add(@"^\s*\|", "<tr>");
 			Rules.Add(@"\|\s*$", "</tr>");
 			Rules.Add(@"\|(.*?)\|", "<td>$1</td>");
-			
-			TableString = new Regex(@"^\s*\|((\|.*?\|)+)\|\s*$");
+
+			TablePattern = new Regex(@"^\s*\|((\|.*?\|)+)\|\s*$");
+			NumberListPattern = new Regex(@"^(\s)+#");
 		}
 
-		private static readonly Regex TableString;
+		private static readonly Regex TablePattern, NumberListPattern;
 		#endregion
 
 		private bool _isTable;
+		private Stack<int> _numberedLists;
 
 		public Wiki2HtmlConverter()
 		{
 			_isTable = false;
+			_numberedLists = new Stack<int>();
+
 		}
 
 		public string Convert(string line)
 		{
-			var isTable = TableString.Match(line).Success;
+			var isTable = TablePattern.IsMatch(line);
+			var isNumberedList = NumberListPattern.IsMatch(line);
+			var numberedListShift = 0;
+			if(isNumberedList)
+			{
+				numberedListShift = line.IndexOf('#') - 1;
+			}
 
 			var res = Rules.Aggregate(line, (current, rule) => Regex.Replace(current, rule.Key, rule.Value));
+
+			#region <ol> - numbered list
+			if (isNumberedList 
+				&& (_numberedLists.Count == 0 || _numberedLists.Peek() < numberedListShift))
+			{
+				res = "<ol> " + res;
+				_numberedLists.Push(numberedListShift);
+			}
+			if (!isNumberedList)
+			{
+				while (_numberedLists.Count > 0)
+				{
+					res = "</ol>" + res;
+					_numberedLists.Pop();
+				}
+			}
+			if (_numberedLists.Count != 0 && _numberedLists.Peek() > numberedListShift)
+			{
+				res = "</ol>" + res;
+				_numberedLists.Pop();
+			}
+			#endregion
 
 			#region <table>
 			if (!_isTable && isTable)
 			{
-				res = "<table>" + res;
+				res = "<table> " + res;
 			}
 			if (_isTable && !isTable)
 			{
-				res = "</table>" + res;
+				res = "</table> " + res;
 			}
 			_isTable = isTable;
 			#endregion
