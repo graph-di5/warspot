@@ -25,7 +25,6 @@ namespace Wiki2Html
 
 		static void Main(string[] args)
 		{
-			var line = "";
 			var options = new Options();
 			var converter = new Wiki2HtmlConverter();
 			if (Parser.Default.ParseArguments(args, options))
@@ -40,6 +39,7 @@ namespace Wiki2Html
 				var inFile = new StreamReader(options.InFileName);
 				var outFile = new StreamWriter(options.OutFileName);
 
+				string line;
 				while ((line = inFile.ReadLine()) != null)
 				{
 					outFile.WriteLine(converter.Convert(line));
