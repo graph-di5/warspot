@@ -1,0 +1,13 @@
+#labels Featured,Phase-Implementation
+
+==Информация для разработчиков==
+ * Codestyle.wiki 
+ * Deploy.wiki 
+ * SVNcontent_ru.wiki 
+ * TournamentsImplementationGuide.wiki 
+ * SVNcontent_ru.wiki 
+ 
+==Информация для пользователей==
+ * AboutRU.wiki 
+ * EULA.wiki 
+ * GameRules.wiki 
