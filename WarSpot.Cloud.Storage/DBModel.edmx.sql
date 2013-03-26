@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/22/2013 15:38:13
--- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\W2\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 03/27/2013 00:19:10
+-- Generated from EDMX file: C:\Users\deem\Documents\warspot_\trunk\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -141,7 +141,8 @@ GO
 CREATE TABLE [dbo].[Intellect] (
     [Intellect_ID] uniqueidentifier  NOT NULL,
     [Intellect_Name] nvarchar(max)  NOT NULL,
-    [AccountAccount_ID] uniqueidentifier  NOT NULL
+    [AccountAccount_ID] uniqueidentifier  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL
 );
 GO
 

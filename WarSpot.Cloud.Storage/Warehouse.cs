@@ -104,7 +104,7 @@ namespace WarSpot.Cloud.Storage
 			}
 		}
 
-		public static bool UploadIntellect(Guid Account_ID, string name, byte[] data)
+		public static bool UploadIntellect(Guid Account_ID, string name, byte[] data, string description)
 		{
 			if (db.Intellect == null)
 			{
@@ -118,7 +118,7 @@ namespace WarSpot.Cloud.Storage
 					 select i).Any())
 				return false;
 
-			db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID));
+			db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID, description));
 			db.SaveChanges();
 
 			CloudBlockBlob blob = container.GetBlockBlobReference(uniqueBlobName);

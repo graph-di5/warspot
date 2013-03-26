@@ -34,7 +34,7 @@ namespace WarSpot.WebFace.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult UploadAI(HttpPostedFileBase file)
+		public ActionResult UploadAI(HttpPostedFileBase file, string description)
 		{
 			// todo 
 			var customIdentity = User.Identity as CustomIdentity;
@@ -44,7 +44,7 @@ namespace WarSpot.WebFace.Controllers
 			}
 			MemoryStream target = new MemoryStream();
 			file.InputStream.CopyTo(target);
-			Warehouse.UploadIntellect(customIdentity.Id, file.FileName, target.ToArray());
+			Warehouse.UploadIntellect(customIdentity.Id, file.FileName, target.ToArray(), description);
 			return RedirectToAction("Index");
 		}
 

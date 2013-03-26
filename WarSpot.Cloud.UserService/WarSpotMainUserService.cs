@@ -90,13 +90,13 @@ namespace WarSpot.Cloud.UserService
 		#endregion login and registration
 
 		#region intellect's stuff
-		public ErrorCode UploadIntellect(byte[] intellect, string name)
+		public ErrorCode UploadIntellect(byte[] intellect, string name, string description)
 		{
 			if (_loggedIn)
 			{
 				// TO DO: Verificate intellect.
 				DllVerificationHandler.Execute(intellect);
-				if (Warehouse.UploadIntellect(_userID, name, intellect))
+				if (Warehouse.UploadIntellect(_userID, name, intellect, description))
 					return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
 				else
 					return new ErrorCode(ErrorType.BadFileName, "Inttellect with the same name is already existed");
