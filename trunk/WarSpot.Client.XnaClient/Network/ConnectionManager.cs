@@ -77,7 +77,8 @@ namespace WarSpot.Client.XnaClient.Network
 			try
 			{
 				InitializeConnection();
-				return _service.UploadIntellect(intellect.ByteDll, intellect.Name);
+				// todo make here description 
+				return _service.UploadIntellect(intellect.ByteDll, intellect.Name, "Uploaded from XNA ui");
 			}
 			catch (Exception e)
 			{

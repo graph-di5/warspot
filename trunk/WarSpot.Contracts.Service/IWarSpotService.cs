@@ -20,7 +20,7 @@ namespace WarSpot.Contracts.Service
 
 		#region Intelletcs
 		[OperationContract]
-		ErrorCode UploadIntellect(byte[] intellect, string name);
+		ErrorCode UploadIntellect(byte[] intellect, string name, string description);
 
 		[OperationContract]
 		byte[] DownloadIntellect(Guid intellectID);

@@ -6,9 +6,17 @@
 @using (Html.BeginForm("UploadAI", "AI", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
 { 
-	<div>
+	<div class="editor-label">
 		Файл для загрузки:
+	</div>
+	<div class="editor-field">
 		<input name="file" type="file" />
+	</div>
+	<div class="editor-label">
+		Комментарий: 
+	</div>
+	<div class="editor-field">
+		<input name="description" type="text" />
 	</div>
 	<div>
   <input type="submit" value="Загрузить"/>            

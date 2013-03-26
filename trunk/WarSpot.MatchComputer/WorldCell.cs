@@ -1,5 +1,3 @@
-using WarSpot.Contracts.Intellect;
-
 namespace WarSpot.MatchComputer
 {
 	/// <summary>

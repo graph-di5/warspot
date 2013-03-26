@@ -110,6 +110,7 @@
     <Property Name="Intellect_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Intellect_Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="AccountAccount_ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Game">
     <Key>
@@ -545,6 +546,7 @@
           <NavigationProperty Name="Account" Relationship="DBModel.AccountIntellect" FromRole="Intellect" ToRole="Account" />
           <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
           <NavigationProperty Name="Teams" Relationship="DBModel.IntellectTeam" FromRole="Intellect" ToRole="Team" />
+          <Property Type="String" Name="Description" Nullable="false" />
         </EntityType>
         <Association Name="AccountIntellect">
           <End Type="DBModel.Account" Role="Account" Multiplicity="1" />
@@ -810,6 +812,7 @@
           <ScalarProperty Name="Intellect_ID" ColumnName="Intellect_ID" />
           <ScalarProperty Name="Intellect_Name" ColumnName="Intellect_Name" />
           <ScalarProperty Name="AccountAccount_ID" ColumnName="AccountAccount_ID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -965,11 +968,10 @@
     <edmx:Diagrams>
       <Diagram Name="DBModel" ZoomLevel="95" >
         <EntityTypeShape EntityType="DBModel.Account" Width="2.75" PointX="3.5" PointY="1" Height="2.4047859700520835" />
-        <EntityTypeShape EntityType="DBModel.Intellect" Width="2.625" PointX="0.5" PointY="4.25" Height="1.8694466145833326" />
+        <EntityTypeShape EntityType="DBModel.Intellect" Width="2.625" PointX="0.5" PointY="4.25" Height="2.0478930664062496" />
         <AssociationConnector Association="DBModel.AccountIntellect">
-          <ConnectorPoint PointX="3.96875" PointY="3.4047859700520835" />
-          <ConnectorPoint PointX="3.96875" PointY="4.34375" />
-          <ConnectorPoint PointX="3.125" PointY="4.34375" />
+          <ConnectorPoint PointX="3.5000000000000004" PointY="3.761678873697917" />
+          <ConnectorPoint PointX="3.125" PointY="4.25" />
         </AssociationConnector>
         <EntityTypeShape EntityType="DBModel.Game" Width="2.375" PointX="6.25" PointY="4.375" Height="2.4047859700520826" />
         <AssociationConnector Association="DBModel.AccountGame">
@@ -1000,9 +1002,8 @@
           <ConnectorPoint PointX="8.1875" PointY="6.4047859700520826" />
         </AssociationConnector>
         <AssociationConnector Association="DBModel.IntellectTeam" >
-          <ConnectorPoint PointX="1.8125" PointY="6.1194466145833326" />
-          <ConnectorPoint PointX="1.8125" PointY="8.0955000813802087" />
-          <ConnectorPoint PointX="4.5" PointY="8.0955000813802087" />
+          <ConnectorPoint PointX="2.4375" PointY="6.29789306640625" />
+          <ConnectorPoint PointX="2.4375" PointY="7.25" />
         </AssociationConnector>
         <AssociationConnector Association="DBModel.GameGameDetails" >
           <ConnectorPoint PointX="7" PointY="5.4347233072916659" />
