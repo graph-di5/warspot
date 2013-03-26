@@ -1,8 +1,8 @@
 #labels Featured,Phase-Implementation
 
 ==Информация для разработчиков==
- * [Codestyle.wiki] 
- * [Deploy.wiki] 
+ * [4developers/Codestyle.wiki] 
+ * [4developers/Deploy.wiki] 
  * [SVNcontent_ru.wiki] 
  * [TournamentsImplementationGuide.wiki] 
  * [SVNcontent_ru.wiki] 
