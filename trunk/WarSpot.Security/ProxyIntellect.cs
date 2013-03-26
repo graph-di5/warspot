@@ -5,7 +5,6 @@ using System.Text;
 using WarSpot.Contracts.Intellect;
 using System.Reflection;
 using System.Security.Permissions;
-using System.Security.CodeAccessPermission;
 
 namespace WarSpot.Security
 {
@@ -48,20 +47,20 @@ namespace WarSpot.Security
             return objects;
         }
 
-        [FileIOPermissionAttribute(SecurityAction.PermitOnly, AllFiles=FileIOPermissionAccess.NoAccess),
-            ReflectionPermissionAttribute(SecurityAction.PermitOnly, RestrictedMemberAccess = true),
-                EnvironmentPermission(SecurityAction.PermitOnly, All = "TO DO: имя переменных"),
-                     SecurityPermission(SecurityAction.PermitOnly, Flags = SecurityPermissionFlag.AllFlags, ControlAppDomain = false, ControlThread = false, Infrastructure = false)]
+        [FileIOPermissionAttribute(SecurityAction.Deny, Unrestricted = true),
+            ReflectionPermissionAttribute(SecurityAction.Deny, Unrestricted = true),
+                EnvironmentPermissionAttribute(SecurityAction.PermitOnly, Read = "TO DO: переменные среды"),
+                     SecurityPermissionAttribute(SecurityAction.PermitOnly, Execution = true)]
         public BeingCharacteristics Construct(ulong step, float ci)
         {
             return this.intellect.Construct(step, ci); //Таким образом, вызываем метод Construct у проверяемой библиотеки, 
                                                        //с уже навешенной проверкой безопасности.
         }
 
-        [FileIOPermissionAttribute(SecurityAction.PermitOnly, AllFiles = FileIOPermissionAccess.NoAccess),
-            ReflectionPermissionAttribute(SecurityAction.PermitOnly, RestrictedMemberAccess = true),
-                EnvironmentPermission(SecurityAction.PermitOnly, All = "TO DO: имя переменных"),
-                     SecurityPermission(SecurityAction.PermitOnly, Flags = SecurityPermissionFlag.AllFlags, ControlAppDomain = false, ControlThread = false, Infrastructure = false)]
+        [FileIOPermissionAttribute(SecurityAction.Deny, Unrestricted=true),
+            ReflectionPermissionAttribute(SecurityAction.Deny, Unrestricted=true),
+                EnvironmentPermissionAttribute(SecurityAction.PermitOnly, Read = "TO DO: переменные среды"),
+                     SecurityPermissionAttribute(SecurityAction.PermitOnly, Execution = true)]
         public Contracts.Intellect.Actions.GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
         {
             return this.intellect.Think(step, characteristics, area);
