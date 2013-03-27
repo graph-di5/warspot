@@ -1,4 +1,4 @@
-#summary Small example of basic codestyle rules
+﻿#summary Small example of basic codestyle rules
 #labels Featured,Phase-Implementation
 
 Spacing: *one tab*

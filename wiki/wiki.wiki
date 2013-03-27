@@ -1,13 +1,22 @@
-#labels Featured,Phase-Implementation
+﻿#labels Featured,Phase-Implementation
 
 ==Информация для разработчиков==
  * [Codestyle] 
  * [Deploy] 
  * [SVNcontent_ru] 
  * [TournamentsImplementationGuide] 
- * [SVNcontent_ru] 
+ * [AutoScaling
+ * [DllVerificationProcedure]
+ * [ProgramsToUse_ru]
+ * [TournamentsImplementationGuide]
+ * [WarspotStageRules]
  
 ==Информация для пользователей==
  * [AboutRU] 
  * [EULA]
- * [GameRules]
+ 
+ * [SmallGuide]
+ 
+ * [Rules]
+ * [WorldDescription]
+ * [GameActionsFullDescription]

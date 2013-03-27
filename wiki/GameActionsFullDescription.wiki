@@ -1,4 +1,4 @@
-#summary Battle and economic rules of the game.
+﻿#summary Battle and economic rules of the game.
 
 = Краткие правила =
 
