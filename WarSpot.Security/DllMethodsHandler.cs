@@ -24,12 +24,7 @@ namespace WarSpot.Security
                     return new ErrorCode(ErrorType.IllegalMethod, "Method " + method.Name + " is unsafe.");
             }
 
-            return NotImplementedException();
-        }
-
-        private static ErrorCode NotImplementedException()
-        {
-            throw new NotImplementedException();
+            return new ErrorCode(ErrorType.Ok);
         }
 
         public static bool IsUnsafe(MethodInfo methodInfo)
