@@ -44,6 +44,7 @@ namespace WarSpot.Contracts.Service
 
         #region Security
             IllegalReference,
+            IllegalMethod,
         #endregion
     }
 

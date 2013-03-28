@@ -15,8 +15,8 @@ namespace WarSpot.Security
         {
             Assembly Dll = Assembly.Load(intellect);
 
-            if (DllReferenceHandler.AnalyzeDllReferences(Dll).Type == ErrorType.IllegalReference)
-                return;
+            if (DllReferenceHandler.AnalyzeDllReferences(Dll).Type == ErrorType.IllegalReference || DllMethodsHandler.AnalyzeDllMethods(Dll).Type == ErrorType.IllegalReference)
+                return;            
 
             ProxyIntellect proxy = new ProxyIntellect(Dll);
 
