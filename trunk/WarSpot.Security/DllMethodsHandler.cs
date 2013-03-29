@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using WarSpot.Contracts.Service;
+using System.Security.Permissions;
 
 namespace WarSpot.Security
 {
@@ -12,6 +13,31 @@ namespace WarSpot.Security
         
         public static ErrorCode AnalyzeDllMethods(Assembly Dll)
         {
+            // Проверяем атрибуты библиотеки.
+            try
+            {
+                // Ищем атрибур SecurityPermission.
+                Attribute DllSecurityAttribute = Attribute.GetCustomAttribute(Dll, typeof(SecurityPermissionAttribute));
+                if (((SecurityPermissionAttribute)DllSecurityAttribute).SkipVerification)
+                {
+                    return new ErrorCode(ErrorType.IllegalDll, "Dll has unsafe-code.");
+                }
+            }
+            // Для отладки
+            catch (Exception e)
+            {
+                if (e is AmbiguousMatchException)
+                {
+
+                }
+                if (e is ArgumentException)
+                {
+
+                }
+            }
+            
+            // Гарантирует ли отсутствие атрибута SecurityPermission отсутствие unsafe-code? Стоит ли оставлять эту проверку? 
+            /*
             // TO DO: Или список типов. Спросить у СЮ.
             Type Class = Dll.GetType();
 
@@ -20,14 +46,17 @@ namespace WarSpot.Security
             foreach (MethodInfo method in Methods)
             {
                 //TO DO: Возвратить все keywords метода или возвратить IsUnsafe
+
                 if (IsUnsafe(method))
                     return new ErrorCode(ErrorType.IllegalMethod, "Method " + method.Name + " is unsafe.");
             }
+             */
 
             return new ErrorCode(ErrorType.Ok);
-        }
+        }        
 
-        public static bool IsUnsafe(MethodInfo methodInfo)
+        /*
+        private static bool IsUnsafe(MethodInfo methodInfo)
         {
             if (HasUnsafeParameters(methodInfo))
             {
@@ -44,6 +73,7 @@ namespace WarSpot.Security
 
             return hasUnsafe;
         }
+         */
 
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WarSpot.Contracts.Intellect;
 using System.Reflection;
+using System.Net;
 using System.Security.Permissions;
 
 namespace WarSpot.Security
@@ -50,7 +51,8 @@ namespace WarSpot.Security
         [FileIOPermissionAttribute(SecurityAction.Deny, Unrestricted = true),
             ReflectionPermissionAttribute(SecurityAction.Deny, Unrestricted = true),
                 EnvironmentPermissionAttribute(SecurityAction.PermitOnly, Read = "TO DO: переменные среды"),
-                     SecurityPermissionAttribute(SecurityAction.PermitOnly, Execution = true)]
+                     SecurityPermissionAttribute(SecurityAction.PermitOnly, Execution = true),
+                            SocketPermissionAttribute(SecurityAction.Deny, Unrestricted=true)]
         public BeingCharacteristics Construct(ulong step, float ci)
         {
             return this.intellect.Construct(step, ci); //Таким образом, вызываем метод Construct у проверяемой библиотеки, 
@@ -60,7 +62,8 @@ namespace WarSpot.Security
         [FileIOPermissionAttribute(SecurityAction.Deny, Unrestricted=true),
             ReflectionPermissionAttribute(SecurityAction.Deny, Unrestricted=true),
                 EnvironmentPermissionAttribute(SecurityAction.PermitOnly, Read = "TO DO: переменные среды"),
-                     SecurityPermissionAttribute(SecurityAction.PermitOnly, Execution = true)]
+                     SecurityPermissionAttribute(SecurityAction.PermitOnly, Execution = true),                   
+                            SocketPermissionAttribute(SecurityAction.Deny, Unrestricted=true)]
         public Contracts.Intellect.Actions.GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
         {
             return this.intellect.Think(step, characteristics, area);
