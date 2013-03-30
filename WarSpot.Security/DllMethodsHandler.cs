@@ -11,7 +11,7 @@ namespace WarSpot.Security
     class DllMethodsHandler
     {
         
-        public static ErrorCode AnalyzeDllMethods(Assembly Dll)
+        public ErrorCode AnalyzeDllMethods(Assembly Dll)
         {
             // Проверяем атрибуты библиотеки.
             try

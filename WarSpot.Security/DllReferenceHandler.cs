@@ -8,13 +8,13 @@ using WarSpot.Contracts.Service;
 
 namespace WarSpot.Security
 {
-    public static class DllReferenceHandler
+    public class DllReferenceHandler
     {
         private static int referenceLevelDeep; 
         private static List<AssemblyName> currentReferenceLevel;
         private static List<string> illegalReferences = Warehouse.GetListOfIllegalReferences();
 
-        public static ErrorCode AnalyzeDllReferences(Assembly Dll)
+        public ErrorCode AnalyzeDllReferences(Assembly Dll)
         {
             currentReferenceLevel = Dll.GetReferencedAssemblies().ToList<AssemblyName>();
             referenceLevelDeep = 1;

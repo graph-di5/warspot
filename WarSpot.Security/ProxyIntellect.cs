@@ -6,47 +6,40 @@ using WarSpot.Contracts.Intellect;
 using System.Reflection;
 using System.Net;
 using System.Security.Permissions;
+using System.Threading;
+using WarSpot.Contracts.Service;
 
 namespace WarSpot.Security
 {
-    public class ProxyIntellect : IBeingInterface
+    public class ProxyIntellect : MarshalByRefObject, IBeingInterface
     {
         // 
         private IBeingInterface intellect;
 
-        public ProxyIntellect(Assembly dll)
+        public ProxyIntellect()
         {
-            this.Initialize(dll);
-        }
-       
-        // Этим методом следует иницилизировать поле intellect?
-        private void Initialize(Assembly dll)
-        {
-            this.intellect = AddBeing(dll).First<IBeingInterface>();
+            Type t = typeof(IBeingInterface);
+
+            this.intellect = (IBeingInterface)AppDomain.CurrentDomain.CreateInstanceAndUnwrap(AppDomain.CurrentDomain.GetAssemblies().First<Assembly>().FullName, t.FullName);
+        
+            
         }
 
-        private static List<IBeingInterface> AddBeing(Assembly assembly)
+        public ErrorCode SecurityChecking()
         {
-            List<IBeingInterface> objects = new List<IBeingInterface>();
-            string iMyInterfaceName = typeof(IBeingInterface).ToString();
-            TypeDelegator[] defaultConstructorParametersTypes = new TypeDelegator[0];
-            object[] defaultConstructorParameters = new object[0];
-
-            IBeingInterface iAI = null;
-
-            foreach (Type type in assembly.GetTypes())
+            try
             {
-                if (type.GetInterface(iMyInterfaceName) != null)
-                {
-                    ConstructorInfo defaultConstructor = type.GetConstructor(defaultConstructorParametersTypes);
-                    object instance = defaultConstructor.Invoke(defaultConstructorParameters);
-                    iAI = (IBeingInterface)instance;//Достаём таки нужный интерфейс
-                    //
-                    objects.Add(iAI);
-                }
+                this.Construct(0, 0);
+                this.Think(0, new BeingCharacteristics(), new WorldInfo(0));
             }
-            return objects;
+            catch (Exception e)
+            {
+                return new ErrorCode(ErrorType.IllegalDll, "Exception with that message: " + e.Message + " has been cought.");
+            }
+
+            return new ErrorCode(ErrorType.Ok, "No security permissions or exceptions have been thrown.");
         }
+
 
         [FileIOPermissionAttribute(SecurityAction.Deny, Unrestricted = true),
             ReflectionPermissionAttribute(SecurityAction.Deny, Unrestricted = true),
