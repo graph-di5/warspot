@@ -119,7 +119,7 @@
     <Property Name="Game_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Creator_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Replay" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="CreationTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreationTime" Type="datetime" Nullable="false" />
     <Property Name="Game_Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="UserRole">
@@ -127,7 +127,7 @@
       <PropertyRef Name="Role_ID" />
     </Key>
     <Property Name="Role_ID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Until" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Until" Type="datetime" Nullable="false" />
     <Property Name="AccountAccount_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Role_Code" Type="int" Nullable="false" />
   </EntityType>
@@ -137,7 +137,7 @@
     </Key>
     <Property Name="Tournament_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="MaxPlayers" Type="bigint" Nullable="false" />
-    <Property Name="StartTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
     <Property Name="Creator_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Tournament_Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -181,7 +181,7 @@
     <Property Name="TournamentTournament_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="State" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="StartTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="SubStages">
     <Key>
@@ -568,7 +568,7 @@
           <NavigationProperty Name="Account" Relationship="DBModel.AccountGame" FromRole="Game" ToRole="Account" />
           <Property Type="Guid" Name="Creator_ID" Nullable="false" />
           <Property Type="String" Name="Replay" Nullable="true" />
-          <Property Type="String" Name="CreationTime" Nullable="false" />
+          <Property Type="DateTime" Name="CreationTime" Nullable="false" />
           <Property Type="String" Name="Game_Name" Nullable="false" />
           <NavigationProperty Name="Teams" Relationship="DBModel.TeamGame" FromRole="Game" ToRole="Team" />
           <NavigationProperty Name="GameDetail" Relationship="DBModel.GameGameDetails" FromRole="Game" ToRole="GameDetails" />
@@ -591,7 +591,7 @@
             <PropertyRef Name="Role_ID" />
           </Key>
           <Property Type="Guid" Name="Role_ID" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Type="String" Name="Until" Nullable="false" />
+          <Property Type="DateTime" Name="Until" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="DBModel.AccountUserRole" FromRole="UserRole" ToRole="Account" />
           <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
           <Property Type="Int32" Name="Role_Code" Nullable="false" />
@@ -614,7 +614,7 @@
           </Key>
           <Property Type="Guid" Name="Tournament_ID" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Type="Int64" Name="MaxPlayers" Nullable="false" />
-          <Property Type="String" Name="StartTime" Nullable="false" />
+          <Property Type="DateTime" Name="StartTime" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="DBModel.AccountTournament" FromRole="Tournament" ToRole="Account" />
           <Property Type="Guid" Name="Creator_ID" Nullable="false" />
           <Property Type="String" Name="Tournament_Name" Nullable="false" />
@@ -711,7 +711,7 @@
           <NavigationProperty Name="Accounts" Relationship="DBModel.AccountStage" FromRole="Stage" ToRole="Account" />
           <Property Type="String" Name="State" Nullable="false" />
           <Property Type="String" Name="Type" Nullable="false" />
-          <Property Type="String" Name="StartTime" Nullable="false" />
+          <Property Type="DateTime" Name="StartTime" Nullable="false" />
         </EntityType>
         <EntityType Name="SubStage">
           <Key>

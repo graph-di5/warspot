@@ -838,7 +838,7 @@ namespace WarSpot.Cloud.Storage
         /// <param name="creator_ID">Initial value of the Creator_ID property.</param>
         /// <param name="creationTime">Initial value of the CreationTime property.</param>
         /// <param name="game_Name">Initial value of the Game_Name property.</param>
-        public static Game CreateGame(global::System.Guid game_ID, global::System.Guid creator_ID, global::System.String creationTime, global::System.String game_Name)
+        public static Game CreateGame(global::System.Guid game_ID, global::System.Guid creator_ID, global::System.DateTime creationTime, global::System.String game_Name)
         {
             Game game = new Game();
             game.Game_ID = game_ID;
@@ -931,7 +931,7 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String CreationTime
+        public global::System.DateTime CreationTime
         {
             get
             {
@@ -941,13 +941,13 @@ namespace WarSpot.Cloud.Storage
             {
                 OnCreationTimeChanging(value);
                 ReportPropertyChanging("CreationTime");
-                _CreationTime = StructuralObject.SetValidValue(value, false);
+                _CreationTime = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("CreationTime");
                 OnCreationTimeChanged();
             }
         }
-        private global::System.String _CreationTime;
-        partial void OnCreationTimeChanging(global::System.String value);
+        private global::System.DateTime _CreationTime;
+        partial void OnCreationTimeChanging(global::System.DateTime value);
         partial void OnCreationTimeChanged();
     
         /// <summary>
@@ -1730,7 +1730,7 @@ namespace WarSpot.Cloud.Storage
         /// <param name="state">Initial value of the State property.</param>
         /// <param name="type">Initial value of the Type property.</param>
         /// <param name="startTime">Initial value of the StartTime property.</param>
-        public static Stage CreateStage(global::System.Guid stage_ID, global::System.Guid tournamentTournament_ID, global::System.String state, global::System.String type, global::System.String startTime)
+        public static Stage CreateStage(global::System.Guid stage_ID, global::System.Guid tournamentTournament_ID, global::System.String state, global::System.String type, global::System.DateTime startTime)
         {
             Stage stage = new Stage();
             stage.Stage_ID = stage_ID;
@@ -1848,7 +1848,7 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String StartTime
+        public global::System.DateTime StartTime
         {
             get
             {
@@ -1858,13 +1858,13 @@ namespace WarSpot.Cloud.Storage
             {
                 OnStartTimeChanging(value);
                 ReportPropertyChanging("StartTime");
-                _StartTime = StructuralObject.SetValidValue(value, false);
+                _StartTime = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StartTime");
                 OnStartTimeChanged();
             }
         }
-        private global::System.String _StartTime;
-        partial void OnStartTimeChanging(global::System.String value);
+        private global::System.DateTime _StartTime;
+        partial void OnStartTimeChanging(global::System.DateTime value);
         partial void OnStartTimeChanged();
 
         #endregion
@@ -2336,7 +2336,7 @@ namespace WarSpot.Cloud.Storage
         /// <param name="startTime">Initial value of the StartTime property.</param>
         /// <param name="creator_ID">Initial value of the Creator_ID property.</param>
         /// <param name="tournament_Name">Initial value of the Tournament_Name property.</param>
-        public static Tournament CreateTournament(global::System.Guid tournament_ID, global::System.Int64 maxPlayers, global::System.String startTime, global::System.Guid creator_ID, global::System.String tournament_Name)
+        public static Tournament CreateTournament(global::System.Guid tournament_ID, global::System.Int64 maxPlayers, global::System.DateTime startTime, global::System.Guid creator_ID, global::System.String tournament_Name)
         {
             Tournament tournament = new Tournament();
             tournament.Tournament_ID = tournament_ID;
@@ -2406,7 +2406,7 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String StartTime
+        public global::System.DateTime StartTime
         {
             get
             {
@@ -2416,13 +2416,13 @@ namespace WarSpot.Cloud.Storage
             {
                 OnStartTimeChanging(value);
                 ReportPropertyChanging("StartTime");
-                _StartTime = StructuralObject.SetValidValue(value, false);
+                _StartTime = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("StartTime");
                 OnStartTimeChanged();
             }
         }
-        private global::System.String _StartTime;
-        partial void OnStartTimeChanging(global::System.String value);
+        private global::System.DateTime _StartTime;
+        partial void OnStartTimeChanging(global::System.DateTime value);
         partial void OnStartTimeChanged();
     
         /// <summary>
@@ -2579,7 +2579,7 @@ namespace WarSpot.Cloud.Storage
         /// <param name="until">Initial value of the Until property.</param>
         /// <param name="accountAccount_ID">Initial value of the AccountAccount_ID property.</param>
         /// <param name="role_Code">Initial value of the Role_Code property.</param>
-        public static UserRole CreateUserRole(global::System.Guid role_ID, global::System.String until, global::System.Guid accountAccount_ID, global::System.Int32 role_Code)
+        public static UserRole CreateUserRole(global::System.Guid role_ID, global::System.DateTime until, global::System.Guid accountAccount_ID, global::System.Int32 role_Code)
         {
             UserRole userRole = new UserRole();
             userRole.Role_ID = role_ID;
@@ -2624,7 +2624,7 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String Until
+        public global::System.DateTime Until
         {
             get
             {
@@ -2634,13 +2634,13 @@ namespace WarSpot.Cloud.Storage
             {
                 OnUntilChanging(value);
                 ReportPropertyChanging("Until");
-                _Until = StructuralObject.SetValidValue(value, false);
+                _Until = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("Until");
                 OnUntilChanged();
             }
         }
-        private global::System.String _Until;
-        partial void OnUntilChanging(global::System.String value);
+        private global::System.DateTime _Until;
+        partial void OnUntilChanging(global::System.DateTime value);
         partial void OnUntilChanged();
     
         /// <summary>

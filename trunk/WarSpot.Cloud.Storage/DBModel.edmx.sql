@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/27/2013 00:19:10
+-- Date Created: 03/31/2013 15:57:19
 -- Generated from EDMX file: C:\Users\deem\Documents\warspot_\trunk\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
@@ -151,7 +151,7 @@ CREATE TABLE [dbo].[Game] (
     [Game_ID] uniqueidentifier  NOT NULL,
     [Creator_ID] uniqueidentifier  NOT NULL,
     [Replay] nvarchar(max)  NULL,
-    [CreationTime] nvarchar(max)  NOT NULL,
+    [CreationTime] datetime  NOT NULL,
     [Game_Name] nvarchar(max)  NOT NULL
 );
 GO
@@ -159,7 +159,7 @@ GO
 -- Creating table 'UserRole'
 CREATE TABLE [dbo].[UserRole] (
     [Role_ID] uniqueidentifier  NOT NULL,
-    [Until] nvarchar(max)  NOT NULL,
+    [Until] datetime  NOT NULL,
     [AccountAccount_ID] uniqueidentifier  NOT NULL,
     [Role_Code] int  NOT NULL
 );
@@ -169,7 +169,7 @@ GO
 CREATE TABLE [dbo].[Tournament] (
     [Tournament_ID] uniqueidentifier  NOT NULL,
     [MaxPlayers] bigint  NOT NULL,
-    [StartTime] nvarchar(max)  NOT NULL,
+    [StartTime] datetime  NOT NULL,
     [Creator_ID] uniqueidentifier  NOT NULL,
     [Tournament_Name] nvarchar(max)  NOT NULL
 );
@@ -213,7 +213,7 @@ CREATE TABLE [dbo].[Stages] (
     [TournamentTournament_ID] uniqueidentifier  NOT NULL,
     [State] nvarchar(max)  NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
-    [StartTime] nvarchar(max)  NOT NULL
+    [StartTime] datetime  NOT NULL
 );
 GO
 

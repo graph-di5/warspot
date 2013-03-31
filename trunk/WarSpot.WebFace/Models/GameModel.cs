@@ -22,7 +22,7 @@ namespace WarSpot.WebFace.Models
 		public string Replay { get; set; }
 
 		[Display(Name = "Время старта игры")]
-		public string CreationTime { get; set; }
+		public DateTime CreationTime { get; set; }
 
 		[Display(Name = "Список комманд")]
 		public List<TeamTextInfo> Teams;
