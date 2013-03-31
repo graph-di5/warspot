@@ -62,7 +62,7 @@ namespace WarSpot.Contracts.Service
 		bool IsUser(string role, Guid user);
 
 		[OperationContract]
-		ErrorCode SetUserRole(Guid user, string role, string until);
+		ErrorCode SetUserRole(Guid user, string role, DateTime until);
 
 		[OperationContract]
 		string[] GetUserRoles(Guid user);
@@ -70,7 +70,7 @@ namespace WarSpot.Contracts.Service
 
 		#region Tournament
 		[OperationContract]
-		ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers);
+		ErrorCode CreateTournament(string title, DateTime startDate, long maxPlayers);
 
 		[OperationContract]
 		List<Guid> GetMyTournamets();

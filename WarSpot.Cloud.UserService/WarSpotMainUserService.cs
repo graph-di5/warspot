@@ -4,7 +4,6 @@ using System.Linq;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
 using WarSpot.Security;
-using System.Diagnostics;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -83,7 +82,9 @@ namespace WarSpot.Cloud.UserService
 					return new ErrorCode(ErrorType.Ok, "Password has been changed.");
 				}
 				else
+				{
 					return new ErrorCode(ErrorType.UnknownException, "Current password is incorrect or database problems.");
+				}
 
 			}
 		}
@@ -180,14 +181,14 @@ namespace WarSpot.Cloud.UserService
 		#endregion replay's stuff
 
 		#region tournament stuff
-		public ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers)
+		public ErrorCode CreateTournament(string title, DateTime startDate, long maxPlayers)
 		{
 			if (!_loggedIn)
 			{
 				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
 			}
 
-			return Warehouse.CreateTournament(title, startdate, maxplayers, this._userID);
+			return Warehouse.CreateTournament(title, startDate, maxPlayers, this._userID);
 		}
 
 
@@ -271,7 +272,7 @@ namespace WarSpot.Cloud.UserService
 			return Warehouse.IsUser((RoleType)Enum.Parse(typeof(RoleType), role), user);
 		}
 
-		public ErrorCode SetUserRole(Guid userID, string role, string until)
+		public ErrorCode SetUserRole(Guid userID, string role, DateTime until)
 		{
 			if (!_loggedIn)
 			{

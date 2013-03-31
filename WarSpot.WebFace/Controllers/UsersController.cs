@@ -70,11 +70,11 @@ namespace WarSpot.WebFace.Controllers
 					account.Account_Name = model.UserName;
 					if (model.IsUser)
 					{
-						Warehouse.SetUserRole(RoleType.User, guid, "");
+						Warehouse.SetUserRole(RoleType.User, guid, DateTime.UtcNow/*todo make date*/);
 					}
 					if (model.IsAdminTournaments)
 					{
-						Warehouse.SetUserRole(RoleType.TournamentsAdmin, guid, "");
+						Warehouse.SetUserRole(RoleType.TournamentsAdmin, guid, DateTime.UtcNow/*todo make date*/);
 					}
 					Warehouse.db.SaveChanges();
 

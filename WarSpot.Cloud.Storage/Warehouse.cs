@@ -365,7 +365,7 @@ namespace WarSpot.Cloud.Storage
 				var id = Guid.NewGuid();
 				db.AddToAccount(Account.CreateAccount(id, username, password));
 				db.SaveChanges();
-				SetUserRole(RoleType.User, id, "" /* todo rewrite this !11*/);
+				SetUserRole(RoleType.User, id, DateTime.UtcNow /* todo rewrite this !11*/);
 
 				return true;
 			}
@@ -480,7 +480,7 @@ namespace WarSpot.Cloud.Storage
 		{
 			Guid gameID = Guid.NewGuid();
 			// todo make date here
-			Game match = Game.CreateGame(gameID, userID, DateTime.Now.ToString(), title);
+			Game match = Game.CreateGame(gameID, userID, DateTime.UtcNow, title);
 
 			var teamInfo = new List<TeamInfo>
 			               	{
@@ -538,14 +538,14 @@ namespace WarSpot.Cloud.Storage
 
 		#region tournaments
 
-		public static ErrorCode CreateTournament(string title, string startdate, Int64 maxplayers, Guid userID)
+		public static ErrorCode CreateTournament(string title, DateTime startdate, Int64 maxplayers, Guid userID)
 		{
 			if ((from t in db.Tournament
 					 where t.Tournament_Name == title && t.Creator_ID == userID
 					 select t).ToList<Tournament>().Any<Tournament>())
 				return new ErrorCode(ErrorType.WrongInformationInField, "Bad tournament title. User has already created tournament with the same name = " + title);
 
-			if (DateTime.Compare(DateTime.Parse(startdate), DateTime.Now) <= 0)
+			if (DateTime.Compare((startdate), DateTime.UtcNow) <= 0)
 			{
 				return new ErrorCode(ErrorType.WrongInformationInField, "Bad tournament starttime. User's starttime = " + startdate.ToString() + " is early then currenttime = " + DateTime.Now.ToString());
 			}
@@ -614,7 +614,7 @@ namespace WarSpot.Cloud.Storage
 			List<Tournament> actualtournaments;
 
 			if ((actualtournaments = (from t in db.Tournament
-																where DateTime.Compare(DateTime.Parse(t.StartTime), DateTime.Now) >= 0
+																where DateTime.Compare((t.StartTime), DateTime.UtcNow) >= 0
 																select t).ToList<Tournament>()).Any<Tournament>())
 			{
 				Account user = (from a in db.Account
@@ -742,7 +742,8 @@ namespace WarSpot.Cloud.Storage
 										where r.AccountAccount_ID == userID && r.Role_Code == 1
 										select r).ToList();
 
-			if (DateTime.Compare(DateTime.Parse(needed.FirstOrDefault().Until), DateTime.Now) >= 0)
+			// todo make function "isActual"
+			if (DateTime.Compare((needed.FirstOrDefault().Until), DateTime.UtcNow) >= 0)
 			{
 				return true;
 			}
@@ -762,7 +763,7 @@ namespace WarSpot.Cloud.Storage
 				return false;
 		}
 
-		public static ErrorCode SetUserRole(RoleType rolecode, Guid userID, String until)
+		public static ErrorCode SetUserRole(RoleType rolecode, Guid userID, DateTime until)
 		{
 			List<UserRole> thatroleofuser = (from r in db.UserRole
 																			 where r.AccountAccount_ID == userID && r.Role_Code == (int)rolecode
@@ -770,7 +771,7 @@ namespace WarSpot.Cloud.Storage
 
 			if (thatroleofuser.Any())
 			{
-				if (DateTime.Compare(DateTime.Parse(until), DateTime.Now) <= 0)
+				if (DateTime.Compare((until), DateTime.UtcNow) <= 0)
 				{
 					return new ErrorCode(ErrorType.WrongInformationInField, "Datetime is in past");
 				}

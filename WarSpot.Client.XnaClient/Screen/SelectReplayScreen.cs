@@ -58,7 +58,6 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public override void OnShow()
 		{
-			base.OnShow();
 			if (!_isShowedAgain)
 			{
 				if (ScreenHelper.Instance.IsOnline)
@@ -74,18 +73,19 @@ namespace WarSpot.Client.XnaClient.Screen
 					else
 					{
 						GetSavedReplays();
-						_isShowedAgain = true;
-						MessageBox.Show("Some error occurs, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
+						//_isShowedAgain = true;
+						//MessageBox.Show("Some error occurs, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
 					}
 				}
 				else
 				{
 					GetSavedReplays();
-					_isShowedAgain = true;
-					MessageBox.Show("You play in offline mode\n, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
+					//_isShowedAgain = true;
+					//MessageBox.Show("You play in offline mode\n, only saved replays available", ScreenManager.ScreenEnum.SelectReplayScreen);
 
 				}
 			}
+			base.OnShow();
 		}
 
 		public override void OnHide()
