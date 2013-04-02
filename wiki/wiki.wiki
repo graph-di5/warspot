@@ -1,11 +1,10 @@
 ﻿#labels Featured,Phase-Implementation
-
 ==Информация для разработчиков==
  * [Codestyle] 
  * [Deploy] 
  * [SVNcontent_ru] 
  * [TournamentsImplementationGuide] 
- * [AutoScaling
+ * [AutoScaling]
  * [DllVerificationProcedure]
  * [ProgramsToUse_ru]
  * [TournamentsImplementationGuide]
