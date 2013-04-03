@@ -50,9 +50,8 @@ namespace WarSpot.WebFace.Security
 			if (identity.IsAuthenticated)
 			{
 				HttpContext.Current.User = new CustomPrincipal(identity);
-				FormsAuthenticationTicket ticket =
-							 new FormsAuthenticationTicket(
-									 1, identity.Name, DateTime.Now, DateTime.Now.AddMinutes(30), rememberMe,
+				var ticket = new FormsAuthenticationTicket(
+									 1, identity.Name, DateTime.UtcNow, DateTime.UtcNow.AddMinutes(30), rememberMe,
 									 identity.ToJson(), FormsAuthentication.FormsCookiePath);
 				string encryptedTicket = FormsAuthentication.Encrypt(ticket);
 
@@ -60,7 +59,7 @@ namespace WarSpot.WebFace.Security
 				cookie.Path = FormsAuthentication.FormsCookiePath;
 				if (rememberMe)
 				{
-					cookie.Expires = DateTime.Now.AddYears(1);// good for one year
+					cookie.Expires = DateTime.UtcNow.AddYears(1);// good for one year
 				}
 
 				HttpContext.Current.Response.Cookies.Add(cookie);

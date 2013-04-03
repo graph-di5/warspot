@@ -4,13 +4,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
+using WarSpot.Cloud.Common;
 using WarSpot.Cloud.Storage.Models;
 using WarSpot.Common;
 using WarSpot.Contracts.Service;
-using WarSpot.Cloud.Common;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace WarSpot.Cloud.Storage
 {
@@ -196,7 +196,7 @@ namespace WarSpot.Cloud.Storage
 				//{
 				//  db.AddToTeams(Team.CreateTeam(replay.WinnerTeam, gameID));
 				//}
-				db.AddToGameDetails(GameDetails.CreateGameDetails(gameID, (int) replay.Steps, replay.WinnerTeam));
+				db.AddToGameDetails(GameDetails.CreateGameDetails(gameID, (int)replay.Steps, replay.WinnerTeam));
 				db.SaveChanges();
 
 				return new ErrorCode(ErrorType.Ok, "Replay has been uploaded.");
@@ -295,7 +295,7 @@ namespace WarSpot.Cloud.Storage
 		/// Gets list of downloadable files in bolb storage
 		/// </summary>
 		/// <param name="full">Means is in needed show files with duplicated names</param>
-		/// <returns>return ONLY file info without(!) content</returns>
+		/// <returns>return ONLY structure of file info  without(!) content</returns>
 		public static List<BlobFile> GetListOfFiles(bool full = false)
 		{
 			if (!db.Files.Any())
@@ -341,12 +341,12 @@ namespace WarSpot.Cloud.Storage
 			return msg;
 		}
 
-	    public static int getTasksNumber()
-	    {
-	        return queue.RetrieveApproximateMessageCount();
-	    }
+		public static int getTasksNumber()
+		{
+			return queue.RetrieveApproximateMessageCount();
+		}
 
-	    #endregion
+		#endregion
 
 		#region DATABASE METHODS
 
@@ -365,13 +365,13 @@ namespace WarSpot.Cloud.Storage
 				var id = Guid.NewGuid();
 				db.AddToAccount(Account.CreateAccount(id, username, password));
 				db.SaveChanges();
-				SetUserRole(RoleType.User, id, DateTime.UtcNow /* todo rewrite this !11*/);
+				SetUserRole(RoleType.User, id, DateTime.UtcNow.AddYears(1) /* default one year for user */ /* todo //!! rewrite this !11*/);
 
 				return true;
 			}
 			catch (Exception)
 			{
-				throw;
+				return false;
 			}
 		}
 
@@ -479,32 +479,31 @@ namespace WarSpot.Cloud.Storage
 		public static Guid? BeginMatch(List<Guid> intellects, Guid userID, string title)
 		{
 			Guid gameID = Guid.NewGuid();
-			// todo make date here
 			Game match = Game.CreateGame(gameID, userID, DateTime.UtcNow, title);
 
 			var teamInfo = new List<TeamInfo>
-			               	{
+											{
 												// system command
 												//new TeamInfo()
 												//  {
 												//    TeamId = Guid.Empty
 												//  }
-			               	};
+											};
 			//db.AddToTeams(Team.CreateTeam(Guid.Empty, gameID));
-			foreach (Guid id in intellects) 
+			foreach (Guid id in intellects)
 			{
 				Team team = Team.CreateTeam(Guid.NewGuid(), gameID);
 				var currentIntellect = (from i in db.Intellect
-																			where i.Intellect_ID == id
-																			select i).FirstOrDefault<Intellect>();
+																where i.Intellect_ID == id
+																select i).FirstOrDefault<Intellect>();
 				team.Intellects.Add(currentIntellect);
 				db.AddToTeams(team);
 				match.Teams.Add(team);
 				teamInfo.Add(new TeamInfo()
-				             	{
-				             		TeamId = team.Team_ID,
-												Members = new List<Guid>(){id}
-				             	});
+											{
+												TeamId = team.Team_ID,
+												Members = new List<Guid>() { id }
+											});
 			}
 
 			db.AddToGame(match);
@@ -538,21 +537,21 @@ namespace WarSpot.Cloud.Storage
 
 		#region tournaments
 
-		public static ErrorCode CreateTournament(string title, DateTime startdate, Int64 maxplayers, Guid userID)
+		public static ErrorCode CreateTournament(string title, DateTime startDate, long maxPlayers, Guid userID)
 		{
 			if ((from t in db.Tournament
 					 where t.Tournament_Name == title && t.Creator_ID == userID
 					 select t).ToList<Tournament>().Any<Tournament>())
 				return new ErrorCode(ErrorType.WrongInformationInField, "Bad tournament title. User has already created tournament with the same name = " + title);
 
-			if (DateTime.Compare((startdate), DateTime.UtcNow) <= 0)
+			if (DateTime.Compare((startDate), DateTime.UtcNow) <= 0)
 			{
-				return new ErrorCode(ErrorType.WrongInformationInField, "Bad tournament starttime. User's starttime = " + startdate.ToString() + " is early then currenttime = " + DateTime.Now.ToString());
+				return new ErrorCode(ErrorType.WrongInformationInField, "Bad tournament starttime. User's starttime = " + startDate.ToString() + " is early then currenttime = " + DateTime.UtcNow.ToString());
 			}
 
 			try
 			{
-				db.AddToTournament(Tournament.CreateTournament(Guid.NewGuid(), maxplayers, startdate, userID, title));
+				db.AddToTournament(Tournament.CreateTournament(Guid.NewGuid(), maxPlayers, startDate, userID, title));
 				db.SaveChanges();
 
 				return new ErrorCode(ErrorType.Ok, "Tournament has been created");
@@ -736,27 +735,37 @@ namespace WarSpot.Cloud.Storage
 
 		#region roles
 
+		public static DateTime UserRoleValidUntil(Guid userID, RoleType roleCode)
+		{
+			var needed = (from r in db.UserRole
+										where r.AccountAccount_ID == userID && r.Role_Code == (int)roleCode
+										select r).ToList();
+			return needed.Any() ? needed.First().Until : DateTime.UtcNow;
+		}
+
 		public static bool IsUserAdmin(Guid userID)
 		{
 			var needed = (from r in db.UserRole
-										where r.AccountAccount_ID == userID && r.Role_Code == 1
+										where r.AccountAccount_ID == userID && r.Role_Code == (int)RoleType.Admin
 										select r).ToList();
 
-			// todo make function "isActual"
-			if (DateTime.Compare((needed.FirstOrDefault().Until), DateTime.UtcNow) >= 0)
-			{
-				return true;
-			}
-			else
-			{
+			if(!needed.Any())
 				return false;
-			}
+			// todo //!! make function "isActual"
+			return DateTime.Compare((needed.First().Until), DateTime.UtcNow) >= 0;
 		}
 
-		public static bool IsUser(RoleType rolecode, Guid userID)
+		/// <summary>
+		/// Check if user have roleCode role
+		/// </summary>
+		/// <param name="roleCode"></param>
+		/// <param name="userID"></param>
+		/// <returns></returns>
+		public static bool IsUser(RoleType roleCode, Guid userID)
 		{
+			// todo //!! check actual
 			if ((from r in db.UserRole
-					 where r.AccountAccount_ID == userID && r.Role_Code == (int)rolecode
+					 where r.AccountAccount_ID == userID && r.Role_Code == (int)roleCode
 					 select r).Any())
 				return true;
 			else
@@ -765,11 +774,11 @@ namespace WarSpot.Cloud.Storage
 
 		public static ErrorCode SetUserRole(RoleType rolecode, Guid userID, DateTime until)
 		{
-			List<UserRole> thatroleofuser = (from r in db.UserRole
+			List<UserRole> thatRoleofUser = (from r in db.UserRole
 																			 where r.AccountAccount_ID == userID && r.Role_Code == (int)rolecode
 																			 select r).ToList<UserRole>();
 
-			if (thatroleofuser.Any())
+			if (thatRoleofUser.Any())
 			{
 				if (DateTime.Compare((until), DateTime.UtcNow) <= 0)
 				{
@@ -780,7 +789,7 @@ namespace WarSpot.Cloud.Storage
 					try
 					{
 
-						db.UserRole.DeleteObject(thatroleofuser.First<UserRole>());
+						db.UserRole.DeleteObject(thatRoleofUser.First<UserRole>());
 						db.UserRole.AddObject(UserRole.CreateUserRole(Guid.NewGuid(), until, userID, (int)rolecode));
 						db.SaveChanges();
 						return new ErrorCode(ErrorType.Ok, "Role has been given.");

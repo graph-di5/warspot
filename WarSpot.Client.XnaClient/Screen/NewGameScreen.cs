@@ -53,6 +53,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void OnShow()
 		{
 			base.OnShow();
+			// todo for what is this time needed
 			_gameNameBox.Text = DateTime.Now.ToString();
 			if (!_isShowedAgain)
 			{
@@ -127,6 +128,7 @@ namespace WarSpot.Client.XnaClient.Screen
 							new UniScalar(0f, 500),
 							new UniScalar(0f, 200),
 							new UniScalar(0f, 30)),
+				// todo for what is this time needed
 				Text = DateTime.Now.ToString()
 			};
 
