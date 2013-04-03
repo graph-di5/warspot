@@ -14,16 +14,17 @@
 			<tr>
 				@{var t = new ViewAccountModel();
 				<td>@Html.LabelFor(m => t.UserName)</td>			
-				<td>U</td>			
-				<td>TA</td>			
+				<td>Roles</td>			
       }
 			</tr>
 			@{foreach (var acc in Model)
-     {
+      {
 					<tr>
-					
 						<td>
 							@Html.ActionLink(acc.UserName, "Edit", new { acc.Id })
+						</td>
+						<td>
+						@string.Join(", ", acc.Roles.Where(r => r.Is).Select(r => r.RoleType.ToString()))
 						</td>				
 					<!--
 						<td>

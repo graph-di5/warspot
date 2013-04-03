@@ -740,36 +740,23 @@ namespace WarSpot.Cloud.Storage
 			var needed = (from r in db.UserRole
 										where r.AccountAccount_ID == userID && r.Role_Code == (int)roleCode
 										select r).ToList();
-			return needed.Any() ? needed.First().Until : DateTime.UtcNow;
+			return needed.Any() ? needed.First().Until : DateTime.UtcNow.AddYears(-1) /* date in past*/;
 		}
 
 		public static bool IsUserAdmin(Guid userID)
 		{
-			var needed = (from r in db.UserRole
-										where r.AccountAccount_ID == userID && r.Role_Code == (int)RoleType.Admin
-										select r).ToList();
-
-			if(!needed.Any())
-				return false;
-			// todo //!! make function "isActual"
-			return DateTime.Compare((needed.First().Until), DateTime.UtcNow) >= 0;
+			return IsUser(userID, RoleType.Admin);
 		}
 
 		/// <summary>
-		/// Check if user have roleCode role
+		/// Check if user with 'userID' have role 'roleCode'
 		/// </summary>
-		/// <param name="roleCode"></param>
 		/// <param name="userID"></param>
+		/// <param name="roleCode"></param>
 		/// <returns></returns>
-		public static bool IsUser(RoleType roleCode, Guid userID)
+		public static bool IsUser(Guid userID, RoleType roleCode)
 		{
-			// todo //!! check actual
-			if ((from r in db.UserRole
-					 where r.AccountAccount_ID == userID && r.Role_Code == (int)roleCode
-					 select r).Any())
-				return true;
-			else
-				return false;
+			return DateTime.Compare(UserRoleValidUntil(userID, roleCode), DateTime.UtcNow) >= 0;
 		}
 
 		public static ErrorCode SetUserRole(RoleType rolecode, Guid userID, DateTime until)
