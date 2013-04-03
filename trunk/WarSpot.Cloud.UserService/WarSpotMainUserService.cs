@@ -262,14 +262,14 @@ namespace WarSpot.Cloud.UserService
 			return Warehouse.IsUserAdmin(userID);
 		}
 
-		public bool IsUser(string role, Guid user)
+		public bool IsUser(Guid user, string role)
 		{
 			if (!_loggedIn)
 			{
 				return false;
 			}
 
-			return Warehouse.IsUser((RoleType)Enum.Parse(typeof(RoleType), role), user);
+			return Warehouse.IsUser(user, (RoleType)Enum.Parse(typeof(RoleType), role));
 		}
 
 		public ErrorCode SetUserRole(Guid userID, string role, DateTime until)

@@ -22,7 +22,7 @@ namespace WarSpot.WebFace.Controllers
 					Roles = (from RoleType role in Enum.GetValues(typeof (RoleType))
 			              select new AccountRole
 			                      {
-			                        RoleType = role, Is = Warehouse.IsUser(role, account.Account_ID), Until = Warehouse.UserRoleValidUntil(account.Account_ID, role),
+			                        RoleType = role, Is = Warehouse.IsUser(account.Account_ID, role), Until = Warehouse.UserRoleValidUntil(account.Account_ID, role),
 			                      }).ToList()
 				}).ToList());
 		}
@@ -48,7 +48,7 @@ namespace WarSpot.WebFace.Controllers
 										 select new AccountRole
 										 {
 											 RoleType = role,
-											 Is = Warehouse.IsUser(role, account.Account_ID),
+											 Is = Warehouse.IsUser(account.Account_ID, role),
 											 Until = Warehouse.UserRoleValidUntil(account.Account_ID, role),
 										 }).ToList()
 					});
