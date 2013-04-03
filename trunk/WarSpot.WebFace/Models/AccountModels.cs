@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using WarSpot.Cloud.Storage;
 
 namespace WarSpot.WebFace.Models
 {
@@ -60,6 +63,16 @@ namespace WarSpot.WebFace.Models
 		public string ConfirmPassword { get; set; }
 	}
 
+	public class AccountRole
+	{
+		public RoleType RoleType { get; set; }
+
+		public bool Is { get; set; }
+
+		//[DisplayFormat(DataFormatString = "{0:dd.mm.yyyy}", ApplyFormatInEditMode = true)]
+		public DateTime Until { get; set; }
+	}
+
 	public class ViewAccountModel
 	{
 		[Display(Name = "Id пользователя")]
@@ -68,19 +81,8 @@ namespace WarSpot.WebFace.Models
 		[Display(Name = "Логин")]
 		public string UserName { get; set; }
 
-		// todo add expirayion date for every role
-
-		[Display(Name = "Пользователь")]
-		public bool IsUser { get; set; }
-		[Display(Name = "Администратор турниров")]
-		public bool IsAdminTournaments { get; set; }
+		[Display(Name = "Роли")]
+		public List<AccountRole> Roles { get; set; }
 	}
 
-	// todo delete
-#if false
-	public class ViewAccountListModel
-	{
-		public List<ViewAccountModel> Accounts { get; set; }
-	}
-#endif
 }

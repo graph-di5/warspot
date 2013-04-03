@@ -1,0 +1,14 @@
+﻿@model WarSpot.WebFace.Models.AccountRole
+
+<tr>
+	<td>
+	@Html.HiddenFor(m => m.RoleType)
+  @Html.DisplayFor(m => m.RoleType)
+	</td>	
+	<td>
+	@Html.CheckBoxFor(m => m.Is)
+	</td>	
+	<td>
+	@Html.EditorFor(m => m.Until)
+	</td>	
+</tr>

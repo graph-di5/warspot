@@ -15,18 +15,16 @@ namespace WarSpot.WebFace.Controllers
 
 		public ActionResult Index()
 		{
-			var res = new List<ViewAccountModel>();
-			foreach (var account in Warehouse.db.Account)
-			{
-				res.Add(new ViewAccountModel()
-									{
-										Id = account.Account_ID.ToString(),
-										UserName = account.Account_Name,
-										IsUser = Warehouse.IsUser(RoleType.User, account.Account_ID),
-										IsAdminTournaments = Warehouse.IsUser(RoleType.TournamentsAdmin, account.Account_ID),
-									});
-			}
-			return View(res);
+			return View(Warehouse.db.Account.ToArray().Select(account => new ViewAccountModel()
+				{
+					Id = account.Account_ID.ToString(), 
+					UserName = account.Account_Name, 
+					Roles = (from RoleType role in Enum.GetValues(typeof (RoleType))
+			              select new AccountRole
+			                      {
+			                        RoleType = role, Is = Warehouse.IsUser(role, account.Account_ID), Until = Warehouse.UserRoleValidUntil(account.Account_ID, role),
+			                      }).ToList()
+				}).ToList());
 		}
 
 		//
@@ -43,12 +41,17 @@ namespace WarSpot.WebFace.Controllers
 			if (account != null)
 			{
 				return View(new ViewAccountModel()
-															{
-																Id = account.Account_ID.ToString(),
-																UserName = account.Account_Name,
-																IsUser = Warehouse.IsUser(RoleType.User, account.Account_ID),
-																IsAdminTournaments = Warehouse.IsUser(RoleType.TournamentsAdmin, account.Account_ID),
-															});
+					{
+						Id = account.Account_ID.ToString(),
+						UserName = account.Account_Name,
+						Roles = (from RoleType role in Enum.GetValues(typeof(RoleType))
+										 select new AccountRole
+										 {
+											 RoleType = role,
+											 Is = Warehouse.IsUser(role, account.Account_ID),
+											 Until = Warehouse.UserRoleValidUntil(account.Account_ID, role),
+										 }).ToList()
+					});
 			}
 			return View("Index");
 		}
@@ -68,13 +71,12 @@ namespace WarSpot.WebFace.Controllers
 				if (account != null)
 				{
 					account.Account_Name = model.UserName;
-					if (model.IsUser)
+					foreach (var accountRole in model.Roles)
 					{
-						Warehouse.SetUserRole(RoleType.User, guid, DateTime.UtcNow/*todo make date*/);
-					}
-					if (model.IsAdminTournaments)
-					{
-						Warehouse.SetUserRole(RoleType.TournamentsAdmin, guid, DateTime.UtcNow/*todo make date*/);
+						if(accountRole.Is)
+						{
+							Warehouse.SetUserRole(accountRole.RoleType, guid, accountRole.Until);
+						}
 					}
 					Warehouse.db.SaveChanges();
 

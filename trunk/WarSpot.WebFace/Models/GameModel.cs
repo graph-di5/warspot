@@ -38,6 +38,7 @@ namespace WarSpot.WebFace.Models
 			Id = game.Game_ID;
 			AccountID = game.Creator_ID;
 			Replay = game.Replay;
+			// todo //!! make right time
 			CreationTime = game.CreationTime;
 			Name = game.Game_Name;
 			Teams = new List<TeamTextInfo>();
