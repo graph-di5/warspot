@@ -59,7 +59,7 @@ namespace WarSpot.Contracts.Service
 		bool IsUserAdmin(Guid user);
 
 		[OperationContract]
-		bool IsUser(string role, Guid user);
+		bool IsUser(Guid user, string role);
 
 		[OperationContract]
 		ErrorCode SetUserRole(Guid user, string role, DateTime until);
