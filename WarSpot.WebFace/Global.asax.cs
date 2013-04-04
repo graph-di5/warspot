@@ -1,7 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using WarSpot.WebFace.Controllers;
 
 namespace WarSpot.WebFace
 {
@@ -37,6 +40,29 @@ namespace WarSpot.WebFace
 
 			CloudStorageAccount.SetConfigurationSettingPublisher(
 											(a, b) => b(RoleEnvironment.GetConfigurationSettingValue(a)));
+		}
+
+		protected void Application_Error(object sender, EventArgs e)
+		{
+			Exception exception = Server.GetLastError();
+			Server.ClearError();
+
+			RouteData routeData = new RouteData();
+			routeData.Values.Add("controller", "Error");
+			routeData.Values.Add("action", "Index");
+			routeData.Values.Add("error", exception);
+
+			if (exception.GetType() == typeof(HttpException))
+			{
+				routeData.Values.Add("statusCode", ((HttpException)exception).GetHttpCode());
+			}
+			else
+			{
+				routeData.Values.Add("statusCode", 500);
+			}
+
+			IController controller = new ErrorController();
+			controller.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
 		}
 	}
 }

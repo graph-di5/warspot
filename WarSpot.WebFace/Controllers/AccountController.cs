@@ -106,37 +106,37 @@ namespace WarSpot.WebFace.Controllers
 
 		public ActionResult ChangePassword(ChangePasswordModel model)
 		{
-            if (ModelState.IsValid)
-            {
-                string currentUserName;
-                bool changePasswordSecceeded;
+			if (ModelState.IsValid)
+			{
+				string currentUserName;
+				bool changePasswordSecceeded;
 
-                if (changePasswordSecceeded = (model.NewPassword == model.ConfirmPassword))
-                {
-                    try
-                    {
-                        MembershipUser currentUser = Membership.GetUser((currentUserName = User.Identity.Name), true);
-                        if (changePasswordSecceeded = Warehouse.ChangePassword(currentUserName, model.OldPassword, model.NewPassword))
-                        {
-                            currentUser.ChangePassword(model.OldPassword, model.NewPassword);
-                        }
-                    }
-                    catch (System.Exception)
-                    {
-                        changePasswordSecceeded = false;
-                    }
-                }                
+				if (changePasswordSecceeded = (model.NewPassword == model.ConfirmPassword))
+				{
+					try
+					{
+						MembershipUser currentUser = Membership.GetUser((currentUserName = User.Identity.Name), true);
+						if (changePasswordSecceeded = Warehouse.ChangePassword(currentUserName, model.OldPassword, model.NewPassword))
+						{
+							currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+						}
+					}
+					catch (System.Exception)
+					{
+						changePasswordSecceeded = false;
+					}
+				}
 
-                if (changePasswordSecceeded)
-                {
-                    return RedirectToAction("ChangePasswordSuccess");
-                }
-                else
-                {
+				if (changePasswordSecceeded)
+				{
+					return RedirectToAction("ChangePasswordSuccess");
+				}
+				else
+				{
 					ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
 				}
-            }
-            
+			}
+
 			return View(model);
 		}
 
