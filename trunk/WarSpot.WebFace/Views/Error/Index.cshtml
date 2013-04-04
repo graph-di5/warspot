@@ -1,0 +1,8 @@
+﻿@model dynamic
+
+@{
+  ViewBag.Title = String.Format("Ошибка {0}", ViewData["StatusCode"]);
+}
+
+<h2>Ошибка @ViewData["StatusCode"]!</h2>
+<div>@ViewData.Model</div>

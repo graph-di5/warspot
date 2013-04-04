@@ -13,5 +13,8 @@
 
 Код библиотеки WarSpot.Contracts.Intellect и тестового интеллекта снабжены подробными комментариями, которые помогут разобраться в деталях. 
 
+Запрещенные действия
+// todo import from comapping
+
 [WorldDescription]
 [GameActionsFullDescription]
