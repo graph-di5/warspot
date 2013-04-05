@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using CommandLine;
 using CommandLine.Text;
 
@@ -37,7 +38,7 @@ namespace Wiki2Html
 					return;
 				}
 				var inFile = new StreamReader(options.InFileName);
-				var outFile = new StreamWriter(options.OutFileName);
+				var outFile = new StreamWriter(options.OutFileName, false, Encoding.UTF8);
 
 				string line;
 				while ((line = inFile.ReadLine()) != null)

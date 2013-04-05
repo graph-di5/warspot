@@ -2,6 +2,7 @@
 
 namespace WarSpot.WebFace.Controllers
 {
+	[AllowAnonymous]
 	public class DocumentController : Controller
 	{
 		//
