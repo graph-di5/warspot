@@ -41,15 +41,16 @@ namespace WarSpot.Client.XnaClient.Network
 
 		public bool IsOnline()
 		{
-			return !(_service == null);
+			return _service != null;
 		}
 
-		public ErrorCode Register(string username, string password)
+		public ErrorCode Register(string username, string password, string name, string surname, string institution, int course, string email)
 		{
 			try
 			{
 				InitializeConnection();
-				return _service.Register(username, HashHelper.GetMd5Hash(password));
+				return _service.Register(username, HashHelper.GetMd5Hash(password), 
+					name, surname, institution, course, email);
 			}
 			catch (Exception e)
 			{
