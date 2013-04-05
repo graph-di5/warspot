@@ -195,7 +195,12 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 			else
 			{*/
-				ErrorCode errorCode = Network.ConnectionManager.Instance.Register(_nicknameBox.RealText, _passwordBox.RealText);
+
+				ErrorCode errorCode = Network.ConnectionManager.Instance.Register(_nicknameBox.RealText,
+					_passwordBox.RealText, _nameBox.RealText, _surNameBox.RealText, 
+					"" /* todo introduce institute var */,
+					0 /* todo introduce institute var */,
+					_emailBox.RealText);
 				if (errorCode.Type != ErrorType.Ok)
 				{
 					MessageBox.Show("This nickname is currently used",
