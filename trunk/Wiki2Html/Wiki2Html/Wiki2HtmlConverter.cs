@@ -51,7 +51,7 @@ namespace Wiki2Html
 			Rules.Add(@"^\s*-{4,}\s*$", "<hr/>");
 
 			// todo add # link navigation
-			Rules.Add(@"\s((http|ftp)s?://.*?)\s", " <a href=\"$1\">$1</a> ");
+			Rules.Add(@"[^\]]?((http|ftp)s?://\S*)", "<a href=\"$1\">$1</a>");
 			Rules.Add(@"\[(\w+?)\]", "<a href=\"$1\">$1</a>");
 			Rules.Add(@"\[(\S+?)\s(.*?)\]", "<a href=\"$1\">$2</a>");
 			Rules.Add(@"\[(\S+?)]", "<a href=\"$1\">$1</a>");
