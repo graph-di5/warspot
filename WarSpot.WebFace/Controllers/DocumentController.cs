@@ -1,28 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-//using System.IO;
-//using ProjectBase.Tools.Wiki;
+﻿using System.Web.Mvc;
 
 namespace WarSpot.WebFace.Controllers
 {
-    public class DocumentController : Controller
-    {
-        //
-        // GET: /Document/
+	public class DocumentController : Controller
+	{
+		//
+		// GET: /Document/
 
-        public ActionResult Index()
-        {
-            //System.Reflection.Assembly a = System.Reflection.Assembly.GetEntryAssembly();
-            //string baseDir = System.IO.Path.GetDirectoryName(a.Location);
-            //StreamReader sr = new StreamReader(System.Environment.CurrentDirectory + "/wiki/EULA.wiki");
+		public ActionResult Index()
+		{
+			return View();
+		}
 
-            //return View(model: (new WikiConverter()).ConvertToHtml(sr.ReadToEnd()));
+		public ActionResult About()
+		{
+			return View();
+		}
 
-            return View();
-        }
+		public ActionResult EULA()
+		{
+			return View();
+		}
 
-    }
+		public ActionResult SmallGuide()
+		{
+			return View();
+		}
+
+		public ActionResult Rules()
+		{
+			return View();
+		}
+
+		public ActionResult WorldDescription()
+		{
+			return View();
+		}
+
+		public ActionResult GameActionsFullDescription()
+		{
+			return View();
+		}
+	}
 }
