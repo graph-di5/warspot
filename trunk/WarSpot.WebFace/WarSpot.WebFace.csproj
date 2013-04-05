@@ -241,6 +241,27 @@
   <ItemGroup>
     <Content Include="Views\Error\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Document\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Document\About.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Document\EULA.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Document\SmallGuide.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Document\Rules.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Document\WorldDescription.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Document\GameActionsFullDescription.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
