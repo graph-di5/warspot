@@ -14,7 +14,7 @@ namespace Wiki2Html
 		static KeyValuePair<string, string> Tag(string wikiTag, string htmlTag, bool fullString = false)
 		{
 			return new KeyValuePair<string, string>(
-				string.Format("{1}{0}(.*?){0}{2}", wikiTag, fullString ? "^" : "", fullString ? "$" : ""),
+				string.Format("{1}{0}(.*?){0}{2}", wikiTag, fullString ? @"^\s*" : "", fullString ? @"\s*$" : ""),
 				string.Format("<{0}>$1</{0}>", htmlTag));
 		}
 
@@ -50,27 +50,13 @@ namespace Wiki2Html
 			Rules.Add("^$", "<br/>");
 			Rules.Add(@"^\s*-{4,}\s*$", "<hr/>");
 
-			/* todo
-			 The following is:
-  * A list
-  * Of bulleted items
-    # This is a numbered sublist
-    # Which is done by indenting further
-  * And back to the main bulleted list
-
- * This is also a list
- * With a single leading space
- * Notice that it is rendered
-  # At the same levels
-  # As the above lists.
- * Despite the different indentation levels.
-			 */
-
+			// todo add # link navigation
 			Rules.Add(@"\s((http|ftp)s?://.*?)\s", " <a href=\"$1\">$1</a> ");
+			Rules.Add(@"\[(\w+?)\]", "<a href=\"$1\">$1</a>");
 			Rules.Add(@"\[(\S+?)\s(.*?)\]", "<a href=\"$1\">$2</a>");
 			Rules.Add(@"\[(\S+?)]", "<a href=\"$1\">$1</a>");
 
-			Rules.Add(@"(https+.*?\.(png|gif|jpg|jpeg))", "<img src=\"$1\">");
+			Rules.Add(@"((http|ftp)s?.*?\.(png|gif|jpg|jpeg))", "<img src=\"$1\">");
 
 			Rules.Add(@"^\s*\|", "<tr>");
 			Rules.Add(@"\|\s*$", "</tr>");
