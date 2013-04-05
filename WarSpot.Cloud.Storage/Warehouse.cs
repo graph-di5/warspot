@@ -352,7 +352,7 @@ namespace WarSpot.Cloud.Storage
 
 		#region register & login
 
-		public static bool Register(string username, string password)
+        public static bool Register(string accountname, string password, string username, string usersurname, string institution, int course, string email)
 		{
 			List<Account> test;
 
@@ -363,7 +363,7 @@ namespace WarSpot.Cloud.Storage
 			try
 			{
 				var id = Guid.NewGuid();
-				db.AddToAccount(Account.CreateAccount(id, username, password));
+				db.AddToAccount(Account.CreateAccount(id, username, password, username, usersurname, institution, course, email));
 				db.SaveChanges();
 				SetUserRole(RoleType.User, id, DateTime.UtcNow.AddYears(1) /* default one year for user */ /* todo //!! rewrite this !11*/);
 

@@ -79,9 +79,9 @@ namespace WarSpot.WebFace.Controllers
 			if (ModelState.IsValid)
 			{
 				// Attempt to register the user
-				if (Warehouse.Register(model.UserName, HashHelper.GetMd5Hash(model.Password)))
+				if (Warehouse.Register(model.AccountName, HashHelper.GetMd5Hash(model.Password), model.Username, model.Usersurname, model.Institution, int.Parse(model.Course), model.Email))
 				{
-					if (CustomPrincipal.Login(model.UserName, model.Password, false))
+					if (CustomPrincipal.Login(model.AccountName, model.Password, false))
 					{
 						return RedirectToAction("Index", "Home");
 					}

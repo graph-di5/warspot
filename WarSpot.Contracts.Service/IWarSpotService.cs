@@ -9,7 +9,7 @@ namespace WarSpot.Contracts.Service
 	{
 		#region Login\Registration
 		[OperationContract(IsInitiating = true)]
-		ErrorCode Register(string username, string pass);
+		ErrorCode Register(string accountname, string pass, string username, string usersurname, string institution, int course, string email);
 
 		[OperationContract(IsInitiating = true)]
 		ErrorCode Login(string inputUsername, string inputPass);
