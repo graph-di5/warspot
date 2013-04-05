@@ -8,12 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -27,11 +28,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("DBModel", "IntellectTeam", "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Intellect), "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Team))]
 [assembly: EdmRelationshipAttribute("DBModel", "GameGameDetails", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Game), "GameDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(WarSpot.Cloud.Storage.GameDetails), true)]
 [assembly: EdmRelationshipAttribute("DBModel", "TournamentStage", "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Tournament), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage), true)]
-[assembly: EdmRelationshipAttribute("DBModel", "StageSubStage", "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Stage), "SubStage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.SubStage), true)]
-[assembly: EdmRelationshipAttribute("DBModel", "SubStageScore", "SubStage", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.SubStage), "Score", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Score), true)]
 [assembly: EdmRelationshipAttribute("DBModel", "AccountStage", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Account), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage))]
-[assembly: EdmRelationshipAttribute("DBModel", "GameSubStage", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Game), "SubStage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.SubStage))]
-[assembly: EdmRelationshipAttribute("DBModel", "AccountScore", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "Score", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Score), true)]
 
 #endregion
 
@@ -242,40 +239,9 @@ namespace WarSpot.Cloud.Storage
             }
         }
         private ObjectSet<Stage> _Stages;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<SubStage> SubStages
-        {
-            get
-            {
-                if ((_SubStages == null))
-                {
-                    _SubStages = base.CreateObjectSet<SubStage>("SubStages");
-                }
-                return _SubStages;
-            }
-        }
-        private ObjectSet<SubStage> _SubStages;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Score> Scores
-        {
-            get
-            {
-                if ((_Scores == null))
-                {
-                    _Scores = base.CreateObjectSet<Score>("Scores");
-                }
-                return _Scores;
-            }
-        }
-        private ObjectSet<Score> _Scores;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -357,29 +323,13 @@ namespace WarSpot.Cloud.Storage
         {
             base.AddObject("Stages", stage);
         }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the SubStages EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToSubStages(SubStage subStage)
-        {
-            base.AddObject("SubStages", subStage);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Scores EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToScores(Score score)
-        {
-            base.AddObject("Scores", score);
-        }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -398,16 +348,27 @@ namespace WarSpot.Cloud.Storage
         /// <param name="account_ID">Initial value of the Account_ID property.</param>
         /// <param name="account_Name">Initial value of the Account_Name property.</param>
         /// <param name="account_Password">Initial value of the Account_Password property.</param>
-        public static Account CreateAccount(global::System.Guid account_ID, global::System.String account_Name, global::System.String account_Password)
+        /// <param name="userFullName">Initial value of the UserFullName property.</param>
+        /// <param name="userSurname">Initial value of the UserSurname property.</param>
+        /// <param name="institution">Initial value of the Institution property.</param>
+        /// <param name="course">Initial value of the Course property.</param>
+        /// <param name="email">Initial value of the Email property.</param>
+        public static Account CreateAccount(global::System.Guid account_ID, global::System.String account_Name, global::System.String account_Password, global::System.String userFullName, global::System.String userSurname, global::System.String institution, global::System.Int32 course, global::System.String email)
         {
             Account account = new Account();
             account.Account_ID = account_ID;
             account.Account_Name = account_Name;
             account.Account_Password = account_Password;
+            account.UserFullName = userFullName;
+            account.UserSurname = userSurname;
+            account.Institution = institution;
+            account.Course = course;
+            account.Email = email;
             return account;
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -484,8 +445,129 @@ namespace WarSpot.Cloud.Storage
         private global::System.String _Account_Password;
         partial void OnAccount_PasswordChanging(global::System.String value);
         partial void OnAccount_PasswordChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String UserFullName
+        {
+            get
+            {
+                return _UserFullName;
+            }
+            set
+            {
+                OnUserFullNameChanging(value);
+                ReportPropertyChanging("UserFullName");
+                _UserFullName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("UserFullName");
+                OnUserFullNameChanged();
+            }
+        }
+        private global::System.String _UserFullName;
+        partial void OnUserFullNameChanging(global::System.String value);
+        partial void OnUserFullNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String UserSurname
+        {
+            get
+            {
+                return _UserSurname;
+            }
+            set
+            {
+                OnUserSurnameChanging(value);
+                ReportPropertyChanging("UserSurname");
+                _UserSurname = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("UserSurname");
+                OnUserSurnameChanged();
+            }
+        }
+        private global::System.String _UserSurname;
+        partial void OnUserSurnameChanging(global::System.String value);
+        partial void OnUserSurnameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Institution
+        {
+            get
+            {
+                return _Institution;
+            }
+            set
+            {
+                OnInstitutionChanging(value);
+                ReportPropertyChanging("Institution");
+                _Institution = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Institution");
+                OnInstitutionChanged();
+            }
+        }
+        private global::System.String _Institution;
+        partial void OnInstitutionChanging(global::System.String value);
+        partial void OnInstitutionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Course
+        {
+            get
+            {
+                return _Course;
+            }
+            set
+            {
+                OnCourseChanging(value);
+                ReportPropertyChanging("Course");
+                _Course = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Course");
+                OnCourseChanged();
+            }
+        }
+        private global::System.Int32 _Course;
+        partial void OnCourseChanging(global::System.Int32 value);
+        partial void OnCourseChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Email
+        {
+            get
+            {
+                return _Email;
+            }
+            set
+            {
+                OnEmailChanging(value);
+                ReportPropertyChanging("Email");
+                _Email = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Email");
+                OnEmailChanged();
+            }
+        }
+        private global::System.String _Email;
+        partial void OnEmailChanging(global::System.String value);
+        partial void OnEmailChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -620,46 +702,9 @@ namespace WarSpot.Cloud.Storage
                 }
             }
         }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountScore", "Score")]
-        public Score Score
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Score>("DBModel.AccountScore", "Score").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Score>("DBModel.AccountScore", "Score").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Score> ScoreReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Score>("DBModel.AccountScore", "Score");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Score>("DBModel.AccountScore", "Score", value);
-                }
-            }
-        }
 
         #endregion
+
     }
     
     /// <summary>
@@ -692,6 +737,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -818,6 +864,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnLongCommentChanged();
 
         #endregion
+
     
     }
     
@@ -849,6 +896,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -975,6 +1023,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnGame_NameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1075,30 +1124,9 @@ namespace WarSpot.Cloud.Storage
                 }
             }
         }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameSubStage", "SubStage")]
-        public EntityCollection<SubStage> SubStages
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SubStage>("DBModel.GameSubStage", "SubStage");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SubStage>("DBModel.GameSubStage", "SubStage", value);
-                }
-            }
-        }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1127,6 +1155,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1205,6 +1234,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnWinner_IDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1247,6 +1277,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1277,6 +1308,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1379,6 +1411,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnDescriptionChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1443,192 +1476,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="Score")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Score : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Score object.
-        /// </summary>
-        /// <param name="score_ID">Initial value of the Score_ID property.</param>
-        /// <param name="subStageSubStage_ID">Initial value of the SubStageSubStage_ID property.</param>
-        /// <param name="points">Initial value of the Points property.</param>
-        public static Score CreateScore(global::System.Guid score_ID, global::System.Guid subStageSubStage_ID, global::System.String points)
-        {
-            Score score = new Score();
-            score.Score_ID = score_ID;
-            score.SubStageSubStage_ID = subStageSubStage_ID;
-            score.Points = points;
-            return score;
-        }
 
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid Score_ID
-        {
-            get
-            {
-                return _Score_ID;
-            }
-            set
-            {
-                if (_Score_ID != value)
-                {
-                    OnScore_IDChanging(value);
-                    ReportPropertyChanging("Score_ID");
-                    _Score_ID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Score_ID");
-                    OnScore_IDChanged();
-                }
-            }
-        }
-        private global::System.Guid _Score_ID;
-        partial void OnScore_IDChanging(global::System.Guid value);
-        partial void OnScore_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid SubStageSubStage_ID
-        {
-            get
-            {
-                return _SubStageSubStage_ID;
-            }
-            set
-            {
-                OnSubStageSubStage_IDChanging(value);
-                ReportPropertyChanging("SubStageSubStage_ID");
-                _SubStageSubStage_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("SubStageSubStage_ID");
-                OnSubStageSubStage_IDChanged();
-            }
-        }
-        private global::System.Guid _SubStageSubStage_ID;
-        partial void OnSubStageSubStage_IDChanging(global::System.Guid value);
-        partial void OnSubStageSubStage_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Points
-        {
-            get
-            {
-                return _Points;
-            }
-            set
-            {
-                OnPointsChanging(value);
-                ReportPropertyChanging("Points");
-                _Points = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Points");
-                OnPointsChanged();
-            }
-        }
-        private global::System.String _Points;
-        partial void OnPointsChanging(global::System.String value);
-        partial void OnPointsChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "SubStageScore", "SubStage")]
-        public SubStage SubStage
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SubStage>("DBModel.SubStageScore", "SubStage").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SubStage>("DBModel.SubStageScore", "SubStage").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<SubStage> SubStageReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<SubStage>("DBModel.SubStageScore", "SubStage");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<SubStage>("DBModel.SubStageScore", "SubStage", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountScore", "Account")]
-        public Account Account
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountScore", "Account").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountScore", "Account").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Account> AccountReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountScore", "Account");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Account>("DBModel.AccountScore", "Account", value);
-                }
-            }
-        }
-
-        #endregion
     }
     
     /// <summary>
@@ -1655,6 +1503,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1709,6 +1558,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnIdChanged();
 
         #endregion
+
     
     }
     
@@ -1742,6 +1592,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1868,6 +1719,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnStartTimeChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1915,28 +1767,6 @@ namespace WarSpot.Cloud.Storage
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "StageSubStage", "SubStage")]
-        public EntityCollection<SubStage> SubStages
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SubStage>("DBModel.StageSubStage", "SubStage");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SubStage>("DBModel.StageSubStage", "SubStage", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountStage", "Account")]
         public EntityCollection<Account> Accounts
         {
@@ -1954,224 +1784,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="SubStage")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class SubStage : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new SubStage object.
-        /// </summary>
-        /// <param name="subStage_ID">Initial value of the SubStage_ID property.</param>
-        /// <param name="stageStage_ID">Initial value of the StageStage_ID property.</param>
-        /// <param name="state">Initial value of the State property.</param>
-        /// <param name="subtype">Initial value of the Subtype property.</param>
-        public static SubStage CreateSubStage(global::System.Guid subStage_ID, global::System.Guid stageStage_ID, global::System.String state, global::System.String subtype)
-        {
-            SubStage subStage = new SubStage();
-            subStage.SubStage_ID = subStage_ID;
-            subStage.StageStage_ID = stageStage_ID;
-            subStage.State = state;
-            subStage.Subtype = subtype;
-            return subStage;
-        }
 
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid SubStage_ID
-        {
-            get
-            {
-                return _SubStage_ID;
-            }
-            set
-            {
-                if (_SubStage_ID != value)
-                {
-                    OnSubStage_IDChanging(value);
-                    ReportPropertyChanging("SubStage_ID");
-                    _SubStage_ID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("SubStage_ID");
-                    OnSubStage_IDChanged();
-                }
-            }
-        }
-        private global::System.Guid _SubStage_ID;
-        partial void OnSubStage_IDChanging(global::System.Guid value);
-        partial void OnSubStage_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid StageStage_ID
-        {
-            get
-            {
-                return _StageStage_ID;
-            }
-            set
-            {
-                OnStageStage_IDChanging(value);
-                ReportPropertyChanging("StageStage_ID");
-                _StageStage_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("StageStage_ID");
-                OnStageStage_IDChanged();
-            }
-        }
-        private global::System.Guid _StageStage_ID;
-        partial void OnStageStage_IDChanging(global::System.Guid value);
-        partial void OnStageStage_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String State
-        {
-            get
-            {
-                return _State;
-            }
-            set
-            {
-                OnStateChanging(value);
-                ReportPropertyChanging("State");
-                _State = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("State");
-                OnStateChanged();
-            }
-        }
-        private global::System.String _State;
-        partial void OnStateChanging(global::System.String value);
-        partial void OnStateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Subtype
-        {
-            get
-            {
-                return _Subtype;
-            }
-            set
-            {
-                OnSubtypeChanging(value);
-                ReportPropertyChanging("Subtype");
-                _Subtype = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Subtype");
-                OnSubtypeChanged();
-            }
-        }
-        private global::System.String _Subtype;
-        partial void OnSubtypeChanging(global::System.String value);
-        partial void OnSubtypeChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "StageSubStage", "Stage")]
-        public Stage Stage
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Stage>("DBModel.StageSubStage", "Stage").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Stage>("DBModel.StageSubStage", "Stage").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Stage> StageReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Stage>("DBModel.StageSubStage", "Stage");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Stage>("DBModel.StageSubStage", "Stage", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "SubStageScore", "Score")]
-        public EntityCollection<Score> Scores
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Score>("DBModel.SubStageScore", "Score");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Score>("DBModel.SubStageScore", "Score", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameSubStage", "Game")]
-        public EntityCollection<Game> Games
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Game>("DBModel.GameSubStage", "Game");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("DBModel.GameSubStage", "Game", value);
-                }
-            }
-        }
-
-        #endregion
     }
     
     /// <summary>
@@ -2198,6 +1811,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2252,6 +1866,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnGameGame_IDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2316,6 +1931,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2348,6 +1964,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2474,6 +2091,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnTournament_NameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2560,6 +2178,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2590,6 +2209,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2692,6 +2312,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnRole_CodeChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2734,8 +2355,10 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
 
     #endregion
+
     
 }

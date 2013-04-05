@@ -43,13 +43,29 @@ namespace WarSpot.WebFace.Models
 	public class RegisterModel
 	{
 		[Required]
-		[Display(Name = "User name")]
-		public string UserName { get; set; }
+		[Display(Name = "Account name")]
+		public string AccountName { get; set; }
 
 		[Required]
 		[DataType(DataType.EmailAddress)]
 		[Display(Name = "Email address")]
 		public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "User firstname")]
+        public string Username { get; set; }
+
+        [Required]
+        [Display(Name = "User surname")]
+        public string Usersurname { get; set; }
+
+        [Required]
+        [Display(Name = "Institution")]
+        public string Institution { get; set; }
+
+        [Required]
+        [Display(Name = "Course")]
+        public string Course { get; set; }
 
 		[Required]
 		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

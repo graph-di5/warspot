@@ -41,9 +41,9 @@ namespace WarSpot.Cloud.UserService
 		#endregion
 
 		#region login and registration
-		public ErrorCode Register(string username, string pass)
+        public ErrorCode Register(string accountname, string pass, string username, string usersurname, string institution, int course, string email)
 		{
-			if (Warehouse.Register(username, pass))
+            if (Warehouse.Register(accountname, pass, username, usersurname, institution, course, email))
 				return new ErrorCode(ErrorType.Ok, "New account has been successfully created.");
 			else
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Existed account with same name.");
