@@ -299,6 +299,13 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PreBuildEvent>cd $(ProjectDir)
-svn export --force http://warspot.googlecode.com/svn/wiki/ Wiki</PreBuildEvent>
+svn export --force http://warspot.googlecode.com/svn/wiki/ wiki
+..\Utils\Wiki2Html.exe -i Wiki\AboutRU.wiki -o Views\Document\About.cshtml
+..\Utils\Wiki2Html.exe -i Wiki\EULA.wiki -o Views\Document\EULA.cshtml
+..\Utils\Wiki2Html.exe -i Wiki\GameActionsFullDescription.wiki -o Views\Document\GameActionsFullDescription.cshtml
+..\Utils\Wiki2Html.exe -i Wiki\Rules.wiki -o Views\Document\Rules.cshtml
+..\Utils\Wiki2Html.exe -i Wiki\SmallGuide.wiki -o Views\Document\SmallGuide.cshtml
+..\Utils\Wiki2Html.exe -i Wiki\WorldDescription.wiki -o Views\Document\WorldDescription.cshtml
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
