@@ -204,22 +204,6 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void UploadButtonPressed(object sender, EventArgs e)
 		{
-			if (_pathBox.Text == "")
-			{
-				return;
-			}
-			Intellect i = new Intellect(_pathBox.Text);
-			ErrorCode ec = Network.ConnectionManager.Instance.UploadIntellect(i);
-			if (ec.Type == ErrorType.Ok)
-			{
-				_pathBox.Text = "";
-				MessageBox.Show("Intellect " + i + " was uploaded successfully!", ScreenManager.ScreenEnum.AIManageScreen);
-			}
-			else
-			{
-				MessageBox.Show("Some error occured...", ScreenManager.ScreenEnum.AIManageScreen);
-			}
-			LoadIntellects();
 		}
 
 		private void DeleteButtonPressed(object sender, EventArgs e)

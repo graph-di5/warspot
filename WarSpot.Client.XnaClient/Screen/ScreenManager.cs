@@ -13,7 +13,6 @@ namespace WarSpot.Client.XnaClient.Screen
 	{
 		public enum ScreenEnum
 		{
-			AIManageScreen,
 			MainMenuScreen,
 			NewAccountScreen,
 			LoginScreen,
@@ -21,7 +20,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			WatchReplayScreen,
 			SelectReplayScreen,
 			LoadingScreen,
-			NewGameScreen
 		}
 
 		private static ScreenManager _instance;

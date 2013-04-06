@@ -17,12 +17,9 @@ namespace WarSpot.Client.XnaClient.Screen
 		private LabelControl _loginLabel;
 		private LabelControl _passwordLabel;
 		private LabelControl _rememberLabel;
-
 		private InputControl _loginBox;
 		private InputControl _passwordBox;
-
 		private OptionControl _rememberCheckBox;
-
 		private ButtonControl _exitButton;
 		private ButtonControl _loginButton;
 		private ButtonControl _newAccountButton;
@@ -86,7 +83,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			_rememberCheckBox = new OptionControl()
 			{
 				Bounds = new UniRectangle(
-							new UniScalar(0.5f, 60),
+							new UniScalar(0.5f, 50),
 							new UniScalar(0.4f, 70),
 							new UniScalar(0f, 20),
 							new UniScalar(0f, 20))
@@ -113,7 +110,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			_rememberLabel = new LabelControl("Remember me:")
 			{
 				Bounds = new UniRectangle(
-							new UniScalar(0.5f, -50),
+							new UniScalar(0.5f, -60),
 							new UniScalar(0.4f, 65),
 							new UniScalar(0f, 100),
 							new UniScalar(0f, 30))
@@ -177,13 +174,6 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void LoginButtonPressed(object sender, EventArgs args)
 		{
-			// TODO: Delete it after appearance test data in SQL
-			if (_loginBox.Text == "" && _passwordBox.Text == "")
-			{
-				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
-				return;
-			}
-
 			if (_rememberCheckBox.Selected)
 			{
 				Settings.Default.login = _loginBox.RealText;
@@ -196,11 +186,15 @@ namespace WarSpot.Client.XnaClient.Screen
 			{
 				MessageBox.Show("Incorrect login or password!", ScreenManager.ScreenEnum.LoginScreen);
 			}
-			else
-			{
-				Utils.ScreenHelper.Instance.IsOnline = true;
-				ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
-			}
+            else if (errorCode.Type == ErrorType.UnknownException)
+            {
+                MessageBox.Show("No connection, only offline mode\navailable", ScreenManager.ScreenEnum.MainMenuScreen);
+            }
+            else
+            {
+                Utils.ScreenHelper.Instance.IsOnline = true;
+                ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+            }
 		}
 
 		private void NewAccountButtonPressed(object sender, EventArgs args)

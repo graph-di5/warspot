@@ -11,16 +11,10 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 
 		static FoldersHelper()
 		{
-			WarSpotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WarSpot");
-			// Define path for replays folder
-			ReplaysAbsolutePath = Path.Combine(WarSpotPath, "Replays");
-			if (!Directory.Exists(ReplaysAbsolutePath))
-				Directory.CreateDirectory(ReplaysAbsolutePath);
-
-			// Define path for dll folder
-			IntellectsAbsolutePath = Path.Combine(WarSpotPath, "Intellects");
-			if (!Directory.Exists(WarSpotPath))
-				Directory.CreateDirectory(WarSpotPath);
+            var x = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "WarSpotReplays");
+            if (!Directory.Exists(x))
+                Directory.CreateDirectory(x);
+            ReplaysAbsolutePath = x;
 		}
 
 		public static string GetReplayPath()

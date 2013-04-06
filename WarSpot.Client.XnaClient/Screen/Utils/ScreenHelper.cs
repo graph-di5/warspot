@@ -21,7 +21,7 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 			}
 		}
 		public List<WarSpotEvent> ReplayEvents { get; set;}
-		public List<Guid> ListOfGames { get; set; }
+		public List<ReplayDescription> ListOfReplays { get; set; }
 		public Guid DownloadedGameGuid { get; set; }
 		public bool IsOnline { get; set; }
 		private static ScreenHelper _instance;
