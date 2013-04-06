@@ -184,7 +184,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			ErrorCode errorCode = ConnectionManager.Instance.Login(_loginBox.RealText, _passwordBox.RealText);
 			if (errorCode.Type == ErrorType.WrongLoginOrPassword)
 			{
-				MessageBox.Show("Incorrect login or password!", ScreenManager.ScreenEnum.LoginScreen);
+				MessageBox.Show("Incorrect login or password", ScreenManager.ScreenEnum.LoginScreen);
 			}
             else if (errorCode.Type == ErrorType.UnknownException)
             {
@@ -192,14 +192,13 @@ namespace WarSpot.Client.XnaClient.Screen
             }
             else
             {
-                Utils.ScreenHelper.Instance.IsOnline = true;
                 ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
             }
 		}
 
 		private void NewAccountButtonPressed(object sender, EventArgs args)
-		{
-			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.NewAccountScreen);
+	    {	
+			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.RegistrationScreen);
 		}
 	}
 }

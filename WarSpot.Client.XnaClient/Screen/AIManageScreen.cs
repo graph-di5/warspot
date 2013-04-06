@@ -61,7 +61,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			var isOk = ConnectionManager.Instance.GetListOfIntellects();
 			if (isOk.Type == ErrorType.Ok)
 			{
-				if (Utils.ScreenHelper.Instance.IsOnline)
+				if (ConnectionManager.Instance.IsOnline())
 				{
 					foreach (var i in Utils.ScreenHelper.Instance.AvailableIntellects)
 					{

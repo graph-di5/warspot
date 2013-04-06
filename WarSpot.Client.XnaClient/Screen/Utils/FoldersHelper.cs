@@ -5,10 +5,7 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 {
 	static class FoldersHelper
 	{
-		private static readonly string WarSpotPath;
 		private static readonly string ReplaysAbsolutePath;
-		private static readonly string IntellectsAbsolutePath;
-
 		static FoldersHelper()
 		{
             var x = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "WarSpotReplays");
@@ -20,11 +17,6 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 		public static string GetReplayPath()
 		{
 			return ReplaysAbsolutePath;
-		}
-
-		public static string GetDllPath()
-		{
-			return IntellectsAbsolutePath;
 		}
 	}
 }

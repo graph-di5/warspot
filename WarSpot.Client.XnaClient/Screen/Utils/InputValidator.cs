@@ -20,7 +20,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			return Regex.IsMatch(input, pattern);
 		}
 
-		//TODO: test this
 		static public bool CheckReplay(string input)
 		{
 			if (input == null)
@@ -28,6 +27,14 @@ namespace WarSpot.Client.XnaClient.Screen
 			const string pattern = @".*\\.out$";
 			return Regex.IsMatch(input, pattern);
 		}
+
+        static public bool isNumber(string input)
+        {
+            if (input == null)
+                return false;
+            const string pattern = "^[0-9]+$";
+            return Regex.IsMatch(input, pattern);
+        }
 	}
 
 }
