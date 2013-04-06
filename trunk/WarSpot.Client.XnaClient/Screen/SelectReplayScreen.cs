@@ -147,7 +147,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoadingScreen);
 		}
 
-
 		private void BackButtonPressed(object sender, EventArgs e)
 		{
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
@@ -155,8 +154,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void GetSavedReplays()
 		{
-            string[] replays = Directory.GetFiles(FoldersHelper.GetReplayPath()).Select(path => Path.GetFileName(path)).ToArray();
-			foreach (var i in replays)
+            foreach (var i in Directory.GetFiles(FoldersHelper.GetReplayPath()).Select(path => Path.GetFileName(path)).ToArray())
 			{
 				_replaysList.Items.Add(i);
 			}

@@ -69,7 +69,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			base.OnShow();
 			Thread replayHandler;
-			if (ScreenHelper.Instance.IsOnline)
+			if (Network.ConnectionManager.Instance.IsOnline())
 			{
 				replayHandler = new Thread(DownloadReplay);
 			}

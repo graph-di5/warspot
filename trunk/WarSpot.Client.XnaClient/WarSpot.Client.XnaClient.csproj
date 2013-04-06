@@ -147,7 +147,7 @@
     <Compile Include="Screen\GameScreen.cs" />
     <Compile Include="Screen\LoginScreen.cs" />
     <Compile Include="Screen\MainMenuScreen.cs" />
-    <Compile Include="Screen\NewAccountScreen.cs" />
+    <Compile Include="Screen\RegistrationScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />
     <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs " />
   </ItemGroup>
