@@ -173,6 +173,9 @@ namespace WarSpot.MatchComputer
 			}
 
 			#region Event Dealer //Проход по всем действиям этого хода.
+
+			RandomShuffle(_actions);//Перемешиваем действия для увеличения энтропии.
+
 			foreach (var curAction in _actions)
 			{
 				Being actor;
