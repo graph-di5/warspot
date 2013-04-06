@@ -148,7 +148,7 @@ namespace WarSpot.Client.XnaClient.Network
 			try
 			{
 				InitializeConnection();
-				Screen.Utils.ScreenHelper.Instance.ListOfGames = _service.GetListOfGames();
+				Screen.Utils.ScreenHelper.Instance.ListOfReplays = _service.GetListOfReplays();
 				return new ErrorCode();
 			}
 			catch (Exception e)

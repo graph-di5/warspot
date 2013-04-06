@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="login" Type="System.String" Scope="User">
-      <Value Profile="(Default)">testdata</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">test</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

@@ -52,31 +52,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public override void OnShow()
 		{
-			base.OnShow();
-			// todo for what is this time needed
-			_gameNameBox.Text = DateTime.Now.ToString();
-			if (!_isShowedAgain)
-			{
-				var isOk = ConnectionManager.Instance.GetListOfIntellects();
-				if (isOk.Type != Contracts.Service.ErrorType.Ok)
-				{
-					_isShowedAgain = true;
-					ScreenHelper.Instance.IsOnline = false;
-			  		_offlineModeCheckBox.Selected = true;
-					_offlineModeCheckBox.Enabled = false;
-					MessageBox.Show("No connection, only offline mode available", ScreenManager.ScreenEnum.NewGameScreen);
-				}
-				else
-				{
-					_isShowedAgain = true;
-					ScreenHelper.Instance.IsOnline = true;
-					foreach (var i in ScreenHelper.Instance.AvailableIntellects)
-					{
-						_intellectFirstList.Items.Add(i.Value);
-						_intellectSecondList.Items.Add(i.Value);
-					}
-				}
-			}
+
 		}
 
 		public override void OnHide()
@@ -219,8 +195,6 @@ namespace WarSpot.Client.XnaClient.Screen
 				{
 					ConnectionManager.Instance.BeginMatch(selectedIntellects, _gameNameBox.Text);
 				}
-				else
-					MessageBox.Show("You must enter name of the game", ScreenManager.ScreenEnum.NewGameScreen);
 			}
 		}
 

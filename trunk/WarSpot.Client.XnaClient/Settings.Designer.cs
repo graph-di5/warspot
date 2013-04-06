@@ -25,7 +25,7 @@ namespace WarSpot.Client.XnaClient {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("testdata")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string login {
             get {
                 return ((string)(this["login"]));
@@ -37,7 +37,7 @@ namespace WarSpot.Client.XnaClient {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("test")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string password {
             get {
                 return ((string)(this["password"]));
