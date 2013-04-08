@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using WarSpot.Client.XnaClient.Screen.Utils;
@@ -52,7 +53,7 @@ namespace WarSpot.Client.XnaClient.Screen
 						ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
 					}
 					else
-						MessageBox.Show("Wrong version", ScreenManager.ScreenEnum.SelectReplayScreen);
+						MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.SelectReplayScreen);
 				}
 			}
 		}
@@ -69,22 +70,25 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			base.OnShow();
 			Thread replayHandler;
-			if (Network.ConnectionManager.Instance.IsOnline())
-			{
-				replayHandler = new Thread(DownloadReplay);
-			}
+			if (ScreenHelper.Instance.OnlineReplayMode)
+                replayHandler = new Thread(DownloadReplay);               
 			else
-			{
 				replayHandler = new Thread(Deserialize);
-			}
 			replayHandler.Start();
 		}
 
 		private void Deserialize()
 		{
 			string path = ScreenHelper.Instance.ReplayPath;
-			ScreenHelper.Instance.ReplayEvents = SerializationHelper.Deserialize(path).Events;
-			isCorrect = ScreenHelper.Instance.ReplayEvents.Count > 0;
+            try
+            {
+                ScreenHelper.Instance.ReplayEvents = SerializationHelper.Deserialize(path).Events;
+                isCorrect = ScreenHelper.Instance.ReplayEvents.Count > 0;
+            }
+            catch
+            {
+                MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.SelectReplayScreen);
+            }
 			lock (_checker)
 			{
 				_checker.IsReplayDeserialized = isCorrect;
@@ -93,7 +97,15 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void DownloadReplay()
 		{
-			Network.ConnectionManager.Instance.DownloadReplay(Utils.ScreenHelper.Instance.DownloadedGameGuid);
+            try
+            {
+                Network.ConnectionManager.Instance.DownloadReplay(Utils.ScreenHelper.Instance.DownloadedGameGuid);
+            }
+            catch
+            {
+                MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.LoginScreen);
+            }
+            isCorrect = ScreenHelper.Instance.ReplayEvents.Count > 0;
 			lock (_checker)
 			{
 				_checker.IsReplayDownloaded = true;

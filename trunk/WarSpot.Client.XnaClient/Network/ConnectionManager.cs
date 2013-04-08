@@ -41,7 +41,9 @@ namespace WarSpot.Client.XnaClient.Network
 
 		public bool IsOnline()
 		{
-			return _service != null;
+            if (_service is ChannelFactory<IWarSpotService>)
+                return false;
+            return (_service as ChannelFactory<IWarSpotService>).State == CommunicationState.Opened;
 		}
 
 		public ErrorCode Register(string username, string password, string name, string surname, string institution, int course, string email)
