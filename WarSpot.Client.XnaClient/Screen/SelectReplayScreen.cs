@@ -54,6 +54,10 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public override void Update(GameTime gameTime)
 		{
+            if (_replaysList.SelectedItems.Count == 0)
+                _watchButton.Enabled = false;
+            else
+                _watchButton.Enabled = true;
 		}
 
 		public override void Draw(GameTime gameTime)
@@ -144,6 +148,17 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void WatchButtonPressed(object sender, EventArgs e)
 		{
+            if (ConnectionManager.Instance.IsOnline())
+            {
+                ScreenHelper.Instance.SaveReplay = _saveReplayCheckBox.Selected;
+                ScreenHelper.Instance.DownloadedGameGuid = (from repl in ScreenHelper.Instance.ListOfReplays where repl.Name == _replaysList.Items[_replaysList.SelectedItems[0]] select repl.ID).First();
+                ScreenHelper.Instance.OnlineReplayMode = true;
+            }
+            else
+            {
+                ScreenHelper.Instance.ReplayPath = Path.Combine(FoldersHelper.GetReplayPath(),_replaysList.Items[_replaysList.SelectedItems[0]]);
+                ScreenHelper.Instance.OnlineReplayMode = false;
+            }
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoadingScreen);
 		}
 

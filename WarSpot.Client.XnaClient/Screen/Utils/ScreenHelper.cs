@@ -28,11 +28,15 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 		{
 			get { return _instance; }
 		}
+        public bool SaveReplay { get; set; }
+        public bool OnlineReplayMode { get; set; }
 
 		static ScreenHelper()
 		{
 			_instance = new ScreenHelper();
 			_instance.DownloadedGameGuid = new Guid();
+            _instance.SaveReplay = false;
+            _instance.OnlineReplayMode = false;
 		}
 
 		private ScreenHelper()
