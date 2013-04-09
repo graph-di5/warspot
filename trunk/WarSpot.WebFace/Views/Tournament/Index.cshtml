@@ -1,0 +1,20 @@
+﻿@using WarSpot.WebFace.Models
+@{
+    ViewBag.Title = "Турниры";
+}
+
+	<h2>Мои турниры</h2>
+<div>
+	<table>
+		
+	@foreach (var t in ((IEnumerable<Tournament>) ViewData["my"]))
+	{
+		<tr>
+			<td>@Html.ActionLink(t.TournamentName, "View", new []{t.ID})</td>
+		</tr>
+	}
+	</table>
+</div>
+<h2>Доступные для участия</h2>
+<div>
+</div>

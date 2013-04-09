@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 04/05/2013 15:25:07
--- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\W2\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 04/10/2013 01:56:42
+-- Generated from EDMX file: C:\Users\deem\Documents\warspot_\trunk\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -50,12 +50,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_TournamentStage]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Stages] DROP CONSTRAINT [FK_TournamentStage];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AccountStage_Account]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AccountStage] DROP CONSTRAINT [FK_AccountStage_Account];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AccountStage_Stage]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AccountStage] DROP CONSTRAINT [FK_AccountStage_Stage];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -96,9 +90,6 @@ IF OBJECT_ID(N'[dbo].[AccountPlayer]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[IntellectTeam]', 'U') IS NOT NULL
     DROP TABLE [dbo].[IntellectTeam];
-GO
-IF OBJECT_ID(N'[dbo].[AccountStage]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AccountStage];
 GO
 
 -- --------------------------------------------------
@@ -152,7 +143,10 @@ CREATE TABLE [dbo].[Tournament] (
     [MaxPlayers] bigint  NOT NULL,
     [StartTime] datetime  NOT NULL,
     [Creator_ID] uniqueidentifier  NOT NULL,
-    [Tournament_Name] nvarchar(max)  NOT NULL
+    [Tournament_Name] nvarchar(max)  NOT NULL,
+    [State] nvarchar(max)  NOT NULL,
+    [Type] nvarchar(max)  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -209,13 +203,6 @@ GO
 CREATE TABLE [dbo].[IntellectTeam] (
     [Intellects_Intellect_ID] uniqueidentifier  NOT NULL,
     [Teams_Team_ID] uniqueidentifier  NOT NULL
-);
-GO
-
--- Creating table 'AccountStage'
-CREATE TABLE [dbo].[AccountStage] (
-    [Accounts_Account_ID] uniqueidentifier  NOT NULL,
-    [Stages_Stage_ID] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -293,12 +280,6 @@ GO
 ALTER TABLE [dbo].[IntellectTeam]
 ADD CONSTRAINT [PK_IntellectTeam]
     PRIMARY KEY NONCLUSTERED ([Intellects_Intellect_ID], [Teams_Team_ID] ASC);
-GO
-
--- Creating primary key on [Accounts_Account_ID], [Stages_Stage_ID] in table 'AccountStage'
-ALTER TABLE [dbo].[AccountStage]
-ADD CONSTRAINT [PK_AccountStage]
-    PRIMARY KEY NONCLUSTERED ([Accounts_Account_ID], [Stages_Stage_ID] ASC);
 GO
 
 -- --------------------------------------------------
@@ -428,43 +409,6 @@ ADD CONSTRAINT [FK_GameGameDetails]
     REFERENCES [dbo].[Game]
         ([Game_ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [TournamentTournament_ID] in table 'Stages'
-ALTER TABLE [dbo].[Stages]
-ADD CONSTRAINT [FK_TournamentStage]
-    FOREIGN KEY ([TournamentTournament_ID])
-    REFERENCES [dbo].[Tournament]
-        ([Tournament_ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_TournamentStage'
-CREATE INDEX [IX_FK_TournamentStage]
-ON [dbo].[Stages]
-    ([TournamentTournament_ID]);
-GO
-
--- Creating foreign key on [Accounts_Account_ID] in table 'AccountStage'
-ALTER TABLE [dbo].[AccountStage]
-ADD CONSTRAINT [FK_AccountStage_Account]
-    FOREIGN KEY ([Accounts_Account_ID])
-    REFERENCES [dbo].[Account]
-        ([Account_ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Stages_Stage_ID] in table 'AccountStage'
-ALTER TABLE [dbo].[AccountStage]
-ADD CONSTRAINT [FK_AccountStage_Stage]
-    FOREIGN KEY ([Stages_Stage_ID])
-    REFERENCES [dbo].[Stages]
-        ([Stage_ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AccountStage_Stage'
-CREATE INDEX [IX_FK_AccountStage_Stage]
-ON [dbo].[AccountStage]
-    ([Stages_Stage_ID]);
 GO
 
 -- --------------------------------------------------

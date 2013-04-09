@@ -10,72 +10,72 @@ namespace WarSpot.WebFace.Models
 	{
 		[Required]
 		[DataType(DataType.Password)]
-		[Display(Name = "Current password")]
+		[Display(Name = "Старый пароль")]
 		public string OldPassword { get; set; }
 
 		[Required]
-		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[StringLength(1024, ErrorMessage = "{0} должен содержать не менее {2} символов.", MinimumLength = 8)]
 		[DataType(DataType.Password)]
-		[Display(Name = "New password")]
+		[Display(Name = "Новый пароль")]
 		public string NewPassword { get; set; }
 
 		[DataType(DataType.Password)]
-		[Display(Name = "Confirm new password")]
-		[Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+		[Display(Name = "Подтверждение пароля")]
+		[Compare("NewPassword", ErrorMessage = "Введенные пароли не совпадают.")]
 		public string ConfirmPassword { get; set; }
 	}
 
 	public class LogOnModel
 	{
 		[Required]
-		[Display(Name = "User name")]
+		[Display(Name = "Логин")]
 		public string UserName { get; set; }
 
 		[Required]
 		[DataType(DataType.Password)]
-		[Display(Name = "Password")]
+		[Display(Name = "Пароль")]
 		public string Password { get; set; }
 
-		[Display(Name = "Remember me?")]
+		[Display(Name = "Запомнить")]
 		public bool RememberMe { get; set; }
 	}
 
 	public class RegisterModel
 	{
 		[Required]
-		[Display(Name = "Account name")]
+		[Display(Name = "Логин")]
 		public string AccountName { get; set; }
 
 		[Required]
 		[DataType(DataType.EmailAddress)]
-		[Display(Name = "Email address")]
+		[Display(Name = "Email")]
 		public string Email { get; set; }
 
-        [Required]
-        [Display(Name = "User firstname")]
-        public string Username { get; set; }
-
-        [Required]
-        [Display(Name = "User surname")]
-        public string Usersurname { get; set; }
-
-        [Required]
-        [Display(Name = "Institution")]
-        public string Institution { get; set; }
-
-        [Required]
-        [Display(Name = "Course")]
-        public string Course { get; set; }
+		[Required]
+		[Display(Name = "Имя")]
+		public string Username { get; set; }
 
 		[Required]
-		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[Display(Name = "Фамилия")]
+		public string Usersurname { get; set; }
+
+		[Required]
+		[Display(Name = "Учебное заведение")]
+		public string Institution { get; set; }
+
+		[Required]
+		[Display(Name = "Курс")]
+		public string Course { get; set; }
+
+		[Required]
+		[StringLength(1024, ErrorMessage = "{0} должен содержать не менее {2} символов.", MinimumLength = 8)]
 		[DataType(DataType.Password)]
-		[Display(Name = "Password")]
+		[Display(Name = "Пароль")]
 		public string Password { get; set; }
 
 		[DataType(DataType.Password)]
-		[Display(Name = "Confirm password")]
-		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+		[Display(Name = "Подтверждение")]
+		[Compare("Password", ErrorMessage = "Введенные пароли не совпадают.")]
 		public string ConfirmPassword { get; set; }
 	}
 

@@ -551,7 +551,7 @@ namespace WarSpot.Cloud.Storage
 
 			try
 			{
-				db.AddToTournament(Tournament.CreateTournament(Guid.NewGuid(), maxPlayers, startDate, userID, title));
+				db.AddToTournament(Tournament.CreateTournament(Guid.NewGuid(), maxPlayers, startDate, userID, title, "waiting", "", ""));
 				db.SaveChanges();
 
 				return new ErrorCode(ErrorType.Ok, "Tournament has been created");

@@ -1,0 +1,11 @@
+﻿@model WarSpot.WebFace.Models.Tournament
+
+//
+<div>
+	<div class="display-label">@Html.LabelFor(m => m.TournamentName)</div>
+	<div class="display-field">@Html.DisplayFor(m => m.TournamentName)</div>
+	<div class="display-label">@Html.LabelFor(m => m.Players)</div>
+	<div class="display-field">
+		<table>@foreach(var p in Model.Players){<tr><td>p</td></tr>}</table>
+	</div>
+</div>
