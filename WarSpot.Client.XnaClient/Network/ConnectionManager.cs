@@ -41,7 +41,7 @@ namespace WarSpot.Client.XnaClient.Network
 
 		public bool IsOnline()
 		{
-            if (_service is ChannelFactory<IWarSpotService>)
+            if (_service as ChannelFactory<IWarSpotService> == null)
                 return false;
             return (_service as ChannelFactory<IWarSpotService>).State == CommunicationState.Opened;
 		}

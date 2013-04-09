@@ -25,7 +25,7 @@ namespace WarSpot.Client.XnaClient.Screen
 		private int _worldWidth;
 		private int _wordlHeight;
 		// Array which contains world's size and ci of every single piece of world
-		private WorldCell[][] _worldMap;
+        private WorldCell[][] _worldMap;
 		// Scaled sizes of sprites for prevention of calculating this constant every Draw(),
 		// because all sprites've got the same size
 		private int _scaledSpriteWidth;
@@ -75,7 +75,7 @@ namespace WarSpot.Client.XnaClient.Screen
 					case EventTypes.GameEventHealthChange:
 						{
 							var tmpEvent = wsEvent as GameEventHealthChange;
-							var tmp = _listOfCreatures.Where(creture => creture.Id == tmpEvent.SubjectId).First();
+							var tmp = _listOfCreatures.Where(creature => creature.Id == tmpEvent.SubjectId).First();
 							tmp.CurrentHealth = tmpEvent.Health;
 							_listOfEvents.Remove(wsEvent);
 							break;
@@ -244,7 +244,6 @@ namespace WarSpot.Client.XnaClient.Screen
 			_listOfEvents = new List<WarSpotEvent>();
 			_listOfCreatures = new List<Creature>();
 			_isPrepared = false;
-			_worldMap = null;
 		}
 
 		public override void OnResize()
@@ -348,7 +347,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		{
 			_listOfCreatures = new List<Creature>();
 			_isPrepared = false;
-			_worldMap = null;
 			_globalPause = false;
 			WarSpotGame.Instance.SetScreenSize(800, 600);
 			ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.SelectReplayScreen);
