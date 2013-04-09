@@ -9,8 +9,6 @@ namespace WarSpot.WebFace.Controllers
 		public ActionResult Index()
 		{
 			ViewBag.Message = "Welcome to WarSpot!";
-			//DirectoryInfo
-
 			return View();
 		}
 
