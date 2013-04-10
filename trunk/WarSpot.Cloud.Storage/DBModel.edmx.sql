@@ -2,9 +2,11 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 04/10/2013 01:56:42
+-- Date Created: 04/10/2013 23:41:55
 -- Generated from EDMX file: C:\Users\deem\Documents\warspot_\trunk\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
+
+create database WarSpotDB;
 
 SET QUOTED_IDENTIFIER OFF;
 GO
@@ -46,9 +48,6 @@ IF OBJECT_ID(N'[dbo].[FK_IntellectTeam_Team]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_GameGameDetails]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[GameDetails] DROP CONSTRAINT [FK_GameGameDetails];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TournamentStage]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Stages] DROP CONSTRAINT [FK_TournamentStage];
 GO
 
 -- --------------------------------------------------
