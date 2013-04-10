@@ -1,20 +1,25 @@
 ﻿@model WarSpot.WebFace.Models.Tournament
-
 @{
   ViewBag.Title = "Новый турнир";
 }
-
-<h2>Создание турнира</h2>
-@using(Html.BeginForm())
+<h2>
+  Создание турнира</h2>
+@using (Html.BeginForm())
 {
-<div>
-	<div class="editor-label">@Html.LabelFor(m => m.TournamentName)</div>
-	<div class="editor-field">@Html.EditorFor(m => m.TournamentName)</div>
-	<div class="editor-label">@Html.LabelFor(m => m.Description)</div>
-	<div class="editor-field">@Html.EditorFor(m => m.Description)</div>
-	<div class="editor-label">@Html.LabelFor(m => m.StartTime)</div>
-	<div class="editor-field">@Html.EditorFor(m => m.StartTime)</div>
-	<div class="editor-label">@Html.LabelFor(m => m.MaxPlayers)</div>
-	<div class="editor-field">@Html.EditorFor(m => m.MaxPlayers)</div>
-</div>
+  <div>
+		<fieldset>
+			@Html.HiddenFor(m => m.ID)
+			<div class="editor-label">@Html.LabelFor(m => m.TournamentName)</div>
+			<div class="editor-field">@Html.EditorFor(m => m.TournamentName)</div>
+			<div class="editor-label">@Html.LabelFor(m => m.Description)</div>
+			<div class="editor-field">@Html.EditorFor(m => m.Description)</div>
+			<div class="editor-label">@Html.LabelFor(m => m.StartTime)</div>
+			<div class="editor-field">@Html.EditorFor(m => m.StartTime)</div>
+			<div class="editor-label">@Html.LabelFor(m => m.MaxPlayers)</div>
+			<div class="editor-field">@Html.EditorFor(m => m.MaxPlayers)</div>
+			<div class="editor-label">
+				<input type="submit" value="Создать турнир" />
+			</div>
+		</fieldset>
+  </div>
 }
