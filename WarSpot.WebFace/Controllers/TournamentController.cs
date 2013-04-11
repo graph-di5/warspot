@@ -18,43 +18,63 @@ namespace WarSpot.WebFace.Controllers
 			var customIdentity = User.Identity as CustomIdentity;
 			if (customIdentity != null)
 			{
-				var p = Warehouse.db.Account.First(a => a.Account_ID == customIdentity.Id);
-				var myTournaments = new List<Models.Tournament>();
-				foreach (var t in p.TournamentPlayer)
-				{
-					myTournaments.Add(new Models.Tournament()
-										{
-											// todo
-											Creator = t.Creator_ID.ToString(),
-											ID = t.Tournament_ID,
-											Description = t.Description,
-											MaxPlayers = t.MaxPlayers,
-											StartTime = t.StartTime,
-											TournamentName = t.Tournament_Name,
-											IsIn = true
-										});
-				}
-				ViewData["my"] = myTournaments;
 
-				// todo filter public 
-				var openTournaments = new List<Models.Tournament>();
-				foreach (var tournament in Warehouse.db.Tournament.ToArray().Where(
-					t => myTournaments.All(mt => mt.ID != t.Tournament_ID)))
+				if (customIdentity.IsInRole("User"))
 				{
-					openTournaments.Add(new Models.Tournament()
+					var p = Warehouse.db.Account.First(a => a.Account_ID == customIdentity.Id);
+					var myTournaments = new List<Models.Tournament>();
+					foreach (var t in p.TournamentPlayer)
 					{
-						// todo
-						Creator = tournament.Creator_ID.ToString(),
-						ID = tournament.Tournament_ID,
-						Description = tournament.Description,
-						MaxPlayers = tournament.MaxPlayers,
-						StartTime = tournament.StartTime,
-						TournamentName = tournament.Tournament_Name,
-						IsIn = false
-					});
+						myTournaments.Add(new Models.Tournament()
+											{
+												// todo
+												Creator = t.Creator_ID.ToString(),
+												ID = t.Tournament_ID,
+												Description = t.Description,
+												MaxPlayers = t.MaxPlayers,
+												StartTime = t.StartTime,
+												TournamentName = t.Tournament_Name,
+												IsIn = true
+											});
+					}
+					ViewData["my"] = myTournaments;
 
+					// todo filter public 
+					var openTournaments = new List<Models.Tournament>();
+					foreach (var tournament in Warehouse.db.Tournament.ToArray().Where(
+						t => myTournaments.All(mt => mt.ID != t.Tournament_ID)))
+					{
+						openTournaments.Add(new Models.Tournament()
+						{
+							// todo
+							Creator = tournament.Creator_ID.ToString(),
+							ID = tournament.Tournament_ID,
+							Description = tournament.Description,
+							MaxPlayers = tournament.MaxPlayers,
+							StartTime = tournament.StartTime,
+							TournamentName = tournament.Tournament_Name,
+							IsIn = false
+						});
+
+					}
+					ViewData["open"] = openTournaments;
 				}
-				ViewData["open"] = openTournaments;
+				if (customIdentity.IsInRole("TournamentsAdmin"))
+				{
+					var openTournaments = Warehouse.db.Tournament.ToArray().Select(
+						tournament => new Models.Tournament()
+							{
+								// todo
+								Creator = tournament.Creator_ID.ToString(),
+								ID = tournament.Tournament_ID,
+								Description = tournament.Description,
+								MaxPlayers = tournament.MaxPlayers,
+								StartTime = tournament.StartTime,
+								TournamentName = tournament.Tournament_Name,
+								IsIn = false
+							}).ToList();
+					ViewData["edit"] = openTournaments;
+				}
 			}
 			return View();
 		}
@@ -126,7 +146,7 @@ namespace WarSpot.WebFace.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public bool IsIn(Guid id)
+		private bool IsIn(Guid id)
 		{
 			var tournament = Warehouse.db.Tournament.First(t => t.Tournament_ID == id);
 			var customIdentity = User.Identity as CustomIdentity;
@@ -135,9 +155,24 @@ namespace WarSpot.WebFace.Controllers
 
 		public ActionResult Join(Guid id)//, bool join)
 		{
+			var customIdentity = User.Identity as CustomIdentity;
 			// todo
+			if(IsIn(id))
+			{
+				// leaving
+				Warehouse.db.Tournament.First(t => t.Tournament_ID == id).Player.Remove(
+					Warehouse.db.Account.First(a => a.Account_ID == customIdentity.Id));
+				// todo clean intellects from stages
+			}
+			else
+			{
+				// joining
+				Warehouse.db.Tournament.First(t => t.Tournament_ID == id).Player.Add(
+					Warehouse.db.Account.First(a => a.Account_ID == customIdentity.Id));
+			}
 
-			return RedirectToAction("view", new[] { id });
+			Warehouse.db.SaveChanges();
+			return RedirectToAction("View", new { id });
 		}
 
 		public ActionResult UpdateAI(FormCollection collection)
@@ -154,9 +189,7 @@ namespace WarSpot.WebFace.Controllers
 				}
 				Warehouse.db.SaveChanges();
 			}
-			return RedirectToAction("View", new[] { id });
+			return RedirectToAction("View", new { id });
 		}
 	}
-
-
 }

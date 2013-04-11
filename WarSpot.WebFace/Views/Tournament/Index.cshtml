@@ -1,29 +1,55 @@
-﻿@using WarSpot.WebFace.Models
+﻿@using WarSpot.WebFace.Security
+@using Tournament = WarSpot.WebFace.Models.Tournament
 @{
-    ViewBag.Title = "Турниры";
+  ViewBag.Title = "Турниры";
+  var identity = (User.Identity as CustomIdentity);
 }
-
-	<h2>Мои турниры</h2>
-<div>
-	<table>
-		
-	@foreach (var t in ((IEnumerable<Tournament>) ViewData["my"]))
-	{
-		<tr>
-			<td>@Html.ActionLink(t.TournamentName, "View", new []{t.ID})</td>
-		</tr>
-	}
-	</table>
-</div>
-<h2>Доступные для участия</h2>
-<div>
-	<table>
-		
-	@foreach (var t in ((IEnumerable<Tournament>) ViewData["open"]))
-	{
-		<tr>
-			<td>@Html.ActionLink(t.TournamentName, "View", new {t.ID})</td>
-		</tr>
-	}
-	</table>
-</div>
+@if (identity.IsInRole("User"))
+{
+	
+  <h2>
+    Мои турниры</h2>
+  <div>
+    <table>
+      @foreach (var t in ((IEnumerable<Tournament>)ViewData["my"]))
+      {
+        <tr>
+          <td>@Html.ActionLink(t.TournamentName, "View", new{ id = t.ID })
+          </td>
+        </tr>
+      }
+    </table>
+  </div>
+  <h2>
+    Доступные для участия</h2>
+  <div>
+    <table>
+      @foreach (var t in ((IEnumerable<Tournament>)ViewData["open"]))
+      {
+        <tr>
+          <td>@Html.ActionLink(t.TournamentName, "View", new { id = t.ID })
+          </td>
+        </tr>
+      }
+    </table>
+  </div>
+}
+@if (identity.IsInRole("TournamentsAdmin"))
+{
+  <h2>
+    Редактирование турниров</h2>
+  <div>
+    <div class="display-label">
+      @Html.ActionLink("Новый турнир", "Create")
+    </div>
+    <table>
+      @foreach (var t in ((IEnumerable<Tournament>)ViewData["edit"]))
+      {
+        <tr>
+          <td>@Html.ActionLink(t.TournamentName, "Edit", new { id = t.ID })
+          </td>
+        </tr>
+      }
+    </table>
+  </div>
+}
