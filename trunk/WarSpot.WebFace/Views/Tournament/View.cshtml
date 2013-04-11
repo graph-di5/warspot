@@ -30,10 +30,10 @@
 
 		</div>
 		 }
-	<div class="editor-label">@Html.ActionLink("Покинуть турнир", "Join", new[] { Model.ID })</div>
+	<div class="editor-label">@Html.ActionLink("Покинуть турнир", "Join", new { id = Model.ID })</div>
   }
   else
   {
-	<div class="editor-label">@Html.ActionLink("Принять участие", "Join", new[] { Model.ID })</div>
+	<div class="editor-label">@Html.ActionLink("Принять участие", "Join", new { id = Model.ID })</div>
   }
 </div>
