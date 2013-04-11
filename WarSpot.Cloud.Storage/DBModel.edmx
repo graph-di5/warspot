@@ -18,6 +18,7 @@
     <EntitySet Name="Stages" EntityType="DBModel.Store.Stages" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AccountPlayer" EntityType="DBModel.Store.AccountTournament1" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="IntellectTeam" EntityType="DBModel.Store.IntellectTeam" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IntellectStage" EntityType="DBModel.Store.IntellectStage" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="AccountIntellect" Association="DBModel.Store.AccountIntellect">
       <End Role="Account" EntitySet="Account" />
       <End Role="Intellect" EntitySet="Intellect" />
@@ -58,6 +59,22 @@
       <End Role="Game" EntitySet="Game" />
       <End Role="GameDetails" EntitySet="GameDetails" />
     </AssociationSet>
+    <AssociationSet Name="TournamentStage" Association="DBModel.Store.TournamentStage">
+      <End Role="Tournament" EntitySet="Tournament" />
+      <End Role="Stage" EntitySet="Stages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IntellectStage_Intellect" Association="DBModel.Store.FK_IntellectStage_Intellect">
+      <End Role="Intellect" EntitySet="Intellect" />
+      <End Role="IntellectStage" EntitySet="IntellectStage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IntellectStage_Stage" Association="DBModel.Store.FK_IntellectStage_Stage">
+      <End Role="Stage" EntitySet="Stages" />
+      <End Role="IntellectStage" EntitySet="IntellectStage" />
+    </AssociationSet>
+    <AssociationSet Name="GameStage" Association="DBModel.Store.GameStage">
+      <End Role="Game" EntitySet="Game" />
+      <End Role="Stage" EntitySet="Stages" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Account">
     <Key>
@@ -90,6 +107,7 @@
     <Property Name="Replay" Type="nvarchar(max)" Nullable="true" />
     <Property Name="CreationTime" Type="datetime" Nullable="false" />
     <Property Name="Game_Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Stage_Stage_ID" Type="uniqueidentifier" Nullable="true" />
   </EntityType>
   <EntityType Name="UserRole">
     <Key>
@@ -150,10 +168,10 @@
       <PropertyRef Name="Stage_ID" />
     </Key>
     <Property Name="Stage_ID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="TournamentTournament_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="State" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
     <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="TournamentTournament_ID" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="AccountTournament1">
     <Key>
@@ -170,6 +188,14 @@
     </Key>
     <Property Name="Intellects_Intellect_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Teams_Team_ID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IntellectStage">
+    <Key>
+      <PropertyRef Name="Intellects_Intellect_ID" />
+      <PropertyRef Name="Stages_Stage_ID" />
+    </Key>
+    <Property Name="Intellects_Intellect_ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Stages_Stage_ID" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <Association Name="AccountIntellect">
     <End Role="Account" Type="DBModel.Store.Account" Multiplicity="1" />
@@ -243,6 +269,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="TournamentStage">
+    <End Role="Tournament" Type="DBModel.Store.Tournament" Multiplicity="1" />
+    <End Role="Stage" Type="DBModel.Store.Stages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tournament">
+        <PropertyRef Name="Tournament_ID" />
+      </Principal>
+      <Dependent Role="Stage">
+        <PropertyRef Name="TournamentTournament_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GameStage">
+    <End Role="Game" Type="DBModel.Store.Game" Multiplicity="*" />
+    <End Role="Stage" Type="DBModel.Store.Stages" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Stage">
+        <PropertyRef Name="Stage_ID" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Stage_Stage_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AccountTournament1_Account">
     <End Role="Account" Type="DBModel.Store.Account" Multiplicity="1" />
     <End Role="AccountTournament1" Type="DBModel.Store.AccountTournament1" Multiplicity="*" />
@@ -288,6 +338,30 @@
       </Principal>
       <Dependent Role="IntellectTeam">
         <PropertyRef Name="Teams_Team_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IntellectStage_Intellect">
+    <End Role="Intellect" Type="DBModel.Store.Intellect" Multiplicity="1" />
+    <End Role="IntellectStage" Type="DBModel.Store.IntellectStage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Intellect">
+        <PropertyRef Name="Intellect_ID" />
+      </Principal>
+      <Dependent Role="IntellectStage">
+        <PropertyRef Name="Intellects_Intellect_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IntellectStage_Stage">
+    <End Role="IntellectStage" Type="DBModel.Store.IntellectStage" Multiplicity="*" />
+    <End Role="Stage" Type="DBModel.Store.Stages" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Stage">
+        <PropertyRef Name="Stage_ID" />
+      </Principal>
+      <Dependent Role="IntellectStage">
+        <PropertyRef Name="Stages_Stage_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -338,6 +412,18 @@
             <End Role="GameDetails" EntitySet="GameDetails" />
           </AssociationSet>
           <EntitySet Name="Stages" EntityType="DBModel.Stage" />
+          <AssociationSet Name="TournamentStage" Association="DBModel.TournamentStage">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="Stage" EntitySet="Stages" />
+          </AssociationSet>
+          <AssociationSet Name="IntellectStage" Association="DBModel.IntellectStage">
+            <End Role="Intellect" EntitySet="Intellect" />
+            <End Role="Stage" EntitySet="Stages" />
+          </AssociationSet>
+          <AssociationSet Name="GameStage" Association="DBModel.GameStage">
+            <End Role="Game" EntitySet="Game" />
+            <End Role="Stage" EntitySet="Stages" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -367,6 +453,7 @@
           <Property Type="Guid" Name="AccountAccount_ID" Nullable="false" />
           <NavigationProperty Name="Teams" Relationship="DBModel.IntellectTeam" FromRole="Intellect" ToRole="Team" />
           <Property Type="String" Name="Description" Nullable="false" />
+          <NavigationProperty Name="Stages" Relationship="DBModel.IntellectStage" FromRole="Intellect" ToRole="Stage" />
         </EntityType>
         <Association Name="AccountIntellect">
           <End Type="DBModel.Account" Role="Account" Multiplicity="1" />
@@ -392,6 +479,7 @@
           <Property Type="String" Name="Game_Name" Nullable="false" />
           <NavigationProperty Name="Teams" Relationship="DBModel.TeamGame" FromRole="Game" ToRole="Team" />
           <NavigationProperty Name="GameDetail" Relationship="DBModel.GameGameDetails" FromRole="Game" ToRole="GameDetails" />
+          <NavigationProperty Name="Stage" Relationship="DBModel.GameStage" FromRole="Game" ToRole="Stage" />
         </EntityType>
         <Association Name="AccountGame">
           <End Type="DBModel.Account" Role="Account" Multiplicity="1" />
@@ -441,6 +529,7 @@
           <Property Type="String" Name="State" Nullable="false" />
           <Property Type="String" Name="Type" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="false" />
+          <NavigationProperty Name="Stages" Relationship="DBModel.TournamentStage" FromRole="Tournament" ToRole="Stage" />
         </EntityType>
         <Association Name="AccountTournament">
           <End Type="DBModel.Account" Role="Account" Multiplicity="1" />
@@ -526,11 +615,34 @@
             <PropertyRef Name="Stage_ID" />
           </Key>
           <Property Type="Guid" Name="Stage_ID" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Type="Guid" Name="TournamentTournament_ID" Nullable="false" />
           <Property Type="String" Name="State" Nullable="false" />
           <Property Type="String" Name="Type" Nullable="false" />
           <Property Type="DateTime" Name="StartTime" Nullable="false" />
+          <NavigationProperty Name="Tournament" Relationship="DBModel.TournamentStage" FromRole="Stage" ToRole="Tournament" />
+          <Property Type="Guid" Name="TournamentTournament_ID" Nullable="false" />
+          <NavigationProperty Name="Intellects" Relationship="DBModel.IntellectStage" FromRole="Stage" ToRole="Intellect" />
+          <NavigationProperty Name="Games" Relationship="DBModel.GameStage" FromRole="Stage" ToRole="Game" />
         </EntityType>
+        <Association Name="TournamentStage">
+          <End Type="DBModel.Tournament" Role="Tournament" Multiplicity="1" />
+          <End Type="DBModel.Stage" Role="Stage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Tournament_ID" />
+            </Principal>
+            <Dependent Role="Stage">
+              <PropertyRef Name="TournamentTournament_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IntellectStage">
+          <End Type="DBModel.Intellect" Role="Intellect" Multiplicity="*" />
+          <End Type="DBModel.Stage" Role="Stage" Multiplicity="*" />
+        </Association>
+        <Association Name="GameStage">
+          <End Type="DBModel.Game" Role="Game" Multiplicity="*" />
+          <End Type="DBModel.Stage" Role="Stage" Multiplicity="0..1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -636,10 +748,10 @@
       <EntityTypeMapping TypeName="IsTypeOf(DBModel.Stage)">
         <MappingFragment StoreEntitySet="Stages">
           <ScalarProperty Name="Stage_ID" ColumnName="Stage_ID" />
-          <ScalarProperty Name="TournamentTournament_ID" ColumnName="TournamentTournament_ID" />
           <ScalarProperty Name="State" ColumnName="State" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="TournamentTournament_ID" ColumnName="TournamentTournament_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -658,6 +770,23 @@
       <EndProperty Name="Team">
         <ScalarProperty Name="Team_ID" ColumnName="Teams_Team_ID" />
       </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="IntellectStage" TypeName="DBModel.IntellectStage" StoreEntitySet="IntellectStage">
+      <EndProperty Name="Intellect">
+        <ScalarProperty Name="Intellect_ID" ColumnName="Intellects_Intellect_ID" />
+      </EndProperty>
+      <EndProperty Name="Stage">
+        <ScalarProperty Name="Stage_ID" ColumnName="Stages_Stage_ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GameStage" TypeName="DBModel.GameStage" StoreEntitySet="Game">
+      <EndProperty Name="Stage">
+        <ScalarProperty Name="Stage_ID" ColumnName="Stage_Stage_ID" />
+      </EndProperty>
+      <EndProperty Name="Game">
+        <ScalarProperty Name="Game_ID" ColumnName="Game_ID" />
+      </EndProperty>
+      <Condition ColumnName="Stage_Stage_ID" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
@@ -694,8 +823,10 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="DBModel.UserRole" Width="1.5" PointX="0.875" PointY="1.125" Height="1.8694466145833335" />
         <AssociationConnector Association="DBModel.AccountUserRole" >
-          <ConnectorPoint PointX="6.25" PointY="1.9347233072916668" />
-          <ConnectorPoint PointX="7.5" PointY="1.9347233072916668" />
+          <ConnectorPoint PointX="3.5" PointY="2.0597233072916667" />
+          <ConnectorPoint PointX="3.3333333333333335" PointY="2.0597233072916663" />
+          <ConnectorPoint PointX="3.1666666666666665" PointY="2.0597233072916667" />
+          <ConnectorPoint PointX="2.375" PointY="2.0597233072916667" />
         </AssociationConnector>
         <EntityTypeShape EntityType="DBModel.Tournament" Width="1.5" PointX="7.25" PointY="1" Height="2.7616788736979161" />
         <AssociationConnector Association="DBModel.AccountTournament" >
@@ -723,7 +854,27 @@
           <ConnectorPoint PointX="6" PointY="5.4347233072916659" />
         </AssociationConnector>
         <EntityTypeShape EntityType="DBModel.File" Width="1.5" PointX="11.375" PointY="7.375" Height="1.8694466145833335" />
-        <EntityTypeShape EntityType="DBModel.Stage" Width="1.5" PointX="9.875" PointY="1" />
+        <EntityTypeShape EntityType="DBModel.Stage" Width="1.5" PointX="9.875" PointY="1" Height="1.691000162760417" />
+        <AssociationConnector Association="DBModel.TournamentStage">
+          <ConnectorPoint PointX="8.75" PointY="1.7210858999023435" />
+          <ConnectorPoint PointX="9.4166666666666661" PointY="1.7210858999023428" />
+          <ConnectorPoint PointX="9.5833333333333339" PointY="1.7210858999023435" />
+          <ConnectorPoint PointX="9.875" PointY="1.7210858999023435" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBModel.IntellectStage">
+          <ConnectorPoint PointX="1.8125" PointY="4.25" />
+          <ConnectorPoint PointX="1.8125" PointY="3.2444466145833335" />
+          <ConnectorPoint PointX="3.25" PointY="3.2444466145833335" />
+          <ConnectorPoint PointX="3.25" PointY="0.75" />
+          <ConnectorPoint PointX="9.5" PointY="0.75" />
+          <ConnectorPoint PointX="9.5" PointY="2.5049647090657543" />
+          <ConnectorPoint PointX="9.875" PointY="2.5049647090657543" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBModel.GameStage">
+          <ConnectorPoint PointX="8.625" PointY="5.6666162109375" />
+          <ConnectorPoint PointX="10.625" PointY="5.6666162109375" />
+          <ConnectorPoint PointX="10.625" PointY="3.4047859700520831" />
+        </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
