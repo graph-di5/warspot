@@ -26,6 +26,9 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("DBModel", "TeamGame", "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Team), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Game), true)]
 [assembly: EdmRelationshipAttribute("DBModel", "IntellectTeam", "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Intellect), "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Team))]
 [assembly: EdmRelationshipAttribute("DBModel", "GameGameDetails", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Game), "GameDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(WarSpot.Cloud.Storage.GameDetails), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "TournamentStage", "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Tournament), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "IntellectStage", "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Intellect), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage))]
+[assembly: EdmRelationshipAttribute("DBModel", "GameStage", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Game), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(WarSpot.Cloud.Storage.Stage))]
 
 #endregion
 
@@ -1091,6 +1094,44 @@ namespace WarSpot.Cloud.Storage
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameStage", "Stage")]
+        public Stage Stage
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Stage>("DBModel.GameStage", "Stage").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Stage>("DBModel.GameStage", "Stage").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Stage> StageReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Stage>("DBModel.GameStage", "Stage");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Stage>("DBModel.GameStage", "Stage", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -1435,6 +1476,28 @@ namespace WarSpot.Cloud.Storage
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "IntellectStage", "Stage")]
+        public EntityCollection<Stage> Stages
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Stage>("DBModel.IntellectStage", "Stage");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Stage>("DBModel.IntellectStage", "Stage", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -1534,18 +1597,18 @@ namespace WarSpot.Cloud.Storage
         /// Create a new Stage object.
         /// </summary>
         /// <param name="stage_ID">Initial value of the Stage_ID property.</param>
-        /// <param name="tournamentTournament_ID">Initial value of the TournamentTournament_ID property.</param>
         /// <param name="state">Initial value of the State property.</param>
         /// <param name="type">Initial value of the Type property.</param>
         /// <param name="startTime">Initial value of the StartTime property.</param>
-        public static Stage CreateStage(global::System.Guid stage_ID, global::System.Guid tournamentTournament_ID, global::System.String state, global::System.String type, global::System.DateTime startTime)
+        /// <param name="tournamentTournament_ID">Initial value of the TournamentTournament_ID property.</param>
+        public static Stage CreateStage(global::System.Guid stage_ID, global::System.String state, global::System.String type, global::System.DateTime startTime, global::System.Guid tournamentTournament_ID)
         {
             Stage stage = new Stage();
             stage.Stage_ID = stage_ID;
-            stage.TournamentTournament_ID = tournamentTournament_ID;
             stage.State = state;
             stage.Type = type;
             stage.StartTime = startTime;
+            stage.TournamentTournament_ID = tournamentTournament_ID;
             return stage;
         }
 
@@ -1578,30 +1641,6 @@ namespace WarSpot.Cloud.Storage
         private global::System.Guid _Stage_ID;
         partial void OnStage_IDChanging(global::System.Guid value);
         partial void OnStage_IDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid TournamentTournament_ID
-        {
-            get
-            {
-                return _TournamentTournament_ID;
-            }
-            set
-            {
-                OnTournamentTournament_IDChanging(value);
-                ReportPropertyChanging("TournamentTournament_ID");
-                _TournamentTournament_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("TournamentTournament_ID");
-                OnTournamentTournament_IDChanged();
-            }
-        }
-        private global::System.Guid _TournamentTournament_ID;
-        partial void OnTournamentTournament_IDChanging(global::System.Guid value);
-        partial void OnTournamentTournament_IDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1674,9 +1713,118 @@ namespace WarSpot.Cloud.Storage
         private global::System.DateTime _StartTime;
         partial void OnStartTimeChanging(global::System.DateTime value);
         partial void OnStartTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid TournamentTournament_ID
+        {
+            get
+            {
+                return _TournamentTournament_ID;
+            }
+            set
+            {
+                OnTournamentTournament_IDChanging(value);
+                ReportPropertyChanging("TournamentTournament_ID");
+                _TournamentTournament_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TournamentTournament_ID");
+                OnTournamentTournament_IDChanged();
+            }
+        }
+        private global::System.Guid _TournamentTournament_ID;
+        partial void OnTournamentTournament_IDChanging(global::System.Guid value);
+        partial void OnTournamentTournament_IDChanged();
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "TournamentStage", "Tournament")]
+        public Tournament Tournament
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tournament>("DBModel.TournamentStage", "Tournament").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tournament>("DBModel.TournamentStage", "Tournament").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Tournament> TournamentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tournament>("DBModel.TournamentStage", "Tournament");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Tournament>("DBModel.TournamentStage", "Tournament", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "IntellectStage", "Intellect")]
+        public EntityCollection<Intellect> Intellects
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Intellect>("DBModel.IntellectStage", "Intellect");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Intellect>("DBModel.IntellectStage", "Intellect", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "GameStage", "Game")]
+        public EntityCollection<Game> Games
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Game>("DBModel.GameStage", "Game");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("DBModel.GameStage", "Game", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>
@@ -2116,6 +2264,28 @@ namespace WarSpot.Cloud.Storage
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Account>("DBModel.AccountTournament1", "Account", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "TournamentStage", "Stage")]
+        public EntityCollection<Stage> Stages
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Stage>("DBModel.TournamentStage", "Stage");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Stage>("DBModel.TournamentStage", "Stage", value);
                 }
             }
         }

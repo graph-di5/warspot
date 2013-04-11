@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using WarSpot.WebFace.Models;
 using Warehouse = WarSpot.Cloud.Storage.Warehouse;
 using WarSpot.WebFace.Security;
 
@@ -24,15 +23,16 @@ namespace WarSpot.WebFace.Controllers
 				foreach (var t in p.TournamentPlayer)
 				{
 					myTournaments.Add(new Models.Tournament()
-					        	{
+										{
 											// todo
-					        		Creator = t.Creator_ID.ToString(),
+											Creator = t.Creator_ID.ToString(),
 											ID = t.Tournament_ID,
 											Description = t.Description,
 											MaxPlayers = t.MaxPlayers,
 											StartTime = t.StartTime,
-											TournamentName = t.Tournament_Name
-					        	});
+											TournamentName = t.Tournament_Name,
+											IsIn = true
+										});
 				}
 				ViewData["my"] = myTournaments;
 
@@ -41,7 +41,7 @@ namespace WarSpot.WebFace.Controllers
 				foreach (var tournament in Warehouse.db.Tournament.ToArray().Where(
 					t => myTournaments.All(mt => mt.ID != t.Tournament_ID)))
 				{
-					openTournaments.Add(new Tournament()
+					openTournaments.Add(new Models.Tournament()
 					{
 						// todo
 						Creator = tournament.Creator_ID.ToString(),
@@ -49,9 +49,10 @@ namespace WarSpot.WebFace.Controllers
 						Description = tournament.Description,
 						MaxPlayers = tournament.MaxPlayers,
 						StartTime = tournament.StartTime,
-						TournamentName = tournament.Tournament_Name
+						TournamentName = tournament.Tournament_Name,
+						IsIn = false
 					});
-					
+
 				}
 				ViewData["open"] = openTournaments;
 			}
@@ -61,8 +62,9 @@ namespace WarSpot.WebFace.Controllers
 
 		public ActionResult View(Guid id)
 		{
+			var customIdentity = User.Identity as CustomIdentity;
 			var tournament = Warehouse.db.Tournament.First(t => t.Tournament_ID == id);
-			var res = new Tournament()
+			var res = new Models.Tournament()
 			{
 				// todo
 				Creator = tournament.Creator_ID.ToString(),
@@ -71,8 +73,13 @@ namespace WarSpot.WebFace.Controllers
 				MaxPlayers = tournament.MaxPlayers,
 				StartTime = tournament.StartTime,
 				TournamentName = tournament.Tournament_Name,
-				Players = new List<string>()
+				Players = new List<string>(),
+				IsIn = IsIn(id)
 			};
+
+			List<KeyValuePair<Guid, string>> intellects = Warehouse.db.Intellect.Where(ii => ii.AccountAccount_ID == customIdentity.Id).ToArray().Select(i => new KeyValuePair<Guid, string>(i.Intellect_ID, String.Format("{0}", i.Intellect_Name))).ToList();
+
+			ViewData["intellects"] = intellects;
 			return View(res);
 		}
 
@@ -80,9 +87,13 @@ namespace WarSpot.WebFace.Controllers
 		public ActionResult Create()
 		{
 			return View(new Models.Tournament()
-			            	{
-			            		ID = Guid.NewGuid()
-			            	});
+										{
+											ID = Guid.NewGuid(),
+											MaxPlayers = 128,
+											StagesCount = 2,
+											StartTime = DateTime.UtcNow,
+											IsIn = false
+										});
 		}
 
 		[HttpPost]
@@ -102,11 +113,49 @@ namespace WarSpot.WebFace.Controllers
 					"type",
 					t.Description
 					));
+				for (int i = 0; i < t.StagesCount; i++)
+				{
+					Warehouse.db.AddToStages(Cloud.Storage.Stage.CreateStage(Guid.NewGuid(),
+						"Waiting",
+						"type",
+						t.StartTime,
+						t.ID));
+				}
 				Warehouse.db.SaveChanges();
 			}
-			return Redirect("Index");
+			return RedirectToAction("Index");
 		}
 
+		public bool IsIn(Guid id)
+		{
+			var tournament = Warehouse.db.Tournament.First(t => t.Tournament_ID == id);
+			var customIdentity = User.Identity as CustomIdentity;
+			return customIdentity != null && tournament.Player.Any(p => p.Account_ID == customIdentity.Id);
+		}
+
+		public ActionResult Join(Guid id)//, bool join)
+		{
+			// todo
+
+			return RedirectToAction("view", new[] { id });
+		}
+
+		public ActionResult UpdateAI(FormCollection collection)
+		{
+			var customIdentity = User.Identity as CustomIdentity;
+			var id = Guid.Parse(collection["tournamentId"]);
+			if (customIdentity != null)
+			{
+				foreach (var stage in Warehouse.db.Tournament.First(t => t.Tournament_ID == id).Stages)
+				{
+					var aiID = Guid.Parse(collection["intellect01"]);
+					stage.Intellects.Remove(stage.Intellects.First(i => i.AccountAccount_ID == customIdentity.Id));
+					stage.Intellects.Add(stage.Intellects.First(i => i.Intellect_ID == aiID));
+				}
+				Warehouse.db.SaveChanges();
+			}
+			return RedirectToAction("View", new[] { id });
+		}
 	}
 
 

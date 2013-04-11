@@ -11,13 +11,23 @@
     <td>
       <b>Имя</b>
     </td>
-  </tr>
+      
+		@{
+			var isDeveloper = ((CustomIdentity) User.Identity).IsInRole("Developer");
+		}
+		@if (isDeveloper)
+			{
+				<td>
+					<b>Id</b>
+				</td>
+			}
+        </tr>
   @foreach (var i in Model)
   {
     <tr>
       <td>@Html.ActionLink(i.Value, "Details", new { id = i.Key })
       </td>
-      @if ((User.Identity as CustomIdentity).IsInRole("Developer"))
+      @if (isDeveloper)
       {
         <td>@i.Key
         </td>
