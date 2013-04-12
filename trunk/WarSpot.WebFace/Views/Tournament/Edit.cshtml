@@ -1,0 +1,49 @@
+﻿@model WarSpot.WebFace.Models.Tournament
+@{
+}
+<div>
+  @using (Html.BeginForm())
+  {
+    <div class="editor-label">@Html.LabelFor(m => m.Creator)</div>
+    <div class="editor-field">@Html.DisplayFor(m => m.Creator)</div>
+    <div class="editor-label">@Html.LabelFor(m => m.TournamentName)</div>
+    <div class="editor-field">@Html.DisplayFor(m => m.TournamentName)</div>
+    <div class="editor-label">@Html.LabelFor(m => m.Description)</div>
+    <div class="editor-field">@Html.DisplayFor(m => m.Description)</div>
+    
+    <div class="editor-label">@Html.LabelFor(m => m.StartTime)</div>
+    <div class="editor-field">@Html.DisplayFor(m => m.StartTime)</div>
+    <div class="editor-label">@Html.LabelFor(m => m.MaxPlayers)</div>
+    <div class="editor-field">@Html.DisplayFor(m => m.MaxPlayers)</div>
+    <div class="editor-label">
+      Игроки:</div>
+    <div class="editor-field">
+      <table>
+        @foreach (var p in Model.Players)
+        {
+          <tr>
+            <td>@p
+            </td>
+          </tr>
+        }
+      </table>
+    </div>
+    <div class="editor-label">
+      Этапы:</div>
+		<div class="editor-field">
+			@Html.DisplayFor(m => m.StagesCount)
+			<!--      <table>
+									foreach (var p in Model.Stages)
+									{
+									<tr>
+										<td>p
+										</td>
+									</tr>
+									}
+								</table>
+				-->
+		</div>
+    <p>
+      <input type="submit" value="Сохранить" /></p>
+  }
+</div>

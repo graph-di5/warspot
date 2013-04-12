@@ -93,7 +93,7 @@ namespace WarSpot.WebFace.Controllers
 				MaxPlayers = tournament.MaxPlayers,
 				StartTime = tournament.StartTime,
 				TournamentName = tournament.Tournament_Name,
-				Players = new List<string>(),
+				Players = new List<string>(from p in tournament.Player select p.Account_Name),
 				IsIn = IsIn(id)
 			};
 
@@ -111,7 +111,7 @@ namespace WarSpot.WebFace.Controllers
 											ID = Guid.NewGuid(),
 											MaxPlayers = 128,
 											StagesCount = 2,
-											StartTime = DateTime.UtcNow,
+											StartTime = DateTime.UtcNow.AddDays(1),
 											IsIn = false
 										});
 		}
@@ -123,6 +123,7 @@ namespace WarSpot.WebFace.Controllers
 			var customIdentity = User.Identity as CustomIdentity;
 			if (customIdentity != null && t.ID != Guid.Empty)
 			{
+				// todo use Warehouse.CreateTournament()
 				Warehouse.db.AddToTournament(Cloud.Storage.Tournament.CreateTournament(
 					t.ID,
 					t.MaxPlayers,
@@ -135,13 +136,14 @@ namespace WarSpot.WebFace.Controllers
 					));
 				for (int i = 0; i < t.StagesCount; i++)
 				{
-					Warehouse.db.AddToStages(Cloud.Storage.Stage.CreateStage(Guid.NewGuid(), 0x0, "TO DO: // ", t.StartTime));
-                    // Было:
-                        /*Guid.NewGuid(),
-						"Waiting",
-						"type",
-						t.StartTime,
-						t.ID));*/
+					Warehouse.AddStage(t.ID, t.StartTime);
+					//Warehouse.db.AddToStages(Cloud.Storage.Stage.CreateStage(Guid.NewGuid(), 0x0, "TO DO: // ", t.StartTime));
+					// Было:
+					/*Guid.NewGuid(),
+"Waiting",
+"type",
+t.StartTime,
+t.ID));*/
 				}
 				Warehouse.db.SaveChanges();
 			}
@@ -155,22 +157,19 @@ namespace WarSpot.WebFace.Controllers
 			return customIdentity != null && tournament.Player.Any(p => p.Account_ID == customIdentity.Id);
 		}
 
-		public ActionResult Join(Guid id)//, bool join)
+		public ActionResult Join(Guid id)
 		{
 			var customIdentity = User.Identity as CustomIdentity;
-			// todo
-			if(IsIn(id))
+			if (customIdentity != null)
 			{
-				// leaving
-				Warehouse.db.Tournament.First(t => t.Tournament_ID == id).Player.Remove(
-					Warehouse.db.Account.First(a => a.Account_ID == customIdentity.Id));
-				// todo clean intellects from stages
-			}
-			else
-			{
-				// joining
-				Warehouse.db.Tournament.First(t => t.Tournament_ID == id).Player.Add(
-					Warehouse.db.Account.First(a => a.Account_ID == customIdentity.Id));
+				if (IsIn(id))
+				{
+					Warehouse.LeaveTournament(id, customIdentity.Id);
+				}
+				else
+				{
+					Warehouse.JoinTournament(id, customIdentity.Id);
+				}
 			}
 
 			Warehouse.db.SaveChanges();
@@ -186,12 +185,36 @@ namespace WarSpot.WebFace.Controllers
 				foreach (var stage in Warehouse.db.Tournament.First(t => t.Tournament_ID == id).Stages)
 				{
 					var aiID = Guid.Parse(collection["intellect01"]);
-					stage.Intellects.Remove(stage.Intellects.First(i => i.AccountAccount_ID == customIdentity.Id));
-					stage.Intellects.Add(stage.Intellects.First(i => i.Intellect_ID == aiID));
+					var ai = stage.Intellects.FirstOrDefault(i => i.AccountAccount_ID == customIdentity.Id);
+					if(ai != null && stage.Intellects.Contains(ai))
+					{
+						stage.Intellects.Remove(ai);
+					}
+					ai = Warehouse.db.Intellect.First(i => i.Intellect_ID == aiID);
+					stage.Intellects.Add(ai);
 				}
 				Warehouse.db.SaveChanges();
 			}
 			return RedirectToAction("View", new { id });
+		}
+
+		[Authorize(Roles = "TournamentsAdmin")]
+		public ActionResult Edit(Guid id)
+		{
+			var tournament = Warehouse.db.Tournament.First(t => t.Tournament_ID == id);
+			var res = new Models.Tournament()
+			{
+				// todo
+				Creator = tournament.Creator_ID.ToString(),
+				ID = tournament.Tournament_ID,
+				Description = tournament.Description,
+				MaxPlayers = tournament.MaxPlayers,
+				StartTime = tournament.StartTime,
+				TournamentName = tournament.Tournament_Name,
+				Players = new List<string>(from p in tournament.Player select p.Account_Name),
+				IsIn = IsIn(id)
+			};
+			return View(res);
 		}
 	}
 }
