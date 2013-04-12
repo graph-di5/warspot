@@ -86,9 +86,22 @@ namespace WarSpot.Contracts.Service
 
 		[OperationContract]
 		ErrorCode LeaveTournament(Guid tournamentID);
-		#endregion
 
-		[OperationContract]
+        #region Stage
+        [OperationContract]
+        ErrorCode AddStage(Guid tournamentID, DateTime startTime);
+
+        [OperationContract]
+        ErrorCode DeleteStage(Guid stageID);
+
+        [OperationContract]
+        ErrorCode UpdateStage(Guid stageID, string newState);
+
+        #endregion
+
+        #endregion
+
+        [OperationContract]
 		void KeepAlive();
 	}
 }

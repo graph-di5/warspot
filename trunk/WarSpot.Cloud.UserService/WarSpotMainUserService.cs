@@ -248,11 +248,52 @@ namespace WarSpot.Cloud.UserService
 			return Warehouse.LeaveTournament(tournamentID, this._userID);
 
 		}
-		#endregion
 
-		#region role's stuff
+        #region stage stuff
 
-		public bool IsUserAdmin(Guid userID)
+        public ErrorCode AddStage(Guid tournamentID, DateTime startTime)
+        {
+            if (!_loggedIn)
+            {
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+            }
+            return Warehouse.AddStage(tournamentID, startTime);
+        }
+
+        public ErrorCode DeleteStage(Guid stageID)
+        {
+            if (!_loggedIn)
+            {
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+            }
+            return Warehouse.DeleteStage(stageID);
+        }
+
+        public ErrorCode UpdateStage(Guid stageID, string newState)
+        {
+            if (!_loggedIn)
+            {
+                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+            }
+            try
+            {
+                Warehouse.UpdateStage(stageID, (State) Enum.Parse(typeof(State), newState));
+                return new ErrorCode(ErrorType.Ok, "Stage has been updated.");
+            }
+            catch (Exception e)
+            {
+                return new ErrorCode(ErrorType.UnknownException, "Warehouse.UpdateStage goes wrong. Exception" + e.ToString());
+            }
+        }
+
+        #endregion
+
+
+        #endregion
+
+        #region role's stuff
+
+        public bool IsUserAdmin(Guid userID)
 		{
 			if (!_loggedIn)
 			{

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 04/11/2013 23:17:20
--- Generated from EDMX file: C:\Users\deem\Documents\warspot_\trunk\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 04/12/2013 16:13:39
+-- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\W2\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -47,6 +47,18 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_GameGameDetails]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[GameDetails] DROP CONSTRAINT [FK_GameGameDetails];
 GO
+IF OBJECT_ID(N'[dbo].[FK_TournamentStage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Stages] DROP CONSTRAINT [FK_TournamentStage];
+GO
+IF OBJECT_ID(N'[dbo].[FK_IntellectStage_Intellect]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[IntellectStage] DROP CONSTRAINT [FK_IntellectStage_Intellect];
+GO
+IF OBJECT_ID(N'[dbo].[FK_IntellectStage_Stage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[IntellectStage] DROP CONSTRAINT [FK_IntellectStage_Stage];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GameStage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Game] DROP CONSTRAINT [FK_GameStage];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -87,6 +99,9 @@ IF OBJECT_ID(N'[dbo].[AccountPlayer]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[IntellectTeam]', 'U') IS NOT NULL
     DROP TABLE [dbo].[IntellectTeam];
+GO
+IF OBJECT_ID(N'[dbo].[IntellectStage]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[IntellectStage];
 GO
 
 -- --------------------------------------------------
@@ -142,7 +157,7 @@ CREATE TABLE [dbo].[Tournament] (
     [StartTime] datetime  NOT NULL,
     [Creator_ID] uniqueidentifier  NOT NULL,
     [Tournament_Name] nvarchar(max)  NOT NULL,
-    [State] nvarchar(max)  NOT NULL,
+    [State] int  NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
     [Description] nvarchar(max)  NOT NULL
 );
@@ -183,10 +198,10 @@ GO
 -- Creating table 'Stages'
 CREATE TABLE [dbo].[Stages] (
     [Stage_ID] uniqueidentifier  NOT NULL,
-    [State] nvarchar(max)  NOT NULL,
+    [State_Code] int  NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
     [StartTime] datetime  NOT NULL,
-    [TournamentTournament_ID] uniqueidentifier  NOT NULL
+    [Tournament_Tournament_ID] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -422,10 +437,10 @@ ADD CONSTRAINT [FK_GameGameDetails]
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [TournamentTournament_ID] in table 'Stages'
+-- Creating foreign key on [Tournament_Tournament_ID] in table 'Stages'
 ALTER TABLE [dbo].[Stages]
 ADD CONSTRAINT [FK_TournamentStage]
-    FOREIGN KEY ([TournamentTournament_ID])
+    FOREIGN KEY ([Tournament_Tournament_ID])
     REFERENCES [dbo].[Tournament]
         ([Tournament_ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -433,7 +448,7 @@ ADD CONSTRAINT [FK_TournamentStage]
 -- Creating non-clustered index for FOREIGN KEY 'FK_TournamentStage'
 CREATE INDEX [IX_FK_TournamentStage]
 ON [dbo].[Stages]
-    ([TournamentTournament_ID]);
+    ([Tournament_Tournament_ID]);
 GO
 
 -- Creating foreign key on [Intellects_Intellect_ID] in table 'IntellectStage'

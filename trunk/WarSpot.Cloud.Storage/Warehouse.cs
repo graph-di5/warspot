@@ -551,7 +551,7 @@ namespace WarSpot.Cloud.Storage
 
 			try
 			{
-				db.AddToTournament(Tournament.CreateTournament(Guid.NewGuid(), maxPlayers, startDate, userID, title, "waiting", "", ""));
+				db.AddToTournament(Tournament.CreateTournament(Guid.NewGuid(), maxPlayers, startDate, userID, title, 0x0, "", ""));
 				db.SaveChanges();
 
 				return new ErrorCode(ErrorType.Ok, "Tournament has been created");
@@ -730,12 +730,104 @@ namespace WarSpot.Cloud.Storage
 
 		}
 
-		#endregion
+        #region stage
+
+        public static ErrorCode AddStage(Guid tournamentID, DateTime startTime, State state = State.NotStarted , string type = "TO DO: Какие типы")
+        {
+            Tournament currentTournament;
+            if ((currentTournament = (from t in db.Tournament
+                                                 where t.Tournament_ID == tournamentID
+                                                 select t).FirstOrDefault<Tournament>()) != null)
+            {
+                if (DateTime.Compare(startTime, DateTime.Now) > 0)
+                {
+                    try
+                    {
+                        Stage stage = Stage.CreateStage(Guid.NewGuid(), (int) state, type, startTime);
+                        stage.Tournament = currentTournament;
+                        db.AddToStages(stage);
+                        db.SaveChanges();
+
+                        return new ErrorCode(ErrorType.Ok, "New stage has been created.");
+                    }
+                    catch (Exception e)
+                    {
+                        return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
+                    }
+                }
+                else
+                {
+                    return new ErrorCode(ErrorType.DataBaseProblems, "Start time " + startTime.ToString() + " is past. Current time is " + DateTime.Now.ToString());
+                }
+            }
+            else
+            {
+                return new ErrorCode(ErrorType.DataBaseProblems, "No tournaments with that ID: " + tournamentID.ToString());
+            }
+
+        }
+
+        public static ErrorCode DeleteStage(Guid stageID)
+        {
+            Stage neededStage;
+
+            if ((neededStage = (from s in db.Stages
+                                where s.Stage_ID == stageID
+                                select s).FirstOrDefault<Stage>()) != null)
+            {
+                try
+                {
+                    db.Stages.DeleteObject(neededStage);
+                    db.SaveChanges();
+
+                    return new ErrorCode(ErrorType.Ok, "Stage with id " + stageID.ToString() + " was deleted.");
+                }
+                catch (Exception e)
+                {
+                    return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
+                }
+            }
+            else
+            {
+                return new ErrorCode(ErrorType.DataBaseProblems, "No stage with that ID: " + stageID.ToString());
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public static void UpdateStage(Guid stageID, State newState)
+        {
+            Stage neededState;
+            if ((neededState = (from s in db.Stages
+                                where s.Stage_ID == stageID
+                                select s).FirstOrDefault<Stage>()) != null)
+            {
+                try
+                {
+                    neededState.State_Code = (int)newState;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("No stage with that ID: " + stageID.ToString());
+            }
+
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #endregion
 
 
-		#region roles
+        #region roles
 
-		public static DateTime UserRoleValidUntil(Guid userID, RoleType roleCode)
+        public static DateTime UserRoleValidUntil(Guid userID, RoleType roleCode)
 		{
 			var needed = (from r in db.UserRole
 										where r.AccountAccount_ID == userID && r.Role_Code == (int)roleCode
