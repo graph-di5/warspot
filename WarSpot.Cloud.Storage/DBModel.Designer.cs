@@ -8,12 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -26,7 +27,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("DBModel", "TeamGame", "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Team), "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Game), true)]
 [assembly: EdmRelationshipAttribute("DBModel", "IntellectTeam", "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Intellect), "Team", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Team))]
 [assembly: EdmRelationshipAttribute("DBModel", "GameGameDetails", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Game), "GameDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(WarSpot.Cloud.Storage.GameDetails), true)]
-[assembly: EdmRelationshipAttribute("DBModel", "TournamentStage", "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Tournament), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "TournamentStage", "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Tournament), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage))]
 [assembly: EdmRelationshipAttribute("DBModel", "IntellectStage", "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Intellect), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage))]
 [assembly: EdmRelationshipAttribute("DBModel", "GameStage", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Game), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(WarSpot.Cloud.Storage.Stage))]
 
@@ -241,6 +242,7 @@ namespace WarSpot.Cloud.Storage
         private ObjectSet<Stage> _Stages;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -324,11 +326,11 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -367,6 +369,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -565,6 +568,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnEmailChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -679,6 +683,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -711,6 +716,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -837,6 +843,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnLongCommentChanged();
 
         #endregion
+
     
     }
     
@@ -868,6 +875,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -994,6 +1002,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnGame_NameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1134,6 +1143,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1162,6 +1172,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1240,6 +1251,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnWinner_IDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1282,6 +1294,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1312,6 +1325,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1414,6 +1428,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnDescriptionChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1500,6 +1515,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1526,6 +1542,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1580,6 +1597,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnIdChanged();
 
         #endregion
+
     
     }
     
@@ -1597,22 +1615,21 @@ namespace WarSpot.Cloud.Storage
         /// Create a new Stage object.
         /// </summary>
         /// <param name="stage_ID">Initial value of the Stage_ID property.</param>
-        /// <param name="state">Initial value of the State property.</param>
+        /// <param name="state_Code">Initial value of the State_Code property.</param>
         /// <param name="type">Initial value of the Type property.</param>
         /// <param name="startTime">Initial value of the StartTime property.</param>
-        /// <param name="tournamentTournament_ID">Initial value of the TournamentTournament_ID property.</param>
-        public static Stage CreateStage(global::System.Guid stage_ID, global::System.String state, global::System.String type, global::System.DateTime startTime, global::System.Guid tournamentTournament_ID)
+        public static Stage CreateStage(global::System.Guid stage_ID, global::System.Int32 state_Code, global::System.String type, global::System.DateTime startTime)
         {
             Stage stage = new Stage();
             stage.Stage_ID = stage_ID;
-            stage.State = state;
+            stage.State_Code = state_Code;
             stage.Type = type;
             stage.StartTime = startTime;
-            stage.TournamentTournament_ID = tournamentTournament_ID;
             return stage;
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1647,24 +1664,24 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String State
+        public global::System.Int32 State_Code
         {
             get
             {
-                return _State;
+                return _State_Code;
             }
             set
             {
-                OnStateChanging(value);
-                ReportPropertyChanging("State");
-                _State = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("State");
-                OnStateChanged();
+                OnState_CodeChanging(value);
+                ReportPropertyChanging("State_Code");
+                _State_Code = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("State_Code");
+                OnState_CodeChanged();
             }
         }
-        private global::System.String _State;
-        partial void OnStateChanging(global::System.String value);
-        partial void OnStateChanged();
+        private global::System.Int32 _State_Code;
+        partial void OnState_CodeChanging(global::System.Int32 value);
+        partial void OnState_CodeChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1713,32 +1730,9 @@ namespace WarSpot.Cloud.Storage
         private global::System.DateTime _StartTime;
         partial void OnStartTimeChanging(global::System.DateTime value);
         partial void OnStartTimeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid TournamentTournament_ID
-        {
-            get
-            {
-                return _TournamentTournament_ID;
-            }
-            set
-            {
-                OnTournamentTournament_IDChanging(value);
-                ReportPropertyChanging("TournamentTournament_ID");
-                _TournamentTournament_ID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("TournamentTournament_ID");
-                OnTournamentTournament_IDChanged();
-            }
-        }
-        private global::System.Guid _TournamentTournament_ID;
-        partial void OnTournamentTournament_IDChanging(global::System.Guid value);
-        partial void OnTournamentTournament_IDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1825,6 +1819,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1851,6 +1846,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1905,6 +1901,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnGameGame_IDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1969,6 +1966,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1992,7 +1990,7 @@ namespace WarSpot.Cloud.Storage
         /// <param name="state">Initial value of the State property.</param>
         /// <param name="type">Initial value of the Type property.</param>
         /// <param name="description">Initial value of the Description property.</param>
-        public static Tournament CreateTournament(global::System.Guid tournament_ID, global::System.Int64 maxPlayers, global::System.DateTime startTime, global::System.Guid creator_ID, global::System.String tournament_Name, global::System.String state, global::System.String type, global::System.String description)
+        public static Tournament CreateTournament(global::System.Guid tournament_ID, global::System.Int64 maxPlayers, global::System.DateTime startTime, global::System.Guid creator_ID, global::System.String tournament_Name, global::System.Int32 state, global::System.String type, global::System.String description)
         {
             Tournament tournament = new Tournament();
             tournament.Tournament_ID = tournament_ID;
@@ -2007,6 +2005,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2137,7 +2136,7 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String State
+        public global::System.Int32 State
         {
             get
             {
@@ -2147,13 +2146,13 @@ namespace WarSpot.Cloud.Storage
             {
                 OnStateChanging(value);
                 ReportPropertyChanging("State");
-                _State = StructuralObject.SetValidValue(value, false);
+                _State = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("State");
                 OnStateChanged();
             }
         }
-        private global::System.String _State;
-        partial void OnStateChanging(global::System.String value);
+        private global::System.Int32 _State;
+        partial void OnStateChanging(global::System.Int32 value);
         partial void OnStateChanged();
     
         /// <summary>
@@ -2205,6 +2204,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnDescriptionChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2291,6 +2291,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2321,6 +2322,7 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2423,6 +2425,7 @@ namespace WarSpot.Cloud.Storage
         partial void OnRole_CodeChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2465,8 +2468,10 @@ namespace WarSpot.Cloud.Storage
         }
 
         #endregion
+
     }
 
     #endregion
+
     
 }

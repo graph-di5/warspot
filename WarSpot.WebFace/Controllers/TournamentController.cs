@@ -129,17 +129,19 @@ namespace WarSpot.WebFace.Controllers
 					t.StartTime,
 					customIdentity.Id,
 					t.TournamentName,
-					"Waiting",
+					0x0,
 					"type",
 					t.Description
 					));
 				for (int i = 0; i < t.StagesCount; i++)
 				{
-					Warehouse.db.AddToStages(Cloud.Storage.Stage.CreateStage(Guid.NewGuid(),
+					Warehouse.db.AddToStages(Cloud.Storage.Stage.CreateStage(Guid.NewGuid(), 0x0, "TO DO: // ", t.StartTime));
+                    // Было:
+                        /*Guid.NewGuid(),
 						"Waiting",
 						"type",
 						t.StartTime,
-						t.ID));
+						t.ID));*/
 				}
 				Warehouse.db.SaveChanges();
 			}
