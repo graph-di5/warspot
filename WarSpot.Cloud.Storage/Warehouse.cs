@@ -792,7 +792,6 @@ namespace WarSpot.Cloud.Storage
                 return new ErrorCode(ErrorType.DataBaseProblems, "No stage with that ID: " + stageID.ToString());
             }
 
-            throw new NotImplementedException();
         }
 
         public static void UpdateStage(Guid stageID, State newState)
@@ -817,7 +816,6 @@ namespace WarSpot.Cloud.Storage
                 throw new ArgumentException("No stage with that ID: " + stageID.ToString());
             }
 
-            throw new NotImplementedException();
         }
 
         #endregion
