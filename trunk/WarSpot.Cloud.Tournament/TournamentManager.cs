@@ -76,12 +76,36 @@ namespace WarSpot.Cloud.Tournament
 			}
 		}
 
+		private List<Game> GetStageGames(Guid stageID)
+		{
+			List<Game> _gamesList; 
+						
+			List<Guid> _gamesIdList = Warehouse.GetListOfStageGames();
+			for (int i = 0; i < _gamesIdList.Count(); i++)
+			{
+				List<Guid> _IntellectsIdList = Warehouse.GetGameIntellects(_gamesIdList[i]);
+				List<Player> _players;
+				foreach (var intel in _IntellectsIdList)
+				{				
+					var _newPlayer = new Player(intel, Warehouse.GetIntellectOwner(intel));
+					_players.Add(_newPlayer);
+				}
+				var _game = new Game(_gamesIdList[i], _players);
+				_game.StartTime = Warehouse.GetGameStartTime();
+				_game.HasResult = Warehouse.IsGameHasResult();
+
+				_gamesList.Add(_game);
+			}
+
+			return _gamesList;
+		}
+
 		private bool IsAllMatchesDone(Guid tournamentId)
 		{
             Guid _stageId = Warehouse.GetTournamentStages(tournamentId).First<Guid>();
 
             // Этот Game из Tournament.cs, Game, возвращаемый GetStageGames - из БД. Разберись.
-			List<Game> _stageGamesList = Warehouse.GetStageGames(_stageId);
+			List<Game> _stageGamesList = GetStageGames(_stageId);
 
 			for (int i = 0; i < _stageGamesList.Count(); i++)
 			{
