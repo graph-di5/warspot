@@ -100,17 +100,32 @@ namespace WarSpot.Cloud.Tournament
 			return _gamesList;
 		}
 
+		public Stage GetStage(Guid stageId)
+		{
+			Stage _stage = new Stage(stageId);
+
+			List<Guid> _IntellectsIdList = Warehouse.GetGameIntellects(stageId);
+			List<Player> _players;
+			foreach (var intel in _IntellectsIdList)
+			{
+				var _newPlayer = new Player(intel, Warehouse.GetIntellectOwner(intel));
+				_players.Add(_newPlayer);
+			}
+
+			_stage.Players = _players;
+
+			return _stage;
+		}
+
 		private bool IsAllMatchesDone(Guid tournamentId)
 		{
             Guid _stageId = Warehouse.GetTournamentStages(tournamentId).First<Guid>();
 
-            // Этот Game из Tournament.cs, Game, возвращаемый GetStageGames - из БД. Разберись.
-			List<Game> _stageGamesList = GetStageGames(_stageId);
+			List<Guid> _stageGamesIdList = GetStageGames(_stageId);
 
 			for (int i = 0; i < _stageGamesList.Count(); i++)
 			{
-                // Используй GameID.
-				if (!Warehouse.DoesMatchHasResult(_stageGamesList[i].Id))
+				if (!Warehouse.DoesMatchHasResult(_stageGamesIdList[i]))
 				{
 					return false;
 				}					
@@ -137,17 +152,15 @@ namespace WarSpot.Cloud.Tournament
 							}
 							//Публикует очки в базу, сортирует по очкам
 							//Определяет победителей турнира, формирует отчёт
-                            // Тут используй State из Storage вместо Status из Tournament.cs.
                             Warehouse.UpdateStage(Warehouse.GetTournamentStages(t).First<Guid>(), State.Finished);
 						}
 					}
 					else
 					{
-                        // Аналогичная проблема: Tournament из БД - это не то же, что и Tournament.cs
-						Tournament _tourn = Warehouse.GetTournament(t);
-						foreach (Player p1 in _tourn.Players)
+						Stage _stage = GetStage(t);
+						foreach (Player p1 in _stage.Players)
 						{
-							foreach (Player p2 in _tourn.Players)
+							foreach (Player p2 in _stage.Players)
 							{
 								if (p1 != p2)
 								{
@@ -155,7 +168,7 @@ namespace WarSpot.Cloud.Tournament
 									_intList.Add(p1.IntellectID);
 									_intList.Add(p2.IntellectID);
 
-									Warehouse.BeginMatch(_intList, _tourn.Id, "");//ID пользователя--это идентификатор создателя матча? В данном случае--турнир или его создатель? Нужен ли Title
+									Warehouse.BeginMatch(_intList, _stage.Id, "");//ID пользователя--это идентификатор создателя матча? В данном случае--турнир или его создатель? Нужен ли Title
 								}
 							}
 						}
