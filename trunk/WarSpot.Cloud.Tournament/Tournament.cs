@@ -13,18 +13,32 @@ namespace WarSpot.Cloud.Tournament
 
 		public List<Guid> StagesList { private set; get; }
 
-		public List<Player> Players;
+		public List<Guid> PlayersIdList;
 		
 		public List<Score> Scores { private set; get; }
-
-		private List<Game> Games;
 
 		public Tournament(Guid id)
 		{
 			Id = id;
 			State = Status.Idle;
 		}
-	}	
+	}
+
+	class Stage
+	{
+		public Guid StageId { private set; get; }
+
+		public Guid TournamentId { private set; get; }
+
+		public List<Score> Scores { private set; get; }
+
+		public List<Player> Players;
+
+		public Stage(Guid tournamentId)
+		{
+			StageId = new Guid();
+		}
+	}
 
 	class Game//Собственно, один матч
 	{
