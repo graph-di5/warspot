@@ -33,7 +33,7 @@ namespace WarSpot.Cloud.Tournament
 		public DateTime StartTime { set; get; }//Чтобы удалять зависшие
 		public bool HasResult { private set; get; }
 
-		Game(Guid id, List<Player> players)
+		public Game(Guid id, List<Player> players)
 		{
 			Id = Id;
 			Players = players;
