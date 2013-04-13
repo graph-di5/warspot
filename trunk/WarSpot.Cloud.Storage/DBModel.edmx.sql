@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 04/13/2013 00:23:20
--- Generated from EDMX file: C:\Users\deem\Documents\warspot_\trunk\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 04/13/2013 14:33:09
+-- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\W2\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -157,7 +157,7 @@ CREATE TABLE [dbo].[Tournament] (
     [StartTime] datetime  NOT NULL,
     [Creator_ID] uniqueidentifier  NOT NULL,
     [Tournament_Name] nvarchar(max)  NOT NULL,
-    [State] int  NOT NULL,
+    [State_Code] int  NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
     [Description] nvarchar(max)  NOT NULL
 );

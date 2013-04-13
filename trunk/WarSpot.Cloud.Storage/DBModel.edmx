@@ -526,7 +526,7 @@
           <Property Type="Guid" Name="Creator_ID" Nullable="false" />
           <Property Type="String" Name="Tournament_Name" Nullable="false" />
           <NavigationProperty Name="Player" Relationship="DBModel.AccountTournament1" FromRole="Tournament" ToRole="Account" />
-          <Property Type="Int32" Name="State" Nullable="false" />
+          <Property Type="Int32" Name="State_Code" Nullable="false" />
           <Property Type="String" Name="Type" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="false" />
           <NavigationProperty Name="Stages" Relationship="DBModel.TournamentStage" FromRole="Tournament" ToRole="Stage" />
@@ -693,7 +693,7 @@
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
           <ScalarProperty Name="Creator_ID" ColumnName="Creator_ID" />
           <ScalarProperty Name="Tournament_Name" ColumnName="Tournament_Name" />
-          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="State_Code" ColumnName="State" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>

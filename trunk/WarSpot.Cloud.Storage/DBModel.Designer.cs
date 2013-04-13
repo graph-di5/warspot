@@ -1963,10 +1963,10 @@ namespace WarSpot.Cloud.Storage
         /// <param name="startTime">Initial value of the StartTime property.</param>
         /// <param name="creator_ID">Initial value of the Creator_ID property.</param>
         /// <param name="tournament_Name">Initial value of the Tournament_Name property.</param>
-        /// <param name="state">Initial value of the State property.</param>
+        /// <param name="state_Code">Initial value of the State_Code property.</param>
         /// <param name="type">Initial value of the Type property.</param>
         /// <param name="description">Initial value of the Description property.</param>
-        public static Tournament CreateTournament(global::System.Guid tournament_ID, global::System.Int64 maxPlayers, global::System.DateTime startTime, global::System.Guid creator_ID, global::System.String tournament_Name, global::System.Int32 state, global::System.String type, global::System.String description)
+        public static Tournament CreateTournament(global::System.Guid tournament_ID, global::System.Int64 maxPlayers, global::System.DateTime startTime, global::System.Guid creator_ID, global::System.String tournament_Name, global::System.Int32 state_Code, global::System.String type, global::System.String description)
         {
             Tournament tournament = new Tournament();
             tournament.Tournament_ID = tournament_ID;
@@ -1974,7 +1974,7 @@ namespace WarSpot.Cloud.Storage
             tournament.StartTime = startTime;
             tournament.Creator_ID = creator_ID;
             tournament.Tournament_Name = tournament_Name;
-            tournament.State = state;
+            tournament.State_Code = state_Code;
             tournament.Type = type;
             tournament.Description = description;
             return tournament;
@@ -2111,24 +2111,24 @@ namespace WarSpot.Cloud.Storage
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 State
+        public global::System.Int32 State_Code
         {
             get
             {
-                return _State;
+                return _State_Code;
             }
             set
             {
-                OnStateChanging(value);
-                ReportPropertyChanging("State");
-                _State = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("State");
-                OnStateChanged();
+                OnState_CodeChanging(value);
+                ReportPropertyChanging("State_Code");
+                _State_Code = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("State_Code");
+                OnState_CodeChanged();
             }
         }
-        private global::System.Int32 _State;
-        partial void OnStateChanging(global::System.Int32 value);
-        partial void OnStateChanged();
+        private global::System.Int32 _State_Code;
+        partial void OnState_CodeChanging(global::System.Int32 value);
+        partial void OnState_CodeChanged();
     
         /// <summary>
         /// No Metadata Documentation available.

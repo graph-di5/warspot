@@ -226,6 +226,23 @@ namespace WarSpot.Cloud.UserService
 
 		}
 
+		public List<Guid> GetActiveTournaments()
+		{
+			return Warehouse.GetActiveTournaments();
+		}
+		
+		public ErrorCode UpdateTournament(Guid tournamentID, string newState)
+		{
+			try
+            {
+                Warehouse.UpdateTournament(tournamentID, (State) Enum.Parse(typeof(State), newState));
+                return new ErrorCode(ErrorType.Ok, "Stage has been updated.");
+            }
+            catch (Exception e)
+            {
+                return new ErrorCode(ErrorType.UnknownException, "Warehouse.UpdateTournament goes wrong. Exception" + e.ToString());
+            }
+		}
 
 		public ErrorCode JoinTournament(Guid tournamentID)
 		{
@@ -271,10 +288,6 @@ namespace WarSpot.Cloud.UserService
 
         public ErrorCode UpdateStage(Guid stageID, string newState)
         {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
-            }
             try
             {
                 Warehouse.UpdateStage(stageID, (State) Enum.Parse(typeof(State), newState));
@@ -286,6 +299,11 @@ namespace WarSpot.Cloud.UserService
             }
         }
 
+		public List<Guid> GetStageGames(Guid stageID)
+		{
+			return Warehouse.GetStageGames(stageID);		
+		}
+		
         #endregion
 
 
