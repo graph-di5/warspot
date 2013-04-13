@@ -45,7 +45,7 @@ namespace WarSpot.Cloud.Tournament
 		public Guid Id { private set; get; }
 		public List<Player> Players { private set; get; }
 		public DateTime StartTime { set; get; }//Чтобы удалять зависшие
-		public bool HasResult { private set; get; }
+		public bool HasResult { set; get; }
 
 		public Game(Guid id, List<Player> players)
 		{
