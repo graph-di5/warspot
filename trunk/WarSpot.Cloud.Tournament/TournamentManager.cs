@@ -78,13 +78,15 @@ namespace WarSpot.Cloud.Tournament
 
 		private bool IsAllMatchesDone(Guid tournamentId)
 		{
-			Guid _stageId = Warehouse.GetStageId(tournamentId);
+            Guid _stageId = Warehouse.GetTournamentStages(tournamentId).First<Guid>();
 
-			List<Game> _stageGamesList = Warehouse.GetStageMatches(_stageId);
+            // Этот Game из Tournament.cs, Game, возвращаемый GetStageGames - из БД. Разберись.
+			List<Game> _stageGamesList = Warehouse.GetStageGames(_stageId);
 
 			for (int i = 0; i < _stageGamesList.Count(); i++)
 			{
-				if (!Warehouse.DoesMatchHasResult(_stageGamesList[i]))
+                // Используй GameID.
+				if (!Warehouse.DoesMatchHasResult(_stageGamesList[i].Id))
 				{
 					return false;
 				}					
@@ -104,18 +106,20 @@ namespace WarSpot.Cloud.Tournament
 						if (IsAllMatchesDone(t))
 						{
 							// Считает очки, определяет победителей, формирует отчётность, завершает турнир.
-							List<Game> _listOfGames = Warehouse.Warehouse.GetStageMatches(Warehouse.GetStageId(t));
+							List<Game> _listOfGames = Warehouse.GetStageGames(Warehouse.GetTournamentStages(t).First<Guid>());
 							foreach (Game g in _listOfGames)
 							{								
 								// Добавляет очко победителю
 							}
 							//Публикует очки в базу, сортирует по очкам
 							//Определяет победителей турнира, формирует отчёт
-							Warehouse.UpdateStage(GetStageId(t), Status.Finished;
+                            // Тут используй State из Storage вместо Status из Tournament.cs.
+                            Warehouse.UpdateStage(Warehouse.GetTournamentStages(t).First<Guid>(), State.Finished);
 						}
 					}
 					else
 					{
+                        // Аналогичная проблема: Tournament из БД - это не то же, что и Tournament.cs
 						Tournament _tourn = Warehouse.GetTournament(t);
 						foreach (Player p1 in _tourn.Players)
 						{
