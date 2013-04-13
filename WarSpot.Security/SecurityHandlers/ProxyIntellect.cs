@@ -20,12 +20,10 @@ namespace WarSpot.Security
         {
             Type t = typeof(IBeingInterface);
 
-            this.intellect = (IBeingInterface)AppDomain.CurrentDomain.CreateInstanceAndUnwrap(AppDomain.CurrentDomain.GetAssemblies().First<Assembly>().FullName, t.FullName);
-        
-            
+            this.intellect = (IBeingInterface)AppDomain.CurrentDomain.CreateInstanceAndUnwrap(AppDomain.CurrentDomain.GetAssemblies().First<Assembly>().FullName, t.FullName);  
         }
 
-        public ErrorCode SecurityChecking()
+        private ErrorCode SecurityChecking()
         {
             try
             {

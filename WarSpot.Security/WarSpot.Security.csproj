@@ -40,11 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DllMethodsHandler.cs" />
-    <Compile Include="DllReferenceHandler.cs" />
-    <Compile Include="DllVerificationHandler.cs" />
+    <Compile Include="SecurityHandlers\DllMethodsHandler.cs" />
+    <Compile Include="SecurityHandlers\DllReferenceHandler.cs" />
+    <Compile Include="SecurityHandlers\DllVerificationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProxyIntellect.cs" />
+    <Compile Include="SecurityHandlers\ProxyIntellect.cs" />
+    <Compile Include="SecurityProxy.cs" />
     <Compile Include="WarSpotSecurityPermission.cs" />
     <Compile Include="WarSpotSecurityPermissionAttribute.cs" />
   </ItemGroup>

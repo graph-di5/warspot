@@ -95,8 +95,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (_loggedIn)
 			{
-				// TO DO: Verificate intellect.
-				DllVerificationHandler.Execute(intellect);
+				
 				if (Warehouse.UploadIntellect(_userID, name, intellect, description))
 					return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
 				else
