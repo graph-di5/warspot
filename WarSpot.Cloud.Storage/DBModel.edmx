@@ -127,7 +127,7 @@
     <Property Name="StartTime" Type="datetime" Nullable="false" />
     <Property Name="Creator_ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Tournament_Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="State" Type="int" Nullable="false" />
+    <Property Name="State_Code" Type="int" Nullable="false" />
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -693,7 +693,7 @@
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
           <ScalarProperty Name="Creator_ID" ColumnName="Creator_ID" />
           <ScalarProperty Name="Tournament_Name" ColumnName="Tournament_Name" />
-          <ScalarProperty Name="State_Code" ColumnName="State" />
+          <ScalarProperty Name="State_Code" ColumnName="State_Code" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>

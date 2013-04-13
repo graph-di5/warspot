@@ -533,6 +533,13 @@ namespace WarSpot.Cloud.Storage
 			return games.Select(game => game.Game_ID).ToList();
 		}
 
+        public static bool DoesMatchHasResult(Guid matchID)
+        {
+            return (from g in db.Game
+                    where g.Game_ID == matchID
+                    select g.Replay).FirstOrDefault<string>() != null;
+        }
+
 		#endregion
 
 		#region tournaments
@@ -649,6 +656,13 @@ namespace WarSpot.Cloud.Storage
                     where t.State_Code != (int)State.Finished
                     select t.Tournament_ID).ToList<Guid>();
 		}
+
+        public static List<Guid> GetTournamentStages(Guid tournamentID)
+        {
+            return (from s in db.Stages
+             where s.Tournament.Tournament_ID == tournamentID
+             select s.Stage_ID).ToList<Guid>();
+        }
 		
 		public static void UpdateTournament(Guid tournamentID, State newState)
 		{
@@ -762,6 +776,13 @@ namespace WarSpot.Cloud.Storage
 
 		}
 
+        public static Tournament GetTournament(Guid tournamentID)
+        {
+            return (from t in db.Tournament
+                    where t.Tournament_ID == tournamentID
+                    select t).First<Tournament>();
+        }
+
         #region stage
 
         public static ErrorCode AddStage(Guid tournamentID, DateTime startTime, State state = State.NotStarted , string type = "TO DO: Какие типы")
@@ -850,16 +871,16 @@ namespace WarSpot.Cloud.Storage
 
         }
 
-		public static List<Guid> GetStageGames(Guid stageID)
+		public static List<Game> GetStageGames(Guid stageID)
 		{
-            List<Guid> result = new List<Guid>();
+            List<Game> result = new List<Game>();
 
             foreach (Game g in (from g in db.Game
                                 where g.Stage != null
                                 select g))
             {
                 if (g.Stage.Stage_ID == stageID)
-                    result.Add(g.Game_ID);
+                    result.Add(g);
             }
 
             return result;
@@ -966,5 +987,8 @@ namespace WarSpot.Cloud.Storage
 
 		#endregion
 
-	}
+
+
+
+    }
 }
