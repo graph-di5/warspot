@@ -37,6 +37,12 @@ namespace WarSpot.Cloud.Tournament
 		public Stage(Guid tournamentId)
 		{
 			StageId = new Guid();
+			TournamentId = tournamentId;
+		}
+
+		public Stage(Guid id)
+		{
+			StageId = id;
 		}
 	}
 
