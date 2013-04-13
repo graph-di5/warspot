@@ -783,6 +783,11 @@ namespace WarSpot.Cloud.Storage
                     select t).First<Tournament>();
         }
 
+        public static bool IsGamesListExist()
+        {
+            throw new NotImplementedException();
+        }
+
         #region stage
 
         public static ErrorCode AddStage(Guid tournamentID, DateTime startTime, State state = State.NotStarted , string type = "TO DO: Какие типы")
@@ -990,5 +995,7 @@ namespace WarSpot.Cloud.Storage
 
 
 
+
+        
     }
 }
