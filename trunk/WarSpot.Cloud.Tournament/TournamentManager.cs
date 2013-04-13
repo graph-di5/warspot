@@ -23,12 +23,12 @@ namespace WarSpot.Cloud.Tournament
 		 */
 
 		private static TournamentManager _tournamentMeneger;
-		private bool _active;
+		private ManualResetEvent _runingEvent;//Событие запуска работы этого менеджера
 		private Thread _thread;
 
 		private TournamentManager()
 		{
-			_active = true;
+			_runingEvent = new ManualResetEvent(true);
 			_thread = new Thread(new ThreadStart(ThreadFunction));
 			_thread.Start();
 		}
@@ -51,12 +51,12 @@ namespace WarSpot.Cloud.Tournament
 
 		public void Run()
 		{
-			_active = true;
+			_runingEvent.Set();
 		}
 
 		public void Stop()
 		{
-			_active = false;
+			_runingEvent.Reset();//Останавливает работу менеджера
 		}
 
 		private void ThreadFunction()
@@ -65,11 +65,10 @@ namespace WarSpot.Cloud.Tournament
 
 			while (true)
 			{
-				if (_active)
+				if (_runingEvent.WaitOne())//Если работа менеджера не на паузе
 				{
 					perform();
 				}
-
 				else
 				{
 					Thread.Sleep(_timeout);
@@ -77,44 +76,64 @@ namespace WarSpot.Cloud.Tournament
 			}
 		}
 
+		private bool IsAllMatchesDone(Guid tournamentId)
+		{
+			Guid _stageId = Warehouse.GetStageId(tournamentId);
+
+			List<Game> _stageGamesList = Warehouse.GetStageMatches(_stageId);
+
+			for (int i = 0; i < _stageGamesList.Count(); i++)
+			{
+				if (!Warehouse.DoesMatchHasResult(_stageGamesList[i]))
+				{
+					return false;
+				}					
+			}
+			return true;
+		}
+
 		private void perform()
 		{
-			//var _activeTournaments = Warehouse.GetActiveTournaments();//Здесь запрос
-			//if (_activeTournaments.Count() != 0)//Проверка, есть ли запущенные турниры
-			//{
-			//    foreach (Tournament t in _activeTournaments)
-			//    {
-			//        if (Warehouse.IsGamesListExist())
-			//        {
-			//            if (Warehouse.AllMatchesHasResults())
-			//            {
-			//                // Считает очки, определяет победителей, формирует отчётность, завершает турнир.
-			//                List<Game> _listOfGames = Warehouse.GetListOfTournamentGames(t.Id);
-			//                foreach (Game g in _listOfGames)
-			//                {
-			//                    // Добавляет очко победителю (t.Scores....+= 1;)
-			//                }
-			//                t.Scores.SortByPoints();
-			//                //Определяет победителей турнира, формирует отчёт
-			//                t.State = Status.Finished;
-			//            }
-			//        }
-			//        else
-			//        {
-			//            foreach (Player p1 in t.Players)
-			//            {
-			//                foreach (Player p2 in t.Players)
-			//                {
-			//                    if (p1 != p2)
-			//                    {
-			//                        Warehouse.BeginMatch(p1.IntellectID, p2.IntellectID);//Не уверен, какие поля ещё нужны
-			//                    }
-			//                }
-			//            }						
-			//        }
-			//    }
-			//}
-		}//Засыпание вне
+			var _activeTournaments = Warehouse.GetActiveTournaments();
+			if (_activeTournaments.Any())//Проверка, есть ли запущенные турниры
+			{
+				foreach (Guid t in _activeTournaments)
+				{					
+					if (Warehouse.IsGamesListExist())
+					{	
+						if (IsAllMatchesDone(t))
+						{
+							// Считает очки, определяет победителей, формирует отчётность, завершает турнир.
+							List<Game> _listOfGames = Warehouse.Warehouse.GetStageMatches(Warehouse.GetStageId(t));
+							foreach (Game g in _listOfGames)
+							{								
+								// Добавляет очко победителю
+							}
+							//Публикует очки в базу, сортирует по очкам
+							//Определяет победителей турнира, формирует отчёт
+							Warehouse.UpdateStage(GetStageId(t), Status.Finished;
+						}
+					}
+					else
+					{
+						Tournament _tourn = Warehouse.GetTournament(t);
+						foreach (Player p1 in _tourn.Players)
+						{
+							foreach (Player p2 in _tourn.Players)
+							{
+								if (p1 != p2)
+								{
+									var _intList = new List<Guid>();
+									_intList.Add(p1.IntellectID);
+									_intList.Add(p2.IntellectID);
 
+									Warehouse.BeginMatch(_intList, _tourn.Id, "");//ID пользователя--это идентификатор создателя матча? В данном случае--турнир или его создатель? Нужен ли Title
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
