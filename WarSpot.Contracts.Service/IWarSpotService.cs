@@ -80,12 +80,18 @@ namespace WarSpot.Contracts.Service
 
 		[OperationContract]
 		List<Guid> GetAvailableTournaments();
+		
+		[OperationContract]		
+		List<Guid> GetActiveTournaments();
+		
+		[OperationContract]
+		ErrorCode UpdateTournament(Guid tournamentID, string newState);
 
 		[OperationContract]
 		ErrorCode JoinTournament(Guid tournamentID);
 
 		[OperationContract]
-		ErrorCode LeaveTournament(Guid tournamentID);
+		ErrorCode LeaveTournament(Guid tournamentID);			
 
         #region Stage
         [OperationContract]
@@ -96,6 +102,9 @@ namespace WarSpot.Contracts.Service
 
         [OperationContract]
         ErrorCode UpdateStage(Guid stageID, string newState);
+		
+		[OperationContract]
+		List<Guid> GetStageGames(Guid stageID);
 
         #endregion
 
