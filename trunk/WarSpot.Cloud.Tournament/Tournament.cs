@@ -28,12 +28,14 @@ namespace WarSpot.Cloud.Tournament
 
 	class Game//Собственно, один матч
 	{
+		public Guid Id { private set; get; }
 		public List<Player> Players { private set; get; }
 		public DateTime StartTime { set; get; }//Чтобы удалять зависшие
 		public bool HasResult { private set; get; }
 
-		Game(List<Player> players)
+		Game(Guid id, List<Player> players)
 		{
+			Id = Id;
 			Players = players;
 			StartTime = DateTime.MaxValue;//Вроде зануления.
 			HasResult = false;
