@@ -78,21 +78,21 @@ namespace WarSpot.Cloud.Tournament
 
 		private List<Game> GetStageGames(Guid stageID)
 		{
-			List<Game> _gamesList; 
+			List<Game> _gamesList = new List<Game>(); 
 						
-			List<Guid> _gamesIdList = Warehouse.GetListOfStageGames();
+			List<Guid> _gamesIdList = Warehouse.GetListOfStageGames(stageID);
 			for (int i = 0; i < _gamesIdList.Count(); i++)
 			{
 				List<Guid> _IntellectsIdList = Warehouse.GetGameIntellects(_gamesIdList[i]);
-				List<Player> _players;
+				List<Player> _players = new List<Player>();
 				foreach (var intel in _IntellectsIdList)
 				{				
 					var _newPlayer = new Player(intel, Warehouse.GetIntellectOwner(intel));
 					_players.Add(_newPlayer);
 				}
 				var _game = new Game(_gamesIdList[i], _players);
-				_game.StartTime = Warehouse.GetGameStartTime();
-				_game.HasResult = Warehouse.IsGameHasResult();
+                _game.StartTime = Warehouse.GetGameStartTime(_gamesIdList[i]);
+                _game.HasResult = Warehouse.DoesMatchHasResult(_gamesIdList[i]);
 
 				_gamesList.Add(_game);
 			}
@@ -130,7 +130,7 @@ namespace WarSpot.Cloud.Tournament
 						if (IsAllMatchesDone(t))
 						{
 							// Считает очки, определяет победителей, формирует отчётность, завершает турнир.
-							List<Game> _listOfGames = Warehouse.GetStageGames(Warehouse.GetTournamentStages(t).First<Guid>());
+							List<Game> _listOfGames = GetStageGames(Warehouse.GetTournamentStages(t).First<Guid>());
 							foreach (Game g in _listOfGames)
 							{								
 								// Добавляет очко победителю

@@ -470,7 +470,7 @@ namespace WarSpot.Cloud.Storage
 			}
 		}
 
-
+        
 
 		#endregion
 
@@ -533,18 +533,85 @@ namespace WarSpot.Cloud.Storage
 			return games.Select(game => game.Game_ID).ToList();
 		}
 
-        public static bool DoesMatchHasResult(Guid matchID)
+        #region help methods to form Game from Tournament.cs
+
+        public static List<Guid> GetListOfStageGames(Guid stageID)
+        {
+            List<Guid> result = new List<Guid>();
+
+            foreach (Game g in (from g in db.Game
+                                where g.Stage != null
+                                select g))
+            {
+                if (g.Stage.Stage_ID == stageID)
+                    result.Add(g.Game_ID);
+            }
+
+            return result;
+        }
+
+        public static List<Guid> GetGameIntellects(Guid gameID)
+        {
+            List<Guid> result = new List<Guid>();
+
+            Game neededGame = (from g in db.Game
+                               where g.Game_ID == gameID
+                               select g).First<Game>();
+
+            foreach (Intellect i in (from i in db.Intellect
+                                     select i))
+            {
+                /*foreach(Account a in (from a in db.Account
+                                      where a.Intellect.Contains(i)
+                                      select a))
+                {
+                    if(a.Game.Contains(neededGame))
+                    {
+                        result.Add(i.Intellect_ID);
+                    }
+                }
+                 */
+
+                if ((from a in db.Account
+                     where a.Account_ID == i.AccountAccount_ID
+                     select a).First<Account>().Account_ID == neededGame.Creator_ID)
+                    result.Add(i.Intellect_ID);
+                
+            }
+
+            return result;
+        }
+
+        public static Guid GetIntellectOwner(Guid intelectID)
+        {
+            return (from a in db.Account
+                    where a.Account_ID == (from i in db.Intellect
+                                           where i.Intellect_ID == intelectID
+                                           select i.AccountAccount_ID).First<Guid>()
+                    select a.Account_ID).First<Guid>();
+        }
+
+        public static DateTime GetGameStartTime(Guid gameID)
         {
             return (from g in db.Game
-                    where g.Game_ID == matchID
+                    where g.Game_ID == gameID
+                    select g.CreationTime).First<DateTime>();
+        }
+
+        public static bool DoesMatchHasResult(Guid gameID)
+        {
+            return (from g in db.Game
+                    where g.Game_ID == gameID
                     select g.Replay).FirstOrDefault<string>() != null;
         }
 
-		#endregion
+        #endregion
+        #endregion
 
-		#region tournaments
+        #region tournaments
 
-		public static ErrorCode CreateTournament(string title, DateTime startDate, long maxPlayers, Guid userID)
+        #region tournaments
+        public static ErrorCode CreateTournament(string title, DateTime startDate, long maxPlayers, Guid userID)
 		{
 			if ((from t in db.Tournament
 					 where t.Tournament_Name == title && t.Creator_ID == userID
@@ -788,6 +855,8 @@ namespace WarSpot.Cloud.Storage
             throw new NotImplementedException();
         }
 
+        #endregion
+
         #region stage
 
         public static ErrorCode AddStage(Guid tournamentID, DateTime startTime, State state = State.NotStarted , string type = "TO DO: Какие типы")
@@ -876,20 +945,7 @@ namespace WarSpot.Cloud.Storage
 
         }
 
-		public static List<Game> GetStageGames(Guid stageID)
-		{
-            List<Game> result = new List<Game>();
-
-            foreach (Game g in (from g in db.Game
-                                where g.Stage != null
-                                select g))
-            {
-                if (g.Stage.Stage_ID == stageID)
-                    result.Add(g);
-            }
-
-            return result;
-		}
+		
 		
         #endregion
 
