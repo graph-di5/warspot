@@ -28,7 +28,7 @@ namespace WarSpot.Cloud.Tournament
 
 		private TournamentManager()
 		{
-			_runingEvent = new ManualResetEvent(true);
+			_runingEvent = new ManualResetEvent(false);
 			_thread = new Thread(new ThreadStart(ThreadFunction));
 			_thread.Start();
 		}
@@ -49,30 +49,18 @@ namespace WarSpot.Cloud.Tournament
 			return _tournamentMeneger;
 		}
 
-		public void Run()
-		{
-			_runingEvent.Set();
-		}
-
 		public void Stop()
 		{
-			_runingEvent.Reset();//Останавливает работу менеджера
+			_runingEvent.Set();//Останавливает работу менеджера
 		}
 
 		private void ThreadFunction()
 		{
 			int _timeout = 5000;
 
-			while (true)
+			while (!_runingEvent.WaitOne(_timeout))
 			{
-				if (_runingEvent.WaitOne())//Если работа менеджера не на паузе
-				{
-					perform();
-				}
-				else
-				{
-					Thread.Sleep(_timeout);
-				}
+				Perform();
 			}
 		}
 
@@ -133,7 +121,7 @@ namespace WarSpot.Cloud.Tournament
 			return true;
 		}
 
-		private void perform()
+		private void Perform()
 		{
 			var _activeTournaments = Warehouse.GetActiveTournaments();
 			if (_activeTournaments.Any())//Проверка, есть ли запущенные турниры
