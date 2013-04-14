@@ -41,9 +41,9 @@ namespace WarSpot.Cloud.UserService
 		#endregion
 
 		#region login and registration
-        public ErrorCode Register(string accountname, string pass, string username, string usersurname, string institution, int course, string email)
+		public ErrorCode Register(string accountname, string pass, string username, string usersurname, string institution, int course, string email)
 		{
-            if (Warehouse.Register(accountname, pass, username, usersurname, institution, course, email))
+			if (Warehouse.Register(accountname, pass, username, usersurname, institution, course, email))
 				return new ErrorCode(ErrorType.Ok, "New account has been successfully created.");
 			else
 				return new ErrorCode(ErrorType.WrongLoginOrPassword, "Existed account with same name.");
@@ -95,7 +95,7 @@ namespace WarSpot.Cloud.UserService
 		{
 			if (_loggedIn)
 			{
-				
+
 				if (Warehouse.UploadIntellect(_userID, name, intellect, description))
 					return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
 				else
@@ -229,18 +229,18 @@ namespace WarSpot.Cloud.UserService
 		{
 			return Warehouse.GetActiveTournaments();
 		}
-		
+
 		public ErrorCode UpdateTournament(Guid tournamentID, string newState)
 		{
 			try
-            {
-                Warehouse.UpdateTournament(tournamentID, (State) Enum.Parse(typeof(State), newState));
-                return new ErrorCode(ErrorType.Ok, "Stage has been updated.");
-            }
-            catch (Exception e)
-            {
-                return new ErrorCode(ErrorType.UnknownException, "Warehouse.UpdateTournament goes wrong. Exception" + e.ToString());
-            }
+			{
+				Warehouse.UpdateTournament(tournamentID, (State)Enum.Parse(typeof(State), newState));
+				return new ErrorCode(ErrorType.Ok, "Stage has been updated.");
+			}
+			catch (Exception e)
+			{
+				return new ErrorCode(ErrorType.UnknownException, "Warehouse.UpdateTournament goes wrong. Exception" + e.ToString());
+			}
 		}
 
 		public ErrorCode JoinTournament(Guid tournamentID)
@@ -265,52 +265,58 @@ namespace WarSpot.Cloud.UserService
 
 		}
 
-        #region stage stuff
+		#region stage stuff
 
-        public ErrorCode AddStage(Guid tournamentID, DateTime startTime)
-        {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
-            }
-            return Warehouse.AddStage(tournamentID, startTime);
-        }
+		public ErrorCode AddStage(Guid tournamentID, DateTime startTime)
+		{
+			if (!_loggedIn)
+			{
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+			}
+			return Warehouse.AddStage(tournamentID, startTime);
+		}
 
-        public ErrorCode DeleteStage(Guid stageID)
-        {
-            if (!_loggedIn)
-            {
-                return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
-            }
-            return Warehouse.DeleteStage(stageID);
-        }
+		public ErrorCode DeleteStage(Guid stageID)
+		{
+			if (!_loggedIn)
+			{
+				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
+			}
+			return Warehouse.DeleteStage(stageID);
+		}
 
-        public ErrorCode UpdateStage(Guid stageID, string newState)
-        {
-            try
-            {
-                Warehouse.UpdateStage(stageID, (State) Enum.Parse(typeof(State), newState));
-                return new ErrorCode(ErrorType.Ok, "Stage has been updated.");
-            }
-            catch (Exception e)
-            {
-                return new ErrorCode(ErrorType.UnknownException, "Warehouse.UpdateStage goes wrong. Exception" + e.ToString());
-            }
-        }
+		public ErrorCode UpdateStage(Guid stageID, string newState)
+		{
+			try
+			{
+				Warehouse.UpdateStage(stageID, (State)Enum.Parse(typeof(State), newState));
+				return new ErrorCode(ErrorType.Ok, "Stage has been updated.");
+			}
+			catch (Exception e)
+			{
+				return new ErrorCode(ErrorType.UnknownException, "Warehouse.UpdateStage goes wrong. Exception" + e.ToString());
+			}
+		}
 
+
+		// todo
 		public List<Guid> GetStageGames(Guid stageID)
 		{
-			return Warehouse.GetStageGames(stageID);		
+#if false
+			return Warehouse.GetStageGames(stageID);
+#else
+			return new List<Guid>();
+#endif
 		}
-		
-        #endregion
+
+		#endregion
 
 
-        #endregion
+		#endregion
 
-        #region role's stuff
+		#region role's stuff
 
-        public bool IsUserAdmin(Guid userID)
+		public bool IsUserAdmin(Guid userID)
 		{
 			if (!_loggedIn)
 			{

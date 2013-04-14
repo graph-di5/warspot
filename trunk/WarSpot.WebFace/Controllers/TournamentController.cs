@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using WarSpot.Cloud.Storage;
 using Warehouse = WarSpot.Cloud.Storage.Warehouse;
 using WarSpot.WebFace.Security;
 
@@ -25,16 +26,16 @@ namespace WarSpot.WebFace.Controllers
 					var myTournaments = new List<Models.Tournament>();
 					foreach (var t in p.TournamentPlayer)
 					{
-						myTournaments.Add(new Models.Tournament()
-											{
-												// todo
+						myTournaments.Add(new Models.Tournament
+						                  	{
 												Creator = t.Creator_ID.ToString(),
 												ID = t.Tournament_ID,
 												Description = t.Description,
 												MaxPlayers = t.MaxPlayers,
 												StartTime = t.StartTime,
 												TournamentName = t.Tournament_Name,
-												IsIn = true
+												IsIn = true,
+												State = (State) t.State_Code
 											});
 					}
 					ViewData["my"] = myTournaments;
@@ -53,7 +54,8 @@ namespace WarSpot.WebFace.Controllers
 							MaxPlayers = tournament.MaxPlayers,
 							StartTime = tournament.StartTime,
 							TournamentName = tournament.Tournament_Name,
-							IsIn = false
+							IsIn = false,
+							State = (State)tournament.State_Code
 						});
 
 					}
@@ -71,7 +73,8 @@ namespace WarSpot.WebFace.Controllers
 								MaxPlayers = tournament.MaxPlayers,
 								StartTime = tournament.StartTime,
 								TournamentName = tournament.Tournament_Name,
-								IsIn = false
+								IsIn = false,
+								State = (State) tournament.State_Code
 							}).ToList();
 					ViewData["edit"] = openTournaments;
 				}
@@ -94,7 +97,8 @@ namespace WarSpot.WebFace.Controllers
 				StartTime = tournament.StartTime,
 				TournamentName = tournament.Tournament_Name,
 				Players = new List<string>(from p in tournament.Player select p.Account_Name),
-				IsIn = IsIn(id)
+				IsIn = IsIn(id),
+				State = (State)tournament.State_Code
 			};
 
 			List<KeyValuePair<Guid, string>> intellects = Warehouse.db.Intellect.Where(ii => ii.AccountAccount_ID == customIdentity.Id).ToArray().Select(i => new KeyValuePair<Guid, string>(i.Intellect_ID, String.Format("{0}", i.Intellect_Name))).ToList();
@@ -112,7 +116,8 @@ namespace WarSpot.WebFace.Controllers
 											MaxPlayers = 128,
 											StagesCount = 2,
 											StartTime = DateTime.UtcNow.AddDays(1),
-											IsIn = false
+											IsIn = false,
+											State = State.NotStarted
 										});
 		}
 
@@ -212,7 +217,8 @@ t.ID));*/
 				StartTime = tournament.StartTime,
 				TournamentName = tournament.Tournament_Name,
 				Players = new List<string>(from p in tournament.Player select p.Account_Name),
-				IsIn = IsIn(id)
+				IsIn = IsIn(id),
+				State = (State) tournament.State_Code
 			};
 			return View(res);
 		}
