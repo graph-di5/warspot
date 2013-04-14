@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WarSpot.Cloud.Storage
+namespace WarSpot.Cloud.Tournament
 {
 	[Flags]
 	public enum State : int

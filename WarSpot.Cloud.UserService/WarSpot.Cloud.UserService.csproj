@@ -95,6 +95,10 @@
       <Project>{4D2D5B7A-0BF4-41D2-BF18-F450BF3CB33F}</Project>
       <Name>WarSpot.Cloud.Storage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Cloud.Tournament\WarSpot.Cloud.Tournament.csproj">
+      <Project>{D8459A80-3490-4D4C-8E60-0991A7B464D1}</Project>
+      <Name>WarSpot.Cloud.Tournament</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj">
       <Project>{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}</Project>
       <Name>WarSpot.Contracts.Service</Name>
