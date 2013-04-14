@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WarSpot.Cloud.Tournament;
 
 namespace WarSpot.WebFace.Models
 {
@@ -39,7 +40,7 @@ namespace WarSpot.WebFace.Models
 		public List<string> Players { get; set; }
 
 		[Display(Name = "Статус")]
-		public Cloud.Storage.State State { get; set; }
+		public State State { get; set; }
 
 		// todo stages
 		public List<Stage> Stages { get; set; }
@@ -48,7 +49,7 @@ namespace WarSpot.WebFace.Models
 	public class Stage
 	{
 		[Display(Name = "Статус")]
-		public Cloud.Storage.State State { get; set; }
+		public State State { get; set; }
 	
 		[Required]
 		[Display(Name = "Время старта")]

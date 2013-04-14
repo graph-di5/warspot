@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using WarSpot.Cloud.Common;
 using WarSpot.Cloud.Storage.Models;
+using WarSpot.Cloud.Tournament;
 using WarSpot.Common;
 using WarSpot.Contracts.Service;
 

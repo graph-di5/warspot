@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WarSpot.Cloud.Tournament;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
 using WarSpot.Security;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using WarSpot.Cloud.Storage;
+using WarSpot.Cloud.Tournament;
 using Warehouse = WarSpot.Cloud.Storage.Warehouse;
 using WarSpot.WebFace.Security;
 
