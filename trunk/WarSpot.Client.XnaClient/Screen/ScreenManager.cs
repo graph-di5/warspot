@@ -147,6 +147,13 @@ namespace WarSpot.Client.XnaClient.Screen
 			}
 		}
 
+        public void ReloadWatchScreen()
+        {
+           GameScreen ScreenForReload;
+           _screens.TryGetValue(ScreenEnum.WatchReplayScreen, out ScreenForReload);
+           ScreenForReload = new WatchReplayScreen();
+        }
+
 		protected override void UnloadContent()
 		{
 			ContentManager.Unload();

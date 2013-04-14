@@ -30,18 +30,12 @@ namespace WarSpot.Client.XnaClient.Screen
         public override void OnShow()
         {
             base.OnShow();
-            if (ConnectionManager.Instance.IsOnline())
+            if (ConnectionManager.Instance.IsOnline() && ConnectionManager.Instance.GetListOfGames().Type == Contracts.Service.ErrorType.Ok)
             {
-                var x = ConnectionManager.Instance.GetListOfGames();
-                if (x.Type == Contracts.Service.ErrorType.Ok)
+                foreach (var r in ScreenHelper.Instance.ListOfReplays)
                 {
-                    foreach (var r in ScreenHelper.Instance.ListOfReplays)
-                    {
-                        _replaysList.Items.Add(r.Name);
-                    }
+                    _replaysList.Items.Add(r.Name);
                 }
-                else
-                    GetSavedReplays();
             }
             else
                 GetSavedReplays();
@@ -52,13 +46,11 @@ namespace WarSpot.Client.XnaClient.Screen
 			_texture = ContentManager.Load<Texture2D>("Textures/Screens/screen_02");
 		}
 
-		public override void Update(GameTime gameTime)
-		{
-            if (_replaysList.SelectedItems.Count == 0)
-                _watchButton.Enabled = false;
-            else
-                _watchButton.Enabled = true;
-		}
+        public override void Update(GameTime gameTime)
+        {
+            _watchButton.Enabled = _replaysList.SelectedItems.Count != 0;
+            ScreenHelper.Instance.SaveReplay = _saveReplayCheckBox.Enabled;
+        }
 
 		public override void Draw(GameTime gameTime)
 		{
@@ -148,6 +140,7 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void WatchButtonPressed(object sender, EventArgs e)
 		{
+            ScreenManager.Instance.ReloadWatchScreen();
             if (ConnectionManager.Instance.IsOnline())
             {
                 ScreenHelper.Instance.SaveReplay = _saveReplayCheckBox.Selected;

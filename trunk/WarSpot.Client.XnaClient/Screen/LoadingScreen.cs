@@ -5,27 +5,16 @@ using Microsoft.Xna.Framework.Graphics;
 using WarSpot.Client.XnaClient.Screen.Utils;
 using WarSpot.Contracts.Service;
 using WarSpot.MatchComputer;
-
+using System.IO;
+using System.Linq;
 
 namespace WarSpot.Client.XnaClient.Screen
 {
 	class LoadingScreen : GameScreen
 	{
-		// Bool reference type
-		class ObjBool
-		{
-			public bool IsReplayDeserialized { get; set; }
-			public bool IsReplayDownloaded { get; set; }
-			public ObjBool()
-			{
-				IsReplayDeserialized = false;
-				IsReplayDownloaded = false;
-				
-			}
-		}
-
+	    private bool _isReplayDeserialized = false;
+        private bool _isReplayDownloaded = false;
 		private Texture2D _texture;
-		private readonly ObjBool _checker = new ObjBool();
 		bool isCorrect = true;
 
 		public LoadingScreen()
@@ -43,14 +32,16 @@ namespace WarSpot.Client.XnaClient.Screen
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			lock (_checker)
+			lock (this)
 			{
-				if (_checker.IsReplayDeserialized || _checker.IsReplayDownloaded)
+				if (_isReplayDeserialized || _isReplayDownloaded)
 				{
 					if (isCorrect)
 					{
-						_checker.IsReplayDeserialized = false;
+						_isReplayDeserialized = false;
 						ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
+                        if (_isReplayDownloaded && ScreenHelper.Instance.SaveReplay)
+                            SaveReplay();
 					}
 					else
 						MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.SelectReplayScreen);
@@ -89,9 +80,9 @@ namespace WarSpot.Client.XnaClient.Screen
             {
                 MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.SelectReplayScreen);
             }
-			lock (_checker)
+			lock (this)
 			{
-				_checker.IsReplayDeserialized = isCorrect;
+				_isReplayDeserialized = true;
 			}
 		}
 
@@ -106,10 +97,19 @@ namespace WarSpot.Client.XnaClient.Screen
                 MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.LoginScreen);
             }
             isCorrect = ScreenHelper.Instance.ReplayEvents.Count > 0;
-			lock (_checker)
+			lock (this)
 			{
-				_checker.IsReplayDownloaded = true;
+				_isReplayDownloaded = true;
 			}
 		}
+
+        private void SaveReplay()
+        {
+            var x = (from rep in ScreenHelper.Instance.ListOfReplays where rep.ID == ScreenHelper.Instance.DownloadedGameGuid select rep.Name).First();
+            using (var sr = new FileStream(Path.Combine(FoldersHelper.GetReplayPath(), x), FileMode.CreateNew))
+            {
+                SerializationHelper.Serialize(ScreenHelper.Instance.ToSerialize, sr);
+            }
+        }
 	}
 }
