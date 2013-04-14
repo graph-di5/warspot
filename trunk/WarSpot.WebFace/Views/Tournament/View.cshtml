@@ -11,10 +11,8 @@
 	</div>
   @if (Model.IsIn)
   {
-	<div class="display-label">@Html.LabelFor(m => m.Players)</div>
-	<div class="display-field">
-		<table>@foreach (var p in Model.Players)
-         {<tr><td>@p</td></tr>}</table>
+	<div class="display-label">@Html.LabelFor(m => m.Stages)</div>
+	<div class="display-field">@Html.DisplayFor(m => m.Stages)
 	</div>
          
     using (Html.BeginForm("UpdateAI", "Tournament"))

@@ -56,5 +56,7 @@ namespace WarSpot.WebFace.Models
 		[DataType(DataType.DateTime)]
 		public DateTime StartTime { get; set; }
 
+		[Display(Name = "Игры")]
+		public List<GameModel> Games { get; set; }
 	}
 }
