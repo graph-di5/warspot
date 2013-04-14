@@ -1,0 +1,37 @@
+﻿@model WarSpot.WebFace.Models.Stage
+
+<div>	
+<div class="display-label">@Html.LabelFor(m => m.State)</div>
+<div class="display-field">@Html.DisplayFor(m => m.State)</div>
+<div class="display-label">@Html.LabelFor(m => m.StartTime)</div>
+<div class="display-field">@Html.DisplayFor(m => m.StartTime)</div>
+	
+  <h3>
+    Список игр:</h3>
+	<table>
+		<!-- tr><td><div class="display-label">@Html.LabelFor(m => m.Games)</div></td></tr -->
+    @foreach (var m in Model.Games)
+		{
+			string s = "";
+      if (m.Replay == null)
+      {
+        s = "В очереди";
+      }
+      else
+      {
+        s = Html.ActionLink("Скачать", "Download", "Games", new { id = m.Id }).ToHtmlString();
+      }
+      <tr>
+        <td>
+          @Html.ActionLink(m.Name, "Details", "Games", new { id = m.Id })
+        </td>
+        <td>
+          @m.CreationTime
+        </td>
+        <td>
+          @Html.Raw(s)
+        </td>
+      </tr>	
+    }
+  </table>
+</div>
