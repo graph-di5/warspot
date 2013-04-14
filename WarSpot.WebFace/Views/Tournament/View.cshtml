@@ -2,39 +2,47 @@
 
 //
 <div>
-	<div class="display-label">@Html.LabelFor(m => m.TournamentName)</div>
-	<div class="display-field">@Html.DisplayFor(m => m.TournamentName)</div>
+	<!-- div class="display-label">@Html.LabelFor(m => m.TournamentName)</div -->
+	<div class="display-field"><h2>@Html.DisplayFor(m => m.TournamentName)</h2></div>
 	<div class="display-label">@Html.LabelFor(m => m.Players)</div>
 	<div class="display-field">
-		<table>@foreach(var p in Model.Players){<tr><td>@p</td></tr>}</table>
+		<table>@foreach (var p in Model.Players)
+         {<tr><td>@p</td></tr>}</table>
 	</div>
-  @if(Model.IsIn)
-	{
+  @if (Model.IsIn)
+  {
+	<div class="display-label">@Html.LabelFor(m => m.Players)</div>
+	<div class="display-field">
+		<table>@foreach (var p in Model.Players)
+         {<tr><td>@p</td></tr>}</table>
+	</div>
+         
     using (Html.BeginForm("UpdateAI", "Tournament"))
-    {
-      // need loop on stages
-      var intellects = ViewData["intellects"] as List<KeyValuePair<Guid, string>>;
+         {
+           // need loop on stages
+           var intellects = ViewData["intellects"] as List<KeyValuePair<Guid, string>>;
 			
 		 	
-	  <div class="display-label">Участвующий интеллект</div>
+	  <div class="display-label"><h3>Настройки участия</h3></div>
+	  <div class="display-label">Участвующий интеллект:</div>
 			<div class="display-field">
 				@Html.Hidden("tournamentId", Model.ID)
 				@if (intellects != null)
-				{
-					@Html.DropDownList("intellect01" /* need counter*/, intellects.Select(i => new SelectListItem()
-					                                                                                 	{
-					                                                                                 		Text = i.Value,
-					                                                                                 		Value = i.Key.ToString()
-					                                                                                 	}))
-				}
+    {
+					@Html.DropDownList("intellect01" /* need counter*/, intellects.Select(i => new SelectListItem
+{
+  Text = i.Value,
+  Value = i.Key.ToString()
+}))
+    }
 
 				<input type="submit" value="Сохранить"/>
 			</div>
-		 }
-	<div class="editor-label">@Html.ActionLink("Покинуть турнир", "Join", new { id = Model.ID })</div>
+         }
+	  <div class="editor-label">@Html.ActionLink("Покинуть турнир", "Join", new { id = Model.ID })</div>
   }
   else
   {
-	<div class="editor-label">@Html.ActionLink("Принять участие", "Join", new { id = Model.ID })</div>
+  	<div class="editor-label">@Html.ActionLink("Принять участие", "Join", new { id = Model.ID })</div>
   }
 </div>

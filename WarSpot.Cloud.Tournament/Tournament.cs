@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using WarSpot.Cloud.Storage;
 
 namespace WarSpot.Cloud.Tournament
 {
-	public enum Status { Idle, Working, Finished };
+	//public enum Status { Idle, Working, Finished };
 
 	class Tournament
 	{
 		public Guid Id { private set; get; }
 
-		public Status State { private set; get; }
+		public State State { private set; get; }
 
 		public List<Guid> StagesList { private set; get; }
 
@@ -20,7 +21,7 @@ namespace WarSpot.Cloud.Tournament
 		public Tournament(Guid id)
 		{
 			Id = id;
-			State = Status.Idle;
+			State = State.NotStarted;
 		}
 	}
 
@@ -34,16 +35,21 @@ namespace WarSpot.Cloud.Tournament
 
 		public List<Player> Players;
 
+		public State State { private set; get; }
+
 		public Stage(Guid tournamentId)
 		{
 			StageId = new Guid();
 			TournamentId = tournamentId;
+			State = State.NotStarted;
 		}
 
+#if false
 		public Stage(Guid id)
 		{
 			StageId = id;
 		}
+#endif
 	}
 
 	class Game//Собственно, один матч
@@ -55,7 +61,7 @@ namespace WarSpot.Cloud.Tournament
 
 		public Game(Guid id, List<Player> players)
 		{
-			Id = Id;
+			Id = id;
 			Players = players;
 			StartTime = DateTime.MaxValue;//Вроде зануления.
 			HasResult = false;

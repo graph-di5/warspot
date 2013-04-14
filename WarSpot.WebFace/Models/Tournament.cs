@@ -35,9 +35,25 @@ namespace WarSpot.WebFace.Models
 		[Display(Name = "Количество этапов")]
 		public long StagesCount { get; set; }
 
+		[Display(Name = "Участники")]
 		public List<string> Players { get; set; }
-		// todo 
-		//public string State;
+
+		[Display(Name = "Статус")]
+		public Cloud.Storage.State State { get; set; }
+
+		// todo stages
+		public List<Stage> Stages { get; set; }
+	}
+
+	public class Stage
+	{
+		[Display(Name = "Статус")]
+		public Cloud.Storage.State State { get; set; }
+	
+		[Required]
+		[Display(Name = "Время старта")]
+		[DataType(DataType.DateTime)]
+		public DateTime StartTime { get; set; }
 
 	}
 }
