@@ -30,6 +30,7 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 		}
         public bool SaveReplay { get; set; }
         public bool OnlineReplayMode { get; set; }
+        public MatchReplay ToSerialize { get; set; }
 
 		static ScreenHelper()
 		{

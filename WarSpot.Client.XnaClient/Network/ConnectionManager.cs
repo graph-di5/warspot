@@ -54,7 +54,7 @@ namespace WarSpot.Client.XnaClient.Network
 				return _service.Register(username, HashHelper.GetMd5Hash(password), 
 					name, surname, institution, course, email);
 			}
-			catch (Exception e)
+            catch (Exception e)
 			{
 				Trace.WriteLine(e);
 				return new ErrorCode(ErrorType.UnknownException, e.Message);
@@ -135,8 +135,8 @@ namespace WarSpot.Client.XnaClient.Network
 			try
 			{
 				InitializeConnection();
-				var x = _service.DownloadReplay(g);
-				Screen.Utils.ScreenHelper.Instance.ReplayEvents = x.Data.Events;
+                Screen.Utils.ScreenHelper.Instance.ToSerialize = _service.DownloadReplay(g).Data;
+                Screen.Utils.ScreenHelper.Instance.ReplayEvents = Screen.Utils.ScreenHelper.Instance.ToSerialize.Events;
 				return new ErrorCode();
 			}
 			catch (Exception e)

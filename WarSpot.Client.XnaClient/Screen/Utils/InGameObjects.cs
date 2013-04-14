@@ -3,25 +3,12 @@ using System.Collections.Generic;
 
 namespace WarSpot.Client.XnaClient.Screen.Utils
 {
-	internal enum GameObjectType
-	{
-		Stone,
-		Monster,
-		Bonus
-	}
-
 	/// <summary>
 	/// Class for storing data of all drawable objects
 	/// </summary>
 	class Creature
 	{
-		private static int _teamsCount;
-		private static Dictionary<Guid, int> _teams;
-		public static void ResetTeams()
-		{
-			_teamsCount = 0;
-			_teams = new Dictionary<Guid, int>();
-		}
+
 		public Guid Id { get; private set; }
 		public int X { get; set; }
 		public int Y { get; set; }
@@ -30,16 +17,14 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 		public float CurrentHealth { get; set; }
 		public float CurrentCi { get; set; }
 		public float MaxCi { get; private set; }
-#if false
-		public GameObjectType Type { get; private set; }
-#endif
 		public bool IsAlive;
 
 		public Creature(Guid id, int x, int y, Guid team, float maxHealth, float currHp, float currCi)
 		{
-			if(_teams.ContainsKey(team))
+			if(WatchReplayScreen.Teams.ContainsKey(team))
 			{
-				Team = _teams[team];
+			if(WatchReplayScreen.Teams.ContainsKey(team))
+                Team = WatchReplayScreen.Teams[team];
 			}
 			else
 			{
@@ -49,8 +34,8 @@ namespace WarSpot.Client.XnaClient.Screen.Utils
 				}
 				else
 				{
-					Team = ++_teamsCount;
-					_teams.Add(team, _teamsCount);
+                    Team = ++WatchReplayScreen.TeamsCount;
+                    WatchReplayScreen.Teams.Add(team, WatchReplayScreen.TeamsCount);
 				}
 			}
 			Id = id;

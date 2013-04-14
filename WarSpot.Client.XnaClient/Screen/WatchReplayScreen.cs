@@ -20,12 +20,15 @@ namespace WarSpot.Client.XnaClient.Screen
 		private Texture2D _creatureOfSecondTeam;
 		private Texture2D _grass;
 		private Texture2D _hedge;
+
 		private List<WarSpotEvent> _listOfEvents = new List<WarSpotEvent>();
 		private List<Creature> _listOfCreatures = new List<Creature>();
+
+        // Array which contains world's size and ci of every single piece of world
 		private int _worldWidth;
-		private int _wordlHeight;
-		// Array which contains world's size and ci of every single piece of world
+        private int _wordlHeight;
         private WorldCell[][] _worldMap;
+
 		// Scaled sizes of sprites for prevention of calculating this constant every Draw(),
 		// because all sprites've got the same size
 		private int _scaledSpriteWidth;
@@ -33,14 +36,20 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Define a scale of drawable sprites
 		private float _widthScaling;
 		private float _heightScaling;
+
 		// Variable for contolling game pause by user
 		private bool _globalPause = false;
 		// Control for preventing from too fast replay speed
+
 		private bool _localPause = false;
 		private bool _isPrepared = false;
 		private const int _barHeight = 30;
 		private int _timeSinceLastTurn = 0;
 		private int size = 0;
+
+        // Team info
+        public static int TeamsCount = 0;
+        public static Dictionary<Guid, int> Teams = new Dictionary<Guid,int>();
 
 		// Buttons
 		private ButtonControl _pauseButton;
@@ -50,6 +59,8 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		public WatchReplayScreen()
 		{
+            TeamsCount = 0;
+            Teams = new Dictionary<Guid,int>();
 			CreateControls();
 			InitializeControls();
 		}
@@ -75,7 +86,7 @@ namespace WarSpot.Client.XnaClient.Screen
 					case EventTypes.GameEventHealthChange:
 						{
 							var tmpEvent = wsEvent as GameEventHealthChange;
-							var tmp = _listOfCreatures.Where(creature => creature.Id == tmpEvent.SubjectId).First();
+                            var tmp = _listOfCreatures.First(creature => creature.Id == tmpEvent.SubjectId);
 							tmp.CurrentHealth = tmpEvent.Health;
 							_listOfEvents.Remove(wsEvent);
 							break;
@@ -83,7 +94,7 @@ namespace WarSpot.Client.XnaClient.Screen
 					case EventTypes.GameEventCiChange:
 						{
 							var tmpEvent = wsEvent as GameEventCiChange;
-							var tmp = _listOfCreatures.Where(creture => creture.Id == tmpEvent.SubjectId).First();
+							var tmp = _listOfCreatures.First(creture => creture.Id == tmpEvent.SubjectId);
 							tmp.CurrentCi = tmpEvent.Ci;
 							_listOfEvents.Remove(wsEvent);
 							break;
@@ -92,7 +103,7 @@ namespace WarSpot.Client.XnaClient.Screen
 						{
 							_localPause = true;
 							var tmpEvent = wsEvent as GameEventMove;
-							var tmp = _listOfCreatures.Where(creture => creture.Id == tmpEvent.SubjectId).First();
+                            var tmp = _listOfCreatures.First(creture => creture.Id == tmpEvent.SubjectId);
 							if (tmp.X + tmpEvent.ShiftX >= _worldWidth)
 							{
 								tmp.Y += tmpEvent.ShiftY;
@@ -115,7 +126,7 @@ namespace WarSpot.Client.XnaClient.Screen
 						{
 							_localPause = true;
 							var tmpEvent = wsEvent as GameEventDeath;
-							var tmp = _listOfCreatures.Where(creture => creture.Id == tmpEvent.SubjectId).First();
+							var tmp = _listOfCreatures.First(creture => creture.Id == tmpEvent.SubjectId);
 							_listOfCreatures.Remove(tmp);
 							_listOfEvents.Remove(wsEvent);
 							break;
@@ -140,7 +151,6 @@ namespace WarSpot.Client.XnaClient.Screen
 						{
 							var tmp = wsEvent as SystemEventTurnStarted;
 							_turnLabel.Text = "Turn " + tmp.Number.ToString() + " / " + size.ToString();
-
 							_listOfEvents.Remove(tmp);
 							break;
 						}
@@ -255,7 +265,6 @@ namespace WarSpot.Client.XnaClient.Screen
 		// Define a world's size
 		private void CreateWorld()
 		{
-			Creature.ResetTeams();
 			if (_listOfEvents.Count != 0)
 			{
 				WarSpotEvent wsEvent = _listOfEvents.First();
@@ -396,12 +405,12 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void InitializeControls()
 		{
 			Desktop.Children.Add(_pauseButton);
-			Desktop.Children.Add(_nextButton);
+		//	Desktop.Children.Add(_nextButton);
 			Desktop.Children.Add(_menuButton);
 			Desktop.Children.Add(_turnLabel);
 
 			ScreenManager.Instance.Controller.AddListener(_pauseButton, PauseButtonPressed);
-			ScreenManager.Instance.Controller.AddListener(_nextButton, NextButtonPressed);
+		//	ScreenManager.Instance.Controller.AddListener(_nextButton, NextButtonPressed);
 			ScreenManager.Instance.Controller.AddListener(_menuButton, MenuButtonPressed);
 		}
 
