@@ -55,8 +55,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.WebFace", "WarSpot.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Cloud.Tournament", "WarSpot.Cloud.Tournament\WarSpot.Cloud.Tournament.csproj", "{D8459A80-3490-4D4C-8E60-0991A7B464D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarSpot.Security", "WarSpot.Security\WarSpot.Security.csproj", "{8B007689-BE90-4950-ADCE-3BBAD20DA95E}"
-EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
