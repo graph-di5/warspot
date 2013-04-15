@@ -27,16 +27,12 @@
 <body>
   <div class="page">
     <header>
-      <div id="title">
-        <img src="/Content/images/LogoMed.png" width="75%" height="75%" alt="WarSpot" />
-        <!-- <h1>WarSpot</h1> -->
-      </div>
+      <a href="/"><div id="title"></div></a>
       <div id="logindisplay">
         @Html.Partial("_LogOnPartial")
       </div>
       <nav>
         <ul id="menu">
-          <li>@Html.ActionLink("/", "Index", "Home")</li>
           <li>@Html.ActionLink("О проекте", "Details", "Home")</li>
           <li>@Html.ActionLink("Файлы", "Index", "File")</li>
           <li>@Html.ActionLink("Быстрый старт", "FastStart", "Home")</li>
