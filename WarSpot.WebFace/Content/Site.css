@@ -13,21 +13,21 @@ body {
 }
 
 a:link {
-    color: #03f34a;
+    color: #E84C22;
     text-decoration: underline;
 }
 
 a:visited {
-    color: #50bc5a;
+    color: #E84C22;
 }
 
 a:hover {
-    color: #1dff60;
+    color: #E84C22;
     text-decoration: none;
 }
 
 a:active {
-    color: #12eb87;
+    color: #E84C22;
 }
 
 p, ul {
@@ -150,7 +150,7 @@ ul#menu li a {
     font-weight: bold;
     text-decoration: none;
     line-height: 2.8em;
-    background-color: #004400;
+    background-color: #FFFFFF;
     color: #E84C22;
     border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
@@ -158,12 +158,12 @@ ul#menu li a {
 }
 
 ul#menu li a:hover {
-    background-color: #c0ffc0;
+    background-color: #8a3324;
     text-decoration: none;
 }
 
 ul#menu li a:active {
-    background-color: #a6e2a6;
+    background-color: #8a3324;
     text-decoration: none;
 }
 
@@ -246,8 +246,13 @@ nav,
     margin-top: 40px;
 }
 
-div#title {
+div#title 
+{
     display: block;
+    width: 240px;
+    height: 100px;
+    background: url('/Content/images/LogoMed.png') no-repeat;
+    background-size: 240px Auto;
     float: left;
     text-align: left;
 }
