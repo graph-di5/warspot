@@ -11,7 +11,8 @@
     <RootNamespace>WarSpot.Cloud.Tournament</RootNamespace>
     <AssemblyName>WarSpot.Cloud.Tournament</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup>
@@ -28,6 +29,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -35,9 +37,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="State.cs" />
-    <Compile Include="Tournament.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TournamentManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WarSpot.Cloud.Storage\WarSpot.Cloud.Storage.csproj">
+      <Project>{4D2D5B7A-0BF4-41D2-BF18-F450BF3CB33F}</Project>
+      <Name>WarSpot.Cloud.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Contracts.Service\WarSpot.Contracts.Service.csproj">
+      <Project>{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}</Project>
+      <Name>WarSpot.Contracts.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

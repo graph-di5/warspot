@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 04/13/2013 14:33:09
--- Generated from EDMX file: C:\Users\Grigorii\Documents\Visual Studio 2012\Projects\W2\WarSpot.Cloud.Storage\DBModel.edmx
+-- Date Created: 04/15/2013 17:25:43
+-- Generated from EDMX file: C:\warspot\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -59,6 +59,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_GameStage]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Game] DROP CONSTRAINT [FK_GameStage];
 GO
+IF OBJECT_ID(N'[dbo].[FK_StageScore]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Scores] DROP CONSTRAINT [FK_StageScore];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccountScore]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Scores] DROP CONSTRAINT [FK_AccountScore];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -93,6 +99,9 @@ IF OBJECT_ID(N'[dbo].[Teams]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Stages]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Stages];
+GO
+IF OBJECT_ID(N'[dbo].[Scores]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Scores];
 GO
 IF OBJECT_ID(N'[dbo].[AccountPlayer]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AccountPlayer];
@@ -205,6 +214,15 @@ CREATE TABLE [dbo].[Stages] (
 );
 GO
 
+-- Creating table 'Scores'
+CREATE TABLE [dbo].[Scores] (
+    [Id] uniqueidentifier  NOT NULL,
+    [StageStage_ID] uniqueidentifier  NOT NULL,
+    [AccountAccount_ID] uniqueidentifier  NOT NULL,
+    [Value] int  NOT NULL
+);
+GO
+
 -- Creating table 'AccountPlayer'
 CREATE TABLE [dbo].[AccountPlayer] (
     [Player_Account_ID] uniqueidentifier  NOT NULL,
@@ -288,6 +306,12 @@ GO
 ALTER TABLE [dbo].[Stages]
 ADD CONSTRAINT [PK_Stages]
     PRIMARY KEY CLUSTERED ([Stage_ID] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Scores'
+ALTER TABLE [dbo].[Scores]
+ADD CONSTRAINT [PK_Scores]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Player_Account_ID], [TournamentPlayer_Tournament_ID] in table 'AccountPlayer'
@@ -486,6 +510,34 @@ ADD CONSTRAINT [FK_GameStage]
 CREATE INDEX [IX_FK_GameStage]
 ON [dbo].[Game]
     ([Stage_Stage_ID]);
+GO
+
+-- Creating foreign key on [StageStage_ID] in table 'Scores'
+ALTER TABLE [dbo].[Scores]
+ADD CONSTRAINT [FK_StageScore]
+    FOREIGN KEY ([StageStage_ID])
+    REFERENCES [dbo].[Stages]
+        ([Stage_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_StageScore'
+CREATE INDEX [IX_FK_StageScore]
+ON [dbo].[Scores]
+    ([StageStage_ID]);
+GO
+
+-- Creating foreign key on [AccountAccount_ID] in table 'Scores'
+ALTER TABLE [dbo].[Scores]
+ADD CONSTRAINT [FK_AccountScore]
+    FOREIGN KEY ([AccountAccount_ID])
+    REFERENCES [dbo].[Account]
+        ([Account_ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccountScore'
+CREATE INDEX [IX_FK_AccountScore]
+ON [dbo].[Scores]
+    ([AccountAccount_ID]);
 GO
 
 -- --------------------------------------------------

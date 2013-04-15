@@ -9,7 +9,6 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using WarSpot.Cloud.Common;
 using WarSpot.Cloud.Storage.Models;
-using WarSpot.Cloud.Tournament;
 using WarSpot.Common;
 using WarSpot.Contracts.Service;
 
@@ -477,7 +476,7 @@ namespace WarSpot.Cloud.Storage
 
 		#region match
 
-		public static Guid? BeginMatch(List<Guid> intellects, Guid userID, string title)
+		public static Guid? BeginMatch(List<Guid> intellects, Guid userID, string title, Guid stageId = new Guid())
 		{
 			Guid gameID = Guid.NewGuid();
 			Game match = Game.CreateGame(gameID, userID, DateTime.UtcNow, title);
@@ -506,6 +505,11 @@ namespace WarSpot.Cloud.Storage
 												Members = new List<Guid>() { id }
 											});
 			}
+
+            if(stageId!=Guid.Empty)
+            {
+                match.Stage = db.Stages.First(x => x.Stage_ID == stageId);
+            }
 
 			db.AddToGame(match);
 
@@ -536,22 +540,14 @@ namespace WarSpot.Cloud.Storage
 
         #region help methods to form Game from Tournament.cs
 
-        public static List<Guid> GetListOfStageGames(Guid stageID)
+        public static List<Game> GetListOfStageGames(Guid stageID)
         {
-            List<Guid> result = new List<Guid>();
-
-            foreach (Game g in (from g in db.Game
-                                where g.Stage != null
-                                select g))
-            {
-                if (g.Stage.Stage_ID == stageID)
-                    result.Add(g.Game_ID);
-            }
-
-            return result;
+            return (from g in db.Game
+                    where g.Stage != null
+                    select g).Where(x => x.Stage.Stage_ID == stageID).ToList();
         }
 
-        public static List<Guid> GetGameIntellects(Guid gameID)
+	    public static List<Guid> GetGameIntellects(Guid gameID)
         {
             List<Guid> result = new List<Guid>();
 
@@ -718,18 +714,18 @@ namespace WarSpot.Cloud.Storage
 
 		}
 
-		public static List<Guid> GetActiveTournaments()
+		public static List<Tournament> GetActiveTournaments()
 		{
             return (from t in db.Tournament
                     where t.State_Code != (int)State.Finished
-                    select t.Tournament_ID).ToList<Guid>();
+                    select t).ToList();
 		}
 
-        public static List<Guid> GetTournamentStages(Guid tournamentID)
+        public static List<Stage> GetTournamentStages(Guid tournamentID)
         {
             return (from s in db.Stages
              where s.Tournament.Tournament_ID == tournamentID
-             select s.Stage_ID).ToList<Guid>();
+             select s).ToList();
         }
 		
 		public static void UpdateTournament(Guid tournamentID, State newState)
@@ -851,11 +847,6 @@ namespace WarSpot.Cloud.Storage
                     select t).First<Tournament>();
         }
 
-        public static bool IsGamesListExist()
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         #region stage
@@ -895,7 +886,27 @@ namespace WarSpot.Cloud.Storage
 
         }
 
-        public static ErrorCode DeleteStage(Guid stageID)
+        public static ErrorCode AddScore(Stage stage, Account account, int value)
+        {
+            try
+            {
+                Score score = Score.CreateScore(Guid.NewGuid(), stage.Stage_ID, account.Account_ID, value);
+                score.Account = account;
+                score.Stage = stage;
+                db.AddToScores(score);
+                db.SaveChanges();
+
+                return new ErrorCode(ErrorType.Ok, "New stage has been created.");
+            }
+            catch (Exception e)
+            {
+                return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
+            }
+        }
+
+
+
+	    public static ErrorCode DeleteStage(Guid stageID)
         {
             Stage neededStage;
 

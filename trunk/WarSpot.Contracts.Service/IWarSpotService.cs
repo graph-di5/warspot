@@ -81,9 +81,6 @@ namespace WarSpot.Contracts.Service
 		[OperationContract]
 		List<Guid> GetAvailableTournaments();
 		
-		[OperationContract]		
-		List<Guid> GetActiveTournaments();
-		
 		[OperationContract]
 		ErrorCode UpdateTournament(Guid tournamentID, string newState);
 
