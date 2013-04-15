@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WarSpot.Cloud.Tournament;
+using WarSpot.Cloud.Storage;
 
 namespace WarSpot.WebFace.Models
 {

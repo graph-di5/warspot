@@ -30,6 +30,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("DBModel", "TournamentStage", "Tournament", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Tournament), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage))]
 [assembly: EdmRelationshipAttribute("DBModel", "IntellectStage", "Intellect", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Intellect), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Stage))]
 [assembly: EdmRelationshipAttribute("DBModel", "GameStage", "Game", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Game), "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(WarSpot.Cloud.Storage.Stage))]
+[assembly: EdmRelationshipAttribute("DBModel", "StageScore", "Stage", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Stage), "Score", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Score), true)]
+[assembly: EdmRelationshipAttribute("DBModel", "AccountScore", "Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(WarSpot.Cloud.Storage.Account), "Score", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(WarSpot.Cloud.Storage.Score), true)]
 
 #endregion
 
@@ -240,6 +242,22 @@ namespace WarSpot.Cloud.Storage
             }
         }
         private ObjectSet<Stage> _Stages;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Score> Scores
+        {
+            get
+            {
+                if ((_Scores == null))
+                {
+                    _Scores = base.CreateObjectSet<Score>("Scores");
+                }
+                return _Scores;
+            }
+        }
+        private ObjectSet<Score> _Scores;
 
         #endregion
 
@@ -323,6 +341,14 @@ namespace WarSpot.Cloud.Storage
         public void AddToStages(Stage stage)
         {
             base.AddObject("Stages", stage);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Scores EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToScores(Score score)
+        {
+            base.AddObject("Scores", score);
         }
 
         #endregion
@@ -678,6 +704,28 @@ namespace WarSpot.Cloud.Storage
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Tournament>("DBModel.AccountTournament1", "Tournament", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountScore", "Score")]
+        public EntityCollection<Score> Scores
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Score>("DBModel.AccountScore", "Score");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Score>("DBModel.AccountScore", "Score", value);
                 }
             }
         }
@@ -1521,6 +1569,221 @@ namespace WarSpot.Cloud.Storage
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="Score")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Score : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Score object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="stageStage_ID">Initial value of the StageStage_ID property.</param>
+        /// <param name="accountAccount_ID">Initial value of the AccountAccount_ID property.</param>
+        /// <param name="value">Initial value of the Value property.</param>
+        public static Score CreateScore(global::System.Guid id, global::System.Guid stageStage_ID, global::System.Guid accountAccount_ID, global::System.Int32 value)
+        {
+            Score score = new Score();
+            score.Id = id;
+            score.StageStage_ID = stageStage_ID;
+            score.AccountAccount_ID = accountAccount_ID;
+            score.Value = value;
+            return score;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Guid _Id;
+        partial void OnIdChanging(global::System.Guid value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid StageStage_ID
+        {
+            get
+            {
+                return _StageStage_ID;
+            }
+            set
+            {
+                OnStageStage_IDChanging(value);
+                ReportPropertyChanging("StageStage_ID");
+                _StageStage_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StageStage_ID");
+                OnStageStage_IDChanged();
+            }
+        }
+        private global::System.Guid _StageStage_ID;
+        partial void OnStageStage_IDChanging(global::System.Guid value);
+        partial void OnStageStage_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid AccountAccount_ID
+        {
+            get
+            {
+                return _AccountAccount_ID;
+            }
+            set
+            {
+                OnAccountAccount_IDChanging(value);
+                ReportPropertyChanging("AccountAccount_ID");
+                _AccountAccount_ID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AccountAccount_ID");
+                OnAccountAccount_IDChanged();
+            }
+        }
+        private global::System.Guid _AccountAccount_ID;
+        partial void OnAccountAccount_IDChanging(global::System.Guid value);
+        partial void OnAccountAccount_IDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Value
+        {
+            get
+            {
+                return _Value;
+            }
+            set
+            {
+                OnValueChanging(value);
+                ReportPropertyChanging("Value");
+                _Value = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Value");
+                OnValueChanged();
+            }
+        }
+        private global::System.Int32 _Value;
+        partial void OnValueChanging(global::System.Int32 value);
+        partial void OnValueChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "StageScore", "Stage")]
+        public Stage Stage
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Stage>("DBModel.StageScore", "Stage").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Stage>("DBModel.StageScore", "Stage").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Stage> StageReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Stage>("DBModel.StageScore", "Stage");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Stage>("DBModel.StageScore", "Stage", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "AccountScore", "Account")]
+        public Account Account
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountScore", "Account").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountScore", "Account").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Account> AccountReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Account>("DBModel.AccountScore", "Account");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Account>("DBModel.AccountScore", "Account", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="DBModel", Name="Security")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -1814,6 +2077,28 @@ namespace WarSpot.Cloud.Storage
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Game>("DBModel.GameStage", "Game", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("DBModel", "StageScore", "Score")]
+        public EntityCollection<Score> Scores
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Score>("DBModel.StageScore", "Score");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Score>("DBModel.StageScore", "Score", value);
                 }
             }
         }

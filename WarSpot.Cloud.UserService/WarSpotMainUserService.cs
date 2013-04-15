@@ -226,11 +226,6 @@ namespace WarSpot.Cloud.UserService
 
 		}
 
-		public List<Guid> GetActiveTournaments()
-		{
-			return Warehouse.GetActiveTournaments();
-		}
-
 		public ErrorCode UpdateTournament(Guid tournamentID, string newState)
 		{
 			try

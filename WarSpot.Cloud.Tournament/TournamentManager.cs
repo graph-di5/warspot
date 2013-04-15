@@ -64,99 +64,57 @@ namespace WarSpot.Cloud.Tournament
 			}
 		}
 
-		private List<Game> GetStageGames(Guid stageID)
-		{
-			List<Game> _gamesList = new List<Game>(); 
-						
-			List<Guid> _gamesIdList = Warehouse.GetListOfStageGames(stageID);
-			for (int i = 0; i < _gamesIdList.Count(); i++)
-			{
-				List<Guid> _IntellectsIdList = Warehouse.GetGameIntellects(_gamesIdList[i]);
-				List<Player> _players = new List<Player>();
-				foreach (var intel in _IntellectsIdList)
-				{				
-					var _newPlayer = new Player(intel, Warehouse.GetIntellectOwner(intel));
-					_players.Add(_newPlayer);
-				}
-				var _game = new Game(_gamesIdList[i], _players);
-                _game.StartTime = Warehouse.GetGameStartTime(_gamesIdList[i]);
-                _game.HasResult = Warehouse.DoesMatchHasResult(_gamesIdList[i]);
-
-				_gamesList.Add(_game);
-			}
-
-			return _gamesList;
-		}
-
-		public Stage GetStage(Guid stageId)
-		{
-			Stage _stage = new Stage(stageId);
-
-			List<Guid> _IntellectsIdList = Warehouse.GetGameIntellects(stageId);
-			List<Player> _players;
-			foreach (var intel in _IntellectsIdList)
-			{
-				var _newPlayer = new Player(intel, Warehouse.GetIntellectOwner(intel));
-				_players.Add(_newPlayer);
-			}
-
-			_stage.Players = _players;
-
-			return _stage;
-		}
-
-		private bool IsAllMatchesDone(Guid tournamentId)
-		{
-            Guid _stageId = Warehouse.GetTournamentStages(tournamentId).First<Guid>();
-
-			List<Guid> _stageGamesIdList = GetStageGames(_stageId);
-
-			for (int i = 0; i < _stageGamesList.Count(); i++)
-			{
-				if (!Warehouse.DoesMatchHasResult(_stageGamesIdList[i]))
-				{
-					return false;
-				}					
-			}
-			return true;
-		}
-
 		private void Perform()
 		{
 			var _activeTournaments = Warehouse.GetActiveTournaments();
 			if (_activeTournaments.Any())//Проверка, есть ли запущенные турниры
 			{
-				foreach (Guid t in _activeTournaments)
-				{					
-					if (Warehouse.IsGamesListExist())
+				foreach (Storage.Tournament t in _activeTournaments)
+				{
+				    var stage = Warehouse.GetTournamentStages(t.Tournament_ID).First(); // TODO: adjust for multiple stages
+				    var games = Warehouse.GetListOfStageGames(stage.Stage_ID);
+					if (games.Any())
 					{	
-						if (IsAllMatchesDone(t))
+						if (games.All(x=>Warehouse.DoesMatchHasResult(x.Game_ID)))
 						{
+                            var scores = t.Player.ToDictionary(x => x.Account_ID, x => 0);
 							// Считает очки, определяет победителей, формирует отчётность, завершает турнир.
-							List<Game> _listOfGames = GetStageGames(Warehouse.GetTournamentStages(t).First<Guid>());
-							foreach (Game g in _listOfGames)
+							foreach (Game g in games)
 							{								
 								// Добавляет очко победителю
+							    var replay = Warehouse.GetReplay(g.Game_ID);
+							    
+							    var winner = g.Teams.First(x => x.Team_ID == replay.Data.WinnerTeam).Intellects.First().Account;
+
+							    scores[winner.Account_ID] += 1;
 							}
+
+						    foreach (var score in scores)
+						    {
+						        Warehouse.AddScore(stage, t.Player.First(x => x.Account_ID == score.Key), score.Value);
+						    }
+
 							//Публикует очки в базу, сортирует по очкам
 							//Определяет победителей турнира, формирует отчёт
-                            Warehouse.UpdateStage(Warehouse.GetTournamentStages(t).First<Guid>(), State.Finished);
+
+                            Warehouse.UpdateStage(stage.Stage_ID, State.Finished);
 						}
 					}
 					else
 					{
-						Stage _stage = GetStage(t);
-						foreach (Player p1 in _stage.Players)
+						foreach (var p1 in stage.Intellects)
 						{
-							foreach (Player p2 in _stage.Players)
+							foreach (var p2 in stage.Intellects)
 							{
 								if (p1 != p2)
 								{
 									var _intList = new List<Guid>();
-									_intList.Add(p1.IntellectID);
-									_intList.Add(p2.IntellectID);
+									_intList.Add(p1.Intellect_ID);
+									_intList.Add(p2.Intellect_ID);
 
-									Warehouse.BeginMatch(_intList, _stage.Id, "");//ID пользователя--это идентификатор создателя матча? В данном случае--турнир или его создатель? Нужен ли Title
+									Warehouse.BeginMatch(_intList, t.Creator_ID, 
+                                        string.Format("{0}: {1} vs. {2}",t.Tournament_Name, p1.Intellect_Name, p2.Intellect_Name), 
+                                        stage.Stage_ID);
 								}
 							}
 						}
