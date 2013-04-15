@@ -42,7 +42,8 @@ namespace WarSpot.WebFace.Models
 		[Display(Name = "Статус")]
 		public State State { get; set; }
 
-		// todo stages
+		[Display(Name = "Этапы")]
+
 		public List<Stage> Stages { get; set; }
 	}
 

@@ -13,7 +13,7 @@ namespace WarSpot.WebFace.Controllers
 			var customIdentity = User.Identity as CustomIdentity;
 			if (customIdentity != null)
 			{
-				if(Warehouse.IsUser(customIdentity.Id, RoleType.Developer))
+				if (customIdentity.IsInRole("Developer"))//Warehouse.IsUser(customIdentity.Id, RoleType.Developer))
 				{
 					ViewData.Model = error;
 				}

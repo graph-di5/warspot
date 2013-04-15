@@ -6,10 +6,8 @@
 <div class="display-label">@Html.LabelFor(m => m.StartTime)</div>
 <div class="display-field">@Html.DisplayFor(m => m.StartTime)</div>
 	
-  <h3>
-    Список игр:</h3>
 	<table>
-		<!-- tr><td><div class="display-label">@Html.LabelFor(m => m.Games)</div></td></tr -->
+		<tr><td><div class="display-label">@Html.LabelFor(m => m.Games)</div></td></tr>
     @foreach (var m in Model.Games)
 		{
 			string s = "";

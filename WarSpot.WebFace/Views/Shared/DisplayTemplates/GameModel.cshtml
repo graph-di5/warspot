@@ -1,0 +1,17 @@
+﻿@model WarSpot.WebFace.Models.GameModel
+
+
+
+
+<tr>
+  <td>
+    @Html.ActionLink(Model.Name, "Details", "Games", new { id = Model.Id }, null)
+  </td>
+  <td>
+    @Model.CreationTime
+  </td>
+  <td>
+		@Html.Raw(Model.Replay == null ? "В очереди" : Html.ActionLink("Скачать", "Download", 
+  "Games", new { id = Model.Id }, null).ToHtmlString())
+	</td>
+</tr>
