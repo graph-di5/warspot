@@ -12,8 +12,8 @@ namespace WarSpot.Client.XnaClient.Screen
 {
 	class LoadingScreen : GameScreen
 	{
-	    private bool _isReplayDeserialized = false;
-        private bool _isReplayDownloaded = false;
+		private bool _isReplayDeserialized = false;
+		private bool _isReplayDownloaded = false;
 		private Texture2D _texture;
 		bool isCorrect = true;
 
@@ -40,8 +40,8 @@ namespace WarSpot.Client.XnaClient.Screen
 					{
 						_isReplayDeserialized = false;
 						ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WatchReplayScreen);
-                        if (_isReplayDownloaded && ScreenHelper.Instance.SaveReplay)
-                            SaveReplay();
+						if (_isReplayDownloaded && ScreenHelper.Instance.SaveReplay)
+							SaveReplay();
 					}
 					else
 						MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.SelectReplayScreen);
@@ -62,7 +62,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			base.OnShow();
 			Thread replayHandler;
 			if (ScreenHelper.Instance.OnlineReplayMode)
-                replayHandler = new Thread(DownloadReplay);               
+				replayHandler = new Thread(DownloadReplay);
 			else
 				replayHandler = new Thread(Deserialize);
 			replayHandler.Start();
@@ -71,15 +71,15 @@ namespace WarSpot.Client.XnaClient.Screen
 		private void Deserialize()
 		{
 			string path = ScreenHelper.Instance.ReplayPath;
-            try
-            {
-                ScreenHelper.Instance.ReplayEvents = SerializationHelper.Deserialize(path).Events;
-                isCorrect = ScreenHelper.Instance.ReplayEvents.Count > 0;
-            }
-            catch
-            {
-                MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.SelectReplayScreen);
-            }
+			try
+			{
+				ScreenHelper.Instance.ReplayEvents = SerializationHelper.Deserialize(path).Events;
+				isCorrect = ScreenHelper.Instance.ReplayEvents.Count > 0;
+			}
+			catch
+			{
+				MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.SelectReplayScreen);
+			}
 			lock (this)
 			{
 				_isReplayDeserialized = true;
@@ -88,28 +88,28 @@ namespace WarSpot.Client.XnaClient.Screen
 
 		private void DownloadReplay()
 		{
-            try
-            {
-                Network.ConnectionManager.Instance.DownloadReplay(Utils.ScreenHelper.Instance.DownloadedGameGuid);
-            }
-            catch
-            {
-                MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.LoginScreen);
-            }
-            isCorrect = ScreenHelper.Instance.ReplayEvents.Count > 0;
+			try
+			{
+				Network.ConnectionManager.Instance.DownloadReplay(Utils.ScreenHelper.Instance.DownloadedGameGuid);
+			}
+			catch
+			{
+				MessageBox.Show("Wrong replay type", ScreenManager.ScreenEnum.LoginScreen);
+			}
+			isCorrect = ScreenHelper.Instance.ReplayEvents.Count > 0;
 			lock (this)
 			{
 				_isReplayDownloaded = true;
 			}
 		}
 
-        private void SaveReplay()
-        {
-            var x = (from rep in ScreenHelper.Instance.ListOfReplays where rep.ID == ScreenHelper.Instance.DownloadedGameGuid select rep.Name).First();
-            using (var sr = new FileStream(Path.Combine(FoldersHelper.GetReplayPath(), x), FileMode.CreateNew))
-            {
-                SerializationHelper.Serialize(ScreenHelper.Instance.ToSerialize, sr);
-            }
-        }
+		private void SaveReplay()
+		{
+			var x = (from rep in ScreenHelper.Instance.ListOfReplays where rep.ID == ScreenHelper.Instance.DownloadedGameGuid select rep.Name).First();
+			using (var sr = new FileStream(Path.Combine(FoldersHelper.GetReplayPath(), x), FileMode.CreateNew))
+			{
+				SerializationHelper.Serialize(ScreenHelper.Instance.ToSerialize, sr);
+			}
+		}
 	}
 }
