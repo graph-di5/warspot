@@ -242,7 +242,7 @@
     <Content Include="Views\Home\FastStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Users\EditorTemplates\AccountRole.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AccountRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Error\Index.cshtml" />
@@ -281,7 +281,13 @@
     <Content Include="Views\Tournament\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Tournament\DisplayTemplates\Stage.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Stage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\Stage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\DisplayTemplates\GameModel.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

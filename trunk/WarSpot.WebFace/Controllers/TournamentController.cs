@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using WarSpot.Cloud.Storage;
+using WarSpot.WebFace.Models;
 using Warehouse = WarSpot.Cloud.Storage.Warehouse;
 using WarSpot.WebFace.Security;
+using Stage = WarSpot.WebFace.Models.Stage;
 
 
 namespace WarSpot.WebFace.Controllers
@@ -98,7 +100,15 @@ namespace WarSpot.WebFace.Controllers
 				TournamentName = tournament.Tournament_Name,
 				Players = new List<string>(from p in tournament.Player select p.Account_Name),
 				IsIn = IsIn(id),
-				State = (State)tournament.State_Code
+				State = (State)tournament.State_Code,
+			  Stages = new List<Stage>(
+				tournament.Stages.ToArray().Select(s => new Stage
+				       	{
+				       		StartTime = s.StartTime,
+									State = (State) s.State_Code,
+									Games = new List<GameModel>(s.Games.Select(g => new GameModel(g)))
+				       	}
+				))
 			};
 
 			List<KeyValuePair<Guid, string>> intellects = Warehouse.db.Intellect.Where(ii => ii.AccountAccount_ID == customIdentity.Id).ToArray().Select(i => new KeyValuePair<Guid, string>(i.Intellect_ID, String.Format("{0}", i.Intellect_Name))).ToList();
