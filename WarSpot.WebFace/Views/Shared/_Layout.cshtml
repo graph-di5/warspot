@@ -27,11 +27,11 @@
 <body>
   <div class="page">
     <header>
-      <a href="/"><div id="title"></div></a>
       <div id="logindisplay">
         @Html.Partial("_LogOnPartial")
       </div>
-      <nav>
+      <a href="/" style="float:left; margin-left: 10px;"><img src="/Content/images/LogoMed.png" width="200" height="68"></a>
+      <nav class="mynav">
         <ul id="menu">
           <li>@Html.ActionLink("О проекте", "Details", "Home")</li>
           <li>@Html.ActionLink("Файлы", "Index", "File")</li>
@@ -51,6 +51,7 @@
           <li>@Html.ActionLink("Контакты", "Contacts", "Home")</li>
         </ul>
       </nav>
+      <div style="clear: both;"></div>
     </header>
     <section id="main">
       @RenderBody()
