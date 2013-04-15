@@ -7,6 +7,7 @@ using System.Threading;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using WarSpot.Cloud.Tournament;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -14,7 +15,7 @@ namespace WarSpot.Cloud.UserService
 	{
 		private AutoResetEvent _disposeEvent = new AutoResetEvent(false);
 		//private Autoscaler autoscaler;
-
+	    private TournamentManager _tournamentManager = TournamentManager.GetInstance();
 		public override void Run()
 		{
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -33,6 +34,8 @@ namespace WarSpot.Cloud.UserService
 				behaviour.InstanceContextMode = InstanceContextMode.PerSession;
 				host.Description.Endpoints[1].Address = new EndpointAddress(new Uri(prefix + address2.IPEndpoint));
 				host.Open();
+
+                _tournamentManager.Start();
 			}
 			catch (Exception ex)
 			{
@@ -44,13 +47,11 @@ namespace WarSpot.Cloud.UserService
 			//this.autoscaler = EnterpriseLibraryContainer.Current.GetInstance<Autoscaler>();
 			//this.autoscaler.Start();
 
-
-
-
 			while (!_disposeEvent.WaitOne(10000))
 			{
 				Trace.WriteLine("Working", "Information");
 			}
+            _tournamentManager.Stop();
 			if (host != null)
 				host.Close();
 			Trace.WriteLine("Stopped", "Information");

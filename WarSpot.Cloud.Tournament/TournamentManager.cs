@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects;
 using System.Linq;
 using System.Text;
 using WarSpot.Cloud.Storage;
@@ -8,7 +9,7 @@ using System.Threading;
 
 namespace WarSpot.Cloud.Tournament
 {
-	class TournamentManager
+	public class TournamentManager
 	{
 		/*1.(Большой цикл)
 		 *	Проверка, есть ли запущенные турниры
@@ -30,7 +31,7 @@ namespace WarSpot.Cloud.Tournament
 		{
 			_runingEvent = new ManualResetEvent(false);
 			_thread = new Thread(new ThreadStart(ThreadFunction));
-			_thread.Start();
+			
 		}
 
 		public static TournamentManager GetInstance()
@@ -49,6 +50,11 @@ namespace WarSpot.Cloud.Tournament
 			return _tournamentMeneger;
 		}
 
+        public void Start()
+        {
+            _thread.Start();
+        }
+
 		public void Stop()
 		{
 			_runingEvent.Set();//Останавливает работу менеджера
@@ -66,59 +72,75 @@ namespace WarSpot.Cloud.Tournament
 
 		private void Perform()
 		{
+            Warehouse.db.Refresh(RefreshMode.StoreWins, Warehouse.db.Tournament);
 			var _activeTournaments = Warehouse.GetActiveTournaments();
 			if (_activeTournaments.Any())//Проверка, есть ли запущенные турниры
 			{
 				foreach (Storage.Tournament t in _activeTournaments)
 				{
-				    var stage = Warehouse.GetTournamentStages(t.Tournament_ID).First(); // TODO: adjust for multiple stages
-				    var games = Warehouse.GetListOfStageGames(stage.Stage_ID);
-					if (games.Any())
-					{	
-						if (games.All(x=>Warehouse.DoesMatchHasResult(x.Game_ID)))
-						{
-                            var scores = t.Player.ToDictionary(x => x.Account_ID, x => 0);
-							// Считает очки, определяет победителей, формирует отчётность, завершает турнир.
-							foreach (Game g in games)
-							{								
-								// Добавляет очко победителю
-							    var replay = Warehouse.GetReplay(g.Game_ID);
-							    
-							    var winner = g.Teams.First(x => x.Team_ID == replay.Data.WinnerTeam).Intellects.First().Account;
+				    var stage = Warehouse.GetTournamentStages(t.Tournament_ID).FirstOrDefault(); // TODO: adjust for multiple stages
+                    if (stage == null) continue;
+                    if (t.State_Code == (int)State.NotStarted && t.StartTime < DateTime.UtcNow || t.State_Code == (int)State.Started)
+                    {
+                        if (t.Player.Count < 2) Warehouse.UpdateTournament(t.Tournament_ID, State.Finished);
+                        else
+                        {
+                            if (t.State_Code == (int)State.NotStarted) Warehouse.UpdateTournament(t.Tournament_ID, State.Started);
+                            var games = Warehouse.GetListOfStageGames(stage.Stage_ID);
+                            if (games.Any())
+                            {
+                                if (games.All(x => Warehouse.DoesMatchHasResult(x.Game_ID)))
+                                {
+                                    var scores = t.Player.ToDictionary(x => x.Account_ID, x => 0);
+                                    // Считает очки, определяет победителей, формирует отчётность, завершает турнир.
+                                    foreach (Game g in games)
+                                    {
+                                        // Добавляет очко победителю
+                                        var replay = Warehouse.GetReplay(g.Game_ID);
 
-							    scores[winner.Account_ID] += 1;
-							}
+                                        if (replay.Data.WinnerTeam != Guid.Empty)
+                                        {
+                                            var winner =
+                                                g.Teams.First(x => x.Team_ID == replay.Data.WinnerTeam).Intellects.First
+                                                    ().
+                                                    Account;
 
-						    foreach (var score in scores)
-						    {
-						        Warehouse.AddScore(stage, t.Player.First(x => x.Account_ID == score.Key), score.Value);
-						    }
+                                            scores[winner.Account_ID] += 1;
+                                        }
+                                    }
 
-							//Публикует очки в базу, сортирует по очкам
-							//Определяет победителей турнира, формирует отчёт
+                                    foreach (var score in scores)
+                                    {
+                                        Warehouse.AddScore(stage, t.Player.First(x => x.Account_ID == score.Key),
+                                                           score.Value);
+                                    }
 
-                            Warehouse.UpdateStage(stage.Stage_ID, State.Finished);
-						}
-					}
-					else
-					{
-						foreach (var p1 in stage.Intellects)
-						{
-							foreach (var p2 in stage.Intellects)
-							{
-								if (p1 != p2)
-								{
-									var _intList = new List<Guid>();
-									_intList.Add(p1.Intellect_ID);
-									_intList.Add(p2.Intellect_ID);
-
-									Warehouse.BeginMatch(_intList, t.Creator_ID, 
-                                        string.Format("{0}: {1} vs. {2}",t.Tournament_Name, p1.Intellect_Name, p2.Intellect_Name), 
-                                        stage.Stage_ID);
-								}
-							}
-						}
-					}
+                                    //Публикует очки в базу, сортирует по очкам
+                                    //Определяет победителей турнира, формирует отчёт
+                                    // проверять все стейджЫ
+                                    Warehouse.UpdateTournament(t.Tournament_ID, State.Finished);
+                                }
+                            }
+                            else
+                            {
+                                var ints = stage.Intellects.ToList();
+                                for (int i1 = 0; i1 < ints.Count;i1++ )
+                                {
+                                    for (int i2 = i1+1; i2 < ints.Count; i2++)
+                                    {
+                                        var _intList = new List<Guid>();
+                                        _intList.Add(ints[i1].Intellect_ID);
+                                        _intList.Add(ints[i2].Intellect_ID);
+                                        // todo: запускать больше 1 матча
+                                        Warehouse.BeginMatch(_intList, t.Creator_ID,
+                                                             string.Format("{0}: {1} vs. {2}", t.Tournament_Name,
+                                                                           ints[i1].Intellect_Name, ints[i2].Intellect_Name),
+                                                             stage.Stage_ID);
+                                    }
+                                }
+                            }
+                        }
+                    }
 				}
 			}
 		}
