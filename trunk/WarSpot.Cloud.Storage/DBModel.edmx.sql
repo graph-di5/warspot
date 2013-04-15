@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 04/15/2013 17:25:43
+-- Date Created: 04/15/2013 17:42:23
 -- Generated from EDMX file: C:\warspot\WarSpot.Cloud.Storage\DBModel.edmx
 -- --------------------------------------------------
 

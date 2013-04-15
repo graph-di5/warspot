@@ -129,20 +129,22 @@ namespace WarSpot.WebFace.Controllers
 			if (customIdentity != null && t.ID != Guid.Empty)
 			{
 				// todo use Warehouse.CreateTournament()
-				Warehouse.db.AddToTournament(Cloud.Storage.Tournament.CreateTournament(
-					t.ID,
-					t.MaxPlayers,
-					t.StartTime,
-					customIdentity.Id,
-					t.TournamentName,
-					0x0,
-					"type",
-					t.Description
-					));
+			    var t2 = Cloud.Storage.Tournament.CreateTournament(
+			        t.ID,
+			        t.MaxPlayers,
+			        t.StartTime,
+			        customIdentity.Id,
+			        t.TournamentName,
+			        0x0,
+			        "type",
+			        t.Description
+			        );
+				Warehouse.db.AddToTournament(t2);
 				for (int i = 0; i < t.StagesCount; i++)
 				{
-					Warehouse.AddStage(t.ID, t.StartTime);
-					//Warehouse.db.AddToStages(Cloud.Storage.Stage.CreateStage(Guid.NewGuid(), 0x0, "TO DO: // ", t.StartTime));
+				    var st = Cloud.Storage.Stage.CreateStage(Guid.NewGuid(), 0x0, "TO DO: // ", t.StartTime);
+				    st.Tournament = t2;
+					Warehouse.db.AddToStages(st);
 					// Было:
 					/*Guid.NewGuid(),
 "Waiting",

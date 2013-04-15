@@ -113,11 +113,6 @@ namespace WarSpot.Cloud.Storage
 
 			string uniqueBlobName = string.Format("intellects/{0}/{1}", Account_ID.ToString(), name);
 
-			if ((from i in db.Intellect
-					 where i.Intellect_Name == name
-					 select i).Any())
-				return false;
-
 			db.AddToIntellect(Intellect.CreateIntellect(Guid.NewGuid(), name, Account_ID, description));
 			db.SaveChanges();
 
@@ -650,36 +645,38 @@ namespace WarSpot.Cloud.Storage
 
 		}
 
-		public static ErrorCode DeleteTournament(Guid tournamentID, Guid userID)
-		{
-			Tournament needed;
+        public static ErrorCode DeleteTournament(Guid tournamentID, Guid userID)
+        {
+            Tournament needed;
 
-			if ((needed = (from t in db.Tournament
-										 where t.Creator_ID == userID && t.Tournament_ID == tournamentID
-										 select t).FirstOrDefault<Tournament>()) != null)
-			{
-				try
-				{
+            if ((needed = (from t in db.Tournament
+                           where t.Creator_ID == userID && t.Tournament_ID == tournamentID
+                           select t).FirstOrDefault<Tournament>()) != null)
+            {
+                try
+                {
 
-					db.Tournament.DeleteObject(needed);
+                    db.Tournament.DeleteObject(needed);
 
-					db.SaveChanges();
+                    db.SaveChanges();
 
-					return new ErrorCode(ErrorType.Ok, "Tournament with title " + needed.Tournament_Name + " was deleted.");
-				}
-				catch (Exception e)
-				{
-					return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
-				}
-			}
-			else
-				return new ErrorCode(ErrorType.WrongInformationInField, "User " + (from u in db.Account
-																																					 where u.Account_ID == userID
-																																					 select u.Account_Name) + " didn't create that tournament. ");
+                    return new ErrorCode(ErrorType.Ok,
+                                         "Tournament with title " + needed.Tournament_Name + " was deleted.");
+                }
+                catch (Exception e)
+                {
+                    return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
+                }
+            }
+            else
+                return new ErrorCode(ErrorType.WrongInformationInField, "User " + (from u in db.Account
+                                                                                   where u.Account_ID == userID
+                                                                                   select u.Account_Name) +
+                                                                        " didn't create that tournament. ");
 
-		}
+        }
 
-		public static List<Guid> GetAvailableTournaments(Guid userID)
+	    public static List<Guid> GetAvailableTournaments(Guid userID)
 		{
 			List<Tournament> actualtournaments;
 
@@ -751,55 +748,61 @@ namespace WarSpot.Cloud.Storage
 				throw new ArgumentException("No stage with that ID: " + tournamentID.ToString());
 			}
 		}
-		
-		public static ErrorCode JoinTournament(Guid tournamentID, Guid userID)
-		{
 
-			Tournament neededtournament = (from t in db.Tournament
-																		 where t.Tournament_ID == tournamentID
-																		 select t).FirstOrDefault<Tournament>();
+        public static ErrorCode JoinTournament(Guid tournamentID, Guid userID)
+        {
+
+            Tournament neededtournament = (from t in db.Tournament
+                                           where t.Tournament_ID == tournamentID
+                                           select t).FirstOrDefault<Tournament>();
 
 
 
-			if (neededtournament != null)
-			{
+            if (neededtournament != null)
+            {
 
-				Account updatedaccount = (from a in db.Account
-																	where a.Account_ID == userID
-																	select a).FirstOrDefault<Account>();
+                Account updatedaccount = (from a in db.Account
+                                          where a.Account_ID == userID
+                                          select a).FirstOrDefault<Account>();
 
-				if (updatedaccount.TournamentPlayer.Contains(neededtournament))
-				{
-					return new ErrorCode(ErrorType.WrongInformationInField, "User already competes in that tournament");
-				}
-				else
-				{
-					try
-					{
+                if (updatedaccount.Intellect.Count == 0)
+                    return new ErrorCode(ErrorType.IllegalDll, "User " + (from u in db.Account
+                                                                          where u.Account_ID == userID
+                                                                          select u.Account_Name) +
+                                                               " doesn't have intellect.");
 
-						updatedaccount.TournamentPlayer.Add(neededtournament);
-						db.SaveChanges();
+                if (updatedaccount.TournamentPlayer.Contains(neededtournament))
+                {
+                    return new ErrorCode(ErrorType.WrongInformationInField, "User already competes in that tournament");
+                }
+                else
+                {
+                    try
+                    {
+                        neededtournament.Stages.First().Intellects.Add(updatedaccount.Intellect.Last());
+                        updatedaccount.TournamentPlayer.Add(neededtournament);
+                        db.SaveChanges();
 
-						return new ErrorCode(ErrorType.Ok, "User " + (from u in db.Account
-																													where u.Account_ID == userID
-																													select u.Account_Name) + " joined to tournament.");
+                        return new ErrorCode(ErrorType.Ok, "User " + (from u in db.Account
+                                                                      where u.Account_ID == userID
+                                                                      select u.Account_Name) + " joined to tournament.");
 
-					}
-					catch (Exception e)
-					{
-						return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: \n" + e.ToString());
-					}
-				}
+                    }
+                    catch (Exception e)
+                    {
+                        return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: \n" + e.ToString());
+                    }
+                }
 
-			}
-			else
-			{
-				return new ErrorCode(ErrorType.WrongInformationInField, "There are no tournaments with that ID.");
-			}
+            }
+            else
+            {
+                return new ErrorCode(ErrorType.WrongInformationInField, "There are no tournaments with that ID.");
+            }
 
-		}
+        }
 
-		public static ErrorCode LeaveTournament(Guid tournamentID, Guid userID)
+	    public static ErrorCode LeaveTournament(Guid tournamentID, Guid userID)
 		{
 
 			Tournament neededtournament = (from t in db.Tournament
