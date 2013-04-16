@@ -30,34 +30,36 @@
       <div id="logindisplay">
         @Html.Partial("_LogOnPartial")
       </div>
-      <a href="/" style="float:left; margin-left: 10px;"><img src="/Content/images/LogoMed.png" width="200" height="68"></a>
+      <a href="/" style="float:left;"><img src="/Content/images/LogoMed.png" width="200" height="68"></a>
       <nav class="mynav">
         <ul id="menu">
           <li>@Html.ActionLink("О проекте", "Details", "Home")</li>
           <li>@Html.ActionLink("Файлы", "Index", "File")</li>
-          <li>@Html.ActionLink("Быстрый старт", "FastStart", "Home")</li>
+          <li>@Html.ActionLink("Документы", "Index", "Document")</li>
           @{ var identity = (User.Identity as CustomIdentity);
              if (identity != null && identity.IsInRole("User"))
              {
+            <li>@Html.ActionLink("Быстрый старт", "FastStart", "Home")</li>
             <li>@Html.ActionLink("AI", "Index", "AI")</li>
             <li>@Html.ActionLink("Игры", "Index", "Games")</li>
+            <li>@Html.ActionLink("Турниры", "Index", "Tournament")</li>
              }
              if (identity != null && identity.IsInRole("MetaAdmin"))
              {
             <li>@Html.ActionLink("Пользователи", "Index", "Users")</li>
              }
           }
-          <li>@Html.ActionLink("О команде", "About", "Home")</li>
-          <li>@Html.ActionLink("Контакты", "Contacts", "Home")</li>
         </ul>
       </nav>
-      <div style="clear: both;"></div>
+      <div style="clear: both; height:0px;"></div>
     </header>
     <section id="main">
       @RenderBody()
     </section>
     <footer>
-      @Html.Partial("_FooterPartial")
+      @Html.Partial("_FooterPartial")</br>
+      @Html.ActionLink("О команде", "About", "Home")&nbsp;
+      @Html.ActionLink("Контакты", "Contacts", "Home")
     </footer>
   </div>
 </body>
