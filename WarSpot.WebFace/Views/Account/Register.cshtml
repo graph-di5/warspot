@@ -64,12 +64,16 @@
       <div class="editor-label">
         @Html.LabelFor(m => m.ConfirmPassword)
       </div>
-      <div class="editor-field">
-        @Html.PasswordFor(m => m.ConfirmPassword)
-        @Html.ValidationMessageFor(m => m.ConfirmPassword)
-      </div>
+			<div class="editor-field">
+				@Html.PasswordFor(m => m.ConfirmPassword)
+				@Html.ValidationMessageFor(m => m.ConfirmPassword)
+			</div>
+			<div class="editor-field">
+				Регистрацией Вы подтверждаете, что ознакомлены и согласны с @Html.ActionLink("условиями", "EULA", "Document") предоставления сервиса.
+			</div>
+
       <p>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Зарегистрироваться" />
       </p>
     </fieldset>
   </div>

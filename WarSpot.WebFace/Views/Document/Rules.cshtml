@@ -1,7 +1,9 @@
 ﻿<!--labels:  Featured,Phase-Implementation-->
+Для описания регламента турниров см. <a href="Tournaments">Tournaments</a>.
+<br/>
 Матч WarSpot проходит в мире-сетке (см. <a href="WorldDescription">WorldDescription</a>), в котором первоначально в случайных позициях создаётся по одному существу для каждого участника, а также клетки мира заполняются энергией. Существо под контролем написанного игроком интеллекта может переходить из клетки в клетку, атаковать других существ и поглощать энергию (подробнее о существе и использовании энергии см. <a href="GameActionsFullDescription">GameActionsFullDescription</a>) Цель игры - уничтожить все враждебные существа.
 <br/>
-Игрок должен предоставить .NET библиотеку, содержащую класс существа. Класс существа обязательно должен реализовывать интерфейс <a href="http://code.google.com/p/warspot/source/browse/trunk/WarSpot.Contracts.Intellect/IBeingInterface.cs">http://code.google.com/p/warspot/source/browse/trunk/WarSpot.Contracts.Intellect/IBeingInterface.cs</a> IBeingInterface]. Первый метод Construct вызывается для создания существа, именно в нем задаются желаемые характеристики создаваемого экземпляра. Второй метод Think вызывается один раз за ход для каждого экземпляра. Параметрами является иформация о мире, возвращаемое значение должно быть действием. Действие - один из наследников абстрактного класса GameAction. На данный момент доступны следующие действия:
+Игрок должен предоставить .NET библиотеку, содержащую класс существа. Класс существа обязательно должен реализовывать интерфейс <a href="http://code.google.com/p/warspot/source/browse/trunk/WarSpot.Contracts.Intellect/IBeingInterface.cs">IBeingInterface</a>. Первый метод Construct вызывается для создания существа, именно в нем задаются желаемые характеристики создаваемого экземпляра. Второй метод Think вызывается один раз за ход для каждого экземпляра. Параметрами является иформация о мире, возвращаемое значение должно быть действием. Действие - один из наследников абстрактного класса GameAction. На данный момент доступны следующие действия:
 <ul> <li>   GameActionAttack</li>
 <li>   GameActionEat</li>
 <li>   GameActionGiveCi</li>
@@ -11,10 +13,8 @@
 </ul><br/>
 Определения всех необходимых типов находятся в библиотеке WarSpot.Contracts.Intellect, ее надо необходимо включать в References проекта интеллекта.
 <br/>
-Код библиотеки WarSpot.Contracts.Intellect и тестового интеллекта снабжены подробными комментариями, которые помогут разобраться в деталях. 
-<br/>
-Запрещенные действия
-// todo import from comapping
+Код библиотеки WarSpot.Contracts.Intellect и тестового интеллекта снабжены подробными комментариями, которые помогут разобраться в деталях.
 <br/>
 <a href="WorldDescription">WorldDescription</a>
 <a href="GameActionsFullDescription">GameActionsFullDescription</a>
+<a href="Tournaments">Tournaments</a>

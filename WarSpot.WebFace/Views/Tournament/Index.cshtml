@@ -4,6 +4,10 @@
   ViewBag.Title = "Турниры";
   var identity = (User.Identity as CustomIdentity);
 }
+<div>
+<p>	Прежде чем принимать участие в турнирах ознакомьтесь @Html.ActionLink("регламентом турниров", "Tournaments", "Document") .
+</p>
+</div>
 @if (identity.IsInRole("User"))
 {
 	
