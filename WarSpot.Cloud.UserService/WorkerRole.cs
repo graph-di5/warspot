@@ -15,7 +15,7 @@ namespace WarSpot.Cloud.UserService
 	{
 		private AutoResetEvent _disposeEvent = new AutoResetEvent(false);
 		//private Autoscaler autoscaler;
-	    private TournamentManager _tournamentManager = TournamentManager.GetInstance();
+		private TournamentManager _tournamentManager = TournamentManager.GetInstance();
 		public override void Run()
 		{
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -35,7 +35,7 @@ namespace WarSpot.Cloud.UserService
 				host.Description.Endpoints[1].Address = new EndpointAddress(new Uri(prefix + address2.IPEndpoint));
 				host.Open();
 
-                _tournamentManager.Start();
+				_tournamentManager.Start();
 			}
 			catch (Exception ex)
 			{
@@ -51,7 +51,7 @@ namespace WarSpot.Cloud.UserService
 			{
 				Trace.WriteLine("Working", "Information");
 			}
-            _tournamentManager.Stop();
+			_tournamentManager.Stop();
 			if (host != null)
 				host.Close();
 			Trace.WriteLine("Stopped", "Information");
