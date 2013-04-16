@@ -289,6 +289,9 @@
   <ItemGroup>
     <Content Include="Views\Shared\DisplayTemplates\GameModel.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Document\Tournaments.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -333,6 +336,7 @@ svn export --force http://warspot.googlecode.com/svn/wiki/ wiki
 ..\Utils\Wiki2Html.exe -i Wiki\Rules.wiki -o Views\Document\Rules.cshtml
 ..\Utils\Wiki2Html.exe -i Wiki\SmallGuide.wiki -o Views\Document\SmallGuide.cshtml
 ..\Utils\Wiki2Html.exe -i Wiki\WorldDescription.wiki -o Views\Document\WorldDescription.cshtml
+..\Utils\Wiki2Html.exe -i Wiki\Tournaments.wiki -o Views\Document\Tournaments.cshtml
 </PreBuildEvent>
   </PropertyGroup>
 </Project>

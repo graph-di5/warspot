@@ -42,5 +42,10 @@ namespace WarSpot.WebFace.Controllers
 		{
 			return View();
 		}
+
+		public ActionResult Tournaments()
+		{
+			return View();
+		}
 	}
 }
