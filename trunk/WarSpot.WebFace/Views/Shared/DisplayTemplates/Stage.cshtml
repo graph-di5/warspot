@@ -6,10 +6,14 @@
 <div class="display-label">@Html.LabelFor(m => m.StartTime)</div>
 <div class="display-field">@Html.DisplayFor(m => m.StartTime)</div>
 	
-	<table>
-		<tr><td><div class="display-label">@Html.LabelFor(m => m.Games)</div></td></tr>
-    @foreach (var m in Model.Games)
-		{
+  @if(Model.Games.Count > 0)
+  {
+		<table>
+			<tr><td><div class="display-label">@Html.LabelFor(m => m.Games)</div></td></tr>
+    
+			@Html.DisplayFor(m => m.Games)
+			@foreach (var m in Model.Games)
+			{/*
 			string s = "";
       if (m.Replay == null)
       {
@@ -29,7 +33,12 @@
         <td>
           @Html.Raw(s)
         </td>
-      </tr>	
+      </tr>	*/
+			}
+		</table>
     }
-  </table>
+    else
+	{
+		<div>Игр еще нет</div>
+	}
 </div>

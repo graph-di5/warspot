@@ -3,7 +3,7 @@
 namespace WarSpot.WebFace.Controllers
 {
 	[AllowAnonymous]
-	public class DocumentController : Controller
+	public class DocumentController : AuthorizedController
 	{
 		//
 		// GET: /Document/
