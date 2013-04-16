@@ -13,10 +13,7 @@
 
 Определения всех необходимых типов находятся в библиотеке WarSpot.Contracts.Intellect, ее надо необходимо включать в References проекта интеллекта.
 
-Код библиотеки WarSpot.Contracts.Intellect и тестового интеллекта снабжены подробными комментариями, которые помогут разобраться в деталях. 
-
-Запрещенные действия
-// todo import from comapping
+Код библиотеки WarSpot.Contracts.Intellect и тестового интеллекта снабжены подробными комментариями, которые помогут разобраться в деталях.
 
 [WorldDescription]
 [GameActionsFullDescription]
