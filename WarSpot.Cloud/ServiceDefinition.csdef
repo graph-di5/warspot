@@ -18,7 +18,7 @@
     </Imports>
     <Endpoints>
       <InputEndpoint name="ServiceEndpoint" protocol="tcp" port="8000" />
-      <InputEndpoint name="MetadataEndpoint" protocol="tcp" port="808" />
+      <InputEndpoint name="MetadataEndpoint" protocol="tcp" port="8008" />
     </Endpoints>
     <ConfigurationSettings>
       <Setting name="DataConnectionString" />
