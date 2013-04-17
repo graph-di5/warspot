@@ -34,7 +34,7 @@ namespace WarSpot.Cloud.UserService
                 //behaviour.InstanceContextMode = InstanceContextMode.PerSession;
                 //host.Description.Endpoints[1].Address = new EndpointAddress(new Uri(prefix + address2.IPEndpoint));
 				host.Open();
-
+                Trace.TraceError("Host opened at {0}", host.BaseAddresses[0]);
 				_tournamentManager.Start();
 			}
 			catch (Exception ex)
