@@ -1,4 +1,5 @@
 ﻿@model List<WarSpot.WebFace.Models.GameModel>
+
 <table border="0">
   <tr>
 	<td>@Html.ActionLink("Новая игра", "Create")
@@ -14,10 +15,7 @@ else
 {
   <h3>
     Список игр:</h3>
-  <table>
-    @foreach (var m in Model)
-		{
-			Html.DisplayFor(x => m);
-		}
-  </table>
+	<table>
+		@Html.DisplayFor(m => m)
+	</table>
 }

@@ -54,6 +54,7 @@ namespace WarSpot.WebFace.Models
 	
 		[Required]
 		[Display(Name = "Время старта")]
+		[DisplayFormat(DataFormatString = "{0:u}", ApplyFormatInEditMode = true)]
 		[DataType(DataType.DateTime)]
 		public DateTime StartTime { get; set; }
 

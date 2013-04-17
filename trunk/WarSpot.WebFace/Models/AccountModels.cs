@@ -85,7 +85,9 @@ namespace WarSpot.WebFace.Models
 
 		public bool Is { get; set; }
 
-		//[DisplayFormat(DataFormatString = "{0:dd.mm.yyyy}", ApplyFormatInEditMode = true)]
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(DataFormatString = "{0:u}", ApplyFormatInEditMode = true)]
+		//[DisplayFormat(DataFormatString = "{0:yyyy.MM.dd}", ApplyFormatInEditMode = true)]
 		public DateTime Until { get; set; }
 	}
 
