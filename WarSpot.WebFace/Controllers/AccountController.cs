@@ -103,6 +103,11 @@ namespace WarSpot.WebFace.Controllers
 			return View(model);
 		}
 
+
+		//public ActionResult ChangePassword()
+		//{
+		//  return View();
+		//}
 		//
 		// GET: /Account/ChangePassword
 
@@ -110,17 +115,18 @@ namespace WarSpot.WebFace.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				string currentUserName;
-				bool changePasswordSecceeded;
+				bool changePasswordSecceeded = (model.NewPassword == model.ConfirmPassword);
 
-				if (changePasswordSecceeded = (model.NewPassword == model.ConfirmPassword))
+				if (changePasswordSecceeded)
 				{
 					try
 					{
-						MembershipUser currentUser = Membership.GetUser((currentUserName = User.Identity.Name), true);
-						if (changePasswordSecceeded = Warehouse.ChangePassword(currentUserName, model.OldPassword, model.NewPassword))
+						changePasswordSecceeded = Warehouse.ChangePassword(User.Identity.Name,
+							HashHelper.GetMd5Hash(model.OldPassword),
+							HashHelper.GetMd5Hash(model.NewPassword));
+						if(!changePasswordSecceeded)
 						{
-							currentUser.ChangePassword(model.OldPassword, model.NewPassword);
+							ModelState.AddModelError("", "Вы ввели неверный текущий пароль.");
 						}
 					}
 					catch (System.Exception)
@@ -128,6 +134,14 @@ namespace WarSpot.WebFace.Controllers
 						changePasswordSecceeded = false;
 					}
 				}
+				else
+				{
+					if (model.ConfirmPassword != null || model.NewPassword != null || model.OldPassword != null)
+					{
+						ModelState.AddModelError("", "Введенные пароли не совпадают.");
+					}
+				}
+
 
 				if (changePasswordSecceeded)
 				{
@@ -135,7 +149,9 @@ namespace WarSpot.WebFace.Controllers
 				}
 				else
 				{
-					ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+					if(model.ConfirmPassword != null || model.NewPassword != null || model.OldPassword != null)
+					{
+					}
 				}
 			}
 

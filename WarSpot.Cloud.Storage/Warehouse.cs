@@ -382,18 +382,16 @@ namespace WarSpot.Cloud.Storage
 		{
 			try
 			{
-				Account user = (from a in db.Account
+				var user = (from a in db.Account
 												where a.Account_Name == username
 												select a).FirstOrDefault<Account>();
-				if (user.Account_Password != oldpassword)
+				if (user == null || user.Account_Password != oldpassword)
 				{
 					return false;
 				}
 				else
 				{
-					db.Account.DeleteObject(user);
 					user.Account_Password = newpassword;
-					db.Account.AddObject(user);
 					db.SaveChanges();
 					return true;
 				}
