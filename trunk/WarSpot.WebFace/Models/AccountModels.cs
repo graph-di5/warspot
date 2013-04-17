@@ -98,6 +98,21 @@ namespace WarSpot.WebFace.Models
 
 		[Display(Name = "Логин")]
 		public string UserName { get; set; }
+		
+		[Display(Name = "Имя")]
+		public string Name { get; set; }
+		
+		[Display(Name = "Фамилия")]
+		public string SurName { get; set; }
+		
+		[Display(Name = "Учебное заведение")]
+		public string Institution { get; set; }
+		
+		[Display(Name = "Курс")]
+		public int Course { get; set; }
+		
+		[Display(Name = "E-mail")]
+		public string Email { get; set; }
 
 		[Display(Name = "Роли")]
 		public List<AccountRole> Roles { get; set; }

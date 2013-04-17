@@ -17,7 +17,8 @@ namespace WarSpot.WebFace.Controllers
 			return View(Warehouse.db.Account.ToArray().Select(account => new ViewAccountModel()
 				{
 					Id = account.Account_ID.ToString(), 
-					UserName = account.Account_Name, 
+					UserName = account.Account_Name,            
+					
 					Roles = (from RoleType role in Enum.GetValues(typeof (RoleType))
 			              select new AccountRole
 			                      {
@@ -43,6 +44,11 @@ namespace WarSpot.WebFace.Controllers
 					{
 						Id = account.Account_ID.ToString(),
 						UserName = account.Account_Name,
+						Name = account.UserFullName,
+						SurName = account.UserSurname,
+						Institution = account.Institution,
+						Course = account.Course,
+						Email = account.Email,
 						Roles = (from RoleType role in Enum.GetValues(typeof(RoleType))
 										 select new AccountRole
 										 {
