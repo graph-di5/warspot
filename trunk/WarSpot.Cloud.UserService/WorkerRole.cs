@@ -28,11 +28,11 @@ namespace WarSpot.Cloud.UserService
 				var prefix = address.Protocol == "tcp" ? "net.tcp://" : "http://";
 				host = new ServiceHost(typeof(WarSpotMainUserService),
 								new Uri(prefix + address.IPEndpoint.ToString()));
-				var address2 = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["MetadataEndpoint"];
-				prefix = address2.Protocol == "tcp" ? "net.tcp://" : "http://";
-				var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
-				behaviour.InstanceContextMode = InstanceContextMode.PerSession;
-				host.Description.Endpoints[1].Address = new EndpointAddress(new Uri(prefix + address2.IPEndpoint));
+                //var address2 = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["MetadataEndpoint"];
+                //prefix = address2.Protocol == "tcp" ? "net.tcp://" : "http://";
+                //var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
+                //behaviour.InstanceContextMode = InstanceContextMode.PerSession;
+                //host.Description.Endpoints[1].Address = new EndpointAddress(new Uri(prefix + address2.IPEndpoint));
 				host.Open();
 
 				_tournamentManager.Start();
@@ -47,10 +47,7 @@ namespace WarSpot.Cloud.UserService
 			//this.autoscaler = EnterpriseLibraryContainer.Current.GetInstance<Autoscaler>();
 			//this.autoscaler.Start();
 
-			while (!_disposeEvent.WaitOne(10000))
-			{
-				Trace.WriteLine("Working", "Information");
-			}
+		    _disposeEvent.WaitOne();
 			_tournamentManager.Stop();
 			if (host != null)
 				host.Close();
