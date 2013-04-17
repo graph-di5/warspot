@@ -359,7 +359,7 @@ namespace WarSpot.Cloud.Storage
 			try
 			{
 				var id = Guid.NewGuid();
-				db.AddToAccount(Account.CreateAccount(id, username, password, username, usersurname, institution, course, email));
+				db.AddToAccount(Account.CreateAccount(id, accountname, password, username, usersurname, institution, course, email));
 				db.SaveChanges();
 				SetUserRole(RoleType.User, id, DateTime.UtcNow.AddYears(1) /* default one year for user */ /* todo //!! rewrite this !11*/);
 
