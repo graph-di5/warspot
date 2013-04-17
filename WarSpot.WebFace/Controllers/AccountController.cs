@@ -2,6 +2,7 @@
 using System.Web.Security;
 using WarSpot.Cloud.Storage;
 using WarSpot.Common.Utils;
+using WarSpot.Contracts.Service;
 using WarSpot.WebFace.Models;
 using WarSpot.WebFace.Security;
 
@@ -79,7 +80,8 @@ namespace WarSpot.WebFace.Controllers
 			if (ModelState.IsValid)
 			{
 				// Attempt to register the user
-				if (Warehouse.Register(model.AccountName, HashHelper.GetMd5Hash(model.Password), model.Username, model.Usersurname, model.Institution, int.Parse(model.Course), model.Email))
+				var b = Warehouse.Register(model.AccountName, HashHelper.GetMd5Hash(model.Password), model.Username, model.Usersurname, model.Institution, int.Parse(model.Course), model.Email);
+				if (b.Type == ErrorType.Ok)
 				{
 					if (CustomPrincipal.Login(model.AccountName, model.Password, false))
 					{
@@ -93,7 +95,7 @@ namespace WarSpot.WebFace.Controllers
 				else
 				{
 					// todo make error message
-					ModelState.AddModelError("", "Some error while registration"/*ErrorCodeToString(createStatus)/**/);
+					ModelState.AddModelError("", b.Message);//"Some error while registration"/*ErrorCodeToString(createStatus)/**/);
 				}
 			}
 
