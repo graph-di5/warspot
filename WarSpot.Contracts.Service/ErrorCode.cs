@@ -47,7 +47,9 @@ namespace WarSpot.Contracts.Service
             IllegalMethod,
             IllegalDll,
         #endregion
-    }
+
+		LoginExists
+	}
 
 	/// <summary>
 	/// Class is needed for reporting errors from UserService to the client
