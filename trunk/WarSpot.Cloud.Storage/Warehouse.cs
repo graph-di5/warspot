@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.EntityClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -347,14 +348,14 @@ namespace WarSpot.Cloud.Storage
 
 		#region register & login
 
-        public static bool Register(string accountname, string password, string username, string usersurname, string institution, int course, string email)
+		public static ErrorCode Register(string accountname, string password, string username, string usersurname, string institution, int course, string email)
 		{
 			List<Account> test;
 
 			if ((test = (from b in db.Account
 									 where b.Account_Name == username
 									 select b).ToList<Account>()).Any())
-				return false;
+				return new ErrorCode(ErrorType.LoginExists, "Пользователь с таким логином уже существует.");
 			try
 			{
 				var id = Guid.NewGuid();
@@ -362,11 +363,11 @@ namespace WarSpot.Cloud.Storage
 				db.SaveChanges();
 				SetUserRole(RoleType.User, id, DateTime.UtcNow.AddYears(1) /* default one year for user */ /* todo //!! rewrite this !11*/);
 
-				return true;
+				return new ErrorCode();
 			}
 			catch (Exception)
 			{
-				return false;
+				return new ErrorCode(ErrorType.DataBaseProblems, "Ошибка обращения к базе данных, попробуйте повторить запрос позже");
 			}
 		}
 
@@ -465,7 +466,7 @@ namespace WarSpot.Cloud.Storage
 			}
 		}
 
-        
+
 
 		#endregion
 
@@ -501,10 +502,10 @@ namespace WarSpot.Cloud.Storage
 											});
 			}
 
-            if(stageId!=Guid.Empty)
-            {
-                match.Stage = db.Stages.First(x => x.Stage_ID == stageId);
-            }
+			if (stageId != Guid.Empty)
+			{
+				match.Stage = db.Stages.First(x => x.Stage_ID == stageId);
+			}
 
 			db.AddToGame(match);
 
@@ -533,77 +534,77 @@ namespace WarSpot.Cloud.Storage
 			return games.Select(game => game.Game_ID).ToList();
 		}
 
-        #region help methods to form Game from Tournament.cs
+		#region help methods to form Game from Tournament.cs
 
-        public static List<Game> GetListOfStageGames(Guid stageID)
-        {
-            return (from g in db.Game
-                    where g.Stage != null
-                    select g).Where(x => x.Stage.Stage_ID == stageID).ToList();
-        }
+		public static List<Game> GetListOfStageGames(Guid stageID)
+		{
+			return (from g in db.Game
+							where g.Stage != null
+							select g).Where(x => x.Stage.Stage_ID == stageID).ToList();
+		}
 
-	    public static List<Guid> GetGameIntellects(Guid gameID)
-        {
-            List<Guid> result = new List<Guid>();
+		public static List<Guid> GetGameIntellects(Guid gameID)
+		{
+			List<Guid> result = new List<Guid>();
 
-            Game neededGame = (from g in db.Game
-                               where g.Game_ID == gameID
-                               select g).First<Game>();
+			Game neededGame = (from g in db.Game
+												 where g.Game_ID == gameID
+												 select g).First<Game>();
 
-            foreach (Intellect i in (from i in db.Intellect
-                                     select i))
-            {
-                /*foreach(Account a in (from a in db.Account
-                                      where a.Intellect.Contains(i)
-                                      select a))
-                {
-                    if(a.Game.Contains(neededGame))
-                    {
-                        result.Add(i.Intellect_ID);
-                    }
-                }
-                 */
+			foreach (Intellect i in (from i in db.Intellect
+															 select i))
+			{
+				/*foreach(Account a in (from a in db.Account
+															where a.Intellect.Contains(i)
+															select a))
+				{
+						if(a.Game.Contains(neededGame))
+						{
+								result.Add(i.Intellect_ID);
+						}
+				}
+				 */
 
-                if ((from a in db.Account
-                     where a.Account_ID == i.AccountAccount_ID
-                     select a).First<Account>().Account_ID == neededGame.Creator_ID)
-                    result.Add(i.Intellect_ID);
-                
-            }
+				if ((from a in db.Account
+						 where a.Account_ID == i.AccountAccount_ID
+						 select a).First<Account>().Account_ID == neededGame.Creator_ID)
+					result.Add(i.Intellect_ID);
 
-            return result;
-        }
+			}
 
-        public static Guid GetIntellectOwner(Guid intelectID)
-        {
-            return (from a in db.Account
-                    where a.Account_ID == (from i in db.Intellect
-                                           where i.Intellect_ID == intelectID
-                                           select i.AccountAccount_ID).First<Guid>()
-                    select a.Account_ID).First<Guid>();
-        }
+			return result;
+		}
 
-        public static DateTime GetGameStartTime(Guid gameID)
-        {
-            return (from g in db.Game
-                    where g.Game_ID == gameID
-                    select g.CreationTime).First<DateTime>();
-        }
+		public static Guid GetIntellectOwner(Guid intelectID)
+		{
+			return (from a in db.Account
+							where a.Account_ID == (from i in db.Intellect
+																		 where i.Intellect_ID == intelectID
+																		 select i.AccountAccount_ID).First<Guid>()
+							select a.Account_ID).First<Guid>();
+		}
 
-        public static bool DoesMatchHasResult(Guid gameID)
-        {
-            return (from g in db.Game
-                    where g.Game_ID == gameID
-                    select g.Replay).FirstOrDefault<string>() != null;
-        }
+		public static DateTime GetGameStartTime(Guid gameID)
+		{
+			return (from g in db.Game
+							where g.Game_ID == gameID
+							select g.CreationTime).First<DateTime>();
+		}
 
-        #endregion
-        #endregion
+		public static bool DoesMatchHasResult(Guid gameID)
+		{
+			return (from g in db.Game
+							where g.Game_ID == gameID
+							select g.Replay).FirstOrDefault<string>() != null;
+		}
 
-        #region tournaments
+		#endregion
+		#endregion
 
-        #region tournaments
-        public static ErrorCode CreateTournament(string title, DateTime startDate, long maxPlayers, Guid userID)
+		#region tournaments
+
+		#region tournaments
+		public static ErrorCode CreateTournament(string title, DateTime startDate, long maxPlayers, Guid userID)
 		{
 			if ((from t in db.Tournament
 					 where t.Tournament_Name == title && t.Creator_ID == userID
@@ -645,38 +646,38 @@ namespace WarSpot.Cloud.Storage
 
 		}
 
-        public static ErrorCode DeleteTournament(Guid tournamentID, Guid userID)
-        {
-            Tournament needed;
+		public static ErrorCode DeleteTournament(Guid tournamentID, Guid userID)
+		{
+			Tournament needed;
 
-            if ((needed = (from t in db.Tournament
-                           where t.Creator_ID == userID && t.Tournament_ID == tournamentID
-                           select t).FirstOrDefault<Tournament>()) != null)
-            {
-                try
-                {
+			if ((needed = (from t in db.Tournament
+										 where t.Creator_ID == userID && t.Tournament_ID == tournamentID
+										 select t).FirstOrDefault<Tournament>()) != null)
+			{
+				try
+				{
 
-                    db.Tournament.DeleteObject(needed);
+					db.Tournament.DeleteObject(needed);
 
-                    db.SaveChanges();
+					db.SaveChanges();
 
-                    return new ErrorCode(ErrorType.Ok,
-                                         "Tournament with title " + needed.Tournament_Name + " was deleted.");
-                }
-                catch (Exception e)
-                {
-                    return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
-                }
-            }
-            else
-                return new ErrorCode(ErrorType.WrongInformationInField, "User " + (from u in db.Account
-                                                                                   where u.Account_ID == userID
-                                                                                   select u.Account_Name) +
-                                                                        " didn't create that tournament. ");
+					return new ErrorCode(ErrorType.Ok,
+															 "Tournament with title " + needed.Tournament_Name + " was deleted.");
+				}
+				catch (Exception e)
+				{
+					return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
+				}
+			}
+			else
+				return new ErrorCode(ErrorType.WrongInformationInField, "User " + (from u in db.Account
+																																					 where u.Account_ID == userID
+																																					 select u.Account_Name) +
+																																" didn't create that tournament. ");
 
-        }
+		}
 
-	    public static List<Guid> GetAvailableTournaments(Guid userID)
+		public static List<Guid> GetAvailableTournaments(Guid userID)
 		{
 			List<Tournament> actualtournaments;
 
@@ -713,25 +714,25 @@ namespace WarSpot.Cloud.Storage
 
 		public static List<Tournament> GetActiveTournaments()
 		{
-            return (from t in db.Tournament
-                    where t.State_Code != (int)State.Finished
-                    select t).ToList();
+			return (from t in db.Tournament
+							where t.State_Code != (int)State.Finished
+							select t).ToList();
 		}
 
-        public static List<Stage> GetTournamentStages(Guid tournamentID)
-        {
-            return (from s in db.Stages
-             where s.Tournament.Tournament_ID == tournamentID
-             select s).ToList();
-        }
-		
+		public static List<Stage> GetTournamentStages(Guid tournamentID)
+		{
+			return (from s in db.Stages
+							where s.Tournament.Tournament_ID == tournamentID
+							select s).ToList();
+		}
+
 		public static void UpdateTournament(Guid tournamentID, State newState)
 		{
 			Tournament neededTournament;
-			
+
 			if ((neededTournament = (from t in db.Tournament
-									where t.Tournament_ID == tournamentID
-									select t).FirstOrDefault<Tournament>()) != null)
+															 where t.Tournament_ID == tournamentID
+															 select t).FirstOrDefault<Tournament>()) != null)
 			{
 				try
 				{
@@ -749,60 +750,60 @@ namespace WarSpot.Cloud.Storage
 			}
 		}
 
-        public static ErrorCode JoinTournament(Guid tournamentID, Guid userID)
-        {
+		public static ErrorCode JoinTournament(Guid tournamentID, Guid userID)
+		{
 
-            Tournament neededtournament = (from t in db.Tournament
-                                           where t.Tournament_ID == tournamentID
-                                           select t).FirstOrDefault<Tournament>();
+			Tournament neededtournament = (from t in db.Tournament
+																		 where t.Tournament_ID == tournamentID
+																		 select t).FirstOrDefault<Tournament>();
 
 
 
-            if (neededtournament != null)
-            {
+			if (neededtournament != null)
+			{
 
-                Account updatedaccount = (from a in db.Account
-                                          where a.Account_ID == userID
-                                          select a).FirstOrDefault<Account>();
+				Account updatedaccount = (from a in db.Account
+																	where a.Account_ID == userID
+																	select a).FirstOrDefault<Account>();
 
-                if (updatedaccount.Intellect.Count == 0)
-                    return new ErrorCode(ErrorType.IllegalDll, "User " + (from u in db.Account
-                                                                          where u.Account_ID == userID
-                                                                          select u.Account_Name) +
-                                                               " doesn't have intellect.");
+				if (updatedaccount.Intellect.Count == 0)
+					return new ErrorCode(ErrorType.IllegalDll, "User " + (from u in db.Account
+																																where u.Account_ID == userID
+																																select u.Account_Name) +
+																										 " doesn't have intellect.");
 
-                if (updatedaccount.TournamentPlayer.Contains(neededtournament))
-                {
-                    return new ErrorCode(ErrorType.WrongInformationInField, "User already competes in that tournament");
-                }
-                else
-                {
-                    try
-                    {
-                        neededtournament.Stages.First().Intellects.Add(updatedaccount.Intellect.Last());
-                        updatedaccount.TournamentPlayer.Add(neededtournament);
-                        db.SaveChanges();
+				if (updatedaccount.TournamentPlayer.Contains(neededtournament))
+				{
+					return new ErrorCode(ErrorType.WrongInformationInField, "User already competes in that tournament");
+				}
+				else
+				{
+					try
+					{
+						neededtournament.Stages.First().Intellects.Add(updatedaccount.Intellect.Last());
+						updatedaccount.TournamentPlayer.Add(neededtournament);
+						db.SaveChanges();
 
-                        return new ErrorCode(ErrorType.Ok, "User " + (from u in db.Account
-                                                                      where u.Account_ID == userID
-                                                                      select u.Account_Name) + " joined to tournament.");
+						return new ErrorCode(ErrorType.Ok, "User " + (from u in db.Account
+																													where u.Account_ID == userID
+																													select u.Account_Name) + " joined to tournament.");
 
-                    }
-                    catch (Exception e)
-                    {
-                        return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: \n" + e.ToString());
-                    }
-                }
+					}
+					catch (Exception e)
+					{
+						return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: \n" + e.ToString());
+					}
+				}
 
-            }
-            else
-            {
-                return new ErrorCode(ErrorType.WrongInformationInField, "There are no tournaments with that ID.");
-            }
+			}
+			else
+			{
+				return new ErrorCode(ErrorType.WrongInformationInField, "There are no tournaments with that ID.");
+			}
 
-        }
+		}
 
-	    public static ErrorCode LeaveTournament(Guid tournamentID, Guid userID)
+		public static ErrorCode LeaveTournament(Guid tournamentID, Guid userID)
 		{
 
 			Tournament neededtournament = (from t in db.Tournament
@@ -843,133 +844,133 @@ namespace WarSpot.Cloud.Storage
 
 		}
 
-        public static Tournament GetTournament(Guid tournamentID)
-        {
-            return (from t in db.Tournament
-                    where t.Tournament_ID == tournamentID
-                    select t).First<Tournament>();
-        }
+		public static Tournament GetTournament(Guid tournamentID)
+		{
+			return (from t in db.Tournament
+							where t.Tournament_ID == tournamentID
+							select t).First<Tournament>();
+		}
 
-        #endregion
+		#endregion
 
-        #region stage
+		#region stage
 
-        public static ErrorCode AddStage(Guid tournamentID, DateTime startTime, State state = State.NotStarted , string type = "TO DO: Какие типы")
-        {
-            Tournament currentTournament;
-            if ((currentTournament = (from t in db.Tournament
-                                                 where t.Tournament_ID == tournamentID
-                                                 select t).FirstOrDefault<Tournament>()) != null)
-            {
-                if (DateTime.Compare(startTime, DateTime.Now) > 0)
-                {
-                    try
-                    {
-                        Stage stage = Stage.CreateStage(Guid.NewGuid(), (int) state, type, startTime);
-                        stage.Tournament = currentTournament;
-                        db.AddToStages(stage);
-                        db.SaveChanges();
+		public static ErrorCode AddStage(Guid tournamentID, DateTime startTime, State state = State.NotStarted, string type = "TO DO: Какие типы")
+		{
+			Tournament currentTournament;
+			if ((currentTournament = (from t in db.Tournament
+																where t.Tournament_ID == tournamentID
+																select t).FirstOrDefault<Tournament>()) != null)
+			{
+				if (DateTime.Compare(startTime, DateTime.Now) > 0)
+				{
+					try
+					{
+						Stage stage = Stage.CreateStage(Guid.NewGuid(), (int)state, type, startTime);
+						stage.Tournament = currentTournament;
+						db.AddToStages(stage);
+						db.SaveChanges();
 
-                        return new ErrorCode(ErrorType.Ok, "New stage has been created.");
-                    }
-                    catch (Exception e)
-                    {
-                        return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
-                    }
-                }
-                else
-                {
-                    return new ErrorCode(ErrorType.DataBaseProblems, "Start time " + startTime.ToString() + " is past. Current time is " + DateTime.Now.ToString());
-                }
-            }
-            else
-            {
-                return new ErrorCode(ErrorType.DataBaseProblems, "No tournaments with that ID: " + tournamentID.ToString());
-            }
+						return new ErrorCode(ErrorType.Ok, "New stage has been created.");
+					}
+					catch (Exception e)
+					{
+						return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
+					}
+				}
+				else
+				{
+					return new ErrorCode(ErrorType.DataBaseProblems, "Start time " + startTime.ToString() + " is past. Current time is " + DateTime.Now.ToString());
+				}
+			}
+			else
+			{
+				return new ErrorCode(ErrorType.DataBaseProblems, "No tournaments with that ID: " + tournamentID.ToString());
+			}
 
-        }
+		}
 
-        public static ErrorCode AddScore(Stage stage, Account account, int value)
-        {
-            try
-            {
-                Score score = Score.CreateScore(Guid.NewGuid(), stage.Stage_ID, account.Account_ID, value);
-                score.Account = account;
-                score.Stage = stage;
-                db.AddToScores(score);
-                db.SaveChanges();
+		public static ErrorCode AddScore(Stage stage, Account account, int value)
+		{
+			try
+			{
+				Score score = Score.CreateScore(Guid.NewGuid(), stage.Stage_ID, account.Account_ID, value);
+				score.Account = account;
+				score.Stage = stage;
+				db.AddToScores(score);
+				db.SaveChanges();
 
-                return new ErrorCode(ErrorType.Ok, "New stage has been created.");
-            }
-            catch (Exception e)
-            {
-                return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
-            }
-        }
-
-
-
-	    public static ErrorCode DeleteStage(Guid stageID)
-        {
-            Stage neededStage;
-
-            if ((neededStage = (from s in db.Stages
-                                where s.Stage_ID == stageID
-                                select s).FirstOrDefault<Stage>()) != null)
-            {
-                try
-                {
-                    db.Stages.DeleteObject(neededStage);
-                    db.SaveChanges();
-
-                    return new ErrorCode(ErrorType.Ok, "Stage with id " + stageID.ToString() + " was deleted.");
-                }
-                catch (Exception e)
-                {
-                    return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
-                }
-            }
-            else
-            {
-                return new ErrorCode(ErrorType.DataBaseProblems, "No stage with that ID: " + stageID.ToString());
-            }
-
-        }
-
-        public static void UpdateStage(Guid stageID, State newState)
-        {
-            Stage neededState;
-            if ((neededState = (from s in db.Stages
-                                where s.Stage_ID == stageID
-                                select s).FirstOrDefault<Stage>()) != null)
-            {
-                try
-                {
-                    neededState.State_Code = (int)newState;
-                    db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-            }
-            else
-            {
-                throw new ArgumentException("No stage with that ID: " + stageID.ToString());
-            }
-
-        }
-
-		
-		
-        #endregion
-
-        #endregion
+				return new ErrorCode(ErrorType.Ok, "New stage has been created.");
+			}
+			catch (Exception e)
+			{
+				return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
+			}
+		}
 
 
-        #region roles
 
-        public static DateTime UserRoleValidUntil(Guid userID, RoleType roleCode)
+		public static ErrorCode DeleteStage(Guid stageID)
+		{
+			Stage neededStage;
+
+			if ((neededStage = (from s in db.Stages
+													where s.Stage_ID == stageID
+													select s).FirstOrDefault<Stage>()) != null)
+			{
+				try
+				{
+					db.Stages.DeleteObject(neededStage);
+					db.SaveChanges();
+
+					return new ErrorCode(ErrorType.Ok, "Stage with id " + stageID.ToString() + " was deleted.");
+				}
+				catch (Exception e)
+				{
+					return new ErrorCode(ErrorType.DataBaseProblems, "Database problems: " + e.ToString());
+				}
+			}
+			else
+			{
+				return new ErrorCode(ErrorType.DataBaseProblems, "No stage with that ID: " + stageID.ToString());
+			}
+
+		}
+
+		public static void UpdateStage(Guid stageID, State newState)
+		{
+			Stage neededState;
+			if ((neededState = (from s in db.Stages
+													where s.Stage_ID == stageID
+													select s).FirstOrDefault<Stage>()) != null)
+			{
+				try
+				{
+					neededState.State_Code = (int)newState;
+					db.SaveChanges();
+				}
+				catch (Exception e)
+				{
+					throw e;
+				}
+			}
+			else
+			{
+				throw new ArgumentException("No stage with that ID: " + stageID.ToString());
+			}
+
+		}
+
+
+
+		#endregion
+
+		#endregion
+
+
+		#region roles
+
+		public static DateTime UserRoleValidUntil(Guid userID, RoleType roleCode)
 		{
 			var needed = (from r in db.UserRole
 										where r.AccountAccount_ID == userID && r.Role_Code == (int)roleCode
@@ -1067,6 +1068,6 @@ namespace WarSpot.Cloud.Storage
 
 
 
-        
-    }
+
+	}
 }
