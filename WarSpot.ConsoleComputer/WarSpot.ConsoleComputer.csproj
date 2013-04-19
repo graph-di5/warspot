@@ -85,6 +85,10 @@
       <Project>{8B236A28-C004-4207-8F6E-2DE18D4739D5}</Project>
       <Name>WarSpot.MatchComputer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Security\WarSpot.Security.csproj">
+      <Project>{8B007689-BE90-4950-ADCE-3BBAD20DA95E}</Project>
+      <Name>WarSpot.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

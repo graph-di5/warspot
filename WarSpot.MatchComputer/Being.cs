@@ -2,6 +2,7 @@ using System;
 using WarSpot.Contracts.Intellect;
 using WarSpot.Contracts.Intellect.Actions;
 using WarSpot.Contracts.Service;
+using WarSpot.Security;
 
 namespace WarSpot.MatchComputer
 {
@@ -15,31 +16,25 @@ namespace WarSpot.MatchComputer
 		/// </summary>
 		public BeingCharacteristics Characteristics { get; set; }
 
+	    private IntellectDomainProxy _me;
+
 		/// <summary>
 		/// Reference to the concrete being.
 		/// </summary>
-		public IBeingInterface Me { private set; get; }
-
-		public Type TypeOfMe { get; private set; }
+        public IntellectDomainProxy Me { get { return _me; } }
 
 
-		/// <summary>
-		/// Ctor
-		/// </summary>
-		/// <param name="typeOfMe">Reference to the custom object</param>
-		/// <param name="team"> </param>
-		public Being(Type typeOfMe, Guid team)
+	    /// <summary>
+	    /// Ctor
+	    /// </summary>
+	    /// <param name="typeOfMe">Reference to the custom object</param>
+	    public Being(IBeingInterface instance)
 		{
-			TypeOfMe = typeOfMe;
-			var defaultCtor = typeOfMe.GetConstructor(new Type[0]);
-			if (defaultCtor != null)
-			{
-				var inst = defaultCtor.Invoke(new Type[0]);
-				Me = inst as IBeingInterface;
-			}
+            if(!(instance is IntellectDomainProxy))throw new NotSupportedException();
+            _me = instance as IntellectDomainProxy;
 		}
 
-		/// <summary>
+	    /// <summary>
 		/// Calls think of custom being.
 		/// </summary>
 		/// <param name="turnNumber">Current time step</param>
