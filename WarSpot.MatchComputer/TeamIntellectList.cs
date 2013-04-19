@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using WarSpot.Contracts.Intellect;
 
 namespace WarSpot.Common
 {
@@ -10,6 +9,6 @@ namespace WarSpot.Common
 	public class TeamIntellectList
 	{
 		public Guid TeamId { set; get ;}
-        public List<IBeingInterface> Members = new List<IBeingInterface>();
+		public List<Type> Members = new List<Type>();
 	}
 }
