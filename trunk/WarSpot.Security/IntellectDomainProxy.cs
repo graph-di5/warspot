@@ -8,7 +8,14 @@ namespace WarSpot.Security
 {
     public class IntellectDomainProxy:IBeingInterface
     {
-        private AppDomain _domain = AppDomain.CreateDomain(Guid.NewGuid().ToString());
+        private AppDomain _domain = AppDomain.CreateDomain(Guid.NewGuid().ToString(), AppDomain.CurrentDomain.Evidence,
+                                                           new AppDomainSetup()
+                                                               {
+                                                                   ApplicationBase =
+                                                                       AppDomain.CurrentDomain.BaseDirectory,
+                                                                   PrivateBinPath =
+                                                                       AppDomain.CurrentDomain.BaseDirectory,
+                                                               });
         private IBeingInterface _reference;
 
         private IntellectDomainProxy()
@@ -18,18 +25,10 @@ namespace WarSpot.Security
         public IntellectDomainProxy(byte[] assembly)
         {
             _domain.SetData("Intellect", assembly);
-            var asms = AppDomain.CurrentDomain.GetAssemblies();
-            var s1 = AppDomain.CurrentDomain.BaseDirectory;
-            var s2 = _domain.BaseDirectory;
+
             try
             {
-                foreach (var asm in asms)
-                {
-                    if (asm.FullName.Contains("WarSpot.Contracts.Intellect"))
-                        _domain.CreateInstanceFrom(asm.Location, typeof(BeingCharacteristics).FullName);
-                }
-
-                _reference = (IBeingInterface)_domain.CreateInstanceFromAndUnwrap(Assembly.GetExecutingAssembly().Location, typeof(IntellectSecurityProxy).FullName);
+                _reference = (IBeingInterface)_domain.CreateInstanceAndUnwrap(Assembly.GetExecutingAssembly().FullName, typeof(IntellectSecurityProxy).FullName);
             }
             catch (Exception e)
             {

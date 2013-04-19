@@ -118,7 +118,7 @@ namespace WarSpot.MatchComputer
 					{
 						continue;
 					}
-					var newBeing = new Being(team.Members[i], team.TeamId);
+					var newBeing = new Being(team.Members[i]);
 					newBeing.Construct(0, 60);
                     if (60 >= newBeing.Characteristics.Cost())//Проверка, можно ли создать начальное существо с такими характеристиками
                     {
@@ -339,7 +339,7 @@ namespace WarSpot.MatchComputer
 						break;
 					}
 					actor = _objects.Find(a => a.Characteristics.Id == birthAcrion.SenderId);
-					var offspring = new Being(actor.TypeOfMe, actor.Characteristics.Team);
+					var offspring = new Being(actor.Me.Copy());
 					// //!! todo understand what is happening here with team number
 					offspring.Construct(_turnNumber, birthAcrion.Ci);//Вызываем пользовательский конструктор.
 

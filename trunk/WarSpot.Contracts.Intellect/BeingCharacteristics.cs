@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 namespace WarSpot.Contracts.Intellect
 {
 	[DataContract]
+    [Serializable]
 	public class BeingCharacteristics
 	{
 		#region readlony properties: constants for fixed object

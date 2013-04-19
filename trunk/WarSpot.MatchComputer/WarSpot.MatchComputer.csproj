@@ -91,6 +91,10 @@
       <Project>{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}</Project>
       <Name>WarSpot.Contracts.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WarSpot.Security\WarSpot.Security.csproj">
+      <Project>{8B007689-BE90-4950-ADCE-3BBAD20DA95E}</Project>
+      <Name>WarSpot.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
