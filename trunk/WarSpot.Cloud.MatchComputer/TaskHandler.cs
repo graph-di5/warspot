@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Reflection;
 using WarSpot.Common;
@@ -8,7 +7,6 @@ using WarSpot.Contracts.Intellect;
 using WarSpot.MatchComputer;
 using WarSpot.Cloud.Common;
 using WarSpot.Cloud.Storage;
-using WarSpot.Security;
 
 namespace WarSpot.Cloud.MatchComputer
 {
@@ -70,7 +68,7 @@ namespace WarSpot.Cloud.MatchComputer
 				var teamIntellectList = new TeamIntellectList
 																	{
 																		TeamId = team.TeamId,
-                                                                        Members = new List<IBeingInterface>()
+																		Members = new List<Type>()
 																	};
 				foreach (var intellectId in team.Members)
 				{
@@ -82,7 +80,7 @@ namespace WarSpot.Cloud.MatchComputer
 			return listIntellect;
 		}
 
-        public static IntellectDomainProxy ParseIntellect(byte[] dll)
+		public static Type ParseIntellect(byte[] dll)
 		{
 			Assembly assembly = Assembly.Load(dll);//вытаскиваем библиотеку
 			var referencedAssemblies = assembly.GetReferencedAssemblies();
@@ -105,7 +103,15 @@ namespace WarSpot.Cloud.MatchComputer
 			if (!floudIntellect)
 				return null;
 
-            return new IntellectDomainProxy(dll);
+			string iMyInterfaceName = typeof(IBeingInterface).ToString();
+			foreach (var t in assembly.GetTypes())
+			{
+				if (t.GetInterface(iMyInterfaceName) != null)
+				{
+					return t;
+				}
+			}
+			return null;
 		}
 
 
@@ -128,13 +134,8 @@ namespace WarSpot.Cloud.MatchComputer
 				}
 				if (msg != null)
 				{
-				    var lst = GetIntellects(msg);
-					ComputeMatch(lst, msg);
-				    var ints = lst.SelectMany(x => x.Members.OfType<IntellectDomainProxy>());
-				    foreach (var intellectDomainProxy in ints)
-				    {
-				        intellectDomainProxy.Unload();
-				    }
+					ComputeMatch(GetIntellects(msg), msg);
+					continue;
 				}
 
 				else //(msg == null)
@@ -142,6 +143,10 @@ namespace WarSpot.Cloud.MatchComputer
 					if (_are.WaitOne(timeout))
 					{
 						break;
+					}
+					else
+					{
+
 					}
 				}
 			}

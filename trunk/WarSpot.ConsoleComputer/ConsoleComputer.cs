@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.IO;
 using WarSpot.Common;
@@ -9,7 +8,6 @@ using WarSpot.Common.Utils;
 using WarSpot.Contracts.Intellect;
 using WarSpot.Contracts.Service;
 using WarSpot.MatchComputer;
-using WarSpot.Security;
 
 namespace WarSpot.ConsoleComputer
 {
@@ -48,49 +46,52 @@ namespace WarSpot.ConsoleComputer
 			SerializationHelper.Serialize(res, fs);
 			sw.Stop();
 			fs.Close();
-		    foreach (var teamIntellectList in listIntellect)
-		    {
-                foreach (var intellect in teamIntellectList.Members.OfType<IntellectDomainProxy>())
-		        {
-		            intellect.Unload();
-		        }
-		    }
 			Console.WriteLine("Done: {0}.", sw.Elapsed);
-			Console.ReadKey();
+			Console.ReadLine();
 #if true
 			var list = SerializationHelper.Deserialize(outFileName);
 #endif
 		}
 
 
-		public static IntellectDomainProxy ParseIntellect(string fullPath)
+		public static Type ParseIntellect(string fullPath)
 		{
-            using(var fs = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
-            {
-                var bytes = new byte[fs.Length];
-                fs.Read(bytes, 0, (int)fs.Length);
-                Assembly assembly = Assembly.Load(bytes);//вытаскиваем библиотеку
-                var referencedAssemblies = assembly.GetReferencedAssemblies();
-                // LOOOOOOOOOOOOL
-                var foundIntellect = false;
-                foreach (var referencedAssembly in referencedAssemblies)
-                {
-                    if (referencedAssembly.Name == "WarSpot.Contracts.Intellect")
-                    {
-                        // todo rewrite this to CheckVersion
-                        if (VersionHelper.CheckVersion(referencedAssembly.Version))
-                        {
-                            foundIntellect = true;
-                        }
-                        break;
-                    }
-                }
-                if (!foundIntellect)
-                    return null;
+			Assembly assembly = Assembly.LoadFrom(fullPath);//вытаскиваем библиотеку
+			var referencedAssemblies = assembly.GetReferencedAssemblies();
+			// LOOOOOOOOOOOOL
+			var foundIntellect = false;
+			foreach (var referencedAssembly in referencedAssemblies)
+			{
+				if(referencedAssembly.Name == "WarSpot.Contracts.Intellect")
+				{
+					// todo rewrite this to CheckVersion
+                    if (VersionHelper.CheckVersion(referencedAssembly.Version))
+					{
+						foundIntellect = true;
+					}
+					break;
+				}
+			}
+			if(!foundIntellect)
+				return null;
 
-                return new IntellectDomainProxy(bytes);
-            }
-
+			string iMyInterfaceName = typeof(IBeingInterface).ToString();
+			foreach (var t in assembly.GetTypes())
+			{
+				if (t.GetInterface(iMyInterfaceName) != null)
+				{
+					return t;
+#if false
+					var defaultCtor = t.GetConstructor(new Type[0]);
+					if (defaultCtor != null)
+					{
+						var inst = defaultCtor.Invoke(new Type[0]);
+						return inst as IBeingInterface;
+					}
+#endif
+				}
+			}
+			return null;
 		}
 	}
 }
