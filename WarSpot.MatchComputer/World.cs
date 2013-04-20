@@ -5,6 +5,9 @@ namespace WarSpot.MatchComputer
 	/// </summary>
 	class World
 	{
+		private const int WorldHeight = 100;
+		private const int WorldWeight = 100;
+
 		/// <summary>
 		/// Обращение к ячейке мира [x,y].
 		/// </summary>
@@ -115,8 +118,8 @@ namespace WarSpot.MatchComputer
 		/// </summary>
 		public World()
 		{
-			Width = 32;
-			Height = 24;
+			Width = WorldHeight;
+			Height = WorldHeight;
 			Map = new WorldCell[Width, Height];
 			for (var i = 0; i < Width; i++)
 			{
