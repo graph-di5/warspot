@@ -1,10 +1,8 @@
 ﻿@model WarSpot.WebFace.Models.Stage
 
 <div>	
-<div class="display-label">@Html.LabelFor(m => m.State)</div>
-<div class="display-field">@Html.DisplayFor(m => m.State)</div>
-<div class="display-label">@Html.LabelFor(m => m.StartTime)</div>
-<div class="display-field">@Html.DisplayFor(m => m.StartTime)</div>
+<div class="display-label"><b>@Html.LabelFor(m => m.State): </b>@Html.DisplayFor(m => m.State)</div>
+<div class="display-label"><b>@Html.LabelFor(m => m.StartTime): </b>@Html.DisplayFor(m => m.StartTime)</div>
 	
   @if(Model.Games.Count > 0)
   {
