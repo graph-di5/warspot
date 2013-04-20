@@ -1,6 +1,7 @@
 ﻿@model dynamic
 
 @{
+    ViewBag.Title = "Загрузить AI";
 }
 
 @using (Html.BeginForm("UploadAI", "AI", FormMethod.Post, new { enctype = "multipart/form-data" }))
