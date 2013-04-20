@@ -25,6 +25,9 @@
       <Component Id="WarSpot.Client.XnaClient.exe" Directory="XNAClient" Guid="*">
         <File Id="WarSpot.Client.XnaClient.exe" KeyPath="yes" Source="$(var.XNAClientDir)\WarSpot.Client.XnaClient.exe" />
       </Component>
+      <Component Id="WarSpot.Client.XnaClient.exe.config" Directory="XNAClient" Guid="*">
+        <File Id="WarSpot.Client.XnaClient.exe.config" KeyPath="yes" Source="$(var.XNAClientDir)\WarSpot.Client.XnaClient.exe.config" />
+      </Component>
       <Component Id="WarSpot.Common.dll" Directory="XNAClient" Guid="*">
         <File Id="WarSpot.Common.dll" KeyPath="yes" Source="$(var.XNAClientDir)\WarSpot.Common.dll" />
       </Component>
@@ -39,6 +42,9 @@
       </Component>
       <Component Id="WarSpot.MatchComputer.dll" Directory="XNAClient" Guid="*">
         <File Id="WarSpot.MatchComputer.dll" KeyPath="yes" Source="$(var.XNAClientDir)\WarSpot.MatchComputer.dll" />
+      </Component>
+      <Component Id="WarSpot.XNA.Lite.dll" Directory="XNAClient" Guid="*">
+        <File Id="WarSpot.XNA.Lite.dll" KeyPath="yes" Source="$(var.XNAClientDir)\WarSpot.XNA.Lite.dll" />
       </Component>
       <Component Id="menufont.xnb" Directory="Textures" Guid="*">
         <File Id="menufont.xnb" KeyPath="yes" Source="$(var.XNAClientDir)\Content\Textures\menufont.xnb" />

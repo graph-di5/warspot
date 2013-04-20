@@ -1,0 +1,20 @@
+﻿@model WarSpot.Cloud.Storage.Models.BlobFile
+@using WarSpot.WebFace.Security
+@{
+	ViewBag.Title = "Свойства файла";
+}
+
+<h2>Свойства файла</h2>
+<div>
+  <div class="editor-label"><b>@Html.LabelFor(m => m.Name)</b></div>
+  <div class="editor-field">@Html.DisplayFor(m => m.Name)</div>
+  <div class="editor-label"><b>@Html.LabelFor(m => m.Description)</b></div>
+  <div class="editor-field">@Html.DisplayFor(m => m.Description)</div>
+  <div class="editor-label"><b>@Html.LabelFor(m => m.LongDescription)</b></div>
+  <div class="editor-field">@Html.DisplayFor(m => m.LongDescription)</div>
+	<p>@Html.ActionLink("Скачать", "Download", new { id = Model.ID })</p>
+	@if ((User.Identity as CustomIdentity).IsInRole("Admin"))
+	{
+		<p>@Html.ActionLink("Удалить", "Delete", new { id = Model.ID })</p>
+	}
+</div>
