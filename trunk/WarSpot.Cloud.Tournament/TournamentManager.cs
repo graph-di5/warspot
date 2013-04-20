@@ -21,7 +21,7 @@ namespace WarSpot.Cloud.Tournament
 		 *						1 Считает очки, определяет победителей, формирует отчётность, завершает турнир.
 		 */
 
-		private static TournamentManager _tournamentMeneger;
+		private static TournamentManager _tournamentManager;
 		private ManualResetEvent _runingEvent;//Событие запуска работы этого менеджера
 		private Thread _thread;
 
@@ -34,18 +34,18 @@ namespace WarSpot.Cloud.Tournament
 
 		public static TournamentManager GetInstance()
 		{
-			if (_tournamentMeneger == null)
+			if (_tournamentManager == null)
 			{
 				lock (typeof(TournamentManager))
 				{
-					if (_tournamentMeneger == null)
+					if (_tournamentManager == null)
 					{
-						_tournamentMeneger = new TournamentManager();
+						_tournamentManager = new TournamentManager();
 					}
 				}
 			}
 
-			return _tournamentMeneger;
+			return _tournamentManager;
 		}
 
 		public void Start()

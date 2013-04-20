@@ -119,8 +119,8 @@ namespace WarSpot.MatchComputer
 						continue;
 					}
 					var newBeing = new Being(team.Members[i], team.TeamId);
-					newBeing.Construct(0, 60);
-                    if (60 >= newBeing.Characteristics.Cost())//Проверка, можно ли создать начальное существо с такими характеристиками
+					newBeing.Construct(0, 100);//На рождение начального существа даётся 100 энергии.
+                    if (100 >= newBeing.Characteristics.Cost())//Проверка, можно ли создать начальное существо с такими характеристиками
                     {
                         newBeing.Characteristics.Team = team.TeamId;
                         newBeing.Characteristics.X = pos[i].Item1;
