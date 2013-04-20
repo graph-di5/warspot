@@ -371,8 +371,6 @@ namespace WarSpot.MatchComputer
 					cost = 0.2f * actor.Characteristics.MaxHealth + atackAction.Damage;
 					distance = Math.Abs(atackAction.X) + Math.Abs(atackAction.Y);
 
-					_eventsHistory.Events.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));//В любом случае отнимаем энергию.
-
 					if (_world[actor.Characteristics.X + atackAction.X, actor.Characteristics.Y + atackAction.Y].BeingValue != null)
 					{
 						target = _objects.Find(a => a.Characteristics.Id == _world[actor.Characteristics.X + atackAction.X, actor.Characteristics.Y + atackAction.Y].BeingValue.Characteristics.Id);
@@ -383,7 +381,7 @@ namespace WarSpot.MatchComputer
 							actor.Characteristics.Ci -= cost;//применяем изменения
 							target.Characteristics.Health -= atackAction.Damage;
 
-
+							_eventsHistory.Events.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));
 							_eventsHistory.Events.Add(new GameEventHealthChange(target.Characteristics.Id, target.Characteristics.Health));
 						}
 					}
@@ -402,18 +400,18 @@ namespace WarSpot.MatchComputer
 
 					if (actor.Characteristics.Health > 0)
 					{
-						if (_world[actor.Characteristics.X, actor.Characteristics.Y].Ci > 20)
+						if (_world[actor.Characteristics.X, actor.Characteristics.Y].Ci > 20.0f * actor.Characteristics.MaxHealth)
 						{
-							actor.Characteristics.Ci += 20;//Съесть можно не больше 20 энергии за ход.
-							_world[actor.Characteristics.X, actor.Characteristics.Y].Ci -= 20;
+							actor.Characteristics.Ci += 20.0f * actor.Characteristics.MaxHealth;//Съесть можно не больше 20% от максимального здоровья.
+							_world[actor.Characteristics.X, actor.Characteristics.Y].Ci -= 20.0f * actor.Characteristics.MaxHealth;
 						}
 						else
 						{
 							actor.Characteristics.Ci += _world[actor.Characteristics.X, actor.Characteristics.Y].Ci;//увеличиваем энергию существа
-							_world[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0;//Убираем энергию из клетки
+							_world[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0.0f;//Убираем энергию из клетки
 						}
 						_eventsHistory.Events.Add(new GameEventCiChange(eatAction.SenderId, actor.Characteristics.Ci));
-						_eventsHistory.Events.Add(new GameEventWorldCiChanged(actor.Characteristics.X, actor.Characteristics.Y, 0));//Событие в клетке по координатам существа
+						_eventsHistory.Events.Add(new GameEventWorldCiChanged(actor.Characteristics.X, actor.Characteristics.Y, _world[actor.Characteristics.X, actor.Characteristics.Y].Ci));//Событие в клетке по координатам существа
 					}
 
 					break;
@@ -446,7 +444,7 @@ namespace WarSpot.MatchComputer
 						else//Если в клетке никого, энергия скидывается в клетку.
 						{
 							_world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].Ci += giveCiAction.Ci;
-							_eventsHistory.Events.Add(new GameEventWorldCiChanged(actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y, giveCiAction.Ci));
+							_eventsHistory.Events.Add(new GameEventWorldCiChanged(actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y, _world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].Ci));
 						}
 					}
 
@@ -508,15 +506,15 @@ namespace WarSpot.MatchComputer
 				#endregion
 				#region GameActionMakeOffspring
 				case ActionTypes.GameActionMakeOffspring:
-					var birthAcrion = curAction as GameActionMakeOffspring;
-					if (birthAcrion == null)
+					var birthAction = curAction as GameActionMakeOffspring;
+					if (birthAction == null)
 					{
 						break;
 					}
-					actor = _objects.Find(a => a.Characteristics.Id == birthAcrion.SenderId);
+					actor = _objects.Find(a => a.Characteristics.Id == birthAction.SenderId);
 					var offspring = new Being(actor.TypeOfMe, actor.Characteristics.Team);
 					// //!! todo understand what is happening here with team number
-					offspring.Construct(_turnNumber, birthAcrion.Ci);//Вызываем пользовательский конструктор.
+					offspring.Construct(_turnNumber, birthAction.Ci);//Вызываем пользовательский конструктор.
 
 					//Собственная проверка стоимости
 					cost = offspring.Characteristics.MaxHealth * 0.8f//Стоимость максимального здоровья
@@ -533,7 +531,7 @@ namespace WarSpot.MatchComputer
 						var r = new Random();
 						int d = r.Next(emptyEnvirons.Count - 1);//Номер клетки из списка пустых клеток вокруг существа.
 
-						if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Ci >= birthAcrion.Ci)
+						if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Ci >= birthAction.Ci)
 							 && (actor.Characteristics.Health > 0) && (actor.Characteristics.Ci >= offspring.Characteristics.MaxHealth * 0.9f)
 							 && (actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f))
 						{
