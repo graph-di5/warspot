@@ -7,6 +7,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using WarSpot.Cloud.Storage;
+using WarSpot.Cloud.Storage.Models;
 
 namespace WarSpot.WebFace.Controllers
 {
@@ -41,7 +42,15 @@ namespace WarSpot.WebFace.Controllers
 		[AllowAnonymous]
 		public ActionResult Details(Guid id)
 		{
-			return View();
+			var fileInfo = Warehouse.db.Files.First(f => f.File_Id ==  id);
+			return View(new BlobFile
+			{
+				ID = fileInfo.File_Id,
+				Name = fileInfo.Name,
+				CreationTime = fileInfo.CreationTime,
+				Description = fileInfo.Description,
+				LongDescription = fileInfo.LongComment,
+			});
 		}
 
 		//
