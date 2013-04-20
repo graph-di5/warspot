@@ -326,7 +326,7 @@ namespace WarSpot.MatchComputer
 						target.Characteristics.Health += cost / 3;
 
 						_eventsHistory.Events.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
-						_eventsHistory.Events.Add(new GameEventHealthChange(treatAction.TargetId, target.Characteristics.Health));
+						_eventsHistory.Events.Add(new GameEventHealthChange(target.Characteristics.Id, target.Characteristics.Health));
 					}
 
 					break;
