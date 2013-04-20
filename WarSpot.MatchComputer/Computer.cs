@@ -8,6 +8,171 @@ using WarSpot.Contracts.Service;
 
 namespace WarSpot.MatchComputer
 {
+	#region MapGenerator
+	class Map
+	{
+		private float[,] _map;
+		private int _length;
+
+		public int Length { get { return _length; } }
+
+		public float this[int x, int y]
+		{
+			set
+			{
+				while (x < 0)
+				{
+					x += Length;
+				}
+				x %= Length;
+				while (y < 0)
+				{
+					y += Length;
+				}
+				y %= Length;
+				_map[x, y] = value;
+			}
+
+			get
+			{
+				while (x < 0)
+				{
+					x += Length;
+				}
+				x %= Length;
+				while (y < 0)
+				{
+					y += Length;
+				}
+				y %= Length;
+				return _map[x, y];
+			}
+
+
+		}
+
+		public Map(int length)
+		{
+			_map = new float[length, length];
+			_length = length;
+
+			for (int i = 0; i < length; i++)
+			{
+				for (int j = 0; j < length; j++)
+				{
+					_map[i, j] = 0.0f;
+				}
+			}
+		}
+	}
+
+	class MapGenerator
+	{
+		public Map _map;
+
+		public MapGenerator(int length)
+		{
+			_map = new Map(length);
+		}
+
+		#region Accessories
+
+		public void Normalize()
+		{
+			float _max = 0.0f;
+
+			for (int i = 0; i < _map.Length; i++)
+			{
+				for (int j = 0; j < _map.Length; j++)
+				{
+					if (_map[i, j] > _max)
+					{
+						_max = _map[i, j];
+					}
+				}
+			}
+
+			if (_max == 0.0f)
+			{
+				_max = 1.0f;
+			}
+
+			for (int i = 0; i < _map.Length; i++)
+			{
+				for (int j = 0; j < _map.Length; j++)
+				{
+					_map[i, j] = _map[i, j] / _max;
+				}
+			}
+		}
+
+		public void AbsorbPiles()
+		{
+			var _tempMap = new MapGenerator(_map.Length);
+
+			for (int i = 0; i < _map.Length; i++)
+			{
+				for (int j = 0; j < _map.Length; j++)
+				{
+					_tempMap._map[i, j] = (_map[i - 1, j] + _map[i, j - 1] + _map[i + 1, j] + _map[i, j + 1]) / 2.0f + (_map[i - 1, j - 1] + _map[i - 1, j - 1] + _map[i + 1, j + 1] + _map[i + 1, j + 1]) / 4.0f;
+				}
+			}
+
+			_map = _tempMap._map;
+		}
+
+		public void Lower(float value)
+		{
+			for (int i = 0; i < _map.Length; i++)
+			{
+				for (int j = 0; j < _map.Length; j++)
+				{
+					_map[i, j] -= value;
+					if (_map[i, j] < 0.0f)
+					{
+						_map[i, j] = 0.0f;
+					}
+				}
+			}
+		}
+
+		public void Fill(float energy)
+		{
+			for (int i = 0; i < _map.Length; i++)
+			{
+				for (int j = 0; j < _map.Length; j++)
+				{
+					_map[i, j] *= energy;
+				}
+			}
+		}
+		#endregion Accessories
+
+		public void Generate(float energy, int smooth)
+		{
+			Random _random = new Random(Guid.NewGuid().GetHashCode());
+
+			for (int x = 0; x < _map.Length; x++)
+			{
+				for (int y = 0; y < _map.Length; y++)
+				{
+					_map[x, y] = ((float)_random.Next(0, 10000)) / 10000.0f;
+				}
+			}
+
+			for (int a = 0; a < smooth; a++)
+			{
+				AbsorbPiles();
+				Normalize();
+			}
+
+			Lower(0.7f);
+			Normalize();
+			Fill(energy);
+		}
+	}
+	#endregion MapGenerator
+
 	public class Computer
 	{
 		private readonly List<Being> _objects;
@@ -74,6 +239,16 @@ namespace WarSpot.MatchComputer
 			_eventsHistory = new MatchReplay();
 			_turnNumber = 0;
 			_world = new World();
+			var _mapGenerator = new MapGenerator(_world.Width);//Переписать весь класс для создания прямоугольных миров
+			_mapGenerator.Generate(100.0f, 5);//100 энергии максимально в клетке
+
+			for (int i = 0; i < _world.Width; i++)
+			{
+				for (int j = 0; j < _world.Height; j++)
+				{
+					_world[i, j].Ci = _mapGenerator._map[i, j];
+				}
+			}
 
 			int c = 5; //Константа площади начального расположения, не знаю, куда её запихнуть 
 			int minDist = c * 2; // минимально возможное расстояние между стойбищами при генерации
