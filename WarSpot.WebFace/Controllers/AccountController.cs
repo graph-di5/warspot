@@ -42,7 +42,7 @@ namespace WarSpot.WebFace.Controllers
 				}
 				else
 				{
-					ModelState.AddModelError("", "The user name or password provided is incorrect.");
+					ModelState.AddModelError("", "Неправильный логин или пароль.");
 				}
 			}
 
@@ -89,7 +89,7 @@ namespace WarSpot.WebFace.Controllers
 					}
 					else
 					{
-						ModelState.AddModelError("", "The user name or password provided is incorrect.");
+						ModelState.AddModelError("", "Неправильный логин или пароль.");
 					}
 				}
 				else
@@ -149,6 +149,7 @@ namespace WarSpot.WebFace.Controllers
 				}
 				else
 				{
+					ModelState.AddModelError("", "Неправильный текущий пароль или некорректный новый.");
 					if(model.ConfirmPassword != null || model.NewPassword != null || model.OldPassword != null)
 					{
 					}
@@ -213,34 +214,34 @@ namespace WarSpot.WebFace.Controllers
 			switch (createStatus)
 			{
 			case MembershipCreateStatus.DuplicateUserName:
-				return "User name already exists. Please enter a different user name.";
+				return "Логин уже используется. Введите другой.";
 
 			case MembershipCreateStatus.DuplicateEmail:
-				return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+				return "Логин для этого e-mail уже используется. Пожалуйста введите другой e-mail.";
 
 			case MembershipCreateStatus.InvalidPassword:
-				return "The password provided is invalid. Please enter a valid password value.";
+				return "Некорректный пароль. Введите другой.";
 
 			case MembershipCreateStatus.InvalidEmail:
-				return "The e-mail address provided is invalid. Please check the value and try again.";
+				return "Введенный e-mail некорректен. Пожалуйста проверьте правильность и попробуйте еще раз.";
 
 			case MembershipCreateStatus.InvalidAnswer:
-				return "The password retrieval answer provided is invalid. Please check the value and try again.";
+				return "Неправильный ответ на восстановление пароля. Пожалуйста проверьте правильность и попробуйте еще раз.";
 
 			case MembershipCreateStatus.InvalidQuestion:
-				return "The password retrieval question provided is invalid. Please check the value and try again.";
+                return "Неправильный вопрос восстановления пароля. Пожалуйста проверьте правильность и попробуйте еще раз.";
 
 			case MembershipCreateStatus.InvalidUserName:
-				return "The user name provided is invalid. Please check the value and try again.";
+                return "Некорректный логин. Пожалуйста проверьте правильность и попробуйте еще раз.";
 
 			case MembershipCreateStatus.ProviderError:
-				return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+				return "При входе в систему возникла ошибка. Проверьте правильность вводимых данных и попробуйте еще раз. Если ошибка повторится, обратитесь к системному администратору.";
 
 			case MembershipCreateStatus.UserRejected:
-				return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                return "При регистрации возникла ошибка has been canceled. Проверьте правильность вводимых данных и попробуйте еще раз. Если ошибка повторится, обратитесь к системному администратору.";
 
 			default:
-				return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                return "Возникла ошибка. Проверьте правильность вводимых данных и попробуйте еще раз. Если ошибка повторится, обратитесь к системному администратору.";
 			}
 		}
 		#endregion
