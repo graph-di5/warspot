@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Objects;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using WarSpot.Cloud.Storage;
@@ -103,11 +107,14 @@ namespace WarSpot.WebFace.Controllers
 		// GET: /File/Delete/5
 
 		[Authorize(Roles = "Admin")]
-		public ActionResult Delete(int id)
+		public ActionResult Delete(Guid id)
 		{
-			return View();
+			Warehouse.db.Files.DeleteObject(Warehouse.db.Files.First(f => f.File_Id == id));
+			Warehouse.db.SaveChanges();
+			return RedirectToAction("Index");
 		}
 
+		/*
 		//
 		// POST: /File/Delete/5
 
@@ -126,5 +133,6 @@ namespace WarSpot.WebFace.Controllers
 				return View();
 			}
 		}
+		/**/
 	}
 }

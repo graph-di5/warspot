@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects;
 using System.Linq;
 using System.Web.Mvc;
 using WarSpot.Cloud.Storage;
 using WarSpot.WebFace.Models;
-using Warehouse = WarSpot.Cloud.Storage.Warehouse;
 using WarSpot.WebFace.Security;
 using Stage = WarSpot.WebFace.Models.Stage;
+using Warehouse = WarSpot.Cloud.Storage.Warehouse;
 
 
 namespace WarSpot.WebFace.Controllers
@@ -18,6 +19,7 @@ namespace WarSpot.WebFace.Controllers
 
 		public ActionResult Index()
 		{
+			Warehouse.db.Refresh(RefreshMode.StoreWins, Warehouse.db.Tournament);
 			var customIdentity = User.Identity as CustomIdentity;
 			if (customIdentity != null)
 			{
@@ -87,6 +89,7 @@ namespace WarSpot.WebFace.Controllers
 
 		public ActionResult View(Guid id)
 		{
+			Warehouse.db.Refresh(RefreshMode.StoreWins, Warehouse.db.Tournament);
 			var customIdentity = User.Identity as CustomIdentity;
 			var tournament = Warehouse.db.Tournament.First(t => t.Tournament_ID == id);
 			var res = new Models.Tournament()
@@ -218,6 +221,7 @@ t.ID));*/
 		[Authorize(Roles = "TournamentsAdmin")]
 		public ActionResult Edit(Guid id)
 		{
+			Warehouse.db.Refresh(RefreshMode.StoreWins, Warehouse.db.Tournament);
 			var tournament = Warehouse.db.Tournament.First(t => t.Tournament_ID == id);
 			var res = new Models.Tournament()
 			{
