@@ -240,7 +240,7 @@ namespace WarSpot.Client.XnaClient.Screen
 			base.OnShow();
 			_listOfEvents = Utils.ScreenHelper.Instance.ReplayEvents;
 			this.PrepareScreen();
-			size = _listOfEvents.Count;
+			size = _listOfEvents.Count(x => x.EventType==EventTypes.SystemEventTurnStarted);
 			_globalPause = false;
 		}
 
