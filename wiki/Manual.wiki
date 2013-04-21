@@ -58,3 +58,31 @@ public GameAction Think(ulong step, BeingCharacteristics characteristics, WorldI
 	}
 }
 }}}
+
+#4 Реализация метода лечения
+{{{
+/// <summary>
+/// Heal itself
+/// </summary>
+///  <param name="characteristics">Being characteristics</param>
+/// <returns>Return computed action</returns>
+private GameAction selfHeal(BeingCharacteristics characteristics)
+{
+	float _ci = 0.0f;
+	if (characteristics.Ci >= (characteristics.MaxHealth - characteristics.Health) * 3.0f)
+	{//Heal itself fully if it can
+		_ci = (characteristics.MaxHealth - characteristics.Health) * 3.0f;
+
+		if (_ci > characteristics.Ci * 0.6f)
+		{//If more than one permitted then reduces
+			_ci = characteristics.Ci * 0.6f;
+		}
+	}
+	else
+	{
+		_ci = Math.Abs(characteristics.Ci);
+	}
+
+	return new GameActionTreat(characteristics.Id, 0, 0, _ci);//In relative coordinates
+}
+}}}
