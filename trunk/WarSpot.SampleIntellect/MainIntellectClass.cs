@@ -136,7 +136,7 @@ namespace WarSpot.SampleIntellect
 		/// <returns>GameAction that represents decision.</returns>
 		public GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
 		{			
-			// Here you can place a lot of decesions 
+			// Here you can place a lot of decisions 
 			if (characteristics.Health < characteristics.MaxHealth && characteristics.Ci > characteristics.MaxHealth * 0.6f)
 			{
 				return selfHeal(characteristics);
