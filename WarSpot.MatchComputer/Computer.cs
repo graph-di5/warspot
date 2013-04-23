@@ -293,7 +293,7 @@ namespace WarSpot.MatchComputer
 					{
 						continue;
 					}
-					var newBeing = new Being(team.Members[i], team.TeamId);
+					var newBeing = new Being(team.Members[i]);
 					newBeing.Construct(0, 100);//На рождение начального существа даётся 100 энергии.
                     if (100 >= newBeing.Characteristics.Cost())//Проверка, можно ли создать начальное существо с такими характеристиками
                     {
@@ -358,201 +358,289 @@ namespace WarSpot.MatchComputer
 				float cost;
 				int distance;
 
-				switch (curAction.ActionType)//Выясняем тип действия, и выполняем, если это возможно.
-				{
-				#region GameActionAtack
-				case ActionTypes.GameActionAtack:
-					var atackAction = curAction as GameActionAttack;
-					if (atackAction == null)
-					{
-						break;
-					}
-					actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
-					cost = 0.2f * actor.Characteristics.MaxHealth + atackAction.Damage;
-					distance = Math.Abs(atackAction.X) + Math.Abs(atackAction.Y);
+                switch (curAction.ActionType)//Выясняем тип действия, и выполняем, если это возможно.
+                {
+                        #region GameActionAtack
 
-					if (_world[actor.Characteristics.X + atackAction.X, actor.Characteristics.Y + atackAction.Y].BeingValue != null)
-					{
-						target = _objects.Find(a => a.Characteristics.Id == _world[actor.Characteristics.X + atackAction.X, actor.Characteristics.Y + atackAction.Y].BeingValue.Characteristics.Id);
+                    case ActionTypes.GameActionAtack:
+                        var atackAction = curAction as GameActionAttack;
+                        if (atackAction == null)
+                        {
+                            break;
+                        }
+                        actor = _objects.Find(a => a.Characteristics.Id == atackAction.SenderId);
+                        cost = 0.2f*actor.Characteristics.MaxHealth + atackAction.Damage;
+                        distance = Math.Abs(atackAction.X) + Math.Abs(atackAction.Y);
+
+                        if (
+                            _world[actor.Characteristics.X + atackAction.X, actor.Characteristics.Y + atackAction.Y].
+                                BeingValue != null)
+                        {
+                            target =
+                                _objects.Find(
+                                    a =>
+                                    a.Characteristics.Id ==
+                                    _world[
+                                        actor.Characteristics.X + atackAction.X, actor.Characteristics.Y + atackAction.Y
+                                        ].BeingValue.Characteristics.Id);
 
 
-						if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
-						{
-							actor.Characteristics.Ci -= cost;//применяем изменения
-							target.Characteristics.Health -= atackAction.Damage;
+                            if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) &&
+                                (distance <= 3))
+                            {
+                                actor.Characteristics.Ci -= cost; //применяем изменения
+                                target.Characteristics.Health -= atackAction.Damage;
 
-							_eventsHistory.Events.Add(new GameEventCiChange(atackAction.SenderId, actor.Characteristics.Ci));
-							_eventsHistory.Events.Add(new GameEventHealthChange(target.Characteristics.Id, target.Characteristics.Health));
-						}
-					}
+                                _eventsHistory.Events.Add(new GameEventCiChange(atackAction.SenderId,
+                                                                                actor.Characteristics.Ci));
+                                _eventsHistory.Events.Add(new GameEventHealthChange(target.Characteristics.Id,
+                                                                                    target.Characteristics.Health));
+                            }
+                        }
 
-					break;
-				#endregion
-				#region GameActionEat
-				case ActionTypes.GameActionEat:
-					var eatAction = curAction as GameActionEat;
-					if (eatAction == null)
-					{
-						break;
-					}
+                        break;
 
-					actor = _objects.Find(a => a.Characteristics.Id == eatAction.SenderId);
+                        #endregion
 
-					if (actor.Characteristics.Health > 0)
-					{
-						if (_world[actor.Characteristics.X, actor.Characteristics.Y].Ci > 20.0f * actor.Characteristics.MaxHealth)
-						{
-							actor.Characteristics.Ci += 20.0f * actor.Characteristics.MaxHealth;//Съесть можно не больше 20% от максимального здоровья.
-							_world[actor.Characteristics.X, actor.Characteristics.Y].Ci -= 20.0f * actor.Characteristics.MaxHealth;
-						}
-						else
-						{
-							actor.Characteristics.Ci += _world[actor.Characteristics.X, actor.Characteristics.Y].Ci;//увеличиваем энергию существа
-							_world[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0.0f;//Убираем энергию из клетки
-						}
-						_eventsHistory.Events.Add(new GameEventCiChange(eatAction.SenderId, actor.Characteristics.Ci));
-						_eventsHistory.Events.Add(new GameEventWorldCiChanged(actor.Characteristics.X, actor.Characteristics.Y, _world[actor.Characteristics.X, actor.Characteristics.Y].Ci));//Событие в клетке по координатам существа
-					}
+                        #region GameActionEat
 
-					break;
-				#endregion
-				#region GameActionGiveCi
-				case ActionTypes.GameActionGiveCi:
+                    case ActionTypes.GameActionEat:
+                        var eatAction = curAction as GameActionEat;
+                        if (eatAction == null)
+                        {
+                            break;
+                        }
 
-					var giveCiAction = curAction as GameActionGiveCi;
-					if (giveCiAction == null)
-					{
-						break;
-					}
+                        actor = _objects.Find(a => a.Characteristics.Id == eatAction.SenderId);
 
-					actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
-					cost = 0.1f * actor.Characteristics.MaxHealth + giveCiAction.Ci;
-					distance = Math.Abs(giveCiAction.X) + Math.Abs(giveCiAction.Y);
+                        if (actor.Characteristics.Health > 0)
+                        {
+                            if (_world[actor.Characteristics.X, actor.Characteristics.Y].Ci >
+                                20.0f*actor.Characteristics.MaxHealth)
+                            {
+                                actor.Characteristics.Ci += 20.0f*actor.Characteristics.MaxHealth;
+                                    //Съесть можно не больше 20% от максимального здоровья.
+                                _world[actor.Characteristics.X, actor.Characteristics.Y].Ci -= 20.0f*
+                                                                                               actor.Characteristics.
+                                                                                                   MaxHealth;
+                            }
+                            else
+                            {
+                                actor.Characteristics.Ci += _world[actor.Characteristics.X, actor.Characteristics.Y].Ci;
+                                    //увеличиваем энергию существа
+                                _world[actor.Characteristics.X, actor.Characteristics.Y].Ci = 0.0f;
+                                    //Убираем энергию из клетки
+                            }
+                            _eventsHistory.Events.Add(new GameEventCiChange(eatAction.SenderId, actor.Characteristics.Ci));
+                            _eventsHistory.Events.Add(new GameEventWorldCiChanged(actor.Characteristics.X,
+                                                                                  actor.Characteristics.Y,
+                                                                                  _world[
+                                                                                      actor.Characteristics.X,
+                                                                                      actor.Characteristics.Y].Ci));
+                                //Событие в клетке по координатам существа
+                        }
 
-					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
-					{
-						actor.Characteristics.Ci -= cost;//В любом случае отнимаем энергию
-						_eventsHistory.Events.Add(new GameEventCiChange(giveCiAction.SenderId, actor.Characteristics.Ci));
+                        break;
 
-						if (_world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].BeingValue != null)
-						{
-							target = _objects.Find(a => a.Characteristics.Id == _world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].BeingValue.Characteristics.Id);
-							target.Characteristics.Ci += giveCiAction.Ci;
-							_eventsHistory.Events.Add(new GameEventCiChange(target.Characteristics.Id, target.Characteristics.Ci));
-						}
+                        #endregion
 
-						else//Если в клетке никого, энергия скидывается в клетку.
-						{
-							_world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].Ci += giveCiAction.Ci;
-							_eventsHistory.Events.Add(new GameEventWorldCiChanged(actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y, _world[actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].Ci));
-						}
-					}
+                        #region GameActionGiveCi
 
-					break;
-				#endregion
-				#region GameActionMove
-				case ActionTypes.GameActionMove:
+                    case ActionTypes.GameActionGiveCi:
 
-					var moveAction = curAction as GameActionMove;
-					if (moveAction == null)
-					{
-						break;
-					}
-					actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
-					cost = actor.Characteristics.MaxStep * (Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY)) * actor.Characteristics.MaxHealth * 0.01f;
-					distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
+                        var giveCiAction = curAction as GameActionGiveCi;
+                        if (giveCiAction == null)
+                        {
+                            break;
+                        }
 
-					if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0)
-						&& (_world[actor.Characteristics.X + moveAction.ShiftX, actor.Characteristics.Y + moveAction.ShiftY].BeingValue == null)
-						&& (distance <= actor.Characteristics.MaxStep))
-					{
-						_world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue = null;//Удаляем из клетки ссылку на существо.
-						actor.Characteristics.X += moveAction.ShiftX;
-						actor.Characteristics.Y += moveAction.ShiftY;
-						actor.Characteristics.Ci -= cost;
-						_world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue = actor;//Существо появляется в другой клетке.
+                        actor = _objects.Find(a => a.Characteristics.Id == giveCiAction.SenderId);
+                        cost = 0.1f*actor.Characteristics.MaxHealth + giveCiAction.Ci;
+                        distance = Math.Abs(giveCiAction.X) + Math.Abs(giveCiAction.Y);
 
-						_eventsHistory.Events.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
-						_eventsHistory.Events.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX, moveAction.ShiftY));
-					}
+                        if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3))
+                        {
+                            actor.Characteristics.Ci -= cost; //В любом случае отнимаем энергию
+                            _eventsHistory.Events.Add(new GameEventCiChange(giveCiAction.SenderId,
+                                                                            actor.Characteristics.Ci));
 
-					break;
-				#endregion
-				#region GameActionTreat
-				case ActionTypes.GameActionTreat:
+                            if (
+                                _world[
+                                    actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].
+                                    BeingValue != null)
+                            {
+                                target =
+                                    _objects.Find(
+                                        a =>
+                                        a.Characteristics.Id ==
+                                        _world[
+                                            actor.Characteristics.X + giveCiAction.X,
+                                            actor.Characteristics.Y + giveCiAction.Y].BeingValue.Characteristics.Id);
+                                target.Characteristics.Ci += giveCiAction.Ci;
+                                _eventsHistory.Events.Add(new GameEventCiChange(target.Characteristics.Id,
+                                                                                target.Characteristics.Ci));
+                            }
 
-					var treatAction = curAction as GameActionTreat;
-					if (treatAction == null)
-					{
-						break;
-					}
+                            else //Если в клетке никого, энергия скидывается в клетку.
+                            {
+                                _world[
+                                    actor.Characteristics.X + giveCiAction.X, actor.Characteristics.Y + giveCiAction.Y].
+                                    Ci += giveCiAction.Ci;
+                                _eventsHistory.Events.Add(
+                                    new GameEventWorldCiChanged(actor.Characteristics.X + giveCiAction.X,
+                                                                actor.Characteristics.Y + giveCiAction.Y,
+                                                                _world[
+                                                                    actor.Characteristics.X + giveCiAction.X,
+                                                                    actor.Characteristics.Y + giveCiAction.Y].Ci));
+                            }
+                        }
 
-					actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
-					cost = treatAction.UsingCi;
-					distance = Math.Abs(treatAction.X) + Math.Abs(treatAction.Y);
+                        break;
 
-					if ((_world[actor.Characteristics.X + treatAction.X, actor.Characteristics.Y + treatAction.Y].BeingValue != null)
-							&& (actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) && (distance <= 3) && (cost <= actor.Characteristics.Ci * 0.6f))
-					{//Если в клетке никого нет, ничего не происходит
-						actor.Characteristics.Ci -= cost;
-						target = _objects.Find(a => a.Characteristics.Id == _world[actor.Characteristics.X + treatAction.X, actor.Characteristics.Y + treatAction.Y].BeingValue.Characteristics.Id);
-						target.Characteristics.Health += cost / 3;
+                        #endregion
 
-						_eventsHistory.Events.Add(new GameEventHealthChange(treatAction.SenderId, actor.Characteristics.Health));
-						_eventsHistory.Events.Add(new GameEventHealthChange(target.Characteristics.Id, target.Characteristics.Health));
-					}
+                        #region GameActionMove
 
-					break;
-				#endregion
-				#region GameActionMakeOffspring
-				case ActionTypes.GameActionMakeOffspring:
-					var birthAction = curAction as GameActionMakeOffspring;
-					if (birthAction == null)
-					{
-						break;
-					}
-					actor = _objects.Find(a => a.Characteristics.Id == birthAction.SenderId);
-					var offspring = new Being(actor.TypeOfMe, actor.Characteristics.Team);
-					// //!! todo understand what is happening here with team number
-					offspring.Construct(_turnNumber, birthAction.Ci);//Вызываем пользовательский конструктор.
+                    case ActionTypes.GameActionMove:
 
-					//Собственная проверка стоимости
-					cost = offspring.Characteristics.MaxHealth * 0.8f//Стоимость максимального здоровья
-						+ offspring.Characteristics.MaxStep * offspring.Characteristics.MaxStep//Стоимость максимального шага
-						+ (offspring.Characteristics.MaxSeeDistance / 2.0f) * (offspring.Characteristics.MaxSeeDistance / 2.0f);//Стоимость дистанции видимости
+                        var moveAction = curAction as GameActionMove;
+                        if (moveAction == null)
+                        {
+                            break;
+                        }
+                        actor = _objects.Find(a => a.Characteristics.Id == moveAction.SenderId);
+                        cost = actor.Characteristics.MaxStep*(Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY))*
+                               actor.Characteristics.MaxHealth*0.01f;
+                        distance = Math.Abs(moveAction.ShiftX) + Math.Abs(moveAction.ShiftY);
 
-					var emptyEnvirons = new List<WorldCell>();
-					var environs = GetWorldPart(actor.Characteristics.X, actor.Characteristics.Y, 1);//Собираем информацию об окресностях.
+                        if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0)
+                            &&
+                            (_world[
+                                actor.Characteristics.X + moveAction.ShiftX, actor.Characteristics.Y + moveAction.ShiftY
+                                 ].BeingValue == null)
+                            && (distance <= actor.Characteristics.MaxStep))
+                        {
+                            _world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue = null;
+                                //Удаляем из клетки ссылку на существо.
+                            // не надо фиксить, оно робит
+                            actor.Characteristics.X += moveAction.ShiftX;
+                            actor.Characteristics.Y += moveAction.ShiftY;
+                            actor.Characteristics.Ci -= cost;
+                            _world[actor.Characteristics.X, actor.Characteristics.Y].BeingValue = actor;
+                                //Существо появляется в другой клетке.
 
-					emptyEnvirons.AddRange(from WorldCell c in environs where c.BeingValue == null select c);
+                            _eventsHistory.Events.Add(new GameEventCiChange(actor.Characteristics.Id,
+                                                                            actor.Characteristics.Ci));
+                            _eventsHistory.Events.Add(new GameEventMove(moveAction.SenderId, moveAction.ShiftX,
+                                                                        moveAction.ShiftY));
+                        }
 
-					if (emptyEnvirons.Count() > 0)
-					{
-						var r = new Random();
-						int d = r.Next(emptyEnvirons.Count - 1);//Номер клетки из списка пустых клеток вокруг существа.
+                        break;
 
-						if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Ci >= birthAction.Ci)
-							 && (actor.Characteristics.Health > 0) && (actor.Characteristics.Ci >= offspring.Characteristics.MaxHealth * 0.9f)
-							 && (actor.Characteristics.Health >= actor.Characteristics.MaxHealth * 0.8f))
-						{
-							offspring.Characteristics.Health = offspring.Characteristics.MaxHealth * 0.6f;
-							offspring.Characteristics.Ci = offspring.Characteristics.MaxHealth * 0.3f;
-							offspring.Characteristics.X = emptyEnvirons[d].X;
-							offspring.Characteristics.Y = emptyEnvirons[d].Y;
+                        #endregion
 
-							_objects.Add(offspring);
-							_world[offspring.Characteristics.X, offspring.Characteristics.Y].BeingValue = offspring;//В ячейке мира появляется рождённое существо.
-							_eventsHistory.Events.Add(new GameEventBirth(offspring.Characteristics.Id, offspring.Characteristics));
-							actor.Characteristics.Ci -= cost;
-							_eventsHistory.Events.Add(new GameEventCiChange(actor.Characteristics.Id, actor.Characteristics.Ci));
-						}
-					}
+                        #region GameActionTreat
 
-					break;
-				#endregion
-				}
+                    case ActionTypes.GameActionTreat:
 
-				// todo remove this 
+                        var treatAction = curAction as GameActionTreat;
+                        if (treatAction == null)
+                        {
+                            break;
+                        }
+
+                        actor = _objects.Find(a => a.Characteristics.Id == treatAction.SenderId);
+                        cost = treatAction.UsingCi;
+                        distance = Math.Abs(treatAction.X) + Math.Abs(treatAction.Y);
+
+                        if (
+                            (_world[actor.Characteristics.X + treatAction.X, actor.Characteristics.Y + treatAction.Y].
+                                 BeingValue != null)
+                            && (actor.Characteristics.Ci >= cost) && (actor.Characteristics.Health > 0) &&
+                            (distance <= 3) && (cost <= actor.Characteristics.Ci*0.6f))
+                        {
+//Если в клетке никого нет, ничего не происходит
+                            actor.Characteristics.Ci -= cost;
+                            target =
+                                _objects.Find(
+                                    a =>
+                                    a.Characteristics.Id ==
+                                    _world[
+                                        actor.Characteristics.X + treatAction.X, actor.Characteristics.Y + treatAction.Y
+                                        ].BeingValue.Characteristics.Id);
+                            target.Characteristics.Health += cost/3;
+
+                            _eventsHistory.Events.Add(new GameEventHealthChange(treatAction.SenderId,
+                                                                                actor.Characteristics.Health));
+                            _eventsHistory.Events.Add(new GameEventHealthChange(target.Characteristics.Id,
+                                                                                target.Characteristics.Health));
+                        }
+
+                        break;
+
+                        #endregion
+
+                        #region GameActionMakeOffspring
+
+                    case ActionTypes.GameActionMakeOffspring:
+                        var birthAction = curAction as GameActionMakeOffspring;
+                        if (birthAction == null)
+                        {
+                            break;
+                        }
+                        actor = _objects.Find(a => a.Characteristics.Id == birthAction.SenderId);
+                        var offspring = new Being(actor.TypeOfMe);
+                        // //!! todo understand what is happening here with team number
+                        offspring.Construct(_turnNumber, birthAction.Ci); //Вызываем пользовательский конструктор.
+                        offspring.Characteristics.Team = actor.Characteristics.Team;
+                        //Собственная проверка стоимости
+                        cost = offspring.Characteristics.MaxHealth*0.8f //Стоимость максимального здоровья
+                               + offspring.Characteristics.MaxStep*offspring.Characteristics.MaxStep
+                               //Стоимость максимального шага
+                               +
+                               (offspring.Characteristics.MaxSeeDistance/2.0f)*
+                               (offspring.Characteristics.MaxSeeDistance/2.0f); //Стоимость дистанции видимости
+
+                        var emptyEnvirons = new List<WorldCell>();
+                        var environs = GetWorldPart(actor.Characteristics.X, actor.Characteristics.Y, 1);
+                            //Собираем информацию об окресностях.
+
+                        emptyEnvirons.AddRange(from WorldCell c in environs where c.BeingValue == null select c);
+
+                        if (emptyEnvirons.Count() > 0)
+                        {
+                            var r = new Random();
+                            int d = r.Next(emptyEnvirons.Count - 1);
+                                //Номер клетки из списка пустых клеток вокруг существа.
+
+                            if ((actor.Characteristics.Ci >= cost) && (actor.Characteristics.Ci >= birthAction.Ci)
+                                && (actor.Characteristics.Health > 0) &&
+                                (actor.Characteristics.Ci >= offspring.Characteristics.MaxHealth*0.9f)
+                                && (actor.Characteristics.Health >= actor.Characteristics.MaxHealth*0.8f))
+                            {
+                                offspring.Characteristics.Health = offspring.Characteristics.MaxHealth*0.6f;
+                                offspring.Characteristics.Ci = offspring.Characteristics.MaxHealth*0.3f;
+                                offspring.Characteristics.X = emptyEnvirons[d].X;
+                                offspring.Characteristics.Y = emptyEnvirons[d].Y;
+
+
+                                _objects.Add(offspring);
+                                _world[offspring.Characteristics.X, offspring.Characteristics.Y].BeingValue = offspring;
+                                    //В ячейке мира появляется рождённое существо.
+                                _eventsHistory.Events.Add(new GameEventBirth(offspring.Characteristics.Id,
+                                                                             offspring.Characteristics));
+                                actor.Characteristics.Ci -= cost;
+                                _eventsHistory.Events.Add(new GameEventCiChange(actor.Characteristics.Id,
+                                                                                actor.Characteristics.Ci));
+                            }
+                        }
+
+                        break;
+
+                        #endregion
+                }
+
+			    // todo remove this 
 #if false
 				_actions.Remove(curAction);//Удаляем  проверенное действие
 #endif
