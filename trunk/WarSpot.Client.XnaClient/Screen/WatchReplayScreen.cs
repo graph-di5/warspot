@@ -104,21 +104,8 @@ namespace WarSpot.Client.XnaClient.Screen
 							_localPause = true;
 							var tmpEvent = wsEvent as GameEventMove;
                             var tmp = _listOfCreatures.First(creture => creture.Id == tmpEvent.SubjectId);
-							if (tmp.X + tmpEvent.ShiftX >= _worldWidth)
-							{
-								tmp.Y += tmpEvent.ShiftY;
-								tmp.X = (tmp.X + tmpEvent.ShiftX) % _worldWidth;
-							}
-							else if (tmp.Y + tmpEvent.ShiftY >= _wordlHeight)
-							{
-								tmp.X += tmpEvent.ShiftX;
-								tmp.Y = (tmp.Y + tmpEvent.ShiftY) % _wordlHeight;
-							}
-							else
-							{
-								tmp.X += tmpEvent.ShiftX;
-								tmp.Y += tmpEvent.ShiftY;
-							}
+                            tmp.X = (tmp.X + tmpEvent.ShiftX + _worldWidth) % _worldWidth;
+                            tmp.Y = (tmp.Y + tmpEvent.ShiftY + _wordlHeight) % _wordlHeight;
 							_listOfEvents.Remove(wsEvent);
 							break;
 						}

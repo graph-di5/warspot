@@ -23,12 +23,11 @@ namespace WarSpot.MatchComputer
 		public Type TypeOfMe { get; private set; }
 
 
-		/// <summary>
-		/// Ctor
-		/// </summary>
-		/// <param name="typeOfMe">Reference to the custom object</param>
-		/// <param name="team"> </param>
-		public Being(Type typeOfMe, Guid team)
+	    /// <summary>
+	    /// Ctor
+	    /// </summary>
+	    /// <param name="typeOfMe">Reference to the custom object</param>
+	    public Being(Type typeOfMe)
 		{
 			TypeOfMe = typeOfMe;
 			var defaultCtor = typeOfMe.GetConstructor(new Type[0]);

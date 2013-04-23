@@ -47,7 +47,7 @@ namespace WarSpot.ConsoleComputer
 			sw.Stop();
 			fs.Close();
 			Console.WriteLine("Done: {0}.", sw.Elapsed);
-			Console.ReadLine();
+			Console.ReadKey();
 #if true
 			var list = SerializationHelper.Deserialize(outFileName);
 #endif

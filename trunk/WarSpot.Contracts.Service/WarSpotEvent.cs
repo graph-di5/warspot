@@ -171,7 +171,18 @@ namespace WarSpot.Contracts.Service
 			: base(creator)
 		{
 			EventType = EventTypes.GameEventBirth;
-			Newborn = newborn;
+			Newborn = new BeingCharacteristics()
+            {
+                Ci = newborn.Ci,
+                Health = newborn.Health,
+                Id = newborn.Id,
+                MaxHealth = newborn.MaxHealth,
+                MaxSeeDistance = newborn.MaxSeeDistance,
+                MaxStep = newborn.MaxStep,
+                Team = newborn.Team,
+                X = newborn.X,
+                Y = newborn.Y,
+            };
 		}
 	}
 
