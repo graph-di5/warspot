@@ -124,7 +124,9 @@ namespace WarSpot.SampleIntellect
 		public BeingCharacteristics Construct(ulong step, float ci)
 		{
 			//Being characteristics may be different. It's you to decide. But remember about the cost.
-			return new BeingCharacteristics((ci - 13.0f) / 0.8f, 3.0f, 4);
+			BeingCharacteristics newCharacteristics = new BeingCharacteristics((ci - 13.0f) / 0.8f, 3.0f, 4);
+			stepCost = newCharacteristics.MaxHealth * newCharacteristics.MaxStep * 0.01f;
+			return newCharacteristics;
 		}
 
 		/// <summary>
