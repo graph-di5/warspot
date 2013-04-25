@@ -23,6 +23,21 @@
     })();
 
   </script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+        $('.spoiler .invisible').hide();
+        $('.spoiler a').toggle(
+            function () {
+                $(this).siblings('.invisible').stop(false, true).slideDown(100);
+                $(this).html('Скрыть блок');
+            },
+            function () {
+                $(this).siblings('.invisible').stop(false, true).slideUp(100);
+                $(this).html('Показать блок');
+            }
+        );
+    });
+  </script>
 </head>
 <body>
   <div class="page">
