@@ -326,3 +326,31 @@ border: none; /* Убираем рамку */
 .tri-state {
     width: 6em;
 }
+
+/* Style for buttons
+----------------------------------------------------------*/
+input[type="submit"] {
+   border: none;
+   background: #b83d1b;
+   background: -webkit-gradient(linear, left top, left bottom, from(#e84d22), to(#b83d1b));
+   background: -webkit-linear-gradient(top, #e84d22, #b83d1b);
+   background: -moz-linear-gradient(top, #e84d22, #b83d1b);
+   background: -ms-linear-gradient(top, #e84d22, #b83d1b);
+   background: -o-linear-gradient(top, #e84d22, #b83d1b);
+   padding: 5px 13px;
+   -webkit-border-radius: 9px;
+   -moz-border-radius: 9px;
+   border-radius: 9px;
+   color: #ffffff;
+   font-size: 12px;
+   font-family: Georgia, Serif;
+   text-decoration: none;
+   vertical-align: top;
+   cursor: pointer;
+   }
+input[type="submit"]:hover {
+   border-top-color: #e84d22;
+   background: #e84d22;
+   color: #ffffff;
+   }
+   
