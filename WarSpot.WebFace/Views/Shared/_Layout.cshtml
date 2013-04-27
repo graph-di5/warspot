@@ -24,19 +24,14 @@
 
   </script>
   <script type="text/javascript">
-    $(document).ready(function () {
-        $('.spoiler .invisible').hide();
-        $('.spoiler a').toggle(
-            function () {
-                $(this).siblings('.invisible').stop(false, true).slideDown(100);
-                $(this).html('Скрыть блок');
-            },
-            function () {
-                $(this).siblings('.invisible').stop(false, true).slideUp(100);
-                $(this).html('Показать блок');
-            }
-        );
-    });
+      function onSpoiler(n, showmsg, hidemsg) {
+          $('.spoiler#' + n + ' a').siblings('.scontent').toggle(100);
+          if ($('.spoiler#' + n + ' a').text() == showmsg) {
+              $('.spoiler#' + n + ' a').text(hidemsg);
+          } else {
+              $('.spoiler#' + n + ' a').text(showmsg);
+          }
+      }
   </script>
 </head>
 <body>
