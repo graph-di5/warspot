@@ -52,7 +52,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\WarSpot.Common\Properties\VersionInfo.cs">
@@ -65,10 +64,6 @@
     <ProjectReference Include="..\WarSpot.Common\WarSpot.Common.csproj">
       <Project>{FA906681-9071-4D80-9FE7-7AF85FCFB573}</Project>
       <Name>WarSpot.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WarSpot.MatchComputer\WarSpot.MatchComputer.csproj">
-      <Project>{8B236A28-C004-4207-8F6E-2DE18D4739D5}</Project>
-      <Name>WarSpot.MatchComputer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
