@@ -68,6 +68,8 @@
         @Html.PasswordFor(m => m.ConfirmPassword)
         @Html.ValidationMessageFor(m => m.ConfirmPassword)
       </div>
+      <br>
+        @Microsoft.Web.Helpers.ReCaptcha.GetHtml(theme: "red", publicKey: "6Lc_oeASAAAAAClxch6-kxkQLJrD-xTzzn6XHbmd")
             <div class="editor-field">
                 Регистрацией Вы подтверждаете, что ознакомлены и согласны с @Html.ActionLink("условиями", "EULA", "Document")
                 предоставления сервиса.
