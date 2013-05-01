@@ -77,27 +77,30 @@ namespace WarSpot.WebFace.Controllers
 		[HttpPost]
 		public ActionResult Register(RegisterModel model)
 		{
-			if (ModelState.IsValid)
-			{
-				// Attempt to register the user
-				var b = Warehouse.Register(model.AccountName, HashHelper.GetMd5Hash(model.Password), model.Username, model.Usersurname, model.Institution, int.Parse(model.Course), model.Email);
-				if (b.Type == ErrorType.Ok)
-				{
-					if (CustomPrincipal.Login(model.AccountName, model.Password, false))
-					{
-						return RedirectToAction("Index", "Home");
-					}
-					else
-					{
-						ModelState.AddModelError("", "Неправильный логин или пароль.");
-					}
-				}
-				else
-				{
-					// todo make error message
-					ModelState.AddModelError("", b.Message);//"Some error while registration"/*ErrorCodeToString(createStatus)/**/);
-				}
-			}
+            if (Microsoft.Web.Helpers.ReCaptcha.Validate(privateKey: ""))   //enter recaptcha private key here!
+            {
+                if (ModelState.IsValid)
+                {
+                    // Attempt to register the user
+                    var b = Warehouse.Register(model.AccountName, HashHelper.GetMd5Hash(model.Password), model.Username, model.Usersurname, model.Institution, int.Parse(model.Course), model.Email);
+                    if (b.Type == ErrorType.Ok)
+                    {
+                        if (CustomPrincipal.Login(model.AccountName, model.Password, false))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Неправильный логин или пароль.");
+                        }
+                    }
+                    else
+                    {
+                        // todo make error message
+                        ModelState.AddModelError("", b.Message);//"Some error while registration"/*ErrorCodeToString(createStatus)/**/);
+                    }
+                }
+            }
 
 			// If we got this far, something failed, redisplay form
 			return View(model);
