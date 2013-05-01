@@ -77,30 +77,30 @@ namespace WarSpot.WebFace.Controllers
 		[HttpPost]
 		public ActionResult Register(RegisterModel model)
 		{
-            if (Microsoft.Web.Helpers.ReCaptcha.Validate(privateKey: ""))   //enter recaptcha private key here!
-            {
-                if (ModelState.IsValid)
-                {
-                    // Attempt to register the user
-                    var b = Warehouse.Register(model.AccountName, HashHelper.GetMd5Hash(model.Password), model.Username, model.Usersurname, model.Institution, int.Parse(model.Course), model.Email);
-                    if (b.Type == ErrorType.Ok)
-                    {
-                        if (CustomPrincipal.Login(model.AccountName, model.Password, false))
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("", "Неправильный логин или пароль.");
-                        }
-                    }
-                    else
-                    {
-                        // todo make error message
-                        ModelState.AddModelError("", b.Message);//"Some error while registration"/*ErrorCodeToString(createStatus)/**/);
-                    }
-                }
-            }
+			if (Microsoft.Web.Helpers.ReCaptcha.Validate(privateKey: ""))   //enter recaptcha private key here!
+			{
+				if (ModelState.IsValid)
+				{
+					// Attempt to register the user
+					var b = Warehouse.Register(model.AccountName, HashHelper.GetMd5Hash(model.Password), model.Username, model.Usersurname, model.Institution, int.Parse(model.Course), model.Email);
+					if (b.Type == ErrorType.Ok)
+					{
+						if (CustomPrincipal.Login(model.AccountName, model.Password, false))
+						{
+							return RedirectToAction("Index", "Home");
+						}
+						else
+						{
+							ModelState.AddModelError("", "Неправильный логин или пароль.");
+						}
+					}
+					else
+					{
+						// todo make error message
+						ModelState.AddModelError("", b.Message);//"Some error while registration"/*ErrorCodeToString(createStatus)/**/);
+					}
+				}
+			}
 
 			// If we got this far, something failed, redisplay form
 			return View(model);
@@ -127,7 +127,7 @@ namespace WarSpot.WebFace.Controllers
 						changePasswordSecceeded = Warehouse.ChangePassword(User.Identity.Name,
 							HashHelper.GetMd5Hash(model.OldPassword),
 							HashHelper.GetMd5Hash(model.NewPassword));
-						if(!changePasswordSecceeded)
+						if (!changePasswordSecceeded)
 						{
 							ModelState.AddModelError("", "Вы ввели неверный текущий пароль.");
 						}
@@ -153,7 +153,7 @@ namespace WarSpot.WebFace.Controllers
 				else
 				{
 					ModelState.AddModelError("", "Неправильный текущий пароль или некорректный новый.");
-					if(model.ConfirmPassword != null || model.NewPassword != null || model.OldPassword != null)
+					if (model.ConfirmPassword != null || model.NewPassword != null || model.OldPassword != null)
 					{
 					}
 				}
@@ -232,19 +232,19 @@ namespace WarSpot.WebFace.Controllers
 				return "Неправильный ответ на восстановление пароля. Пожалуйста проверьте правильность и попробуйте еще раз.";
 
 			case MembershipCreateStatus.InvalidQuestion:
-                return "Неправильный вопрос восстановления пароля. Пожалуйста проверьте правильность и попробуйте еще раз.";
+				return "Неправильный вопрос восстановления пароля. Пожалуйста проверьте правильность и попробуйте еще раз.";
 
 			case MembershipCreateStatus.InvalidUserName:
-                return "Некорректный логин. Пожалуйста проверьте правильность и попробуйте еще раз.";
+				return "Некорректный логин. Пожалуйста проверьте правильность и попробуйте еще раз.";
 
 			case MembershipCreateStatus.ProviderError:
 				return "При входе в систему возникла ошибка. Проверьте правильность вводимых данных и попробуйте еще раз. Если ошибка повторится, обратитесь к системному администратору.";
 
 			case MembershipCreateStatus.UserRejected:
-                return "При регистрации возникла ошибка has been canceled. Проверьте правильность вводимых данных и попробуйте еще раз. Если ошибка повторится, обратитесь к системному администратору.";
+				return "При регистрации возникла ошибка has been canceled. Проверьте правильность вводимых данных и попробуйте еще раз. Если ошибка повторится, обратитесь к системному администратору.";
 
 			default:
-                return "Возникла ошибка. Проверьте правильность вводимых данных и попробуйте еще раз. Если ошибка повторится, обратитесь к системному администратору.";
+				return "Возникла ошибка. Проверьте правильность вводимых данных и попробуйте еще раз. Если ошибка повторится, обратитесь к системному администратору.";
 			}
 		}
 		#endregion

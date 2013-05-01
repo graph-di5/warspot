@@ -47,109 +47,88 @@
 <h3>Примеры вспомогательных функций</h3>
 <br/>
 <h4> Создаем класс, наследуем его от IBeingInterface </h4>
-<div class="spoiler">
-    <a href="#">Показать блок</a>
-    <div style="display: none;" class="invisible">
-        <pre>
-        class Program : IBeingInterface
-            {
-                public BeingCharacteristics Construct(ulong step, float ci)
-                {
-                    throw new NotImplementedException();
-                }
-        <br/>
-                public GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
-                {
-                    throw new NotImplementedException();
-                }
-            }
-        </pre>
-    </div>
-  </div>
-<br/>
-<h4> Заполняем метод Construct </h4>
-<div class="spoiler">
-    <a href="#">Показать блок</a>
-    <div style="display: none;" class="invisible">
-        <pre>
-        /// <summary>
-        /// This method is called on every being creation. Your intellect should distribute Ci to being abilities.
-        /// </summary>
-        /// <param name="step">Step of the match</param>
-        /// <param name="ci">Ci(Энергия) available for the constructing being.</param>
-        /// <returns>Desired characteristic of the future being.</returns>
+<pre>
+class Program : IBeingInterface
+    {
         public BeingCharacteristics Construct(ulong step, float ci)
         {
-	        //Being characteristics may be different. It's you to decide. But remember about the cost.
-	        return new BeingCharacteristics((ci - 13.0f) / 0.8f, 3.0f, 4);
+            throw new NotImplementedException();
         }
-        </pre>
-    </div>
-  </div>
+<br/>
+        public GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
+        {
+            throw new NotImplementedException();
+        }
+    }
+</pre>
+<br/>
+<h4> Заполняем метод Construct </h4>
+<pre>
+/// <summary>
+/// This method is called on every being creation. Your intellect should distribute Ci to being abilities.
+/// </summary>
+/// <param name="step">Step of the match</param>
+/// <param name="ci">Ci(Энергия) available for the constructing being.</param>
+/// <returns>Desired characteristic of the future being.</returns>
+public BeingCharacteristics Construct(ulong step, float ci)
+{
+	//Being characteristics may be different. It's you to decide. But remember about the cost.
+	return new BeingCharacteristics((ci - 13.0f) / 0.8f, 3.0f, 4);
+}
+</pre>
 <br/>
 <h4> Заполняем метод Think </h4>
 В этом примере проводится проверка на количество здоровья у существа и в зависимости от результата запускает либо метод по самолечению (selfHeal), либо метод по созданию потомства (GameActionMakeOffspring), либо метод по поиску пищи (goEat). Позже будут приведены примеры реализации этих методов. Разумеется, это только пример, Вы можете использовать свои методы вдобавок, или взамен указанным.
-
-<div class="spoiler">
-    <a href="#">Показать блок</a>
-    <div style="display: none;" class="invisible">
-        <pre>
-        /// <summary>
-        /// Main function of the being. Here your code must make decision what the being shoud do.
-        /// </summary>
-        /// <param name="step">Current game step</param>
-        /// <param name="characteristics">Currnet characteristics of this being.</param>
-        /// <param name="area">Information about world in the visiable area.</param>
-        /// <returns>GameAction that represents decision.</returns>
-        public GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
-        {			
-	        // Here you can place a lot of decesions 
-	        if (characteristics.Health < characteristics.MaxHealth && characteristics.Ci > characteristics.MaxHealth * 0.6f)
-	        {
-		        return selfHeal(characteristics);
-	        }
-	        else if (characteristics.Ci > 13.0f + characteristics.MaxHealth * 0.8f)
-	        {
-		        return new GameActionMakeOffspring(characteristics.Id, 13.0f + characteristics.MaxHealth * 0.8f);
-	        }
-	        else
-	        {
-		        return goEat(characteristics, area);
-	        }
-        }
-        </pre>
-    </div>
-  </div>
+<pre>
+/// <summary>
+/// Main function of the being. Here your code must make decision what the being shoud do.
+/// </summary>
+/// <param name="step">Current game step</param>
+/// <param name="characteristics">Currnet characteristics of this being.</param>
+/// <param name="area">Information about world in the visiable area.</param>
+/// <returns>GameAction that represents decision.</returns>
+public GameAction Think(ulong step, BeingCharacteristics characteristics, WorldInfo area)
+{			
+	// Here you can place a lot of decesions 
+	if (characteristics.Health < characteristics.MaxHealth && characteristics.Ci > characteristics.MaxHealth * 0.6f)
+	{
+		return selfHeal(characteristics);
+	}
+	else if (characteristics.Ci > 13.0f + characteristics.MaxHealth * 0.8f)
+	{
+		return new GameActionMakeOffspring(characteristics.Id, 13.0f + characteristics.MaxHealth * 0.8f);
+	}
+	else
+	{
+		return goEat(characteristics, area);
+	}
+}
+</pre>
 <br/>
 <h4> Реализация метода лечения </h4>
-<div class="spoiler">
-    <a href="#">Показать блок</a>
-    <div style="display: none;" class="invisible">
-        <pre>
-        /// <summary>
-        /// Heal itself
-        /// </summary>
-        ///  <param name="characteristics">Being characteristics</param>
-        /// <returns>Return computed action</returns>
-        private GameAction selfHeal(BeingCharacteristics characteristics)
-        {
-	        float _ci = 0.0f;
-	        if (characteristics.Ci >= (characteristics.MaxHealth - characteristics.Health) * 3.0f)
-	        {//Heal itself fully if it can
-		        _ci = (characteristics.MaxHealth - characteristics.Health) * 3.0f;
-        <br/>
-		        if (_ci > characteristics.Ci * 0.6f)
-		        {//If more than one permitted then reduces
-			        _ci = characteristics.Ci * 0.6f;
-		        }
-	        }
-	        else
-	        {
-		        _ci = Math.Abs(characteristics.Ci);
-	        }
-        <br/>
-	        return new GameActionTreat(characteristics.Id, 0, 0, _ci);//In relative coordinates
-        }
-        </pre>
-    </div>
-  </div>
+<pre>
+/// <summary>
+/// Heal itself
+/// </summary>
+///  <param name="characteristics">Being characteristics</param>
+/// <returns>Return computed action</returns>
+private GameAction selfHeal(BeingCharacteristics characteristics)
+{
+	float _ci = 0.0f;
+	if (characteristics.Ci >= (characteristics.MaxHealth - characteristics.Health) * 3.0f)
+	{//Heal itself fully if it can
+		_ci = (characteristics.MaxHealth - characteristics.Health) * 3.0f;
+<br/>
+		if (_ci > characteristics.Ci * 0.6f)
+		{//If more than one permitted then reduces
+			_ci = characteristics.Ci * 0.6f;
+		}
+	}
+	else
+	{
+		_ci = Math.Abs(characteristics.Ci);
+	}
+<br/>
+	return new GameActionTreat(characteristics.Id, 0, 0, _ci);//In relative coordinates
+}
+</pre>
