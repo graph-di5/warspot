@@ -91,6 +91,10 @@
       <Project>{4D8DBA4A-A971-44F9-83D4-5129E47A0B89}</Project>
       <Name>WarSpot.Contracts.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Warspot.Security.Handler\Warspot.SecurityHandler.csproj">
+      <Project>{556804b2-59c3-4097-8e46-380f62016fa6}</Project>
+      <Name>Warspot.SecurityHandler</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -33,7 +33,6 @@ namespace WarSpot.Security
             }
             catch (Exception e)
             {
-
                 throw;
             }
 
