@@ -30,7 +30,8 @@ namespace WarSpot.Security
                             SocketPermission(SecurityAction.Deny)]
         public BeingCharacteristics Construct(ulong step, float ci)
         {
-            return _intellect.Construct(step, ci); //Таким образом, вызываем метод Construct у проверяемой библиотеки, 
+            BeingCharacteristics result = _intellect.Construct(step, ci);
+            return result; //Таким образом, вызываем метод Construct у проверяемой библиотеки, 
                                                        //с уже навешенной проверкой безопасности.
         }
 

@@ -2,6 +2,7 @@
 
 namespace WarSpot.Contracts.Intellect
 {
+    [Serializable]
 	public class WorldCellInfo
 	{
 		/// <summary>
@@ -14,7 +15,7 @@ namespace WarSpot.Contracts.Intellect
 		public BeingCharacteristics BeingCharacteristics;
 	}
 
-
+    [Serializable]
 	public class WorldInfo
 	{
 		private readonly WorldCellInfo[,] _mapPart;

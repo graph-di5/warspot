@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WarSpot.Cloud.Tournament;
 using WarSpot.Contracts.Service;
 using WarSpot.Cloud.Storage;
+using Warspot.SecurityHandler;
 
 namespace WarSpot.Cloud.UserService
 {
@@ -51,7 +53,8 @@ namespace WarSpot.Cloud.UserService
 		}
 
 		public ErrorCode Login(string username, string pass)
-		{
+		{            
+
 			if (Warehouse.Login(username, pass))
 			{
 				_loggedIn = true;
@@ -94,13 +97,20 @@ namespace WarSpot.Cloud.UserService
 		#region intellect's stuff
 		public ErrorCode UploadIntellect(byte[] intellect, string name, string description)
 		{
+            ErrorCode result;
 			if (_loggedIn)
 			{
-
-				if (Warehouse.UploadIntellect(_userID, name, intellect, description))
-					return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
-				else
-					return new ErrorCode(ErrorType.BadFileName, "Inttellect with the same name is already existed");
+                if (!((result = SecurityHandler.CheckUserIntellect(intellect)).Type == ErrorType.IllegalDll))
+                {
+                    if (Warehouse.UploadIntellect(_userID, name, intellect, description))
+                        return new ErrorCode(ErrorType.Ok, "Intellect has been successfully uploaded.");
+                    else
+                        return new ErrorCode(ErrorType.BadFileName, "Inttellect with the same name is already existed");
+                }
+                else
+                {
+                    return result;
+                }
 			}
 			else
 				return new ErrorCode(ErrorType.NotLoggedIn, "Not logged in yet.");
